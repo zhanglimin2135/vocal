@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: 'Poppins', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+      'Microsoft YaHei', 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #4338ca 0%, #3b82f6 50%, #0ea5e9 100%);
+  }
+  .gradient-btn {
+    @apply text-white shadow-soft transition-all duration-200;
+    background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #0ea5e9 100%);
+  }
+  .gradient-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.25);
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.5);
+  }
+}
