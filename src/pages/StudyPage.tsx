@@ -372,7 +372,6 @@ export default function StudyPage() {
    * 提交当前拼写答案
    *   - 规范化：去空格 + 小写
    *   - 判定正确/错误，更新统计
-   *   - 听音拼写模式下，提交后再播放一遍发音作对照
    */
   const submitSpelling = useCallback(() => {
     const cur = words[spellingIndex];
@@ -397,11 +396,9 @@ export default function StudyPage() {
         },
       ]);
     }
-    // 提交正确后：听音拼写模式下额外播放一次发音
-    if (spellingSubMode === 'audio-spelling') {
-      void playCurrentSpellingWord();
-    }
-  }, [words, spellingIndex, spellingSubmitted, spellingInput, spellingSubMode, playCurrentSpellingWord]);
+    // 按新要求：听音拼写提交后不再自动播放发音
+    // 如需重听，请 hover 到发音图标上再发音
+  }, [words, spellingIndex, spellingSubmitted, spellingInput, playCurrentSpellingWord]);
 
   /**
    * （仅乱序时）重置拼写到第 0 个词，因为乱序后列表变了
@@ -521,36 +518,26 @@ export default function StudyPage() {
   }, [mode, spellingIndex]);
 
   /**
-   * 拼写模式：全局回车键快捷键（window 级别）
-   *   - 未提交 spellingSubmitted == null → 回车 = 提交
-   *   - 已提交 spellingSubmitted != null → 回车 = 下一题
-   * 作用：即使输入框 disabled 或失焦状态也能响应回车
+   * 拼写模式：全局 Tab 快捷键（window 级别）
+   *   - 仅当已提交 spellingSubmitted != null → Tab 键 = 下一题
+   *   - 未提交 spellingSubmitted == null → Tab 保持浏览器默认（切焦点）
+   *   - 注意：用户要求快捷键为 Tab，不再使用 Enter
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
     if (spellingIndex >= words.length) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter') return;
-      // 如果当前焦点在输入框里，交给输入框自身 onKeyDown 处理即可（避免重复触发）
-      const active = document.activeElement;
-      if (active && active.tagName === 'INPUT' && spellingInputRef.current === active) {
-        return;
-      }
-      // 如果用户焦点在按钮（提交按钮/下一题按钮），也不要抢默认行为
-      if (active && active.tagName === 'BUTTON') return;
-      if (spellingSubmitted === null) {
-        // 空输入就不做提交（保持按钮禁用的一致性）
-        if (!spellingInput.trim()) return;
-        submitSpelling();
-      } else {
-        goNextSpellingWord();
-      }
+      if (e.key !== 'Tab') return;
+      // 未提交：Tab 保留浏览器默认切换焦点的行为，不拦截
+      if (spellingSubmitted === null) return;
+      // 已提交：Tab = 下一题（阻止 Tab 默认切焦点，否则会跳到页面其他元素）
+      e.preventDefault();
+      goNextSpellingWord();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [
-    mode, spellingIndex, words.length,
-    spellingSubmitted, spellingInput, submitSpelling, goNextSpellingWord,
+    mode, spellingIndex, words.length, spellingSubmitted, goNextSpellingWord,
   ]);
 
   // 统一总毫秒数格式化：mm:ss.S（分:秒.1位小数）
@@ -966,7 +953,8 @@ export default function StudyPage() {
                                   {rec.word.word}
                                 </p>
                                 <button
-                                  onClick={() => {
+                                  onClick={(e) => e.preventDefault()}
+                                  onMouseEnter={() => {
                                     setPlayingUid(rec.word.uid);
                                     void playWordAudio(rec.word.word).finally(() =>
                                       setPlayingUid((p) =>
@@ -975,12 +963,12 @@ export default function StudyPage() {
                                     );
                                   }}
                                   className={cn(
-                                    'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition',
+                                    'flex h-7 w-7 shrink-0 cursor-help items-center justify-center rounded-lg transition',
                                     playingUid === rec.word.uid
                                       ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow animate-pulse'
                                       : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
                                   )}
-                                  title="听正确发音"
+                                  title="鼠标悬停到图标上播放发音；点击不发音"
                                 >
                                   <Volume2 className="h-3.5 w-3.5" />
                                 </button>
@@ -1193,12 +1181,14 @@ function SpellingCardUI(props: SpellingCardUIProps) {
   const nowWrong = spellingSubmitted === false;
   // 倒计时进度（用于视觉进度条和圆环百分比）
   const pct = Math.max(0, Math.min(1, perWordTimer / maxSeconds));
-  // 按下回车：若未提交则提交，若已提交则下一题
+  // 按键规则（Tab 是下一题快捷键，不再用 Enter）
+  //   - 未提交：Tab = 浏览器默认切换焦点，不干预
+  //   - 已提交：Tab = 下一题，阻止默认切焦点行为
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (spellingSubmitted === null) onSubmit();
-      else onNext();
-    }
+    if (e.key !== 'Tab') return;
+    if (spellingSubmitted === null) return; // 未提交 Tab 不拦截，保持默认
+    e.preventDefault();
+    onNext();
   };
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
@@ -1263,19 +1253,20 @@ function SpellingCardUI(props: SpellingCardUIProps) {
               听音拼写 · 新题进入会自动播放一次发音
             </p>
             <button
-              onClick={onManualPlay}
+              onClick={(e) => e.preventDefault()}
+              onMouseEnter={onManualPlay}
               className={cn(
-                'mb-2 flex h-24 w-24 items-center justify-center rounded-3xl shadow-xl transition-all duration-200 hover:scale-105',
+                'mb-2 flex h-24 w-24 cursor-help items-center justify-center rounded-3xl shadow-xl transition-all duration-200 hover:scale-105',
                 playing
                   ? 'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-white shadow-2xl shadow-orange-200 animate-pulse'
                   : 'bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 text-white shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300'
               )}
-              title="点击手动播放发音"
+              title="鼠标移到图标上（悬停）自动播放发音；点击不发音"
             >
               <Volume2 className="h-12 w-12" />
             </button>
             <p className="mt-1 text-xs text-slate-500">
-              没听清？点击上方喇叭图标再次播放发音
+              没听清？把鼠标移到上方喇叭图标上（悬停）就会播放发音
             </p>
           </div>
         )}
@@ -1414,16 +1405,17 @@ function SpellingCardUI(props: SpellingCardUIProps) {
                     中文释义：<span className="font-semibold text-slate-700">{word.meaning}</span>
                   </p>
                 </div>
-                {/* 对照后手动发音按钮 */}
+                {/* 对照后发音按钮（按新要求：仅鼠标 hover 到图标上才发音；点击不发音） */}
                 <button
-                  onClick={onManualPlay}
+                  onClick={(e) => e.preventDefault()}
+                  onMouseEnter={onManualPlay}
                   className={cn(
-                    'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition',
+                    'flex h-10 w-10 shrink-0 cursor-help items-center justify-center rounded-xl transition',
                     playing
                       ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white animate-pulse'
                       : 'bg-rose-100 text-rose-600 hover:bg-rose-200'
                   )}
-                  title="再听一遍正确发音"
+                  title="鼠标悬停（移到图标上）再听一遍正确发音；点击不发音"
                 >
                   <Volume2 className="h-5 w-5" />
                 </button>
