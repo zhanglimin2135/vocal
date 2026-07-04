@@ -401,14 +401,24 @@ export default function StudyPage() {
   }, [words, spellingIndex, spellingSubmitted, spellingInput, playCurrentSpellingWord]);
 
   /**
-   * （仅乱序时）重置拼写到第 0 个词，因为乱序后列表变了
+   * 单词拼写模式 · 重新开始（乱序）：把本轮所有状态清零
+   *   注意：必须把累计性的统计/错词/时间全部归零，否则会出现「多次测试数据累加」的 Bug
+   *   单词顺序乱序由外层 wrappedDoShuffle 负责先执行，再调用本函数重置所有字段
    */
   const resetSpellingAfterShuffle = useCallback(() => {
+    // —— 1. 做题进度类 ——
     setSpellingIndex(0);
     setSpellingInput('');
     setSpellingSubmitted(null);
     setPerWordTimer(PER_WORD_SECONDS);
     setHintVisible(true);
+    // —— 2. 本轮统计类（关键！不重置就会和之前轮次累加 → 导致准确率/对错数/错词列表都是多轮总和）——
+    setStats({ correct: 0, wrong: 0, timeout: 0 });
+    setWrongRecords([]);
+    setTotalElapsedMs(0);
+    // —— 3. 发音/辅助类（playing 状态在 SpellingCardUI 内部，随新题重新挂载会自动重置为 false）——
+    setPlayingUid(null);
+    // —— 4. 焦点回到输入框（无障碍友好）——
     requestAnimationFrame(() => spellingInputRef.current?.focus());
   }, [PER_WORD_SECONDS]);
 
@@ -1034,7 +1044,7 @@ export default function StudyPage() {
                 {/* —— 底部按钮 —— */}
                 <div className="space-y-3 border-t border-slate-100 px-6 py-6 sm:flex sm:space-y-0 sm:gap-3">
                   <button
-                    onClick={resetSpellingAfterShuffle}
+                    onClick={wrappedDoShuffle}
                     className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/2"
                   >
                     <Shuffle className="h-4 w-4" />
