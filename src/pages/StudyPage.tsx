@@ -110,6 +110,13 @@ export default function StudyPage() {
     return result;
   }, [currentBook, selectedSheetIds]);
 
+  // 选中的单词表名称（去重，结果页"检查内容"展示用）
+  const selectedSheetNames = useMemo<string[]>(() => {
+    const set = new Set<string>();
+    baseWords.forEach((w) => set.add(w.sheetName));
+    return Array.from(set);
+  }, [baseWords]);
+
   // =========================
   // 组件内部状态（useState）
   // =========================
@@ -189,6 +196,19 @@ export default function StudyPage() {
   });
 
   /**
+   * wrongRecords - 拼写模式所有错题记录（结果页展示用）
+   *  - 单词对象（含 word / meaning / sheetName）
+   *  - 用户答案（空字符串表示超时或没填就判错）
+   *  - 是否属于超时
+   */
+  interface WrongRecord {
+    word: StudyWord;
+    userAnswer: string;
+    isTimeout: boolean;
+  }
+  const [wrongRecords, setWrongRecords] = useState<WrongRecord[]>([]);
+
+  /**
    * hintVisible - 释义拼写模式下的"首字母提示"是否显示
    *   默认显示（按用户需求：输入框内提示首字母）；一键隐藏按钮可隐藏它
    */
@@ -228,7 +248,8 @@ export default function StudyPage() {
       navigate('/select');
       return;
     }
-    setWords(baseWords);
+    // 看词说意/听音辨义：保持原表顺序；单词拼写：选择子模式后出现的检测词直接乱序
+    setWords(mode === 'spelling' ? shuffleArray(baseWords) : baseWords);
     setRevealedMap({});
     setAllRevealed(false);
     // —— 拼写模式初始化 ——
@@ -238,9 +259,10 @@ export default function StudyPage() {
     setPerWordTimer(PER_WORD_SECONDS);
     setTotalElapsedMs(0);
     setStats({ correct: 0, wrong: 0, timeout: 0 });
+    setWrongRecords([]);
     setHintVisible(true);
     setPlayingUid(null);
-  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS]);
+  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS, mode]);
 
   // =========================
   // 交互回调（useCallback 包装，避免不必要的子组件重渲染）
@@ -364,6 +386,17 @@ export default function StudyPage() {
       correct: prev.correct + (correct ? 1 : 0),
       wrong: prev.wrong + (correct ? 0 : 1),
     }));
+    // 错题收集：正确答案不收集，错误加入 wrongRecords
+    if (!correct) {
+      setWrongRecords((prev) => [
+        ...prev,
+        {
+          word: cur,
+          userAnswer: spellingInput,
+          isTimeout: false,
+        },
+      ]);
+    }
     // 提交正确后：听音拼写模式下额外播放一次发音
     if (spellingSubMode === 'audio-spelling') {
       void playCurrentSpellingWord();
@@ -432,6 +465,18 @@ export default function StudyPage() {
         if (prev <= 1) {
           // 倒计时结束：记为超时错误，自动跳下一单词
           setStats((s) => ({ ...s, timeout: s.timeout + 1, wrong: s.wrong + 1 }));
+          // 收集超时错题
+          const curWord = words[spellingIndex];
+          if (curWord) {
+            setWrongRecords((prevR) => [
+              ...prevR,
+              {
+                word: curWord,
+                userAnswer: '',
+                isTimeout: true,
+              },
+            ]);
+          }
           setSpellingSubmitted(false);
           // 下一帧跳下一题（避免和 interval 同帧冲突）
           setTimeout(() => {
@@ -474,6 +519,39 @@ export default function StudyPage() {
     if (mode !== 'spelling') return;
     requestAnimationFrame(() => spellingInputRef.current?.focus());
   }, [mode, spellingIndex]);
+
+  /**
+   * 拼写模式：全局回车键快捷键（window 级别）
+   *   - 未提交 spellingSubmitted == null → 回车 = 提交
+   *   - 已提交 spellingSubmitted != null → 回车 = 下一题
+   * 作用：即使输入框 disabled 或失焦状态也能响应回车
+   */
+  useEffect(() => {
+    if (mode !== 'spelling') return;
+    if (spellingIndex >= words.length) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return;
+      // 如果当前焦点在输入框里，交给输入框自身 onKeyDown 处理即可（避免重复触发）
+      const active = document.activeElement;
+      if (active && active.tagName === 'INPUT' && spellingInputRef.current === active) {
+        return;
+      }
+      // 如果用户焦点在按钮（提交按钮/下一题按钮），也不要抢默认行为
+      if (active && active.tagName === 'BUTTON') return;
+      if (spellingSubmitted === null) {
+        // 空输入就不做提交（保持按钮禁用的一致性）
+        if (!spellingInput.trim()) return;
+        submitSpelling();
+      } else {
+        goNextSpellingWord();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [
+    mode, spellingIndex, words.length,
+    spellingSubmitted, spellingInput, submitSpelling, goNextSpellingWord,
+  ]);
 
   // 统一总毫秒数格式化：mm:ss.S（分:秒.1位小数）
   const formatTotalTime = (ms: number) => {
@@ -730,46 +808,223 @@ export default function StudyPage() {
           <div className="mx-auto max-w-2xl">
             {spellingIndex >= words.length ? (
               // —— 全部做完：结果总结页面 ——
+              (() => {
+                // ====== 派生数据：准确率 / 是否达标 / 检查时间 / 模式文案 ======
+                const accuracyVal =
+                  words.length === 0 ? 0 : (stats.correct / words.length) * 100;
+                const accuracyStr = `${Math.round(accuracyVal)}%`;
+                const passed = accuracyVal >= 90;
+                // 检查时间（当前系统时间）
+                const checkTimeStr = new Date().toLocaleString('zh-CN', {
+                  year: 'numeric', month: '2-digit', day: '2-digit',
+                  hour: '2-digit', minute: '2-digit', hour12: false,
+                });
+                const modeText =
+                  spellingSubMode === 'meaning-spelling' ? '释义拼写' : '听音拼写';
+                return (
               <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
-                <div className="bg-gradient-to-br from-indigo-600 via-blue-600 to-sky-600 px-6 py-10 text-center text-white">
+                {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
+                <div
+                  className={cn(
+                    'px-6 py-10 text-center text-white',
+                    passed
+                      ? 'bg-gradient-to-br from-emerald-500 via-teal-500 to-sky-600'
+                      : 'bg-gradient-to-br from-rose-500 via-orange-500 to-amber-500'
+                  )}
+                >
                   <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white/15 backdrop-blur">
                     <Trophy className="h-10 w-10" />
                   </div>
-                  <h2 className="text-2xl font-extrabold">太棒啦，本轮已完成！</h2>
-                  <p className="mt-1.5 text-sm text-white/80">
-                    共 {words.length} 个单词 · 总用时{' '}
+                  {passed ? (
+                    <>
+                      <h2 className="text-2xl font-extrabold sm:text-3xl">🎉 恭喜你，闯关成功！</h2>
+                      <p className="mt-2 text-sm text-white/90">
+                        准确率 {accuracyStr}，超过 90% 合格线，太棒啦，继续保持！
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-2xl font-extrabold sm:text-3xl">💪 很遗憾，再接再厉！</h2>
+                      <p className="mt-2 text-sm text-white/90">
+                        当前准确率 {accuracyStr}，合格线是 90%。别灰心，复习错题，再来一遍一定能过！
+                      </p>
+                    </>
+                  )}
+                  <p className="mt-3 text-xs text-white/80">
+                    模式：单词拼写 · {modeText}　·　共 {words.length} 个单词　·　总用时{' '}
                     <span className="font-mono font-bold">{formatTotalTime(totalElapsedMs)}</span>
                   </p>
                 </div>
-                <div className="grid grid-cols-3 divide-x divide-slate-100 border-b border-slate-100">
-                  <div className="p-5 text-center">
-                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+
+                {/* —— 4 格统计卡（检查时间 / 检查内容 / 正确 / 错误 / 正确率 合并） —— */}
+                <div className="grid grid-cols-2 gap-px bg-slate-100 sm:grid-cols-4">
+                  <div className="bg-white px-4 py-4 text-center">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                      检查时间
+                    </p>
+                    <p className="mt-1 break-words text-sm font-bold text-slate-800">
+                      {checkTimeStr}
+                    </p>
+                  </div>
+                  <div className="bg-white px-4 py-4 text-center sm:col-span-1">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                      检查内容（词表）
+                    </p>
+                    <div className="mt-1 flex flex-wrap justify-center gap-1">
+                      {selectedSheetNames.length === 0 ? (
+                        <span className="text-xs text-slate-400">-</span>
+                      ) : (
+                        selectedSheetNames.map((n) => (
+                          <span
+                            key={n}
+                            className="inline-block truncate rounded-md bg-indigo-50 px-1.5 py-0.5 text-[11px] font-semibold text-indigo-700 max-w-full"
+                          >
+                            {n}
+                          </span>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                  <div className="bg-white px-4 py-4 text-center">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       正确
                     </p>
-                    <p className="mt-1 font-mono text-3xl font-extrabold text-emerald-600">
+                    <p className="mt-1 font-mono text-2xl font-extrabold text-emerald-600">
                       {stats.correct}
                     </p>
                   </div>
-                  <div className="p-5 text-center">
-                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  <div className="bg-white px-4 py-4 text-center">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       错误
                     </p>
-                    <p className="mt-1 font-mono text-3xl font-extrabold text-rose-500">
+                    <p className="mt-1 font-mono text-2xl font-extrabold text-rose-500">
                       {stats.wrong}
-                    </p>
-                  </div>
-                  <div className="p-5 text-center">
-                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
-                      正确率
-                    </p>
-                    <p className="mt-1 font-mono text-3xl font-extrabold text-indigo-600">
-                      {words.length === 0
-                        ? '0%'
-                        : `${Math.round((stats.correct / words.length) * 100)}%`}
+                      <span className="ml-1 text-[10px] font-medium text-slate-400">
+                        （{stats.timeout}超时）
+                      </span>
                     </p>
                   </div>
                 </div>
-                <div className="space-y-3 px-6 py-6 sm:flex sm:space-y-0 sm:gap-3">
+
+                {/* —— 单独一行：准确率大字（突出） —— */}
+                <div className="border-y border-slate-100 bg-gradient-to-r from-indigo-50 via-blue-50 to-sky-50 px-6 py-4 text-center">
+                  <p className="text-[11px] font-medium uppercase tracking-wider text-indigo-500">
+                    本次准确率
+                  </p>
+                  <p
+                    className={cn(
+                      'mt-1 font-mono text-4xl font-black tabular-nums',
+                      passed ? 'text-emerald-600' : 'text-rose-500'
+                    )}
+                  >
+                    {accuracyStr}
+                    <span className="ml-2 align-middle text-xs font-semibold text-slate-500">
+                      {passed ? '✅ ≥ 90%（合格）' : '❌ < 90%（未达标）'}
+                    </span>
+                  </p>
+                </div>
+
+                {/* —— 准确率下方：所有错题列表（正确单词 / 释义 / 错误拼写） —— */}
+                <div className="px-6 py-6">
+                  {wrongRecords.length === 0 ? (
+                    <div className="rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-6 text-center">
+                      <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                        <Check className="h-7 w-7" />
+                      </div>
+                      <p className="text-base font-bold text-emerald-700">
+                        全对，没有任何错误单词！🏆
+                      </p>
+                      <p className="mt-1 text-xs text-emerald-700/70">
+                        太棒啦，这组词表已完全掌握
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="mb-3 flex items-end justify-between gap-3">
+                        <div>
+                          <h3 className="text-base font-extrabold text-slate-800">
+                            📋 错题列表（共 {wrongRecords.length} 个）
+                          </h3>
+                          <p className="mt-0.5 text-xs text-slate-500">
+                            显示正确单词、中文释义、以及你当时拼写的错误答案
+                          </p>
+                        </div>
+                      </div>
+                      <ul className="divide-y divide-slate-100 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        {wrongRecords.map((rec, idx) => (
+                          <li
+                            key={idx}
+                            className="grid gap-3 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] sm:items-start"
+                          >
+                            {/* 1. 正确单词 + 发音 */}
+                            <div>
+                              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                                ✅ 正确单词
+                              </p>
+                              <div className="mt-1 flex items-center gap-2">
+                                <p className="break-all font-mono text-lg font-black text-slate-800">
+                                  {rec.word.word}
+                                </p>
+                                <button
+                                  onClick={() => {
+                                    setPlayingUid(rec.word.uid);
+                                    void playWordAudio(rec.word.word).finally(() =>
+                                      setPlayingUid((p) =>
+                                        p === rec.word.uid ? null : p
+                                      )
+                                    );
+                                  }}
+                                  className={cn(
+                                    'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition',
+                                    playingUid === rec.word.uid
+                                      ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow animate-pulse'
+                                      : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
+                                  )}
+                                  title="听正确发音"
+                                >
+                                  <Volume2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                              <p className="mt-0.5 text-[10px] text-slate-400">
+                                来自：{rec.word.sheetName}
+                              </p>
+                            </div>
+                            {/* 2. 中文释义 */}
+                            <div>
+                              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                                📖 中文释义
+                              </p>
+                              <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-700">
+                                {rec.word.meaning}
+                              </p>
+                            </div>
+                            {/* 3. 你拼写的错误答案 */}
+                            <div>
+                              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                                ❌ 你的答案
+                                {rec.isTimeout && (
+                                  <span className="ml-1 rounded bg-amber-100 px-1 py-0.5 text-amber-700">
+                                    超时
+                                  </span>
+                                )}
+                              </p>
+                              <p className="mt-1 break-all font-mono text-base font-bold text-rose-600 line-through decoration-2 decoration-rose-400/70">
+                                {rec.userAnswer || (
+                                  <span className="italic text-rose-500/80 no-underline">
+                                    （空，未作答）
+                                  </span>
+                                )}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                {/* —— 底部按钮 —— */}
+                <div className="space-y-3 border-t border-slate-100 px-6 py-6 sm:flex sm:space-y-0 sm:gap-3">
                   <button
                     onClick={resetSpellingAfterShuffle}
                     className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/2"
@@ -786,6 +1041,8 @@ export default function StudyPage() {
                   </button>
                 </div>
               </div>
+                );
+              })()
             ) : (
               // —— 单词拼写：单题作答界面 ——
               <SpellingCardUI
@@ -798,16 +1055,12 @@ export default function StudyPage() {
                 spellingInput={spellingInput}
                 setSpellingInput={(v) => {
                   setSpellingInput(v);
-                  // 听音拼写：输入框有任何改动就播放当前单词发音
-                  if (spellingSubMode === 'audio-spelling') {
-                    void playCurrentSpellingWord();
-                  }
+                  // 听音拼写：新题自动只播一次，输入框不再重复触发发音
+                  // 如需重听，请点击右上角发音图标手动播放
                 }}
                 onInputFocus={() => {
-                  // 听音拼写：点击输入框（获得焦点）也发一次音
-                  if (spellingSubMode === 'audio-spelling') {
-                    void playCurrentSpellingWord();
-                  }
+                  // 听音拼写：输入框聚焦不再自动发音，避免打扰
+                  // 请点击发音图标手动重听
                 }}
                 hintVisible={hintVisible}
                 spellingSubmitted={spellingSubmitted}
@@ -1007,7 +1260,7 @@ function SpellingCardUI(props: SpellingCardUIProps) {
           // —— 听音拼写模式 ——
           <div className="flex flex-col items-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-indigo-500">
-              听音拼写 · 输入框有任何操作会自动播放发音
+              听音拼写 · 新题进入会自动播放一次发音
             </p>
             <button
               onClick={onManualPlay}
@@ -1022,7 +1275,7 @@ function SpellingCardUI(props: SpellingCardUIProps) {
               <Volume2 className="h-12 w-12" />
             </button>
             <p className="mt-1 text-xs text-slate-500">
-              没听清？点上方喇叭或直接在输入框打字都会再次播放
+              没听清？点击上方喇叭图标再次播放发音
             </p>
           </div>
         )}
