@@ -34,8 +34,16 @@ export interface VocabularyBook {
  * 学习模式的枚举类型：
  * - 'word-meaning'：看词说意（显示单词，隐藏中文释义）
  * - 'audio-meaning'：听音辨义（显示喇叭播放发音，隐藏单词和释义）
+ * - 'spelling'：单词拼写（释义拼写 / 听音拼写 两种子模式，进入时弹窗选择）
  */
-export type StudyMode = 'word-meaning' | 'audio-meaning';
+export type StudyMode = 'word-meaning' | 'audio-meaning' | 'spelling';
+
+/**
+ * 单词拼写的子模式：
+ * - 'meaning-spelling'：释义拼写（上方显示中文释义，下方输入框给出首字母提示）
+ * - 'audio-spelling'：听音拼写（输入框有任何操作即播放当前单词音频）
+ */
+export type SpellingSubMode = 'meaning-spelling' | 'audio-spelling';
 
 /**
  * 学习配置：记录用户在第 2 页（选择页）选了什么
@@ -43,6 +51,7 @@ export type StudyMode = 'word-meaning' | 'audio-meaning';
  * 点击"开始学习"时会把这份配置保存下来，并在第 3 页使用
  */
 export interface StudyConfig {
-  selectedSheetIds: string[];  // 用户勾选的所有 sheet 的 ID 列表（多选）
-  mode: StudyMode;             // 用户选择的学习模式（上面定义的两种二选一）
+  selectedSheetIds: string[];           // 用户勾选的所有 sheet 的 ID 列表（多选）
+  mode: StudyMode;                      // 用户选择的学习模式
+  spellingSubMode?: SpellingSubMode;    // 仅当 mode 为 'spelling' 时必填：拼写字模式
 }

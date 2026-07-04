@@ -11,7 +11,7 @@
  *   6. 点击「返回首页」清空当前词汇书并回到首页
  * ============================================================
  */
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -22,9 +22,13 @@ import {
   CheckSquare,
   Square,
   Sparkles,
+  PencilLine,
+  X,
+  MessageSquareText,
+  Volume2,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
-import type { StudyMode } from '@/types';
+import type { SpellingSubMode, StudyMode } from '@/types';
 import { cn } from '@/lib/utils';
 
 export default function SelectPage() {
@@ -37,6 +41,9 @@ export default function SelectPage() {
   const setCurrentBook = useAppStore((s) => s.setCurrentBook);              // 切换当前词汇书的 Action
   const toggleSelectedSheetId = useAppStore((s) => s.toggleSelectedSheetId);// 切换单个 Sheet 选中状态的 Action
   const setStudyConfig = useAppStore((s) => s.setStudyConfig);              // 设置学习配置的 Action
+
+  // 「单词拼写」子模式弹窗的开关状态：true=显示弹窗
+  const [spellingModalOpen, setSpellingModalOpen] = useState(false);
 
   // useMemo：根据 vocabularyBooks 和 currentBookId 计算出当前选中的词汇书对象，避免重复查找
   const currentBook = useMemo(
@@ -96,23 +103,48 @@ export default function SelectPage() {
 
   /**
    * 学习模式切换函数
-   * - 入参 m：StudyMode（'word-meaning' | 'audio-meaning'）
+   * - 入参 m：StudyMode（'word-meaning' | 'audio-meaning' | 'spelling'）
    * - 更新 studyConfig：保留当前已选单元，仅覆盖 mode 字段
+   * - 当模式是 'spelling' 单词拼写时，额外弹出子模式选择弹窗（不立即设置）
    */
   const setMode = (m: StudyMode) => {
+    if (m === 'spelling') {
+      setSpellingModalOpen(true);
+      return;
+    }
     setStudyConfig({
       selectedSheetIds: selectedIds,
       mode: m,
+      spellingSubMode: undefined,
     });
   };
 
   /**
+   * 单词拼写子模式选择处理函数
+   * - 入参 sub：'meaning-spelling' 释义拼写 / 'audio-spelling' 听音拼写
+   * - 选中后：写入 studyConfig 的 mode + spellingSubMode，关闭弹窗
+   */
+  const selectSpellingSubMode = (sub: SpellingSubMode) => {
+    setStudyConfig({
+      selectedSheetIds: selectedIds,
+      mode: 'spelling',
+      spellingSubMode: sub,
+    });
+    setSpellingModalOpen(false);
+  };
+
+  /**
    * 开始学习 按钮处理函数
-   * - 校验：至少选中 1 个单元，否则不跳转
+   * - 校验 1：至少选中 1 个单元，否则不跳转
+   * - 校验 2：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写）
    * - 通过则跳转到 /study 路由，进入学习页
    */
   const startStudy = () => {
     if (selectedIds.length === 0) return;
+    if (mode === 'spelling' && !studyConfig?.spellingSubMode) {
+      setSpellingModalOpen(true);
+      return;
+    }
     navigate('/study');
   };
 
@@ -244,12 +276,12 @@ export default function SelectPage() {
       {/* 底部固定操作栏：学习模式选择区 + 开始学习按钮 */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200/70 bg-white/85 backdrop-blur-lg">
         <div className="mx-auto max-w-4xl px-6 py-4">
-          {/* 学习模式双选择区：左侧看词说意，右侧听音辨义，当前选中卡片会高亮 */}
+          {/* 学习模式三选择区：看词说意 / 听音辨义 / 单词拼写，当前选中卡片会高亮 */}
           <div className="mb-3">
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
               请选择学习模式
             </p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-3">
               {/* 模式 1：看词说意 */}
               <button
                 onClick={() => setMode('word-meaning')}
@@ -260,7 +292,6 @@ export default function SelectPage() {
                     : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40'
                 )}
               >
-                {/* 模式图标：选中时渐变背景，否则灰色背景 */}
                 <div
                   className={cn(
                     'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
@@ -271,7 +302,6 @@ export default function SelectPage() {
                 >
                   <Eye className="h-6 w-6" />
                 </div>
-                {/* 模式标题 + 描述文本 */}
                 <div className="min-w-0 flex-1">
                   <h4 className="font-bold text-slate-800">看词说意</h4>
                   <p className="mt-0.5 truncate text-xs text-slate-500">
@@ -289,7 +319,6 @@ export default function SelectPage() {
                     : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40'
                 )}
               >
-                {/* 模式图标：选中时渐变背景，否则灰色背景 */}
                 <div
                   className={cn(
                     'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
@@ -300,11 +329,41 @@ export default function SelectPage() {
                 >
                   <Headphones className="h-6 w-6" />
                 </div>
-                {/* 模式标题 + 描述文本 */}
                 <div className="min-w-0 flex-1">
                   <h4 className="font-bold text-slate-800">听音辨义</h4>
                   <p className="mt-0.5 truncate text-xs text-slate-500">
                     点击喇叭播放发音，隐藏单词和释义
+                  </p>
+                </div>
+              </button>
+              {/* 模式 3：单词拼写 */}
+              <button
+                onClick={() => setMode('spelling')}
+                className={cn(
+                  'flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition-all duration-200',
+                  mode === 'spelling'
+                    ? 'border-indigo-600 bg-gradient-to-br from-indigo-50 to-blue-50 shadow-md shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40'
+                )}
+              >
+                <div
+                  className={cn(
+                    'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                    mode === 'spelling'
+                      ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                      : 'bg-slate-100 text-slate-500'
+                  )}
+                >
+                  <PencilLine className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">单词拼写</h4>
+                  <p className="mt-0.5 truncate text-xs text-slate-500">
+                    {studyConfig?.spellingSubMode === 'meaning-spelling'
+                      ? '已选：释义拼写（首字母提示）'
+                      : studyConfig?.spellingSubMode === 'audio-spelling'
+                        ? '已选：听音拼写（输入即发音）'
+                        : '释义拼写 / 听音拼写 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -326,6 +385,98 @@ export default function SelectPage() {
           </button>
         </div>
       </div>
+
+      {/* 单词拼写子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
+      {spellingModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+          onClick={() => setSpellingModalOpen(false)}
+        >
+          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
+          >
+            {/* 右上角关闭按钮 × */}
+            <button
+              onClick={() => setSpellingModalOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {/* 弹窗标题：图标 + 标题 + 说明 */}
+            <div className="mb-6">
+              <div className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-lg shadow-indigo-200">
+                <PencilLine className="h-7 w-7" />
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-800">请选择拼写模式</h3>
+              <p className="mt-1 text-sm text-slate-500">
+                每个单词限时 10 秒，整体计时始终桌面显示
+              </p>
+            </div>
+            {/* 子模式选项列表 */}
+            <div className="space-y-3">
+              {/* 子模式 1：释义拼写 */}
+              <button
+                onClick={() => selectSpellingSubMode('meaning-spelling')}
+                className={cn(
+                  'flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all duration-200 hover:shadow-lg',
+                  studyConfig?.spellingSubMode === 'meaning-spelling'
+                    ? 'border-indigo-600 bg-gradient-to-r from-indigo-50 to-blue-50 shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                )}
+              >
+                <div className={cn(
+                  'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                  studyConfig?.spellingSubMode === 'meaning-spelling'
+                    ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                    : 'bg-slate-100 text-slate-500'
+                )}>
+                  <MessageSquareText className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">释义拼写</h4>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    中文释义在上，输入框提示首字母，手动输入单词
+                  </p>
+                </div>
+              </button>
+              {/* 子模式 2：听音拼写 */}
+              <button
+                onClick={() => selectSpellingSubMode('audio-spelling')}
+                className={cn(
+                  'flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all duration-200 hover:shadow-lg',
+                  studyConfig?.spellingSubMode === 'audio-spelling'
+                    ? 'border-indigo-600 bg-gradient-to-r from-indigo-50 to-blue-50 shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                )}
+              >
+                <div className={cn(
+                  'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                  studyConfig?.spellingSubMode === 'audio-spelling'
+                    ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                    : 'bg-slate-100 text-slate-500'
+                )}>
+                  <Volume2 className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">听音拼写</h4>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    输入框有任何操作即自动播放发音，其他要求同释义拼写
+                  </p>
+                </div>
+              </button>
+            </div>
+            {/* 底部取消按钮 */}
+            <button
+              onClick={() => setSpellingModalOpen(false)}
+              className="mt-5 w-full rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+            >
+              取消
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
