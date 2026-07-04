@@ -27,6 +27,7 @@ import {
   SkipForward,
   Timer,
   Trophy,
+  Star,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
@@ -72,6 +73,15 @@ export default function StudyPage() {
   const currentBookId = useAppStore((s) => s.currentBookId);
   // 学习配置：包含学习模式 + 选中的单词表 id 列表
   const studyConfig = useAppStore((s) => s.studyConfig);
+  // ===== 标星模块：全局状态 =====
+  // 所有已标星的单词字符串数组
+  const starredWords = useAppStore((s) => s.starredWords);
+  // 切换某个单词标星状态的方法
+  const toggleStarredWord = useAppStore((s) => s.toggleStarredWord);
+  // 查询某个单词是否已标星的方法
+  const isWordStarred = useAppStore((s) => s.isWordStarred);
+  // 清空本次学习会话所有标星的方法（返回选择页/离开学习页时调用）
+  const resetStarredWords = useAppStore((s) => s.resetStarredWords);
 
   // 当前学习模式：默认看词说意
   const mode: StudyMode = studyConfig?.mode || 'word-meaning';
@@ -149,6 +159,29 @@ export default function StudyPage() {
    *   作用：避免重复触发发音 + 提供视觉反馈
    */
   const [playingUid, setPlayingUid] = useState<string | null>(null);
+
+  // ===== 标星模块：本地 UI 状态 =====
+  /**
+   * showStarredOnly - 是否只显示已标星的单词（筛选开关）
+   *   - true：只渲染被打星标的单词卡片；
+   *   - false：渲染全部单词（默认行为）。
+   *   仅在「看词说意」和「听音辨义」两种非拼写模式下生效。
+   */
+  const [showStarredOnly, setShowStarredOnly] = useState(false);
+
+  // ===== 标星模块：派生数据 =====
+  /**
+   * displayWords - 最终要渲染的单词列表
+   *   仅在非拼写模式下根据 showStarredOnly 开关进行筛选：
+   *   - showStarredOnly = true  → 只保留已标星单词（通过 isWordStarred 判断）
+   *   - showStarredOnly = false → 保持 words 原样
+   *   拼写模式下不筛选，直接返回 words。
+   */
+  const displayWords = useMemo<StudyWord[]>(() => {
+    if (mode === 'spelling') return words;
+    if (!showStarredOnly) return words;
+    return words.filter((w) => isWordStarred(w.word));
+  }, [words, showStarredOnly, mode, isWordStarred]);
 
   // =========================
   // 【单词拼写模式】专属状态
@@ -248,10 +281,14 @@ export default function StudyPage() {
       navigate('/select');
       return;
     }
+    // —— 标星模块：每次进入学习页（换词表/换模式/重新开始）都确保标星是全新的空状态 ——
+    resetStarredWords();
     // 看词说意/听音辨义：保持原表顺序；单词拼写：选择子模式后出现的检测词直接乱序
     setWords(mode === 'spelling' ? shuffleArray(baseWords) : baseWords);
     setRevealedMap({});
     setAllRevealed(false);
+    // 同时把"只看标星"开关也关掉（新会话默认显示全部单词）
+    setShowStarredOnly(false);
     // —— 拼写模式初始化 ——
     setSpellingIndex(0);
     setSpellingInput('');
@@ -262,7 +299,18 @@ export default function StudyPage() {
     setWrongRecords([]);
     setHintVisible(true);
     setPlayingUid(null);
-  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS, mode]);
+  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS, mode, resetStarredWords]);
+
+  /**
+   * 离开学习页（返回选择页/跳首页/浏览器后退等）时：
+   *   清空本次会话所有标星，保证下次进入学习页是完全全新的空状态
+   *   标星规则：仅限本次选择的单元，一旦返回选择单元页即全部取消
+   */
+  useEffect(() => {
+    return () => {
+      resetStarredWords();
+    };
+  }, [resetStarredWords]);
 
   // =========================
   // 交互回调（useCallback 包装，避免不必要的子组件重渲染）
@@ -662,11 +710,19 @@ export default function StudyPage() {
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-md">
               <TitleIcon className="h-4.5 w-4.5 text-white" />
             </div>
-            {/* sm 及以上：显示模式名 + 词书名 + 单词总数 */}
+            {/* sm 及以上：显示模式名 + 词书名 + 单词总数（若开启筛选则显示 筛选/总数） */}
             <div className="min-w-0 hidden sm:block">
               <p className="truncate text-sm font-semibold text-slate-800">{titleModeLabel}</p>
               <p className="truncate text-xs text-slate-500">
-                {currentBook?.fileName} · {words.length} 个单词
+                {currentBook?.fileName} ·{' '}
+                {mode !== 'spelling' && showStarredOnly ? (
+                  <span>
+                    已标星 <span className="font-bold text-amber-600">{displayWords.length}</span>{' '}
+                    / {words.length} 个单词
+                  </span>
+                ) : (
+                  <>{words.length} 个单词</>
+                )}
               </p>
             </div>
             {/* sm 以下：显示精简的模式徽标 */}
@@ -675,9 +731,9 @@ export default function StudyPage() {
               {titleModeLabel}
             </span>
           </div>
-          {/* 右：两个操作按钮
-              - 看词说意/听音辨义：一键显隐释义
-              - 拼写模式：切换"首字母提示/提示显示"（释义拼写切换提示，听音拼写切换音频提示说明显隐）
+          {/* 右：操作按钮
+              - 看词说意/听音辨义：一键显隐释义 + 只显示标星
+              - 拼写模式：切换"首字母提示/提示显示"
            */}
           <div className="flex items-center gap-2">
             {mode === 'spelling' ? (
@@ -704,28 +760,58 @@ export default function StudyPage() {
                 )}
               </button>
             ) : (
-              <button
-                onClick={toggleAllReveal}
-                title={allRevealed ? '一键隐藏所有释义' : '一键显示所有释义'}
-                className={cn(
-                  'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
-                  allRevealed
-                    ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600'
-                    : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 hover:text-indigo-700'
-                )}
-              >
-                {allRevealed ? (
-                  <>
-                    <EyeOff className="h-4 w-4" />
-                    <span className="hidden sm:inline">隐藏释义</span>
-                  </>
-                ) : (
-                  <>
-                    <Eye className="h-4 w-4" />
-                    <span className="hidden sm:inline">显示释义</span>
-                  </>
-                )}
-              </button>
+              <>
+                {/* 按钮 1：一键显隐释义（仅非拼写模式） */}
+                <button
+                  onClick={toggleAllReveal}
+                  title={allRevealed ? '一键隐藏所有释义' : '一键显示所有释义'}
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
+                    allRevealed
+                      ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600'
+                      : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 hover:text-indigo-700'
+                  )}
+                >
+                  {allRevealed ? (
+                    <>
+                      <EyeOff className="h-4 w-4" />
+                      <span className="hidden sm:inline">隐藏释义</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="h-4 w-4" />
+                      <span className="hidden sm:inline">显示释义</span>
+                    </>
+                  )}
+                </button>
+                {/* 按钮 2：只显示标星单词（仅非拼写模式） */}
+                <button
+                  onClick={() => setShowStarredOnly((v) => !v)}
+                  title={
+                    showStarredOnly
+                      ? '显示全部单词（当前只看标星）'
+                      : '只显示已打星标的单词'
+                  }
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
+                    showStarredOnly
+                      ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 shadow-orange-200'
+                      : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 hover:text-amber-600'
+                  )}
+                >
+                  <Star
+                    className={cn('h-4 w-4', showStarredOnly ? 'fill-current' : '')}
+                  />
+                  <span className="hidden sm:inline">
+                    只看标星
+                    {showStarredOnly && (
+                      <span className="ml-1 rounded-full bg-white/25 px-1.5 text-[10px]">
+                        {displayWords.length}
+                      </span>
+                    )}
+                  </span>
+                </button>
+              </>
             )}
             {/* 乱序按钮：点击后重新随机排列单词 */}
             <button
@@ -743,25 +829,64 @@ export default function StudyPage() {
       {/* 主内容区：根据 mode 切换 看词说意 / 单词拼写 / 听音辨义 */}
       <div className="mx-auto max-w-5xl px-6 py-8">
         {mode === 'word-meaning' ? (
-          // 模式 A：看词说意 - 卡片头（序号徽标+词表名）+ 卡片体（单词+发音按钮 + 释义展开区）
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {words.map((w, idx) => {
+          // 模式 A：看词说意 - 卡片头（序号徽标+词表名+标星）+ 卡片体（单词+发音按钮 + 释义展开区）
+          displayWords.length === 0 ? (
+            // 「只看标星」模式下没有任何标星单词时 → 友好空状态引导
+            <div className="mx-auto max-w-md py-16 text-center">
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-100 to-orange-100 shadow-md">
+                <Star className="h-10 w-10 text-amber-400" />
+              </div>
+              <h3 className="text-lg font-extrabold text-slate-800">还没有任何标星的单词</h3>
+              <p className="mt-2 text-sm text-slate-500">
+                点击卡片右上角的 ⭐ 星标按钮，把需要重点复习的单词收藏起来吧～
+              </p>
+              <button
+                onClick={() => setShowStarredOnly(false)}
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl"
+              >
+                <BookOpen className="h-4 w-4" />
+                返回查看全部单词
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {displayWords.map((w, idx) => {
               const revealed = !!revealedMap[w.uid];
+              const starred = isWordStarred(w.word);
               return (
                 <div
                   key={w.uid}
                   className={cn(
                     'group overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
-                    revealed ? 'border-indigo-200' : 'border-slate-200/80'
+                    revealed ? 'border-indigo-200' : 'border-slate-200/80',
+                    starred ? 'ring-2 ring-amber-300/70' : ''
                   )}
                 >
-                  {/* 卡片头：渐变底条带，左侧序号徽标，右侧单词表名 */}
+                  {/* 卡片头：渐变底条带，左侧序号徽标，中间单词表名，右侧标星按钮 */}
                   <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-indigo-50/70 via-blue-50/70 to-sky-50/70 px-4 py-2.5">
                     <span className="inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2 py-0.5 text-[11px] font-medium text-indigo-600">
                       <BookOpen className="h-3 w-3" />
                       {String(idx + 1).padStart(3, '0')}
                     </span>
-                    <span className="truncate text-[11px] text-slate-500">{w.sheetName}</span>
+                    <span className="truncate text-[11px] text-slate-500 flex-1 mx-2 text-center">
+                      {w.sheetName}
+                    </span>
+                    {/* 标星按钮：点击切换星标，stopPropagation 避免触发卡片展开 */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleStarredWord(w.word);
+                      }}
+                      title={starred ? '取消星标' : '标记星标，重点复习'}
+                      className={cn(
+                        'flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition-all',
+                        starred
+                          ? 'text-amber-500 hover:bg-amber-100 hover:scale-110'
+                          : 'text-slate-300 hover:text-amber-400 hover:bg-amber-50 hover:scale-110'
+                      )}
+                    >
+                      <Star className={cn('h-3.5 w-3.5', starred ? 'fill-current' : '')} />
+                    </button>
                   </div>
                   {/* 卡片主体 */}
                   <div className="p-5">
@@ -818,7 +943,8 @@ export default function StudyPage() {
                 </div>
               );
             })}
-          </div>
+            </div>
+          )
         ) : mode === 'spelling' ? (
           // 模式 C：单词拼写（子模式 释义拼写 / 听音拼写）
           // 单卡片居中布局，顶部进度条，中间题目/输入区，底部提交+下一题
@@ -1093,78 +1219,118 @@ export default function StudyPage() {
             )}
           </div>
         ) : (
-          // 模式 B：听音辨义 - 卡片头+大号发音按钮+展开区(单词+释义)
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {words.map((w, idx) => {
-              const revealed = !!revealedMap[w.uid];
-              return (
-                <div
-                  key={w.uid}
-                  onClick={() => toggleReveal(w.uid)}
-                  className={cn(
-                    'group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
-                    revealed ? 'border-indigo-200' : 'border-slate-200/80'
-                  )}
-                >
-                  {/* 卡片头：左侧耳机图标 + 序号，右侧单词表名 */}
-                  <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-indigo-50/70 via-blue-50/70 to-sky-50/70 px-4 py-2.5">
-                    <span className="inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2 py-0.5 text-[11px] font-medium text-indigo-600">
-                      <Headphones className="h-3 w-3" />
-                      {String(idx + 1).padStart(3, '0')}
-                    </span>
-                    <span className="truncate text-[11px] text-slate-500">{w.sheetName}</span>
-                  </div>
-                  {/* 卡片主体 */}
-                  <div className="p-5">
-                    {/* 居中的大号发音按钮 */}
-                    <div className="flex justify-center">
+          // 模式 B：听音辨义 - 卡片头(序号+词表名+标星)+大号发音按钮+展开区(单词+释义)
+          displayWords.length === 0 ? (
+            // 「只看标星」模式下没有任何标星单词时 → 友好空状态引导
+            <div className="mx-auto max-w-md py-16 text-center">
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-100 to-orange-100 shadow-md">
+                <Star className="h-10 w-10 text-amber-400" />
+              </div>
+              <h3 className="text-lg font-extrabold text-slate-800">还没有任何标星的单词</h3>
+              <p className="mt-2 text-sm text-slate-500">
+                点击卡片右上角的 ⭐ 星标按钮，把需要重点复习的单词收藏起来吧～
+              </p>
+              <button
+                onClick={() => setShowStarredOnly(false)}
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl"
+              >
+                <Headphones className="h-4 w-4" />
+                返回查看全部单词
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {displayWords.map((w, idx) => {
+                const revealed = !!revealedMap[w.uid];
+                const starred = isWordStarred(w.word);
+                return (
+                  <div
+                    key={w.uid}
+                    onClick={() => toggleReveal(w.uid)}
+                    className={cn(
+                      'group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
+                      revealed ? 'border-indigo-200' : 'border-slate-200/80',
+                      starred ? 'ring-2 ring-amber-300/70' : ''
+                    )}
+                  >
+                    {/* 卡片头：左侧耳机图标 + 序号，中间单词表名，右侧标星按钮 */}
+                    <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-indigo-50/70 via-blue-50/70 to-sky-50/70 px-4 py-2.5">
+                      <span className="inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2 py-0.5 text-[11px] font-medium text-indigo-600">
+                        <Headphones className="h-3 w-3" />
+                        {String(idx + 1).padStart(3, '0')}
+                      </span>
+                      <span className="truncate text-[11px] text-slate-500 flex-1 mx-2 text-center">
+                        {w.sheetName}
+                      </span>
+                      {/* 标星按钮：stopPropagation 避免触发整张卡片的展开/收起 */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handlePlay(w.word, w.uid);
+                          toggleStarredWord(w.word);
                         }}
+                        title={starred ? '取消星标' : '标记星标，重点复习'}
                         className={cn(
-                          'flex h-20 w-20 items-center justify-center rounded-3xl shadow-lg transition-all duration-200 hover:scale-105',
-                          playingUid === w.uid
-                            ? 'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-white shadow-xl shadow-orange-200 animate-pulse'
-                            : 'bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 text-white shadow-xl shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300'
+                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition-all',
+                          starred
+                            ? 'text-amber-500 hover:bg-amber-100 hover:scale-110'
+                            : 'text-slate-300 hover:text-amber-400 hover:bg-amber-50 hover:scale-110'
                         )}
-                        title="播放发音"
                       >
-                        <Volume2 className="h-10 w-10" />
+                        <Star className={cn('h-3.5 w-3.5', starred ? 'fill-current' : '')} />
                       </button>
                     </div>
-                    {/* 答案区：单词 + 释义（未展开时只显示提示） */}
-                    <div className="mt-5">
-                      <div
-                        className={cn(
-                          'overflow-hidden rounded-xl border transition-all duration-300',
-                          revealed
-                            ? 'max-h-96 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
-                            : 'max-h-14 border-dashed border-slate-200 bg-slate-50/60 p-3 opacity-80'
-                        )}
-                      >
-                        {revealed ? (
-                          <div className="space-y-3 text-center">
-                            <p className="text-2xl font-bold tracking-tight text-slate-900">
-                              {w.word}
-                            </p>
-                            <div className="mx-auto h-px w-12 bg-indigo-200" />
-                            <p className="text-sm leading-relaxed text-slate-700">{w.meaning}</p>
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
-                            <Eye className="h-3.5 w-3.5" />
-                            点击卡片显示单词和释义
-                          </div>
-                        )}
+                    {/* 卡片主体 */}
+                    <div className="p-5">
+                      {/* 居中的大号发音按钮 */}
+                      <div className="flex justify-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlay(w.word, w.uid);
+                          }}
+                          className={cn(
+                            'flex h-20 w-20 items-center justify-center rounded-3xl shadow-lg transition-all duration-200 hover:scale-105',
+                            playingUid === w.uid
+                              ? 'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-white shadow-xl shadow-orange-200 animate-pulse'
+                              : 'bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 text-white shadow-xl shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300'
+                          )}
+                          title="播放发音"
+                        >
+                          <Volume2 className="h-10 w-10" />
+                        </button>
+                      </div>
+                      {/* 答案区：单词 + 释义（未展开时只显示提示） */}
+                      <div className="mt-5">
+                        <div
+                          className={cn(
+                            'overflow-hidden rounded-xl border transition-all duration-300',
+                            revealed
+                              ? 'max-h-96 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
+                              : 'max-h-14 border-dashed border-slate-200 bg-slate-50/60 p-3 opacity-80'
+                          )}
+                        >
+                          {revealed ? (
+                            <div className="space-y-3 text-center">
+                              <p className="text-2xl font-bold tracking-tight text-slate-900">
+                                {w.word}
+                              </p>
+                              <div className="mx-auto h-px w-12 bg-indigo-200" />
+                              <p className="text-sm leading-relaxed text-slate-700">{w.meaning}</p>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+                              <Eye className="h-3.5 w-3.5" />
+                              点击卡片显示单词和释义
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )
         )}
       </div>
     </div>

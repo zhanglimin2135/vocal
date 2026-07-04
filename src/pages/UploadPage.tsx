@@ -26,6 +26,7 @@ import {
   ChevronRight,     // 向右箭头（进入选择按钮）
   Loader2,          // 加载转圈图标
   Trash2,           // 垃圾桶删除图标
+  BookText,         // 书本图标（托福阅读模块入口）
 } from 'lucide-react';
 // 导入全局状态管理 Hook（Zustand）
 import { useAppStore } from '@/store/appStore';
@@ -173,6 +174,21 @@ export default function UploadPage() {
 
         {/* ======== Header 顶部标题介绍区 ======== */}
         <header className="mb-10 text-center">
+          {/* 顶部两大功能模块切换标签：背单词 / 托福阅读补全 */}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/60 p-1 shadow-sm backdrop-blur">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow">
+              <BookOpen className="h-4 w-4" />
+              背单词
+            </span>
+            <button
+              onClick={() => navigate('/reading-upload')}
+              className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-white hover:text-emerald-700"
+            >
+              <BookText className="h-4 w-4" />
+              托福阅读补全
+              <ChevronRight className="h-3.5 w-3.5 opacity-70" />
+            </button>
+          </div>
           {/* 上方小圆角标签：应用 Logo + 名称 */}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm text-indigo-700 shadow-sm backdrop-blur">
             <BookOpen className="h-4 w-4" />
