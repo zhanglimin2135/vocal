@@ -518,26 +518,46 @@ export default function StudyPage() {
   }, [mode, spellingIndex]);
 
   /**
-   * 拼写模式：全局 Tab 快捷键（window 级别）
-   *   - 仅当已提交 spellingSubmitted != null → Tab 键 = 下一题
-   *   - 未提交 spellingSubmitted == null → Tab 保持浏览器默认（切焦点）
-   *   - 注意：用户要求快捷键为 Tab，不再使用 Enter
+   * 拼写模式：全局快捷键（window 级别）
+   *   - Enter 回车键 → 未提交 spellingSubmitted == null → 提交答案（空输入不提交）
+   *   - 右方向键 ArrowRight（→） → 已提交 spellingSubmitted != null → 下一题
+   * 注意：按用户最新要求，不再使用 Tab 键
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
     if (spellingIndex >= words.length) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
-      // 未提交：Tab 保留浏览器默认切换焦点的行为，不拦截
-      if (spellingSubmitted === null) return;
-      // 已提交：Tab = 下一题（阻止 Tab 默认切焦点，否则会跳到页面其他元素）
-      e.preventDefault();
-      goNextSpellingWord();
+      // —— 情况 A：输入框内的按键，交给输入框自身 onKeyDown 统一处理，避免重复触发 ——
+      const active = document.activeElement;
+      if (active && active.tagName === 'INPUT' && spellingInputRef.current === active) {
+        return;
+      }
+      // 如果当前焦点在按钮上（提交按钮/下一题按钮），不拦截，使用按钮自己的回车默认行为
+      if (active && active.tagName === 'BUTTON') return;
+
+      if (e.key === 'Enter') {
+        // Enter = 提交（仅未提交状态下）
+        if (spellingSubmitted === null) {
+          if (!spellingInput.trim()) return; // 空输入不提交
+          submitSpelling();
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowRight') {
+        // 右方向键 → = 下一题（仅已提交状态下）
+        if (spellingSubmitted !== null) {
+          e.preventDefault();
+          goNextSpellingWord();
+        }
+        return;
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [
-    mode, spellingIndex, words.length, spellingSubmitted, goNextSpellingWord,
+    mode, spellingIndex, words.length,
+    spellingSubmitted, spellingInput, submitSpelling, goNextSpellingWord,
   ]);
 
   // 统一总毫秒数格式化：mm:ss.S（分:秒.1位小数）
@@ -1181,14 +1201,26 @@ function SpellingCardUI(props: SpellingCardUIProps) {
   const nowWrong = spellingSubmitted === false;
   // 倒计时进度（用于视觉进度条和圆环百分比）
   const pct = Math.max(0, Math.min(1, perWordTimer / maxSeconds));
-  // 按键规则（Tab 是下一题快捷键，不再用 Enter）
-  //   - 未提交：Tab = 浏览器默认切换焦点，不干预
-  //   - 已提交：Tab = 下一题，阻止默认切焦点行为
+  // 按键规则（按用户最新要求）：
+  //   - Enter（回车键）      → 未提交 spellingSubmitted == null → 提交答案
+  //   - ArrowRight（右方向键→） → 已提交 spellingSubmitted != null → 下一题
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Tab') return;
-    if (spellingSubmitted === null) return; // 未提交 Tab 不拦截，保持默认
-    e.preventDefault();
-    onNext();
+    if (e.key === 'Enter') {
+      if (spellingSubmitted === null) {
+        // 空输入就不做提交（和按钮禁用保持一致）
+        if (!spellingInput.trim()) return;
+        onSubmit();
+      }
+      // 已提交状态下 Enter 不再触发下一题（下一题用右方向键）
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      if (spellingSubmitted !== null) {
+        e.preventDefault();
+        onNext();
+      }
+      return;
+    }
   };
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
