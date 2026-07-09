@@ -28,7 +28,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
-import type { SpellingSubMode, StudyMode } from '@/types';
+import type { LookSubMode, SpellingSubMode, StudyMode } from '@/types';
 import { cn } from '@/lib/utils';
 
 export default function SelectPage() {
@@ -44,6 +44,8 @@ export default function SelectPage() {
 
   // 「单词拼写」子模式弹窗的开关状态：true=显示弹窗
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
+  // 「看词说意/看意说词」子模式弹窗的开关状态：true=显示弹窗
+  const [lookModalOpen, setLookModalOpen] = useState(false);
 
   // useMemo：根据 vocabularyBooks 和 currentBookId 计算出当前选中的词汇书对象，避免重复查找
   const currentBook = useMemo(
@@ -105,9 +107,14 @@ export default function SelectPage() {
    * 学习模式切换函数
    * - 入参 m：StudyMode（'word-meaning' | 'audio-meaning' | 'spelling'）
    * - 更新 studyConfig：保留当前已选单元，仅覆盖 mode 字段
+   * - 当模式是 'word-meaning' 时，额外弹出 看词说意/看意说词 子模式选择弹窗
    * - 当模式是 'spelling' 单词拼写时，额外弹出子模式选择弹窗（不立即设置）
    */
   const setMode = (m: StudyMode) => {
+    if (m === 'word-meaning') {
+      setLookModalOpen(true);
+      return;
+    }
     if (m === 'spelling') {
       setSpellingModalOpen(true);
       return;
@@ -115,8 +122,24 @@ export default function SelectPage() {
     setStudyConfig({
       selectedSheetIds: selectedIds,
       mode: m,
+      lookSubMode: undefined,
       spellingSubMode: undefined,
     });
+  };
+
+  /**
+   * 看词说意 / 看意说词 子模式选择处理函数
+   * - 入参 sub：'word-meaning' 看词说意 / 'meaning-word' 看意说词
+   * - 选中后：写入 studyConfig 的 mode + lookSubMode，关闭弹窗
+   */
+  const selectLookSubMode = (sub: LookSubMode) => {
+    setStudyConfig({
+      selectedSheetIds: selectedIds,
+      mode: 'word-meaning',
+      lookSubMode: sub,
+      spellingSubMode: undefined,
+    });
+    setLookModalOpen(false);
   };
 
   /**
@@ -128,6 +151,7 @@ export default function SelectPage() {
     setStudyConfig({
       selectedSheetIds: selectedIds,
       mode: 'spelling',
+      lookSubMode: undefined,
       spellingSubMode: sub,
     });
     setSpellingModalOpen(false);
@@ -136,11 +160,16 @@ export default function SelectPage() {
   /**
    * 开始学习 按钮处理函数
    * - 校验 1：至少选中 1 个单元，否则不跳转
-   * - 校验 2：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写）
+   * - 校验 2：若模式是 看词说意/看意说词，必须先选子模式
+   * - 校验 3：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写）
    * - 通过则跳转到 /study 路由，进入学习页
    */
   const startStudy = () => {
     if (selectedIds.length === 0) return;
+    if (mode === 'word-meaning' && !studyConfig?.lookSubMode) {
+      setLookModalOpen(true);
+      return;
+    }
     if (mode === 'spelling' && !studyConfig?.spellingSubMode) {
       setSpellingModalOpen(true);
       return;
@@ -305,7 +334,11 @@ export default function SelectPage() {
                 <div className="min-w-0 flex-1">
                   <h4 className="font-bold text-slate-800">看词说意</h4>
                   <p className="mt-0.5 truncate text-xs text-slate-500">
-                    显示单词，隐藏中文释义，点击查看
+                    {studyConfig?.lookSubMode === 'word-meaning'
+                      ? '已选：看词识意（显示单词，隐藏释义）'
+                      : studyConfig?.lookSubMode === 'meaning-word'
+                        ? '已选：看意说词（显示释义，隐藏单词）'
+                        : '看词识意 / 看意说词 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -385,6 +418,98 @@ export default function SelectPage() {
           </button>
         </div>
       </div>
+
+      {/* 看词说意 / 看意说词 子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
+      {lookModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+          onClick={() => setLookModalOpen(false)}
+        >
+          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
+          >
+            {/* 右上角关闭按钮 × */}
+            <button
+              onClick={() => setLookModalOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {/* 弹窗标题：图标 + 标题 + 说明 */}
+            <div className="mb-6">
+              <div className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-lg shadow-indigo-200">
+                <Eye className="h-7 w-7" />
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-800">请选择练习形式</h3>
+              <p className="mt-1 text-sm text-slate-500">
+                两种形式卡片布局完全一致，仅显示内容互相对调
+              </p>
+            </div>
+            {/* 子模式选项列表 */}
+            <div className="space-y-3">
+              {/* 子模式 1：看词识意 */}
+              <button
+                onClick={() => selectLookSubMode('word-meaning')}
+                className={cn(
+                  'flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all duration-200 hover:shadow-lg',
+                  studyConfig?.lookSubMode === 'word-meaning'
+                    ? 'border-indigo-600 bg-gradient-to-r from-indigo-50 to-blue-50 shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                )}
+              >
+                <div className={cn(
+                  'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                  studyConfig?.lookSubMode === 'word-meaning'
+                    ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                    : 'bg-slate-100 text-slate-500'
+                )}>
+                  <Eye className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">看词识意</h4>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    上方显示英文单词，隐藏中文释义，点击查看释义
+                  </p>
+                </div>
+              </button>
+              {/* 子模式 2：看意说词 */}
+              <button
+                onClick={() => selectLookSubMode('meaning-word')}
+                className={cn(
+                  'flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-all duration-200 hover:shadow-lg',
+                  studyConfig?.lookSubMode === 'meaning-word'
+                    ? 'border-indigo-600 bg-gradient-to-r from-indigo-50 to-blue-50 shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                )}
+              >
+                <div className={cn(
+                  'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                  studyConfig?.lookSubMode === 'meaning-word'
+                    ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                    : 'bg-slate-100 text-slate-500'
+                )}>
+                  <MessageSquareText className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">看意说词</h4>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    上方显示中文释义，隐藏英文单词，点击查看英文单词
+                  </p>
+                </div>
+              </button>
+            </div>
+            {/* 底部取消按钮 */}
+            <button
+              onClick={() => setLookModalOpen(false)}
+              className="mt-5 w-full rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+            >
+              取消
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 单词拼写子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
       {spellingModalOpen && (

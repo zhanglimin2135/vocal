@@ -28,10 +28,11 @@ import {
   Timer,
   Trophy,
   Star,
+  MessageSquareText,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
-import type { WordItem, StudyMode, SpellingSubMode } from '@/types';
+import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
 import { cn, generateId } from '@/lib/utils';
 
 /**
@@ -87,6 +88,8 @@ export default function StudyPage() {
   const mode: StudyMode = studyConfig?.mode || 'word-meaning';
   // 用户勾选的单词表 id 列表
   const selectedSheetIds = studyConfig?.selectedSheetIds || [];
+  // 看词/看意 子模式：仅当 mode==='word-meaning' 时有值（看词识意 / 看意说词）
+  const lookSubMode: LookSubMode = studyConfig?.lookSubMode || 'word-meaning';
   // 单词拼写子模式：仅当 mode==='spelling' 时有值（释义拼写 / 听音拼写）
   const spellingSubMode: SpellingSubMode | undefined = studyConfig?.spellingSubMode;
 
@@ -644,17 +647,25 @@ export default function StudyPage() {
     );
   }
 
-  // 根据当前模式计算顶部显示的文案和图标（新增单词拼写模式）
+  // 根据当前模式计算顶部显示的文案和图标（新增看意说词子模式 + 单词拼写模式）
   const titleModeLabel: string =
     mode === 'word-meaning'
-      ? '看词说意'
+      ? lookSubMode === 'meaning-word'
+        ? '看意说词'
+        : '看词说意'
       : mode === 'spelling'
         ? spellingSubMode === 'meaning-spelling'
           ? '单词拼写 · 释义拼写'
           : '单词拼写 · 听音拼写'
         : '听音辨义';
   const TitleIcon =
-    mode === 'word-meaning' ? Eye : mode === 'spelling' ? PencilLine : Headphones;
+    mode === 'word-meaning'
+      ? lookSubMode === 'meaning-word'
+        ? MessageSquareText
+        : Eye
+      : mode === 'spelling'
+        ? PencilLine
+        : Headphones;
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
@@ -761,10 +772,18 @@ export default function StudyPage() {
               </button>
             ) : (
               <>
-                {/* 按钮 1：一键显隐释义（仅非拼写模式） */}
+                {/* 按钮 1：一键显隐（仅非拼写模式）—— 看意说词：显隐单词；其它：显隐释义 */}
                 <button
                   onClick={toggleAllReveal}
-                  title={allRevealed ? '一键隐藏所有释义' : '一键显示所有释义'}
+                  title={
+                    allRevealed
+                      ? mode === 'word-meaning' && lookSubMode === 'meaning-word'
+                        ? '一键隐藏所有单词'
+                        : '一键隐藏所有释义'
+                      : mode === 'word-meaning' && lookSubMode === 'meaning-word'
+                        ? '一键显示所有单词'
+                        : '一键显示所有释义'
+                  }
                   className={cn(
                     'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
                     allRevealed
@@ -775,12 +794,20 @@ export default function StudyPage() {
                   {allRevealed ? (
                     <>
                       <EyeOff className="h-4 w-4" />
-                      <span className="hidden sm:inline">隐藏释义</span>
+                      <span className="hidden sm:inline">
+                        {mode === 'word-meaning' && lookSubMode === 'meaning-word'
+                          ? '隐藏单词'
+                          : '隐藏释义'}
+                      </span>
                     </>
                   ) : (
                     <>
                       <Eye className="h-4 w-4" />
-                      <span className="hidden sm:inline">显示释义</span>
+                      <span className="hidden sm:inline">
+                        {mode === 'word-meaning' && lookSubMode === 'meaning-word'
+                          ? '显示单词'
+                          : '显示释义'}
+                      </span>
                     </>
                   )}
                 </button>
@@ -890,54 +917,102 @@ export default function StudyPage() {
                   </div>
                   {/* 卡片主体 */}
                   <div className="p-5">
-                    {/* 整块可点击区域：点击切换 revealed（展开/收起释义） */}
+                    {/* 整块可点击区域：点击切换 revealed（展开/收起） */}
                     <div
                       onClick={() => toggleReveal(w.uid)}
                       className="cursor-pointer select-none"
                     >
-                      {/* 单词行 + 发音按钮 */}
-                      <div className="flex items-start justify-between gap-2">
-                        {/* 单词文本：大号粗体，hover 时变色 */}
-                        <p className="flex-1 break-words text-2xl font-bold tracking-tight text-slate-900 transition group-hover:text-indigo-700">
-                          {w.word}
-                        </p>
-                        {/* 发音按钮 */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handlePlay(w.word, w.uid);
-                          }}
-                          className={cn(
-                            'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all',
-                            playingUid === w.uid
-                              ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-orange-200 animate-pulse'
-                              : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:scale-105'
-                          )}
-                          title="播放发音"
-                        >
-                          <Volume2 className="h-5 w-5" />
-                        </button>
-                      </div>
-                      {/* 释义区域（可展开/收起） */}
-                      <div className="mt-4">
-                        <div
-                          className={cn(
-                            'overflow-hidden rounded-xl border transition-all duration-300',
-                            revealed
-                              ? 'max-h-60 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
-                              : 'max-h-10 border-dashed border-slate-200 bg-slate-50/60 p-2 opacity-80'
-                          )}
-                        >
-                          {revealed ? (
-                            <p className="text-sm leading-relaxed text-slate-700">{w.meaning}</p>
-                          ) : (
-                            <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
-                              <Eye className="h-3.5 w-3.5" />
-                              点击单词或此处查看释义
+                      {lookSubMode === 'word-meaning' ? (
+                        <>
+                          {/* ===== 看词说意（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="flex-1 break-words text-2xl font-bold tracking-tight text-slate-900 transition group-hover:text-indigo-700">
+                              {w.word}
+                            </p>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePlay(w.word, w.uid);
+                              }}
+                              className={cn(
+                                'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all',
+                                playingUid === w.uid
+                                  ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-orange-200 animate-pulse'
+                                  : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:scale-105'
+                              )}
+                              title="播放发音"
+                            >
+                              <Volume2 className="h-5 w-5" />
+                            </button>
+                          </div>
+                          <div className="mt-4">
+                            <div
+                              className={cn(
+                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                revealed
+                                  ? 'max-h-60 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
+                                  : 'max-h-10 border-dashed border-slate-200 bg-slate-50/60 p-2 opacity-80'
+                              )}
+                            >
+                              {revealed ? (
+                                <p className="text-sm leading-relaxed text-slate-700">{w.meaning}</p>
+                              ) : (
+                                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+                                  <Eye className="h-3.5 w-3.5" />
+                                  点击单词或此处查看释义
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* ===== 看意说词（新逻辑）：上方显示中文释义，下方展开英文单词+发音 ===== */}
+                          <div className="min-h-[3.5rem] flex items-center">
+                            <p className="flex-1 break-words text-xl font-bold tracking-tight leading-snug text-slate-900 transition group-hover:text-indigo-700">
+                              {w.meaning}
+                            </p>
+                          </div>
+                          <div className="mt-4">
+                            <div
+                              className={cn(
+                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                revealed
+                                  ? 'max-h-60 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
+                                  : 'max-h-10 border-dashed border-slate-200 bg-slate-50/60 p-2 opacity-80'
+                              )}
+                            >
+                              {revealed ? (
+                                <div className="flex items-center justify-between gap-2">
+                                  <p className="flex-1 break-words text-xl font-bold tracking-tight text-indigo-700">
+                                    {w.word}
+                                  </p>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handlePlay(w.word, w.uid);
+                                    }}
+                                    className={cn(
+                                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all',
+                                      playingUid === w.uid
+                                        ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-orange-200 animate-pulse'
+                                        : 'bg-white text-indigo-600 hover:bg-indigo-50 hover:scale-105 ring-1 ring-indigo-100'
+                                    )}
+                                    title="播放发音"
+                                  >
+                                    <Volume2 className="h-5 w-5" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+                                  <Eye className="h-3.5 w-3.5" />
+                                  点击释义或此处查看英文单词
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

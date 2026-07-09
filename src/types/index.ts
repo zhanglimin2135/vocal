@@ -32,11 +32,18 @@ export interface VocabularyBook {
 
 /**
  * 学习模式的枚举类型：
- * - 'word-meaning'：看词说意（显示单词，隐藏中文释义）
+ * - 'word-meaning'：看词/看意 双向练习（看词说意 / 看意说词 两种子模式，进入时弹窗选择）
  * - 'audio-meaning'：听音辨义（显示喇叭播放发音，隐藏单词和释义）
  * - 'spelling'：单词拼写（释义拼写 / 听音拼写 两种子模式，进入时弹窗选择）
  */
 export type StudyMode = 'word-meaning' | 'audio-meaning' | 'spelling';
+
+/**
+ * 看词/看意 子模式：
+ * - 'word-meaning'：看词说意（上方显示英文单词，隐藏中文释义，点击查看）
+ * - 'meaning-word'：看意说词（上方显示中文释义，隐藏英文单词，点击查看，形式同看词说意）
+ */
+export type LookSubMode = 'word-meaning' | 'meaning-word';
 
 /**
  * 单词拼写的子模式：
@@ -53,6 +60,7 @@ export type SpellingSubMode = 'meaning-spelling' | 'audio-spelling';
 export interface StudyConfig {
   selectedSheetIds: string[];           // 用户勾选的所有 sheet 的 ID 列表（多选）
   mode: StudyMode;                      // 用户选择的学习模式
+  lookSubMode?: LookSubMode;            // 仅当 mode 为 'word-meaning' 时必填：看词/看意子模式
   spellingSubMode?: SpellingSubMode;    // 仅当 mode 为 'spelling' 时必填：拼写字模式
 }
 
