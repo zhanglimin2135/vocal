@@ -950,14 +950,14 @@ export default function StudyPage() {
                               className={cn(
                                 'overflow-hidden rounded-xl border transition-all duration-300',
                                 revealed
-                                  ? 'max-h-60 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
-                                  : 'max-h-10 border-dashed border-slate-200 bg-slate-50/60 p-2 opacity-80'
+                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
+                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
                               )}
                             >
                               {revealed ? (
-                                <p className="text-sm leading-relaxed text-slate-700">{w.meaning}</p>
+                                <p className="text-base font-medium leading-relaxed text-slate-900">{w.meaning}</p>
                               ) : (
-                                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+                                <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
                                   <Eye className="h-3.5 w-3.5" />
                                   点击单词或此处查看释义
                                 </div>
@@ -978,13 +978,13 @@ export default function StudyPage() {
                               className={cn(
                                 'overflow-hidden rounded-xl border transition-all duration-300',
                                 revealed
-                                  ? 'max-h-60 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
-                                  : 'max-h-10 border-dashed border-slate-200 bg-slate-50/60 p-2 opacity-80'
+                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
+                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
                               )}
                             >
                               {revealed ? (
                                 <div className="flex items-center justify-between gap-2">
-                                  <p className="flex-1 break-words text-xl font-bold tracking-tight text-indigo-700">
+                                  <p className="flex-1 break-words text-xl font-bold tracking-tight text-slate-900">
                                     {w.word}
                                   </p>
                                   <button
@@ -996,7 +996,7 @@ export default function StudyPage() {
                                       'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all',
                                       playingUid === w.uid
                                         ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-orange-200 animate-pulse'
-                                        : 'bg-white text-indigo-600 hover:bg-indigo-50 hover:scale-105 ring-1 ring-indigo-100'
+                                        : 'bg-white text-indigo-600 hover:bg-indigo-50 hover:scale-105 ring-1 ring-indigo-200'
                                     )}
                                     title="播放发音"
                                   >
@@ -1004,7 +1004,7 @@ export default function StudyPage() {
                                   </button>
                                 </div>
                               ) : (
-                                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+                                <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
                                   <Eye className="h-3.5 w-3.5" />
                                   点击释义或此处查看英文单词
                                 </div>
