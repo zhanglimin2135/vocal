@@ -210,11 +210,11 @@ export default function StudyPage() {
   const [spellingSubmitted, setSpellingSubmitted] = useState<boolean | null>(null);
 
   /**
-   * perWordTimer - 当前单词的剩余秒数（每个单词最多 10 秒）
+   * perWordTimer - 当前单词的剩余秒数（每个单词最多 15 秒）
    *   到 0 时自动判错并跳过到下一个
    */
-  const [perWordTimer, setPerWordTimer] = useState(10);
-  const PER_WORD_SECONDS = 10;
+  const [perWordTimer, setPerWordTimer] = useState(15);
+  const PER_WORD_SECONDS = 15;
 
   /**
    * totalElapsedMs - 拼写模式整体累计用时（毫秒）
@@ -402,7 +402,7 @@ export default function StudyPage() {
 
   /**
    * 跳到下一个单词（或完成）
-   *   - 重置单单词倒计时为 10s
+   *   - 重置单单词倒计时为 15s
    *   - 清空输入框
    *   - 重置提交状态
    *   - 自动 focus 输入框
@@ -510,7 +510,7 @@ export default function StudyPage() {
   }, [mode, spellingIndex, words.length]);
 
   /**
-   * 每词 10 秒倒计时：仅拼写模式下运行，每 1 秒 -1
+   * 每词 15 秒倒计时：仅拼写模式下运行，每 1 秒 -1
    *   - 到 0 时：判为超时错误，自动统计并跳到下一题
    *   - 已提交（spellingSubmitted!==null）暂停倒计时
    */
@@ -1414,13 +1414,13 @@ export default function StudyPage() {
 
 /* ========================================================================
  *  单词拼写题目的 UI 组件（内联定义，方便复用）
- *  封装：进度条 + 10秒倒计时环 + 题目区（释义 / 发音按钮） + 输入框 + 提交结果反馈
+ *  封装：进度条 + 15秒倒计时环 + 题目区（释义 / 发音按钮） + 输入框 + 提交结果反馈
  * ====================================================================== */
 interface SpellingCardUIProps {
   index: number;                                // 当前第几个单词（从 0 开始）
   total: number;                                // 单词总数
   perWordTimer: number;                         // 当前单词剩余秒数
-  maxSeconds: number;                           // 每词限时（=10）
+  maxSeconds: number;                           // 每词限时（=15）
   word: StudyWord;                              // 当前学习的单词
   spellingSubMode: SpellingSubMode;             // 子模式：释义拼写 / 听音拼写
   spellingInput: string;                        // 用户输入内容
@@ -1492,7 +1492,7 @@ function SpellingCardUI(props: SpellingCardUIProps) {
             第 <span className="text-indigo-600">{index + 1}</span> / {total} 题
           </p>
         </div>
-        {/* 10秒倒计时圆环（SVG 绘制，外圈剩余，内圈数字） */}
+        {/* 15秒倒计时圆环（SVG 绘制，外圈剩余，内圈数字） */}
         <div className="relative h-16 w-16 shrink-0">
           <svg className="h-16 w-16 -rotate-90" viewBox="0 0 36 36">
             <path

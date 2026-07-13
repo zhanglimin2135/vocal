@@ -536,7 +536,7 @@ export default function SelectPage() {
               </div>
               <h3 className="text-xl font-extrabold text-slate-800">请选择拼写模式</h3>
               <p className="mt-1 text-sm text-slate-500">
-                每个单词限时 10 秒，整体计时始终桌面显示
+                每个单词限时 15 秒，整体计时始终桌面显示
               </p>
             </div>
             {/* 子模式选项列表 */}
