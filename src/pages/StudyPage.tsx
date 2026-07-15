@@ -24,11 +24,11 @@ import {
   PencilLine,
   Check,
   X,
-  SkipForward,
   Timer,
   Trophy,
   Star,
   MessageSquareText,
+  Send,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
@@ -75,12 +75,10 @@ export default function StudyPage() {
   // 学习配置：包含学习模式 + 选中的单词表 id 列表
   const studyConfig = useAppStore((s) => s.studyConfig);
   // ===== 标星模块：全局状态 =====
-  // 所有已标星的单词字符串数组
-  const starredWords = useAppStore((s) => s.starredWords);
   // 切换某个单词标星状态的方法
   const toggleStarredWord = useAppStore((s) => s.toggleStarredWord);
-  // 查询某个单词是否已标星的方法
-  const isWordStarred = useAppStore((s) => s.isWordStarred);
+  // 标星单词列表（响应式，用于触发组件重渲染）
+  const starredWords = useAppStore((s) => s.starredWords);
   // 清空本次学习会话所有标星的方法（返回选择页/离开学习页时调用）
   const resetStarredWords = useAppStore((s) => s.resetStarredWords);
 
@@ -176,15 +174,15 @@ export default function StudyPage() {
   /**
    * displayWords - 最终要渲染的单词列表
    *   仅在非拼写模式下根据 showStarredOnly 开关进行筛选：
-   *   - showStarredOnly = true  → 只保留已标星单词（通过 isWordStarred 判断）
+   *   - showStarredOnly = true  → 只保留已标星单词（通过 starredWords 判断）
    *   - showStarredOnly = false → 保持 words 原样
    *   拼写模式下不筛选，直接返回 words。
    */
   const displayWords = useMemo<StudyWord[]>(() => {
     if (mode === 'spelling') return words;
     if (!showStarredOnly) return words;
-    return words.filter((w) => isWordStarred(w.word));
-  }, [words, showStarredOnly, mode, isWordStarred]);
+    return words.filter((w) => starredWords.includes(w.word));
+  }, [words, showStarredOnly, mode, starredWords]);
 
   // =========================
   // 【单词拼写模式】专属状态
@@ -197,23 +195,24 @@ export default function StudyPage() {
   const [spellingIndex, setSpellingIndex] = useState(0);
 
   /**
-   * spellingInput - 当前单词用户在输入框里打了什么内容
+   * answers - 每个单词的用户输入答案（数组，索引对应单词索引）
    */
-  const [spellingInput, setSpellingInput] = useState('');
+  const [answers, setAnswers] = useState<string[]>([]);
 
   /**
-   * spellingSubmitted - 当前单词是否已提交
-   *   - null：还没提交（可输入+可提交）
-   *   - true：提交且正确
-   *   - false：提交错误
+   * locked - 每个单词是否已锁定（锁定后不可修改）
    */
-  const [spellingSubmitted, setSpellingSubmitted] = useState<boolean | null>(null);
+  const [locked, setLocked] = useState<boolean[]>([]);
 
   /**
-   * perWordTimer - 当前单词的剩余秒数（每个单词最多 15 秒）
-   *   到 0 时自动判错并跳过到下一个
+   * results - 每个单词的提交结果（null=未提交，true=正确，false=错误）
    */
-  const [perWordTimer, setPerWordTimer] = useState(15);
+  const [results, setResults] = useState<(boolean | null)[]>([]);
+
+  /**
+   * perWordTimers - 每个单词的剩余秒数（数组）
+   */
+  const [perWordTimers, setPerWordTimers] = useState<number[]>([]);
   const PER_WORD_SECONDS = 15;
 
   /**
@@ -250,12 +249,10 @@ export default function StudyPage() {
    */
   const [hintVisible, setHintVisible] = useState(true);
 
-  // 用于自动 focus 输入框的 ref
-  const spellingInputRef = useRef<HTMLInputElement>(null);
+  // 用于自动 focus 输入框的 ref（改为数组）
+  const spellingInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
-  // 单单词倒计时 ID
-  const perWordTimerRef = useRef<number | null>(null);
 
   /**
    * 拼写输入规范化（供正确性比对用）：
@@ -294,9 +291,11 @@ export default function StudyPage() {
     setShowStarredOnly(false);
     // —— 拼写模式初始化 ——
     setSpellingIndex(0);
-    setSpellingInput('');
-    setSpellingSubmitted(null);
-    setPerWordTimer(PER_WORD_SECONDS);
+    const initCount = mode === 'spelling' ? baseWords.length : 0;
+    setAnswers(new Array(initCount).fill(''));
+    setLocked(new Array(initCount).fill(false));
+    setResults(new Array(initCount).fill(null));
+    setPerWordTimers(new Array(initCount).fill(PER_WORD_SECONDS));
     setTotalElapsedMs(0);
     setStats({ correct: 0, wrong: 0, timeout: 0 });
     setWrongRecords([]);
@@ -353,14 +352,6 @@ export default function StudyPage() {
   }, [words]);
 
   /**
-   * doShuffle - 对当前单词列表执行一次随机乱序
-   *   实现：使用函数式 setWords，将 prev 传入 shuffleArray 得到新顺序。
-   */
-  const doShuffle = useCallback(() => {
-    setWords((prev) => shuffleArray(prev));
-  }, []);
-
-  /**
    * handlePlay - 播放指定单词的发音
    *   @param word - 单词文本（传给音频工具）
    *   @param uid  - 单词 uid（用于高亮对应发音按钮）
@@ -401,77 +392,144 @@ export default function StudyPage() {
   }, [words, spellingIndex]);
 
   /**
-   * 跳到下一个单词（或完成）
-   *   - 重置单单词倒计时为 15s
-   *   - 清空输入框
-   *   - 重置提交状态
-   *   - 自动 focus 输入框
+   * 提交当前单词（锁定并跳转下一个）
+   *   - 锁定当前单词（不可修改）
+   *   - 判定当前答案正确/错误
+   *   - 自动跳转到下一个单词并开始计时
    */
-  const goNextSpellingWord = useCallback(() => {
-    setSpellingIndex((prev) => Math.min(prev + 1, words.length));
-    setSpellingInput('');
-    setSpellingSubmitted(null);
-    setPerWordTimer(PER_WORD_SECONDS);
-    setHintVisible(true);
-    // 下一帧 focus 输入框（等待 DOM 渲染）
-    requestAnimationFrame(() => {
-      spellingInputRef.current?.focus();
-    });
-  }, [words.length, PER_WORD_SECONDS]);
-
-  /**
-   * 提交当前拼写答案
-   *   - 规范化：去空格 + 小写
-   *   - 判定正确/错误，更新统计
-   */
-  const submitSpelling = useCallback(() => {
-    const cur = words[spellingIndex];
-    if (!cur || spellingSubmitted !== null) return;
-    const userAns = normalizeSpelling(spellingInput);
+  const submitCurrentWord = useCallback((index: number) => {
+    if (index >= words.length) return;
+    if (locked[index]) return;
+    
+    const cur = words[index];
+    const userAns = normalizeSpelling(answers[index] || '');
     const rightAns = normalizeSpelling(cur.word);
     const correct = userAns === rightAns;
-    setSpellingSubmitted(correct);
-    setStats((prev) => ({
-      ...prev,
-      correct: prev.correct + (correct ? 1 : 0),
-      wrong: prev.wrong + (correct ? 0 : 1),
-    }));
-    // 错题收集：正确答案不收集，错误加入 wrongRecords
+    
+    setLocked((prev) => {
+      const next = [...prev];
+      next[index] = true;
+      return next;
+    });
+    
+    setResults((prev) => {
+      const next = [...prev];
+      next[index] = correct;
+      return next;
+    });
+    
     if (!correct) {
       setWrongRecords((prev) => [
         ...prev,
         {
           word: cur,
-          userAnswer: spellingInput,
+          userAnswer: answers[index] || '',
           isTimeout: false,
         },
       ]);
     }
-    // 按新要求：听音拼写提交后不再自动播放发音
-    // 如需重听，请 hover 到发音图标上再发音
-  }, [words, spellingIndex, spellingSubmitted, spellingInput, playCurrentSpellingWord]);
+    
+    const nextIndex = index + 1;
+    if (nextIndex < words.length) {
+      setSpellingIndex(nextIndex);
+      setPerWordTimers((prev) => {
+        const next = [...prev];
+        next[index] = 0;
+        next[nextIndex] = PER_WORD_SECONDS;
+        return next;
+      });
+      requestAnimationFrame(() => {
+        spellingInputRefs.current[nextIndex]?.focus();
+      });
+    } else {
+      setPerWordTimers((prev) => {
+        const next = [...prev];
+        next[index] = 0;
+        return next;
+      });
+    }
+  }, [words, answers, locked]);
+
+  /**
+   * 锁定当前单词答案（用于超时场景）
+   *   - 锁定后自动跳转到下一个未锁定的单词
+   *   - 下一个单词自动开始计时
+   */
+  const lockSpellingWord = useCallback((index: number, isTimeout: boolean) => {
+    if (locked[index]) return;
+    
+    const cur = words[index];
+    const userAns = normalizeSpelling(answers[index] || '');
+    const rightAns = normalizeSpelling(cur.word);
+    const correct = userAns === rightAns && !isTimeout;
+    
+    setLocked((prev) => {
+      const next = [...prev];
+      next[index] = true;
+      return next;
+    });
+    
+    setResults((prev) => {
+      const next = [...prev];
+      next[index] = correct;
+      return next;
+    });
+    
+    setStats((prev) => ({
+      ...prev,
+      correct: prev.correct + (correct ? 1 : 0),
+      wrong: prev.wrong + (correct ? 0 : 1),
+      timeout: prev.timeout + (isTimeout ? 1 : 0),
+    }));
+    
+    if (!correct) {
+      setWrongRecords((prev) => [
+        ...prev,
+        {
+          word: cur,
+          userAnswer: answers[index] || '',
+          isTimeout,
+        },
+      ]);
+    }
+    
+    const nextIndex = index + 1;
+    if (nextIndex < words.length) {
+      setSpellingIndex(nextIndex);
+      setPerWordTimers((prev) => {
+        const next = [...prev];
+        next[index] = 0;
+        next[nextIndex] = PER_WORD_SECONDS;
+        return next;
+      });
+      requestAnimationFrame(() => {
+        spellingInputRefs.current[nextIndex]?.focus();
+      });
+    } else {
+      setPerWordTimers((prev) => {
+        const next = [...prev];
+        next[index] = 0;
+        return next;
+      });
+    }
+  }, [words, answers, locked]);
 
   /**
    * 单词拼写模式 · 重新开始（乱序）：把本轮所有状态清零
-   *   注意：必须把累计性的统计/错词/时间全部归零，否则会出现「多次测试数据累加」的 Bug
-   *   单词顺序乱序由外层 wrappedDoShuffle 负责先执行，再调用本函数重置所有字段
    */
   const resetSpellingAfterShuffle = useCallback(() => {
-    // —— 1. 做题进度类 ——
     setSpellingIndex(0);
-    setSpellingInput('');
-    setSpellingSubmitted(null);
-    setPerWordTimer(PER_WORD_SECONDS);
+    setAnswers(new Array(words.length).fill(''));
+    setLocked(new Array(words.length).fill(false));
+    setResults(new Array(words.length).fill(null));
+    setPerWordTimers(new Array(words.length).fill(PER_WORD_SECONDS));
     setHintVisible(true);
-    // —— 2. 本轮统计类（关键！不重置就会和之前轮次累加 → 导致准确率/对错数/错词列表都是多轮总和）——
     setStats({ correct: 0, wrong: 0, timeout: 0 });
     setWrongRecords([]);
     setTotalElapsedMs(0);
-    // —— 3. 发音/辅助类（playing 状态在 SpellingCardUI 内部，随新题重新挂载会自动重置为 false）——
     setPlayingUid(null);
-    // —— 4. 焦点回到输入框（无障碍友好）——
-    requestAnimationFrame(() => spellingInputRef.current?.focus());
-  }, [PER_WORD_SECONDS]);
+    requestAnimationFrame(() => spellingInputRefs.current[0]?.focus());
+  }, [words.length, PER_WORD_SECONDS]);
 
   // 覆盖原 doShuffle：乱序后如果是拼写模式，把索引也重置
   // 重新定义：
@@ -493,67 +551,58 @@ export default function StudyPage() {
 
   /**
    * 整体计时器：仅拼写模式下运行，每 100ms 加 100ms（更高精度）
-   *   当所有单词完成时（spellingIndex === words.length）暂停计时
+   *   当所有单词完成时（全部锁定）暂停计时
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
-    if (spellingIndex >= words.length) return; // 全部做完就停表
-    totalTimerRef.current = window.setInterval(() => {
-      setTotalElapsedMs((t) => t + 100);
-    }, 100);
+    if (words.length === 0) return;
+    
+    const checkAndTick = () => {
+      const allLocked = locked.length > 0 && locked.every(l => l);
+      if (!allLocked) {
+        setTotalElapsedMs((t) => t + 100);
+      }
+    };
+    
+    totalTimerRef.current = window.setInterval(checkAndTick, 100);
     return () => {
       if (totalTimerRef.current !== null) {
         window.clearInterval(totalTimerRef.current);
         totalTimerRef.current = null;
       }
     };
-  }, [mode, spellingIndex, words.length]);
+  }, [mode, words.length, locked]);
 
   /**
-   * 每词 15 秒倒计时：仅拼写模式下运行，每 1 秒 -1
-   *   - 到 0 时：判为超时错误，自动统计并跳到下一题
-   *   - 已提交（spellingSubmitted!==null）暂停倒计时
+   * 每词 15 秒倒计时：单个单词单独计时，只有当前单词拼写时计时
+   *   - 到 0 时：判为超时错误，自动统计并锁定
+   *   - 已锁定的单词停止倒计时
+   *   - 切换单词时，当前单词开始计时，之前的单词停止计时（保留剩余时间）
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
     if (spellingIndex >= words.length) return;
-    if (spellingSubmitted !== null) return;
-    perWordTimerRef.current = window.setInterval(() => {
-      setPerWordTimer((prev) => {
-        if (prev <= 1) {
-          // 倒计时结束：记为超时错误，自动跳下一单词
-          setStats((s) => ({ ...s, timeout: s.timeout + 1, wrong: s.wrong + 1 }));
-          // 收集超时错题
-          const curWord = words[spellingIndex];
-          if (curWord) {
-            setWrongRecords((prevR) => [
-              ...prevR,
-              {
-                word: curWord,
-                userAnswer: '',
-                isTimeout: true,
-              },
-            ]);
-          }
-          setSpellingSubmitted(false);
-          // 下一帧跳下一题（避免和 interval 同帧冲突）
+    if (locked[spellingIndex]) return;
+    
+    const timerId = window.setInterval(() => {
+      setPerWordTimers((prev) => {
+        const next = [...prev];
+        if (next[spellingIndex] <= 1) {
+          next[spellingIndex] = 0;
           setTimeout(() => {
-            if (spellingIndex + 1 < words.length) {
-              goNextSpellingWord();
-            }
-          }, 1200);
-          return 0;
+            lockSpellingWord(spellingIndex, true);
+          }, 200);
+        } else {
+          next[spellingIndex] -= 1;
         }
-        return prev - 1;
+        return next;
       });
     }, 1000);
+    
     return () => {
-      if (perWordTimerRef.current !== null) {
-        window.clearInterval(perWordTimerRef.current);
-        perWordTimerRef.current = null;
-      }
+      window.clearInterval(timerId);
     };
-  }, [mode, spellingIndex, spellingSubmitted, words.length, goNextSpellingWord]);
+  }, [mode, spellingIndex, words.length, locked, lockSpellingWord]);
 
   /**
    * 听音拼写模式：进入一个新单词时，立刻自动播放一次发音
@@ -575,51 +624,53 @@ export default function StudyPage() {
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
-    requestAnimationFrame(() => spellingInputRef.current?.focus());
+    requestAnimationFrame(() => spellingInputRefs.current[spellingIndex]?.focus());
   }, [mode, spellingIndex]);
 
   /**
    * 拼写模式：全局快捷键（window 级别）
-   *   - Enter 回车键 → 未提交 spellingSubmitted == null → 提交答案（空输入不提交）
-   *   - 右方向键 ArrowRight（→） → 已提交 spellingSubmitted != null → 下一题
-   * 注意：按用户最新要求，不再使用 Tab 键
+   *   - Enter 回车键 → 当前单词未锁定 → 锁定当前单词（不跳转）
+   *   - Tab 键 → 当前单词已锁定 → 跳到下一个单词
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
     if (spellingIndex >= words.length) return;
     const handler = (e: KeyboardEvent) => {
-      // —— 情况 A：输入框内的按键，交给输入框自身 onKeyDown 统一处理，避免重复触发 ——
       const active = document.activeElement;
-      if (active && active.tagName === 'INPUT' && spellingInputRef.current === active) {
-        return;
+      if (active && active.tagName === 'INPUT') {
+        const inputIndex = spellingInputRefs.current.indexOf(active as HTMLInputElement);
+        if (inputIndex !== -1) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (!locked[inputIndex] && (answers[inputIndex] || '').trim()) {
+              submitCurrentWord(inputIndex);
+            }
+          }
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            const nextIndex = Math.min(inputIndex + 1, words.length - 1);
+            if (locked[inputIndex]) {
+              setSpellingIndex(nextIndex);
+              requestAnimationFrame(() => {
+                spellingInputRefs.current[nextIndex]?.focus();
+              });
+            }
+          }
+          return;
+        }
       }
-      // 如果当前焦点在按钮上（提交按钮/下一题按钮），不拦截，使用按钮自己的回车默认行为
       if (active && active.tagName === 'BUTTON') return;
 
       if (e.key === 'Enter') {
-        // Enter = 提交（仅未提交状态下）
-        if (spellingSubmitted === null) {
-          if (!spellingInput.trim()) return; // 空输入不提交
-          submitSpelling();
-        }
-        return;
-      }
-
-      if (e.key === 'ArrowRight') {
-        // 右方向键 → = 下一题（仅已提交状态下）
-        if (spellingSubmitted !== null) {
-          e.preventDefault();
-          goNextSpellingWord();
+        if (!locked[spellingIndex] && (answers[spellingIndex] || '').trim()) {
+          submitCurrentWord(spellingIndex);
         }
         return;
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [
-    mode, spellingIndex, words.length,
-    spellingSubmitted, spellingInput, submitSpelling, goNextSpellingWord,
-  ]);
+  }, [mode, spellingIndex, words.length, locked, answers, submitCurrentWord]);
 
   // 统一总毫秒数格式化：mm:ss.S（分:秒.1位小数）
   const formatTotalTime = (ms: number) => {
@@ -683,7 +734,7 @@ export default function StudyPage() {
             </div>
             <div>
               <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-                总用时 · 进度 {Math.min(spellingIndex + (spellingSubmitted !== null ? 1 : 0), words.length)} / {words.length}
+                总用时 · 进度 {spellingIndex} / {words.length}
               </p>
               <p className="font-mono text-lg font-extrabold tabular-nums text-slate-800">
                 {formatTotalTime(totalElapsedMs)}
@@ -879,7 +930,7 @@ export default function StudyPage() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {displayWords.map((w, idx) => {
               const revealed = !!revealedMap[w.uid];
-              const starred = isWordStarred(w.word);
+              const starred = starredWords.includes(w.word);
               return (
                 <div
                   key={w.uid}
@@ -1263,33 +1314,77 @@ export default function StudyPage() {
                 );
               })()
             ) : (
-              // —— 单词拼写：单题作答界面 ——
-              <SpellingCardUI
-                index={spellingIndex}
-                total={words.length}
-                perWordTimer={perWordTimer}
-                maxSeconds={PER_WORD_SECONDS}
-                word={words[spellingIndex]}
+              // —— 单词拼写：全单词列表界面 ——
+              <SpellingListUI
+                words={words}
                 spellingSubMode={spellingSubMode!}
-                spellingInput={spellingInput}
-                setSpellingInput={(v) => {
-                  setSpellingInput(v);
-                  // 听音拼写：新题自动只播一次，输入框不再重复触发发音
-                  // 如需重听，请点击右上角发音图标手动播放
+                answers={answers}
+                setAnswers={(index, value) => {
+                  setAnswers((prev) => {
+                    const next = [...prev];
+                    next[index] = value;
+                    return next;
+                  });
                 }}
-                onInputFocus={() => {
-                  // 听音拼写：输入框聚焦不再自动发音，避免打扰
-                  // 请点击发音图标手动重听
-                }}
+                locked={locked}
+                setLocked={setLocked}
+                results={results}
+                setResults={setResults}
+                setWrongRecords={setWrongRecords}
+                perWordTimers={perWordTimers}
+                currentIndex={spellingIndex}
+                setCurrentIndex={setSpellingIndex}
                 hintVisible={hintVisible}
-                spellingSubmitted={spellingSubmitted}
-                normalizeSpelling={normalizeSpelling}
-                inputRef={spellingInputRef}
-                onSubmit={submitSpelling}
-                onNext={goNextSpellingWord}
-                playing={playingUid === words[spellingIndex]?.uid}
-                onManualPlay={playCurrentSpellingWord}
-                isLastWord={spellingIndex + 1 >= words.length}
+                inputRefs={spellingInputRefs}
+                onSubmitWord={submitCurrentWord}
+                onFocusWord={(index) => {
+                  setPerWordTimers((prev) => {
+                    const next = [...prev];
+                    next[index] = PER_WORD_SECONDS;
+                    return next;
+                  });
+                }}
+                playingUid={playingUid}
+                onSubmit={() => {
+                  for (let i = 0; i < words.length; i++) {
+                    if (!locked[i] && !answers[i].trim()) {
+                      setLocked((prev) => {
+                        const next = [...prev];
+                        next[i] = true;
+                        return next;
+                      });
+                      setResults((prev) => {
+                        const next = [...prev];
+                        next[i] = false;
+                        return next;
+                      });
+                      setWrongRecords((prev) => [
+                        ...prev,
+                        {
+                          word: words[i],
+                          userAnswer: '',
+                          isTimeout: false,
+                        },
+                      ]);
+                    }
+                  }
+                  
+                  setTimeout(() => {
+                    const finalStats = { correct: 0, wrong: 0, timeout: 0 };
+                    results.forEach((result, idx) => {
+                      if (result === true) {
+                        finalStats.correct++;
+                      } else {
+                        finalStats.wrong++;
+                        if (wrongRecords.find(r => r.word.uid === words[idx].uid)?.isTimeout) {
+                          finalStats.timeout++;
+                        }
+                      }
+                    });
+                    setStats(finalStats);
+                    setSpellingIndex(words.length);
+                  }, 300);
+                }}
               />
             )}
           </div>
@@ -1317,7 +1412,7 @@ export default function StudyPage() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {displayWords.map((w, idx) => {
                 const revealed = !!revealedMap[w.uid];
-                const starred = isWordStarred(w.word);
+                const starred = starredWords.includes(w.word);
                 return (
                   <div
                     key={w.uid}
@@ -1416,296 +1511,328 @@ export default function StudyPage() {
  *  单词拼写题目的 UI 组件（内联定义，方便复用）
  *  封装：进度条 + 15秒倒计时环 + 题目区（释义 / 发音按钮） + 输入框 + 提交结果反馈
  * ====================================================================== */
-interface SpellingCardUIProps {
-  index: number;                                // 当前第几个单词（从 0 开始）
-  total: number;                                // 单词总数
-  perWordTimer: number;                         // 当前单词剩余秒数
-  maxSeconds: number;                           // 每词限时（=15）
-  word: StudyWord;                              // 当前学习的单词
-  spellingSubMode: SpellingSubMode;             // 子模式：释义拼写 / 听音拼写
-  spellingInput: string;                        // 用户输入内容
-  setSpellingInput: (v: string) => void;        // 修改输入
-  onInputFocus: () => void;                     // 输入框获得焦点回调
-  hintVisible: boolean;                         // 是否显示首字母提示
-  spellingSubmitted: boolean | null;            // 提交结果 null/true/false
-  normalizeSpelling: (s: string) => string;     // 规范化函数
-  inputRef: React.RefObject<HTMLInputElement>;  // ref 自动 focus
-  onSubmit: () => void;                         // 点击/回车提交
-  onNext: () => void;                           // 进入下一题
-  playing: boolean;                             // 是否正在播放发音
-  onManualPlay: () => void;                     // 手动点播放发音
-  isLastWord: boolean;                          // 是不是最后一个单词
+interface SpellingListUIProps {
+  words: StudyWord[];
+  spellingSubMode: SpellingSubMode;
+  answers: string[];
+  setAnswers: (index: number, value: string) => void;
+  locked: boolean[];
+  setLocked: React.Dispatch<React.SetStateAction<boolean[]>>;
+  results: (boolean | null)[];
+  setResults: React.Dispatch<React.SetStateAction<(boolean | null)[]>>;
+  setWrongRecords: React.Dispatch<React.SetStateAction<{ word: StudyWord; userAnswer: string; isTimeout: boolean; }[]>>;
+  perWordTimers: number[];
+  currentIndex: number;
+  setCurrentIndex: (index: number) => void;
+  hintVisible: boolean;
+  inputRefs: React.RefObject<(HTMLInputElement | null)[]>;
+  onSubmitWord: (index: number) => void;
+  onFocusWord: (index: number) => void;
+  playingUid: string | null;
+  onSubmit: () => void;
 }
 
-function SpellingCardUI(props: SpellingCardUIProps) {
+function SpellingListUI(props: SpellingListUIProps) {
   const {
-    index, total, perWordTimer, maxSeconds, word, spellingSubMode,
-    spellingInput, setSpellingInput, onInputFocus, hintVisible, spellingSubmitted,
-    normalizeSpelling, inputRef, onSubmit, onNext, playing, onManualPlay, isLastWord,
+    words, spellingSubMode, answers, setAnswers, locked, setLocked, results, setResults,
+    setWrongRecords, perWordTimers, currentIndex, setCurrentIndex, hintVisible,
+    inputRefs, onSubmitWord, onFocusWord, playingUid, onSubmit,
   } = props;
-  // 首字母：取 word 第一个字符作为提示（取真实首字母，保留大小写）
-  const firstLetter = word.word.length > 0 ? word.word.charAt(0) : '';
-  // 规范化后的比较结果
-  const correctWord = normalizeSpelling(word.word);
-  const userWord = normalizeSpelling(spellingInput);
-  const nowCorrect = userWord === correctWord && spellingSubmitted === true;
-  const nowWrong = spellingSubmitted === false;
-  // 倒计时进度（用于视觉进度条和圆环百分比）
-  const pct = Math.max(0, Math.min(1, perWordTimer / maxSeconds));
-  // 按键规则（按用户最新要求）：
-  //   - Enter（回车键）      → 未提交 spellingSubmitted == null → 提交答案
-  //   - ArrowRight（右方向键→） → 已提交 spellingSubmitted != null → 下一题
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (spellingSubmitted === null) {
-        // 空输入就不做提交（和按钮禁用保持一致）
-        if (!spellingInput.trim()) return;
-        onSubmit();
-      }
-      // 已提交状态下 Enter 不再触发下一题（下一题用右方向键）
-      return;
-    }
-    if (e.key === 'ArrowRight') {
-      if (spellingSubmitted !== null) {
-        e.preventDefault();
-        onNext();
-      }
-      return;
+
+  const maxSeconds = 15;
+
+  const hasFocusedRef = useRef<boolean[]>(new Array(words.length).fill(false));
+
+  const handleInputChange = (index: number, value: string) => {
+    if (!locked[index]) {
+      setAnswers(index, value);
     }
   };
+
+  const handleInputFocus = (index: number) => {
+    if (!locked[index]) {
+      setCurrentIndex(index);
+      onFocusWord(index);
+      
+      for (let i = 0; i < index; i++) {
+        if (!locked[i]) {
+          setLocked((prev) => {
+            const next = [...prev];
+            next[i] = true;
+            return next;
+          });
+          setResults((prev) => {
+            const next = [...prev];
+            next[i] = false;
+            return next;
+          });
+          setWrongRecords((prev) => [
+            ...prev,
+            {
+              word: words[i],
+              userAnswer: '',
+              isTimeout: false,
+            },
+          ]);
+        }
+      }
+      
+      if (spellingSubMode === 'audio-spelling' && !hasFocusedRef.current[index]) {
+        hasFocusedRef.current[index] = true;
+        const cur = words[index];
+        if (cur) {
+          setTimeout(() => {
+            void playWordAudio(cur.word);
+          }, 100);
+        }
+      }
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (!locked[index] && answers[index].trim()) {
+        onSubmitWord(index);
+      }
+    }
+    
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const nextIndex = Math.min(index + 1, words.length - 1);
+      if (locked[index]) {
+        setCurrentIndex(nextIndex);
+        requestAnimationFrame(() => {
+          inputRefs.current[nextIndex]?.focus();
+        });
+      }
+    }
+  };
+
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
-      {/* 顶部：进度条 0%~100% （已做题数 / 总数） */}
       <div className="h-1.5 w-full bg-slate-100">
         <div
           className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-sky-500 transition-all"
-          style={{ width: `${(index / Math.max(1, total)) * 100}%` }}
+          style={{ width: `${(currentIndex / Math.max(1, words.length)) * 100}%` }}
         />
       </div>
-      {/* 头部：大字进度 + 倒计时环 + 所属词表名 */}
-      <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-indigo-50/60 via-blue-50/60 to-sky-50/60 px-6 py-4">
-        <div>
-          <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-            来自 · {word.sheetName}
-          </p>
-          <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
-            第 <span className="text-indigo-600">{index + 1}</span> / {total} 题
-          </p>
-        </div>
-        {/* 15秒倒计时圆环（SVG 绘制，外圈剩余，内圈数字） */}
-        <div className="relative h-16 w-16 shrink-0">
-          <svg className="h-16 w-16 -rotate-90" viewBox="0 0 36 36">
-            <path
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none" stroke="#e2e8f0" strokeWidth="3"
-            />
-            <path
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none"
-              stroke={perWordTimer <= 3 ? '#f43f5e' : '#4f46e5'}
-              strokeWidth="3"
-              strokeDasharray={`${pct * 100}, 100`}
-              className="transition-all"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <Timer className={cn('mb-0.5 h-3 w-3', perWordTimer <= 3 ? 'text-rose-500 animate-pulse' : 'text-indigo-500')} />
-            <span className={cn('text-center font-mono text-sm font-extrabold tabular-nums leading-none', perWordTimer <= 3 ? 'text-rose-500 animate-pulse' : 'text-slate-800')}>
-              {perWordTimer}s
-            </span>
+
+      <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/60 via-blue-50/60 to-sky-50/60 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              单词拼写模式
+            </p>
+            <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
+              共 <span className="text-indigo-600">{words.length}</span> 个单词
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              当前进度
+            </p>
+            <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
+              {currentIndex} / {words.length}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* 题目区：释义拼写=显示中文释义；听音拼写=大号发音按钮 + 提示 */}
-      <div className="px-6 pt-8">
-        {spellingSubMode === 'meaning-spelling' ? (
-          // —— 释义拼写模式 ——
-          <div className="text-center">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-500">
-              释义拼写 · 根据中文释义写出对应的英文单词
-            </p>
-            <p className="text-2xl font-extrabold leading-snug text-slate-800 sm:text-3xl">
-              {word.meaning}
-            </p>
-          </div>
-        ) : (
-          // —— 听音拼写模式 ——
-          <div className="flex flex-col items-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-indigo-500">
-              听音拼写 · 新题进入会自动播放一次发音
-            </p>
-            <button
-              onClick={(e) => e.preventDefault()}
-              onMouseEnter={onManualPlay}
+      <div className="divide-y divide-slate-100">
+        {words.map((word, index) => {
+          const answer = answers[index] || '';
+          const isLocked = locked[index];
+          const result = results[index];
+          const timer = perWordTimers[index] || 0;
+          const isCurrent = !isLocked && index === currentIndex;
+          const firstLetter = word.word.charAt(0);
+          const letterCount = word.word.length;
+          const pct = Math.max(0, Math.min(1, timer / maxSeconds));
+          const nowCorrect = result === true;
+          const nowWrong = result === false;
+
+          return (
+            <div
+              key={word.uid}
               className={cn(
-                'mb-2 flex h-24 w-24 cursor-help items-center justify-center rounded-3xl shadow-xl transition-all duration-200 hover:scale-105',
-                playing
-                  ? 'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-white shadow-2xl shadow-orange-200 animate-pulse'
-                  : 'bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 text-white shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300'
+                'px-6 py-5 transition-all',
+                isCurrent ? 'bg-indigo-50/30' : '',
+                isLocked && nowCorrect ? 'bg-emerald-50/30' : '',
+                isLocked && nowWrong ? 'bg-rose-50/30' : ''
               )}
-              title="鼠标移到图标上（悬停）自动播放发音；点击不发音"
             >
-              <Volume2 className="h-12 w-12" />
-            </button>
-            <p className="mt-1 text-xs text-slate-500">
-              没听清？把鼠标移到上方喇叭图标上（悬停）就会播放发音
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* 输入区：首字母提示 + 输入框 + 提交按钮 */}
-      <div className="px-6 pb-4 pt-6">
-        {/* 首字母提示行（可隐藏） */}
-        {hintVisible && spellingSubmitted === null && (
-          <p className="mb-2 text-xs font-medium text-slate-500">
-            💡 首字母提示：{' '}
-            <span className="inline-block rounded-md bg-indigo-50 px-2 py-0.5 font-mono text-base font-extrabold text-indigo-700">
-              {firstLetter}
-            </span>
-            <span className="ml-1 text-slate-400">
-              （{word.word.length} 个字母，空格和大小写不影响正确性）
-            </span>
-          </p>
-        )}
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          {/* 输入框：未提交=可编辑，已提交=只读 */}
-          <div className="relative flex-1">
-            <input
-              ref={inputRef}
-              type="text"
-              value={spellingInput}
-              disabled={spellingSubmitted !== null}
-              onChange={(e) => setSpellingInput(e.target.value)}
-              onFocus={onInputFocus}
-              onKeyDown={handleKeyDown}
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-              placeholder={
-                spellingSubmitted !== null
-                  ? ''
-                  : spellingSubMode === 'meaning-spelling'
-                    ? '请输入对应的英文单词...'
-                    : '在此输入听到的单词...'
-              }
-              className={cn(
-                'w-full rounded-2xl border-2 px-5 py-4 font-mono text-xl font-semibold tracking-wide outline-none transition-all',
-                spellingSubmitted === null
-                  ? 'border-slate-200 bg-slate-50/50 text-slate-800 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100'
-                  : nowCorrect
-                    ? 'border-emerald-300 bg-emerald-50 text-emerald-800'
-                    : 'border-rose-300 bg-rose-50 text-rose-800'
-              )}
-            />
-            {spellingSubmitted !== null && (
-              <div
-                className={cn(
-                  'absolute right-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white shadow',
-                  nowCorrect ? 'bg-emerald-500' : 'bg-rose-500'
-                )}
-              >
-                {nowCorrect ? <Check className="h-5 w-5" /> : <X className="h-5 w-5" />}
+              <div className="flex items-center gap-2 mb-3">
+                <span className={cn(
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-extrabold',
+                  isCurrent ? 'bg-indigo-100 text-indigo-700' :
+                  nowCorrect ? 'bg-emerald-100 text-emerald-700' :
+                  nowWrong ? 'bg-rose-100 text-rose-700' :
+                  'bg-slate-100 text-slate-600'
+                )}>
+                  {index + 1}
+                </span>
+                <span className="text-xs font-medium text-slate-500">{word.sheetName}</span>
               </div>
-            )}
-          </div>
-          {/* 按钮：未提交=提交答案；已提交=下一题/完成 */}
-          {spellingSubmitted === null ? (
-            <button
-              onClick={onSubmit}
-              disabled={spellingInput.trim().length === 0}
-              className={cn(
-                'flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-base font-bold text-white shadow-lg transition-all sm:min-w-[120px]',
-                spellingInput.trim().length === 0
-                  ? 'cursor-not-allowed bg-slate-300 shadow-none'
-                  : 'bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0.5'
-              )}
-            >
-              <PencilLine className="h-5 w-5" />
-              提交
-            </button>
-          ) : (
-            <button
-              onClick={onNext}
-              className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-indigo-200 transition-all hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0.5 sm:min-w-[140px]"
-            >
-              <SkipForward className="h-5 w-5" />
-              {isLastWord ? '查看结果' : '下一题'}
-            </button>
-          )}
-        </div>
 
-        {/* 提交后：错误答案对照区 / 正确提示 */}
-        {spellingSubmitted !== null && (
-          <div
-            className={cn(
-              'mt-4 rounded-2xl border p-4',
-              nowCorrect
-                ? 'border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50'
-                : 'border-rose-200 bg-gradient-to-br from-rose-50 to-pink-50'
-            )}
-          >
-            {nowCorrect ? (
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white">
-                  <Check className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="font-bold text-emerald-800">回答正确！🎉</p>
-                  <p className="text-sm text-emerald-700/80">
-                    <span className="font-mono font-semibold">{word.word}</span>
-                    <span className="mx-2 text-emerald-600/50">·</span>
-                    {word.meaning}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-rose-500 text-white">
-                  <X className="h-6 w-6" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-bold text-rose-800">
-                    {perWordTimer === 0 ? '⏰ 超时了，本题记为错误' : '回答错误'}
-                  </p>
-                  <div className="mt-1 grid gap-1 text-sm sm:grid-cols-2">
-                    <div>
-                      <p className="text-xs font-medium text-rose-500/80">你的答案</p>
-                      <p className="break-all font-mono font-semibold text-rose-700 line-through decoration-2">
-                        {spellingInput || <span className="italic opacity-70">（空）</span>}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500">正确答案</p>
-                      <p className="break-all font-mono font-extrabold text-slate-800">
-                        {word.word}
-                      </p>
-                    </div>
+              {spellingSubMode === 'meaning-spelling' ? (
+                <>
+                  <p className="text-lg font-semibold text-slate-800 mb-2">{word.meaning}</p>
+                  <div className="flex items-center gap-4 mb-4 text-sm text-slate-600">
+                    {isCurrent && timer > 0 && (
+                      <div className="relative h-8 w-8 shrink-0">
+                        <svg className="h-8 w-8 -rotate-90" viewBox="0 0 36 36">
+                          <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#e2e8f0" strokeWidth="3"
+                          />
+                          <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke={timer <= 3 ? '#f43f5e' : '#4f46e5'}
+                            strokeWidth="3"
+                            strokeDasharray={`${pct * 100}, 100`}
+                            className="transition-all"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className={cn('text-[10px] font-bold', timer <= 3 ? 'text-rose-500' : 'text-slate-800')}>
+                            {timer}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    {hintVisible && (
+                      <>
+                        <span className="inline-flex items-center gap-1.5 rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-mono font-bold text-indigo-700">
+                          <span>首字母：{firstLetter}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                          共 {letterCount} 个字母
+                        </span>
+                      </>
+                    )}
                   </div>
-                  <p className="mt-1.5 text-xs text-slate-500">
-                    中文释义：<span className="font-semibold text-slate-700">{word.meaning}</span>
-                  </p>
-                </div>
-                {/* 对照后发音按钮（按新要求：仅鼠标 hover 到图标上才发音；点击不发音） */}
-                <button
-                  onClick={(e) => e.preventDefault()}
-                  onMouseEnter={onManualPlay}
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-3 mb-3">
+                    {timer > 0 && (
+                      <div className="relative h-8 w-8 shrink-0">
+                        <svg className="h-8 w-8 -rotate-90" viewBox="0 0 36 36">
+                          <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#e2e8f0" strokeWidth="3"
+                          />
+                          <path
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke={timer <= 3 ? '#f43f5e' : '#4f46e5'}
+                            strokeWidth="3"
+                            strokeDasharray={`${pct * 100}, 100`}
+                            className="transition-all"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className={cn('text-[10px] font-bold', timer <= 3 ? 'text-rose-500' : 'text-slate-800')}>
+                            {timer}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => {
+                        setCurrentIndex(index);
+                        const cur = words[index];
+                        if (cur) {
+                          void playWordAudio(cur.word);
+                        }
+                      }}
+                      className={cn(
+                        'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition',
+                        playingUid === word.uid
+                          ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white animate-pulse'
+                          : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
+                      )}
+                      title="点击播放发音"
+                    >
+                      <Volume2 className="h-4 w-4" />
+                    </button>
+                    {hintVisible && (
+                      <>
+                        <span className="inline-flex items-center gap-1.5 rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-mono font-bold text-indigo-700">
+                          首字母：{firstLetter}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                          共 {letterCount} 个字母
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+
+              <div className="relative">
+                <input
+                  ref={(el) => { inputRefs.current[index] = el; }}
+                  type="text"
+                  value={answer}
+                  disabled={isLocked}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  onFocus={() => handleInputFocus(index)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  placeholder={isLocked ? '' : '输入单词...'}
                   className={cn(
-                    'flex h-10 w-10 shrink-0 cursor-help items-center justify-center rounded-xl transition',
-                    playing
-                      ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white animate-pulse'
-                      : 'bg-rose-100 text-rose-600 hover:bg-rose-200'
+                    'w-full rounded-xl border px-4 py-3 font-mono text-base font-semibold outline-none transition-all',
+                    isLocked
+                      ? nowCorrect
+                        ? 'border-emerald-300 bg-emerald-50 text-emerald-800'
+                        : 'border-rose-300 bg-rose-50 text-rose-800'
+                      : isCurrent
+                        ? 'border-indigo-300 bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100'
+                        : 'border-slate-200 bg-slate-50/50 text-slate-800'
                   )}
-                  title="鼠标悬停（移到图标上）再听一遍正确发音；点击不发音"
-                >
-                  <Volume2 className="h-5 w-5" />
-                </button>
+                />
+                {isLocked && (
+                  <div className={cn(
+                    'absolute right-3 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full text-white',
+                    nowCorrect ? 'bg-emerald-500' : 'bg-rose-500'
+                  )}>
+                    {nowCorrect ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )}
+
+              {isLocked && nowWrong && (
+                <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50/60 p-3">
+                  <div className="flex items-start gap-2 text-sm">
+                    <span className="text-xs font-medium text-rose-500">正确答案：</span>
+                    <span className="font-mono font-extrabold text-slate-800">{word.word}</span>
+                    {answer && (
+                      <>
+                        <span className="text-slate-400">·</span>
+                        <span className="font-mono text-rose-600 line-through">你的答案：{answer}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="border-t border-slate-100 bg-gradient-to-r from-indigo-50/60 via-blue-50/60 to-sky-50/60 px-6 py-4">
+        <button
+          onClick={onSubmit}
+          className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-6 py-3 text-base font-bold text-white shadow-lg shadow-indigo-200 transition-all hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0.5"
+        >
+          <Send className="h-5 w-5" />
+          提交答案
+        </button>
       </div>
     </div>
   );
