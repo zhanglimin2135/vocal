@@ -24,7 +24,6 @@ import {
   PencilLine,
   Check,
   X,
-  Timer,
   Trophy,
   Star,
   MessageSquareText,
@@ -628,6 +627,17 @@ export default function StudyPage() {
   }, [mode, spellingIndex]);
 
   /**
+   * 实时计算统计数据：监听 results 数组变化，所有被判定正确/错误的单词都计入统计
+   */
+  useEffect(() => {
+    if (mode !== 'spelling') return;
+    const correct = results.filter(r => r === true).length;
+    const wrong = results.filter(r => r === false).length;
+    const timeoutCount = wrongRecords.filter(r => r.isTimeout).length;
+    setStats({ correct, wrong, timeout: timeoutCount });
+  }, [results, wrongRecords, mode]);
+
+  /**
    * 拼写模式：全局快捷键（window 级别）
    *   - Enter 回车键 → 当前单词未锁定 → 锁定当前单词（不跳转）
    *   - Tab 键 → 当前单词已锁定 → 跳到下一个单词
@@ -720,40 +730,8 @@ export default function StudyPage() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
-      {/* ===============================================================
-       *  拼写模式专属：整体计时器悬浮徽章
-       *  - fixed 固定在视窗右下角，z-40，始终桌面显示，不随页面滚动消失
-       *  - 显示总用时 + 进度 (已做/总数) + 正确/错误/超时统计
-       *  其他模式不渲染这块
-       * =============================================================== */}
-      {mode === 'spelling' && (
-        <div className="fixed bottom-5 right-5 z-40 rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-2xl backdrop-blur">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow">
-              <Timer className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-                总用时 · 进度 {spellingIndex} / {words.length}
-              </p>
-              <p className="font-mono text-lg font-extrabold tabular-nums text-slate-800">
-                {formatTotalTime(totalElapsedMs)}
-              </p>
-            </div>
-            <div className="ml-1 flex flex-col items-end gap-0.5 text-[11px]">
-              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 font-semibold text-emerald-700">
-                <Check className="h-3 w-3" />
-                {stats.correct}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-md bg-rose-50 px-1.5 py-0.5 font-semibold text-rose-700">
-                <X className="h-3 w-3" />
-                {stats.wrong}
-                <span className="ml-0.5 text-[9px] opacity-70">({stats.timeout}超时)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
+      
+      
 
       {/* 顶部 Sticky 工具栏（滚动固定）：左侧返回，中间模式信息，右侧工具按钮 */}
       <div className="sticky top-0 z-20 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
@@ -1348,6 +1326,8 @@ export default function StudyPage() {
                 }}
                 playingUid={playingUid}
                 stats={stats}
+                totalElapsedMs={totalElapsedMs}
+                formatTotalTime={formatTotalTime}
                 onSubmit={() => {
                   for (let i = 0; i < words.length; i++) {
                     if (!locked[i] && !answers[i].trim()) {
@@ -1534,6 +1514,8 @@ interface SpellingListUIProps {
   playingUid: string | null;
   onSubmit: () => void;
   stats: { correct: number; wrong: number; timeout: number };
+  totalElapsedMs: number;
+  formatTotalTime: (ms: number) => string;
 }
 
 function SpellingListUI(props: SpellingListUIProps) {
@@ -1541,6 +1523,7 @@ function SpellingListUI(props: SpellingListUIProps) {
     words, spellingSubMode, answers, setAnswers, locked, setLocked, results, setResults,
     setWrongRecords, perWordTimers, currentIndex, setCurrentIndex, hintVisible,
     inputRefs, onSubmitWord, onFocusWord, playingUid, onSubmit, stats,
+    totalElapsedMs, formatTotalTime,
   } = props;
 
   const maxSeconds = 15;
@@ -1624,35 +1607,47 @@ function SpellingListUI(props: SpellingListUIProps) {
 
       <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/60 via-blue-50/60 to-sky-50/60 px-6 py-4">
         <div className="flex items-center justify-between">
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-              单词拼写模式
-            </p>
-            <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
-              共 <span className="text-indigo-600">{words.length}</span> 个单词
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-              当前进度
-            </p>
-            <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
-              {currentIndex} / {words.length}
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">正确</p>
-              <p className="font-mono text-sm font-bold text-emerald-600">{stats.correct}</p>
+          <div className="flex items-center gap-6">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+                单词拼写模式
+              </p>
+              <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
+                共 <span className="text-indigo-600">{words.length}</span> 个单词
+              </p>
             </div>
-            <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">错误</p>
-              <p className="font-mono text-sm font-bold text-rose-500">{stats.wrong}</p>
+            <div className="flex items-center gap-4">
+              <div className="text-center">
+                <p className="text-[10px] font-medium text-slate-500">正确</p>
+                <p className="font-mono text-sm font-bold text-emerald-600">{stats.correct}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[10px] font-medium text-slate-500">错误</p>
+                <p className="font-mono text-sm font-bold text-rose-500">{stats.wrong}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[10px] font-medium text-slate-500">准确率</p>
+                <p className="font-mono text-sm font-bold text-indigo-600">
+                  {stats.correct + stats.wrong > 0 ? Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) : 0}%
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">准确率</p>
-              <p className="font-mono text-sm font-bold text-indigo-600">
-                {words.length > 0 ? Math.round((stats.correct / words.length) * 100) : 0}%
+          </div>
+          <div className="flex items-center gap-6">
+            <div className="text-right">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+                当前进度
+              </p>
+              <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
+                {currentIndex} / {words.length}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+                总用时
+              </p>
+              <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
+                {formatTotalTime(totalElapsedMs)}
               </p>
             </div>
           </div>
