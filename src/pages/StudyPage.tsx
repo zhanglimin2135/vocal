@@ -1598,38 +1598,39 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
-      <div className="fixed top-20 right-6 z-50 rounded-2xl border border-slate-200 bg-white/95 px-5 py-3 shadow-xl backdrop-blur">
-        <div className="flex items-center justify-between">
+      <div className="fixed top-20 right-6 z-50 rounded-2xl border border-slate-200 bg-white/95 px-6 py-4 shadow-xl backdrop-blur">
+        <div className="flex items-center justify-between gap-8">
           <div className="text-left">
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
               当前进度
             </p>
-            <p className="font-mono text-base font-extrabold text-indigo-600">
+            <p className="font-mono text-lg font-extrabold text-indigo-600">
               {currentIndex} / {words.length}
             </p>
           </div>
+          <div className="h-8 w-px bg-slate-200" />
           <div className="text-right">
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
               总用时
             </p>
-            <p className="font-mono text-base font-extrabold text-indigo-600">
+            <p className="font-mono text-lg font-extrabold text-indigo-600">
               {formatTotalTime(totalElapsedMs)}
             </p>
           </div>
         </div>
-        <div className="mt-3 pt-3 border-t border-slate-100">
+        <div className="mt-4 pt-4 border-t border-slate-100">
           <div className="flex items-center justify-between">
             <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">正确</p>
-              <p className="font-mono text-base font-bold text-emerald-600">{stats.correct}</p>
+              <p className="text-xs font-medium text-slate-500">正确</p>
+              <p className="font-mono text-lg font-bold text-emerald-600">{stats.correct}</p>
             </div>
             <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">错误</p>
-              <p className="font-mono text-base font-bold text-rose-500">{stats.wrong}</p>
+              <p className="text-xs font-medium text-slate-500">错误</p>
+              <p className="font-mono text-lg font-bold text-rose-500">{stats.wrong}</p>
             </div>
             <div className="text-center">
-              <p className="text-[10px] font-medium text-slate-500">准确率</p>
-              <p className="font-mono text-base font-bold text-indigo-600">
+              <p className="text-xs font-medium text-slate-500">准确率</p>
+              <p className="font-mono text-lg font-bold text-indigo-600">
                 {stats.correct + stats.wrong > 0 ? Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) : 0}%
               </p>
             </div>
