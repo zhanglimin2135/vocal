@@ -1340,11 +1340,14 @@ export default function StudyPage() {
                 onFocusWord={(index) => {
                   setPerWordTimers((prev) => {
                     const next = [...prev];
-                    next[index] = PER_WORD_SECONDS;
+                    if (next[index] === undefined || next[index] === 0) {
+                      next[index] = PER_WORD_SECONDS;
+                    }
                     return next;
                   });
                 }}
                 playingUid={playingUid}
+                stats={stats}
                 onSubmit={() => {
                   for (let i = 0; i < words.length; i++) {
                     if (!locked[i] && !answers[i].trim()) {
@@ -1530,13 +1533,14 @@ interface SpellingListUIProps {
   onFocusWord: (index: number) => void;
   playingUid: string | null;
   onSubmit: () => void;
+  stats: { correct: number; wrong: number; timeout: number };
 }
 
 function SpellingListUI(props: SpellingListUIProps) {
   const {
     words, spellingSubMode, answers, setAnswers, locked, setLocked, results, setResults,
     setWrongRecords, perWordTimers, currentIndex, setCurrentIndex, hintVisible,
-    inputRefs, onSubmitWord, onFocusWord, playingUid, onSubmit,
+    inputRefs, onSubmitWord, onFocusWord, playingUid, onSubmit, stats,
   } = props;
 
   const maxSeconds = 15;
@@ -1635,6 +1639,22 @@ function SpellingListUI(props: SpellingListUIProps) {
             <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
               {currentIndex} / {words.length}
             </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">正确</p>
+              <p className="font-mono text-sm font-bold text-emerald-600">{stats.correct}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">错误</p>
+              <p className="font-mono text-sm font-bold text-rose-500">{stats.wrong}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">准确率</p>
+              <p className="font-mono text-sm font-bold text-indigo-600">
+                {words.length > 0 ? Math.round((stats.correct / words.length) * 100) : 0}%
+              </p>
+            </div>
           </div>
         </div>
       </div>
