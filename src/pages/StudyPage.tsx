@@ -1597,7 +1597,46 @@ function SpellingListUI(props: SpellingListUIProps) {
   };
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+      <div className="fixed top-20 right-6 z-50 rounded-2xl border border-slate-200 bg-white/95 px-5 py-3 shadow-xl backdrop-blur">
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              当前进度
+            </p>
+            <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
+              {currentIndex} / {words.length}
+            </p>
+          </div>
+          <div className="h-8 w-px bg-slate-200" />
+          <div className="flex items-center gap-4">
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">正确</p>
+              <p className="font-mono text-sm font-bold text-emerald-600">{stats.correct}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">错误</p>
+              <p className="font-mono text-sm font-bold text-rose-500">{stats.wrong}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-medium text-slate-500">准确率</p>
+              <p className="font-mono text-sm font-bold text-indigo-600">
+                {stats.correct + stats.wrong > 0 ? Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) : 0}%
+              </p>
+            </div>
+          </div>
+          <div className="h-8 w-px bg-slate-200" />
+          <div className="text-right">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              总用时
+            </p>
+            <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
+              {formatTotalTime(totalElapsedMs)}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="h-1.5 w-full bg-slate-100">
         <div
           className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-sky-500 transition-all"
@@ -1606,50 +1645,14 @@ function SpellingListUI(props: SpellingListUIProps) {
       </div>
 
       <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/60 via-blue-50/60 to-sky-50/60 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-                单词拼写模式
-              </p>
-              <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
-                共 <span className="text-indigo-600">{words.length}</span> 个单词
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-center">
-                <p className="text-[10px] font-medium text-slate-500">正确</p>
-                <p className="font-mono text-sm font-bold text-emerald-600">{stats.correct}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-[10px] font-medium text-slate-500">错误</p>
-                <p className="font-mono text-sm font-bold text-rose-500">{stats.wrong}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-[10px] font-medium text-slate-500">准确率</p>
-                <p className="font-mono text-sm font-bold text-indigo-600">
-                  {stats.correct + stats.wrong > 0 ? Math.round((stats.correct / (stats.correct + stats.wrong)) * 100) : 0}%
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="text-right">
-              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-                当前进度
-              </p>
-              <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
-                {currentIndex} / {words.length}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-                总用时
-              </p>
-              <p className="mt-0.5 font-mono text-lg font-extrabold text-indigo-600">
-                {formatTotalTime(totalElapsedMs)}
-              </p>
-            </div>
+        <div className="flex items-center">
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              单词拼写模式
+            </p>
+            <p className="mt-0.5 text-lg font-extrabold tabular-nums text-slate-800">
+              共 <span className="text-indigo-600">{words.length}</span> 个单词
+            </p>
           </div>
         </div>
       </div>
