@@ -573,10 +573,17 @@ export default function StudyPage() {
   }, [mode, words.length, locked]);
 
   /**
+   * 使用 useRef 保存 lockSpellingWord 的最新引用，避免计时器因依赖变化而中断
+   */
+  const lockSpellingWordRef = useRef(lockSpellingWord);
+  lockSpellingWordRef.current = lockSpellingWord;
+
+  /**
    * 每词 15 秒倒计时：单个单词单独计时，只有当前单词拼写时计时
    *   - 到 0 时：判为超时错误，自动统计并锁定
    *   - 已锁定的单词停止倒计时
    *   - 切换单词时，当前单词开始计时，之前的单词停止计时（保留剩余时间）
+   *   - 使用 useRef 确保计时器不会因输入操作而中断暂停
    */
   useEffect(() => {
     if (mode !== 'spelling') return;
@@ -589,7 +596,7 @@ export default function StudyPage() {
         if (next[spellingIndex] <= 1) {
           next[spellingIndex] = 0;
           setTimeout(() => {
-            lockSpellingWord(spellingIndex, true);
+            lockSpellingWordRef.current(spellingIndex, true);
           }, 200);
         } else {
           next[spellingIndex] -= 1;
@@ -601,7 +608,7 @@ export default function StudyPage() {
     return () => {
       window.clearInterval(timerId);
     };
-  }, [mode, spellingIndex, words.length, locked, lockSpellingWord]);
+  }, [mode, spellingIndex, words.length, locked]);
 
   /**
    * 听音拼写模式：进入一个新单词时，立刻自动播放一次发音
