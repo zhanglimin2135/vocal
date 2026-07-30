@@ -29,8 +29,8 @@ import {
   MessageSquareText,
   Send,
   Camera,
+  CheckCircle,
 } from 'lucide-react';
-import html2canvas from 'html2canvas';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
 import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
@@ -254,8 +254,11 @@ export default function StudyPage() {
   const spellingInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
-  // 用于截图的结果页面容器 ref
+  // 结果页面截图区域 ref
   const resultPageRef = useRef<HTMLDivElement>(null);
+  // 截图状态
+  const [isCapturing, setIsCapturing] = useState(false);
+  const [captureSuccess, setCaptureSuccess] = useState(false);
 
   /**
    * 拼写输入规范化（供正确性比对用）：
@@ -264,6 +267,129 @@ export default function StudyPage() {
    *   这样 "Apple " " apple"  "APPLE" 都会被判定为和 apple 相同
    */
   const normalizeSpelling = (s: string) => s.replace(/\s+/g, '').toLowerCase();
+
+  /**
+   * captureResultScreenshot - 截图函数
+   *   使用 SVG foreignObject + Canvas 方案实现截图
+   *   将结果页面内容截图并保存到剪贴板
+   */
+  const captureResultScreenshot = async () => {
+    if (!resultPageRef.current) return;
+    
+    setIsCapturing(true);
+    setCaptureSuccess(false);
+    
+    try {
+      const node = resultPageRef.current;
+      const rect = node.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      
+      // 获取元素的 computed styles
+      const computedStyles = window.getComputedStyle(node);
+      
+      // 创建 SVG
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', String(width));
+      svg.setAttribute('height', String(height));
+      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      
+      // 创建 foreignObject
+      const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+      foreignObject.setAttribute('width', '100%');
+      foreignObject.setAttribute('height', '100%');
+      
+      // 克隆节点并添加样式
+      const clone = node.cloneNode(true) as HTMLElement;
+      clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+      
+      // 添加基本样式
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+        @page { margin: 0; }
+        body { margin: 0; }
+        * { box-sizing: border-box; }
+      `;
+      
+      const wrapper = document.createElement('div');
+      wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+      wrapper.style.width = `${width}px`;
+      wrapper.style.height = `${height}px`;
+      wrapper.style.background = computedStyles.backgroundColor || '#ffffff';
+      wrapper.appendChild(styleSheet);
+      wrapper.appendChild(clone);
+      
+      foreignObject.appendChild(wrapper);
+      svg.appendChild(foreignObject);
+      
+      // 转换为图片
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      
+      // 绘制到 Canvas
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error('图片加载失败'));
+        img.src = url;
+      });
+      
+      // 创建高分辨率 Canvas
+      const scale = 2;
+      const canvas = document.createElement('canvas');
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      const ctx = canvas.getContext('2d')!;
+      ctx.scale(scale, scale);
+      
+      // 绘制白色背景
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+      
+      // 绘制图片
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // 转换为 Blob 并保存到剪贴板
+      const blob: Blob | null = await new Promise((resolve) => {
+        canvas.toBlob((b) => resolve(b), 'image/png', 1.0);
+      });
+      
+      URL.revokeObjectURL(url);
+      
+      if (blob) {
+        // 保存到剪贴板
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'image/png': blob,
+            }),
+          ]);
+          setCaptureSuccess(true);
+          setTimeout(() => setCaptureSuccess(false), 2000);
+        } else {
+          // 回退方案：下载图片
+          const downloadUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(downloadUrl);
+          setCaptureSuccess(true);
+          setTimeout(() => setCaptureSuccess(false), 2000);
+        }
+      }
+    } catch (error) {
+      console.error('截图失败:', error);
+      alert('截图失败，请重试');
+    } finally {
+      setIsCapturing(false);
+    }
+  };
 
   // =========================
   // 初始化副作用（useEffect）
@@ -647,37 +773,6 @@ export default function StudyPage() {
     const timeoutCount = wrongRecords.filter(r => r.isTimeout).length;
     setStats({ correct, wrong, timeout: timeoutCount });
   }, [results, wrongRecords, mode]);
-
-  /**
-   * 截图功能：将结果页面截图并复制到剪贴板
-   */
-  const handleScreenshot = useCallback(async () => {
-    if (!resultPageRef.current) return;
-    
-    try {
-      const canvas = await html2canvas(resultPageRef.current, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
-      });
-      
-      const blob = await new Promise<Blob>((resolve, reject) => {
-        canvas.toBlob((b) => {
-          if (b) resolve(b);
-          else reject(new Error('截图失败'));
-        }, 'image/png');
-      });
-      
-      await navigator.clipboard.write([
-        new ClipboardItem({ 'image/png': blob }),
-      ]);
-      
-      alert('截图已保存到剪贴板，可以直接粘贴到其他地方！');
-    } catch (error) {
-      console.error('截图失败:', error);
-      alert('截图失败，请重试');
-    }
-  }, []);
 
   /**
    * 拼写模式：全局快捷键（window 级别）
@@ -1314,32 +1409,50 @@ export default function StudyPage() {
                 </div>
 
                 {/* —— 底部按钮 —— */}
-                <div className="space-y-3 border-t border-slate-100 px-6 py-6">
-                  <div className="flex items-center justify-center">
-                    <button
-                      onClick={handleScreenshot}
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-200 transition hover:shadow-xl"
-                    >
-                      <Camera className="h-4 w-4" />
-                      一键截图
-                    </button>
-                  </div>
-                  <div className="sm:flex sm:gap-3 sm:space-y-0 space-y-3">
-                    <button
-                      onClick={wrappedDoShuffle}
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/2"
-                    >
-                      <Shuffle className="h-4 w-4" />
-                      重新开始（乱序）
-                    </button>
-                    <button
-                      onClick={goBack}
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl sm:w-1/2"
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                      返回选择页
-                    </button>
-                  </div>
+                <div className="space-y-3 border-t border-slate-100 px-6 py-6 sm:flex sm:space-y-0 sm:gap-3">
+                  <button
+                    onClick={captureResultScreenshot}
+                    disabled={isCapturing}
+                    className={cn(
+                      'flex w-full items-center justify-center gap-2 rounded-2xl border-2 px-5 py-3 text-sm font-semibold transition sm:w-1/3',
+                      isCapturing
+                        ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
+                        : captureSuccess
+                          ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                          : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                    )}
+                  >
+                    {captureSuccess ? (
+                      <>
+                        <CheckCircle className="h-4 w-4" />
+                        已复制到剪贴板
+                      </>
+                    ) : isCapturing ? (
+                      <>
+                        <Camera className="h-4 w-4 animate-pulse" />
+                        截图中...
+                      </>
+                    ) : (
+                      <>
+                        <Camera className="h-4 w-4" />
+                        一键截图
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={wrappedDoShuffle}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/3"
+                  >
+                    <Shuffle className="h-4 w-4" />
+                    重新开始（乱序）
+                  </button>
+                  <button
+                    onClick={goBack}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl sm:w-1/3"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    返回选择页
+                  </button>
                 </div>
               </div>
                 );
