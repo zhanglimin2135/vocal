@@ -28,7 +28,9 @@ import {
   Star,
   MessageSquareText,
   Send,
+  Camera,
 } from 'lucide-react';
+import html2canvas from 'html2canvas';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
 import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
@@ -252,6 +254,8 @@ export default function StudyPage() {
   const spellingInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
+  // 用于截图的结果页面容器 ref
+  const resultPageRef = useRef<HTMLDivElement>(null);
 
   /**
    * 拼写输入规范化（供正确性比对用）：
@@ -643,6 +647,37 @@ export default function StudyPage() {
     const timeoutCount = wrongRecords.filter(r => r.isTimeout).length;
     setStats({ correct, wrong, timeout: timeoutCount });
   }, [results, wrongRecords, mode]);
+
+  /**
+   * 截图功能：将结果页面截图并复制到剪贴板
+   */
+  const handleScreenshot = useCallback(async () => {
+    if (!resultPageRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(resultPageRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+      });
+      
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((b) => {
+          if (b) resolve(b);
+          else reject(new Error('截图失败'));
+        }, 'image/png');
+      });
+      
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob }),
+      ]);
+      
+      alert('截图已保存到剪贴板，可以直接粘贴到其他地方！');
+    } catch (error) {
+      console.error('截图失败:', error);
+      alert('截图失败，请重试');
+    }
+  }, []);
 
   /**
    * 拼写模式：全局快捷键（window 级别）
@@ -1076,7 +1111,7 @@ export default function StudyPage() {
                 const modeText =
                   spellingSubMode === 'meaning-spelling' ? '释义拼写' : '听音拼写';
                 return (
-              <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+              <div ref={resultPageRef} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
                 {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
                 <div
                   className={cn(
@@ -1279,21 +1314,32 @@ export default function StudyPage() {
                 </div>
 
                 {/* —— 底部按钮 —— */}
-                <div className="space-y-3 border-t border-slate-100 px-6 py-6 sm:flex sm:space-y-0 sm:gap-3">
-                  <button
-                    onClick={wrappedDoShuffle}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/2"
-                  >
-                    <Shuffle className="h-4 w-4" />
-                    重新开始（乱序）
-                  </button>
-                  <button
-                    onClick={goBack}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl sm:w-1/2"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    返回选择页
-                  </button>
+                <div className="space-y-3 border-t border-slate-100 px-6 py-6">
+                  <div className="flex items-center justify-center">
+                    <button
+                      onClick={handleScreenshot}
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-200 transition hover:shadow-xl"
+                    >
+                      <Camera className="h-4 w-4" />
+                      一键截图
+                    </button>
+                  </div>
+                  <div className="sm:flex sm:gap-3 sm:space-y-0 space-y-3">
+                    <button
+                      onClick={wrappedDoShuffle}
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-1/2"
+                    >
+                      <Shuffle className="h-4 w-4" />
+                      重新开始（乱序）
+                    </button>
+                    <button
+                      onClick={goBack}
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:shadow-xl sm:w-1/2"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      返回选择页
+                    </button>
+                  </div>
                 </div>
               </div>
                 );
