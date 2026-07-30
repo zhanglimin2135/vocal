@@ -269,9 +269,46 @@ export default function StudyPage() {
   const normalizeSpelling = (s: string) => s.replace(/\s+/g, '').toLowerCase();
 
   /**
+   * 将元素及其子元素的 computed styles 应用为内联样式
+   * 这是 SVG foreignObject 方案能正确渲染的关键
+   */
+  const inlineStyles = (element: HTMLElement) => {
+    const computed = window.getComputedStyle(element);
+    const importantProps = [
+      'box-sizing', 'width', 'height', 'min-width', 'min-height',
+      'max-width', 'max-height', 'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+      'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+      'border', 'border-radius', 'border-width', 'border-color', 'border-style',
+      'background', 'background-color', 'background-image', 'background-size', 'background-position',
+      'color', 'font', 'font-size', 'font-weight', 'font-family', 'font-style',
+      'text-align', 'text-decoration', 'text-transform', 'line-height', 'letter-spacing',
+      'display', 'flex', 'flex-direction', 'flex-wrap', 'flex-grow', 'flex-shrink',
+      'justify-content', 'align-items', 'align-content', 'align-self',
+      'gap', 'row-gap', 'column-gap',
+      'position', 'top', 'right', 'bottom', 'left', 'z-index',
+      'overflow', 'overflow-x', 'overflow-y',
+      'opacity', 'transform', 'box-shadow', 'text-shadow',
+      'cursor', 'list-style', 'outline',
+      'grid-template-columns', 'grid-template-rows', 'grid-gap',
+      'gap',
+    ];
+    let style = '';
+    for (const prop of importantProps) {
+      const val = computed.getPropertyValue(prop);
+      if (val) {
+        style += `${prop}:${val};`;
+      }
+    }
+    element.setAttribute('style', style);
+    // 递归处理子元素
+    for (const child of element.children) {
+      inlineStyles(child as HTMLElement);
+    }
+  };
+
+  /**
    * captureResultScreenshot - 截图函数
-   *   使用 SVG foreignObject + Canvas 方案实现截图
-   *   将结果页面内容截图并保存到剪贴板
+   *   先将所有样式内联化，再使用 SVG foreignObject + Canvas 方案截图
    */
   const captureResultScreenshot = async () => {
     if (!resultPageRef.current) return;
@@ -282,11 +319,37 @@ export default function StudyPage() {
     try {
       const node = resultPageRef.current;
       const rect = node.getBoundingClientRect();
-      const width = rect.width;
-      const height = rect.height;
+      const width = Math.ceil(rect.width);
+      const height = Math.ceil(rect.height);
       
-      // 获取元素的 computed styles
-      const computedStyles = window.getComputedStyle(node);
+      // 深克隆节点
+      const clone = node.cloneNode(true) as HTMLElement;
+      
+      // 应用内联样式
+      inlineStyles(clone);
+      
+      // 确保没有固定定位导致的问题
+      const fixPosition = (el: HTMLElement) => {
+        const pos = el.style.position;
+        if (pos === 'fixed' || pos === 'sticky') {
+          el.style.position = 'absolute';
+          el.style.top = '0';
+          el.style.left = '0';
+        }
+        for (const child of el.children) {
+          fixPosition(child as HTMLElement);
+        }
+      };
+      fixPosition(clone);
+      
+      // 创建包装器
+      const wrapper = document.createElement('div');
+      wrapper.style.width = `${width}px`;
+      wrapper.style.height = `${height}px`;
+      wrapper.style.background = '#ffffff';
+      wrapper.style.overflow = 'hidden';
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(clone);
       
       // 创建 SVG
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -294,35 +357,18 @@ export default function StudyPage() {
       svg.setAttribute('height', String(height));
       svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
       
-      // 创建 foreignObject
       const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
       foreignObject.setAttribute('width', '100%');
       foreignObject.setAttribute('height', '100%');
       
-      // 克隆节点并添加样式
-      const clone = node.cloneNode(true) as HTMLElement;
-      clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+      const xhtmlDiv = document.createElement('div');
+      xhtmlDiv.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+      xhtmlDiv.appendChild(wrapper);
       
-      // 添加基本样式
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        @page { margin: 0; }
-        body { margin: 0; }
-        * { box-sizing: border-box; }
-      `;
-      
-      const wrapper = document.createElement('div');
-      wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-      wrapper.style.width = `${width}px`;
-      wrapper.style.height = `${height}px`;
-      wrapper.style.background = computedStyles.backgroundColor || '#ffffff';
-      wrapper.appendChild(styleSheet);
-      wrapper.appendChild(clone);
-      
-      foreignObject.appendChild(wrapper);
+      foreignObject.appendChild(xhtmlDiv);
       svg.appendChild(foreignObject);
       
-      // 转换为图片
+      // 序列化 SVG
       const svgData = new XMLSerializer().serializeToString(svg);
       const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
@@ -333,43 +379,57 @@ export default function StudyPage() {
       
       await new Promise<void>((resolve, reject) => {
         img.onload = () => resolve();
-        img.onerror = () => reject(new Error('图片加载失败'));
+        img.onerror = (e) => reject(new Error('图片加载失败: ' + String(e)));
         img.src = url;
       });
       
-      // 创建高分辨率 Canvas
+      // 创建高分辨率 Canvas (2x)
       const scale = 2;
       const canvas = document.createElement('canvas');
       canvas.width = width * scale;
       canvas.height = height * scale;
       const ctx = canvas.getContext('2d')!;
-      ctx.scale(scale, scale);
       
       // 绘制白色背景
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // 绘制图片
-      ctx.drawImage(img, 0, 0, width, height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
-      // 转换为 Blob 并保存到剪贴板
+      URL.revokeObjectURL(url);
+      
+      // 转换为 Blob
       const blob: Blob | null = await new Promise((resolve) => {
         canvas.toBlob((b) => resolve(b), 'image/png', 1.0);
       });
       
-      URL.revokeObjectURL(url);
-      
       if (blob) {
         // 保存到剪贴板
-        if (navigator.clipboard && window.ClipboardItem) {
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ]);
-          setCaptureSuccess(true);
-          setTimeout(() => setCaptureSuccess(false), 2000);
-        } else {
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                'image/png': blob,
+              }),
+            ]);
+            setCaptureSuccess(true);
+            setTimeout(() => setCaptureSuccess(false), 2000);
+          } else {
+            // 回退方案：下载图片
+            const downloadUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(downloadUrl);
+            setCaptureSuccess(true);
+            setTimeout(() => setCaptureSuccess(false), 2000);
+          }
+        } catch (clipboardErr) {
+          console.warn('剪贴板写入失败，尝试下载:', clipboardErr);
           // 回退方案：下载图片
           const downloadUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
@@ -385,7 +445,16 @@ export default function StudyPage() {
       }
     } catch (error) {
       console.error('截图失败:', error);
-      alert('截图失败，请重试');
+      
+      // 最终回退：直接下载
+      try {
+        const node = resultPageRef.current;
+        if (node) {
+          alert('截图组件不支持当前浏览器，已改为下载模式。请允许下载后手动保存。');
+        }
+      } catch (_) {
+        // 忽略
+      }
     } finally {
       setIsCapturing(false);
     }
