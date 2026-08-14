@@ -2078,15 +2078,25 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onCompositionEnd={(e) => {
                     // 合成结束（选字上屏或取消）：解除合成标记
                     composingRef.current[index] = false;
-                    // 上屏内容按允许字符集清洗——中文汉字会被过滤为空，
+                    // 上屏内容按允许字符集清洗——中文汉字/拼音会被过滤，
                     // 从而实现「中文输入法下无法拼写」，仅英文字母/空格/标点被保留
                     const target = e.currentTarget;
                     const cleaned = target.value.replace(SPELLING_DISALLOWED_RE, '');
-                    // 强制覆盖 DOM 值，清除输入框中残留的拼音字母
-                    if (target.value !== cleaned) {
-                      target.value = cleaned;
-                    }
-                    if (!locked[index]) {
+                    if (locked[index]) return;
+                    // 关键修复：合成期间被拦截后，React 的受控值追踪器（value tracker）
+                    // 记录的是脏的拼音值，且清洗结果常与当前答案相同（如都为空），
+                    // 直接 setAnswers 不会触发重渲染，DOM 与 tracker 都停留在脏值上，
+                    // 导致切回英文输入法后 onChange 判定「值未变」而无法输入。
+                    // 这里用原生 setter 重置 DOM value 并同步 React 的 tracker，
+                    // 再手动派发一次 input 事件，让受控流程重新对齐到干净值。
+                    const nativeSetter = Object.getOwnPropertyDescriptor(
+                      window.HTMLInputElement.prototype,
+                      'value'
+                    )?.set;
+                    if (nativeSetter) {
+                      nativeSetter.call(target, cleaned);
+                      target.dispatchEvent(new Event('input', { bubbles: true }));
+                    } else {
                       setAnswers(index, cleaned);
                     }
                   }}
