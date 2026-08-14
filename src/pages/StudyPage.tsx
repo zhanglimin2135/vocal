@@ -1779,14 +1779,27 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   const hasFocusedRef = useRef<boolean[]>(new Array(words.length).fill(false));
 
+  // 检测到中文（IME 合成）输入时的提示：提醒用户切换为英文输入法
+  // 记录触发提示的输入框索引；-1 表示不显示
+  const [imeWarnIndex, setImeWarnIndex] = useState<number>(-1);
+  const imeWarnTimerRef = useRef<number | null>(null);
+
+  // 弹出「请切换英文输入法」提示，并在数秒后自动消失
+  const showImeWarn = (index: number) => {
+    setImeWarnIndex(index);
+    if (imeWarnTimerRef.current) {
+      window.clearTimeout(imeWarnTimerRef.current);
+    }
+    imeWarnTimerRef.current = window.setTimeout(() => {
+      setImeWarnIndex(-1);
+    }, 2500);
+  };
+
   const handleInputChange = (index: number, value: string) => {
     if (!locked[index]) {
       // 清洗输入：只保留英文字母、空格及常见半角标点，过滤中文/全角字符。
-      // 关键说明：React 受控 input 在 IME 合成（中文拼音）期间不会触发 onChange，
-      // 只在 compositionend 上屏后触发一次，此时 value 是最终文本（如汉字）。
-      // 因此这里无需自己维护「合成中」标志位——直接清洗即可，
-      // 汉字会被过滤为空，从而实现「中文输入法下无法拼写」，
-      // 同时也避免了切换输入法时合成标志位卡死导致英文无法输入的问题。
+      // 说明：始终执行清洗（不因合成态而 return），避免标志位卡死导致英文无法输入。
+      // 中文/IME 相关内容的最终拦截与提示由 onCompositionEnd 负责。
       const filtered = value.replace(SPELLING_DISALLOWED_RE, '');
       setAnswers(index, filtered);
     }
@@ -2056,6 +2069,37 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
+                  onCompositionEnd={(e) => {
+                    // 只要发生了 IME 合成（compositionstart→end），即判定用户处于
+                    // 中文/日文等非英文输入法。网页无法真正切换系统输入法，因此这里
+                    // 采取「彻底拦截 + 提示」的等效方案：撤销本次合成上屏的全部内容，
+                    // 仅保留合法英文内容，并提示用户切换英文输入法。
+                    if (locked[index]) return;
+                    const target = e.currentTarget;
+                    // 延后到 React 合成后补发的 onChange 之后再强制清洗，避免竞态。
+                    // rAF 回调里读取当前 DOM 值并清洗，把汉字/拼音等 IME 结果整体剔除。
+                    requestAnimationFrame(() => {
+                      const el = inputRefs.current[index] ?? target;
+                      if (!el) return;
+                      const cleaned = el.value.replace(SPELLING_DISALLOWED_RE, '');
+                      if (el.value !== cleaned) {
+                        // 用原生 setter 重置 DOM 值并同步 React 的 value tracker，
+                        // 再派发 input 事件走标准受控流程，避免「切回英文后输不进去」
+                        const nativeSetter = Object.getOwnPropertyDescriptor(
+                          window.HTMLInputElement.prototype,
+                          'value'
+                        )?.set;
+                        if (nativeSetter) {
+                          nativeSetter.call(el, cleaned);
+                          el.dispatchEvent(new Event('input', { bubbles: true }));
+                        } else {
+                          setAnswers(index, cleaned);
+                        }
+                      }
+                    });
+                    // 提示用户当前为中文输入法，请切换英文
+                    showImeWarn(index);
+                  }}
                   onPaste={(e) => {
                     // 禁止粘贴，只能一个一个字母手动输入
                     e.preventDefault();
@@ -2094,6 +2138,13 @@ function SpellingListUI(props: SpellingListUIProps) {
                   </div>
                 )}
               </div>
+
+              {imeWarnIndex === index && !isLocked && (
+                <div className="mt-2 flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">
+                  <span>⚠️</span>
+                  <span>检测到中文输入法，无法拼写。请切换为英文输入法后再输入。</span>
+                </div>
+              )}
 
               {isLocked && nowWrong && (
                 <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50/60 p-3">
