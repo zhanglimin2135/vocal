@@ -1781,8 +1781,16 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   const hasFocusedRef = useRef<boolean[]>(new Array(words.length).fill(false));
 
+  // 记录每个输入框是否正处于输入法（IME）合成过程中
+  // 中文/日文等输入法在选字上屏前会经历 compositionstart -> update -> end，
+  // 合成过程中不应把拼音等中间态写入答案，上屏后再按允许字符集清洗
+  const composingRef = useRef<boolean[]>([]);
+
   const handleInputChange = (index: number, value: string) => {
     if (!locked[index]) {
+      // 若正处于 IME 合成中（如中文输入法拼音阶段），忽略中间态，
+      // 待 compositionend 上屏后统一清洗，避免拼音字母被误当作有效输入
+      if (composingRef.current[index]) return;
       // 允许英文字母、空格及常见半角标点符号输入，过滤掉中文及全角字符
       // 空格和标点仅作为输入内容保留，核对时由 normalizeSpelling 忽略，不影响判断
       const filtered = value.replace(SPELLING_DISALLOWED_RE, '');
@@ -2062,14 +2070,25 @@ function SpellingListUI(props: SpellingListUIProps) {
                       e.preventDefault();
                     }
                   }}
-                  onCompositionStart={(e) => {
-                    // 禁止输入法（中文等）的候选合成，强制为英文直接输入
-                    e.preventDefault();
+                  onCompositionStart={() => {
+                    // 标记进入 IME 合成态（中文输入法开始拼音阶段）
+                    // 合成期间 onChange 会被忽略，避免拼音中间态污染答案
+                    composingRef.current[index] = true;
+                  }}
+                  onCompositionEnd={(e) => {
+                    // 合成结束（选字上屏或取消）：解除合成标记
+                    composingRef.current[index] = false;
+                    // 上屏内容按允许字符集清洗——中文汉字会被过滤为空，
+                    // 从而实现「中文输入法下无法拼写」，仅英文字母/空格/标点被保留
                     const target = e.currentTarget;
-                    // 清空可能残留的合成文本，保持只有已确认的英文字母
-                    requestAnimationFrame(() => {
-                      handleInputChange(index, target.value);
-                    });
+                    const cleaned = target.value.replace(SPELLING_DISALLOWED_RE, '');
+                    // 强制覆盖 DOM 值，清除输入框中残留的拼音字母
+                    if (target.value !== cleaned) {
+                      target.value = cleaned;
+                    }
+                    if (!locked[index]) {
+                      setAnswers(index, cleaned);
+                    }
                   }}
                   onPaste={(e) => {
                     // 禁止粘贴，只能一个一个字母手动输入
