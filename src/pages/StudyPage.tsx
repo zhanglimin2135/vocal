@@ -220,6 +220,13 @@ export default function StudyPage() {
   const [results, setResults] = useState<(boolean | null)[]>([]);
 
   /**
+   * chineseInputFlags - 每个单词是否曾在「中文输入法」下输入过（数组）
+   *   - 只要该单词的输入框触发过 IME 合成（compositionend），即标记为 true
+   *   - 被标记的单词在核对时一律判定为错误，即使拼写内容正确
+   */
+  const [chineseInputFlags, setChineseInputFlags] = useState<boolean[]>([]);
+
+  /**
    * perWordTimers - 每个单词的剩余秒数（数组）
    */
   const [perWordTimers, setPerWordTimers] = useState<number[]>([]);
@@ -250,6 +257,8 @@ export default function StudyPage() {
     word: StudyWord;
     userAnswer: string;
     isTimeout: boolean;
+    // 是否因「使用中文输入法」而判错（即使拼写内容正确也算错）
+    isChinese?: boolean;
   }
   const [wrongRecords, setWrongRecords] = useState<WrongRecord[]>([]);
 
@@ -505,6 +514,7 @@ export default function StudyPage() {
     setAnswers(new Array(initCount).fill(''));
     setLocked(new Array(initCount).fill(false));
     setResults(new Array(initCount).fill(null));
+    setChineseInputFlags(new Array(initCount).fill(false));
     setPerWordTimers(new Array(initCount).fill(PER_WORD_SECONDS));
     setTotalElapsedMs(0);
     setStats({ correct: 0, wrong: 0, timeout: 0 });
@@ -614,7 +624,9 @@ export default function StudyPage() {
     const cur = words[index];
     const userAns = normalizeSpelling(answers[index] || '');
     const rightAns = normalizeSpelling(cur.word);
-    const correct = userAns === rightAns;
+    // 中文输入法输入过的单词一律判错，即使拼写内容正确
+    const usedChinese = !!chineseInputFlags[index];
+    const correct = userAns === rightAns && !usedChinese;
     
     setLocked((prev) => {
       const next = [...prev];
@@ -635,6 +647,7 @@ export default function StudyPage() {
           word: cur,
           userAnswer: answers[index] || '',
           isTimeout: false,
+          isChinese: usedChinese,
         },
       ]);
     }
@@ -658,7 +671,7 @@ export default function StudyPage() {
         return next;
       });
     }
-  }, [words, answers, locked]);
+  }, [words, answers, locked, chineseInputFlags]);
 
   /**
    * 锁定当前单词答案（用于超时场景）
@@ -671,7 +684,9 @@ export default function StudyPage() {
     const cur = words[index];
     const userAns = normalizeSpelling(answers[index] || '');
     const rightAns = normalizeSpelling(cur.word);
-    const correct = userAns === rightAns && !isTimeout;
+    // 中文输入法输入过的单词一律判错，即使拼写内容正确
+    const usedChinese = !!chineseInputFlags[index];
+    const correct = userAns === rightAns && !isTimeout && !usedChinese;
     
     setLocked((prev) => {
       const next = [...prev];
@@ -699,6 +714,7 @@ export default function StudyPage() {
           word: cur,
           userAnswer: answers[index] || '',
           isTimeout,
+          isChinese: usedChinese,
         },
       ]);
     }
@@ -722,7 +738,7 @@ export default function StudyPage() {
         return next;
       });
     }
-  }, [words, answers, locked]);
+  }, [words, answers, locked, chineseInputFlags]);
 
   /**
    * 单词拼写模式 · 重新开始（乱序）：把本轮所有状态清零
@@ -732,6 +748,7 @@ export default function StudyPage() {
     setAnswers(new Array(words.length).fill(''));
     setLocked(new Array(words.length).fill(false));
     setResults(new Array(words.length).fill(null));
+    setChineseInputFlags(new Array(words.length).fill(false));
     setPerWordTimers(new Array(words.length).fill(PER_WORD_SECONDS));
     setHintVisible(true);
     setStats({ correct: 0, wrong: 0, timeout: 0 });
@@ -1279,6 +1296,8 @@ export default function StudyPage() {
                   words.length === 0 ? 0 : (stats.correct / words.length) * 100;
                 const accuracyStr = `${Math.round(accuracyVal)}%`;
                 const passed = accuracyVal >= 90;
+                // 因「使用中文输入法」而被判错的单词数量
+                const chineseCount = wrongRecords.filter((r) => r.isChinese).length;
                 // 检查时间（当前系统时间）
                 const checkTimeStr = new Date().toLocaleString('zh-CN', {
                   year: 'numeric', month: '2-digit', day: '2-digit',
@@ -1396,7 +1415,7 @@ export default function StudyPage() {
                     <p className="mt-1 font-mono text-2xl font-extrabold text-rose-500">
                       {stats.wrong}
                       <span className="ml-1 text-[10px] font-medium text-slate-400">
-                        （{stats.timeout}超时）
+                        （{stats.timeout}超时{chineseCount > 0 ? `、${chineseCount}中文输入` : ''}）
                       </span>
                     </p>
                   </div>
@@ -1504,6 +1523,11 @@ export default function StudyPage() {
                                     超时
                                   </span>
                                 )}
+                                {rec.isChinese && (
+                                  <span className="ml-1 rounded bg-orange-100 px-1 py-0.5 text-orange-700">
+                                    中文输入
+                                  </span>
+                                )}
                               </p>
                               <p className="mt-1 break-all font-mono text-base font-bold text-rose-600 line-through decoration-2 decoration-rose-400/70">
                                 {rec.userAnswer || (
@@ -1570,6 +1594,14 @@ export default function StudyPage() {
                     if (next[index] === undefined || next[index] === 0) {
                       next[index] = PER_WORD_SECONDS;
                     }
+                    return next;
+                  });
+                }}
+                onChineseInput={(index) => {
+                  // 标记该单词使用了中文输入法（后续核对一律判错）
+                  setChineseInputFlags((prev) => {
+                    const next = [...prev];
+                    next[index] = true;
                     return next;
                   });
                 }}
@@ -1752,7 +1784,7 @@ interface SpellingListUIProps {
   setLocked: React.Dispatch<React.SetStateAction<boolean[]>>;
   results: (boolean | null)[];
   setResults: React.Dispatch<React.SetStateAction<(boolean | null)[]>>;
-  setWrongRecords: React.Dispatch<React.SetStateAction<{ word: StudyWord; userAnswer: string; isTimeout: boolean; }[]>>;
+  setWrongRecords: React.Dispatch<React.SetStateAction<{ word: StudyWord; userAnswer: string; isTimeout: boolean; isChinese?: boolean; }[]>>;
   perWordTimers: number[];
   currentIndex: number;
   setCurrentIndex: (index: number) => void;
@@ -1760,6 +1792,8 @@ interface SpellingListUIProps {
   inputRefs: React.RefObject<(HTMLInputElement | null)[]>;
   onSubmitWord: (index: number) => void;
   onFocusWord: (index: number) => void;
+  // 检测到某个单词使用了中文输入法时回调（用于标记该单词判错）
+  onChineseInput: (index: number) => void;
   playingUid: string | null;
   onSubmit: () => void;
   stats: { correct: number; wrong: number; timeout: number };
@@ -1771,7 +1805,7 @@ function SpellingListUI(props: SpellingListUIProps) {
   const {
     words, spellingSubMode, answers, setAnswers, locked, setLocked, results, setResults,
     setWrongRecords, perWordTimers, currentIndex, setCurrentIndex, hintVisible,
-    inputRefs, onSubmitWord, onFocusWord, playingUid, onSubmit, stats,
+    inputRefs, onSubmitWord, onFocusWord, onChineseInput, playingUid, onSubmit, stats,
     totalElapsedMs, formatTotalTime,
   } = props;
 
@@ -2069,35 +2103,13 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  onCompositionEnd={(e) => {
-                    // 只要发生了 IME 合成（compositionstart→end），即判定用户处于
-                    // 中文/日文等非英文输入法。网页无法真正切换系统输入法，因此这里
-                    // 采取「彻底拦截 + 提示」的等效方案：撤销本次合成上屏的全部内容，
-                    // 仅保留合法英文内容，并提示用户切换英文输入法。
+                  onCompositionEnd={() => {
+                    // 只要发生了 IME 合成（compositionstart→end），即判定该单词
+                    // 使用了中文/日文等非英文输入法。此处不再撤销输入内容（允许保留），
+                    // 而是标记该单词「用了中文输入法」，核对时一律判为错误，
+                    // 同时弹出提示并在结果页统计中文输入的单词数量。
                     if (locked[index]) return;
-                    const target = e.currentTarget;
-                    // 延后到 React 合成后补发的 onChange 之后再强制清洗，避免竞态。
-                    // rAF 回调里读取当前 DOM 值并清洗，把汉字/拼音等 IME 结果整体剔除。
-                    requestAnimationFrame(() => {
-                      const el = inputRefs.current[index] ?? target;
-                      if (!el) return;
-                      const cleaned = el.value.replace(SPELLING_DISALLOWED_RE, '');
-                      if (el.value !== cleaned) {
-                        // 用原生 setter 重置 DOM 值并同步 React 的 value tracker，
-                        // 再派发 input 事件走标准受控流程，避免「切回英文后输不进去」
-                        const nativeSetter = Object.getOwnPropertyDescriptor(
-                          window.HTMLInputElement.prototype,
-                          'value'
-                        )?.set;
-                        if (nativeSetter) {
-                          nativeSetter.call(el, cleaned);
-                          el.dispatchEvent(new Event('input', { bubbles: true }));
-                        } else {
-                          setAnswers(index, cleaned);
-                        }
-                      }
-                    });
-                    // 提示用户当前为中文输入法，请切换英文
+                    onChineseInput(index);
                     showImeWarn(index);
                   }}
                   onPaste={(e) => {
@@ -2142,7 +2154,7 @@ function SpellingListUI(props: SpellingListUIProps) {
               {imeWarnIndex === index && !isLocked && (
                 <div className="mt-2 flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">
                   <span>⚠️</span>
-                  <span>检测到中文输入法，无法拼写。请切换为英文输入法后再输入。</span>
+                  <span>检测到中文输入法，本词将判为错误。建议切换英文输入法后重新拼写。</span>
                 </div>
               )}
 
