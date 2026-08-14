@@ -64,6 +64,17 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
+/**
+ * 拼写输入允许的字符集合：英文字母、空格及常见半角标点符号
+ *   - 用于过滤掉中文及全角字符，但保留空格 / 标点让用户可以输入
+ *   - 空格与标点仅作为可见输入内容，核对时由 normalizeSpelling 忽略，不影响判断
+ */
+const SPELLING_ALLOWED_CHARS = "a-zA-Z \\-'.,!?;:()\\[\\]{}\"/\\\\@#&*+=_~`^%$";
+// 匹配「不在允许集合内」的字符，用于清洗输入（全局替换）
+const SPELLING_DISALLOWED_RE = new RegExp(`[^${SPELLING_ALLOWED_CHARS}]`, 'g');
+// 匹配「不在允许集合内」的字符，用于合成输入前的拦截判断（单字符检测）
+const SPELLING_DISALLOWED_TEST_RE = new RegExp(`[^${SPELLING_ALLOWED_CHARS}]`);
+
 export default function StudyPage() {
   // =========================
   // 路由与全局状态读取
@@ -266,7 +277,10 @@ export default function StudyPage() {
    *   - 全部转成小写
    *   这样 "Apple " " apple"  "APPLE" 都会被判定为和 apple 相同
    */
-  const normalizeSpelling = (s: string) => s.replace(/\s+/g, '').toLowerCase();
+  const normalizeSpelling = (s: string) =>
+    // 核对时忽略空格与标点符号：只保留字母和数字，再转小写
+    // 这样用户输入的空格、连字符、逗号等不会影响判断结果
+    s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
   /**
    * 将元素及其子元素的 computed styles 应用为内联样式
@@ -1769,9 +1783,9 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   const handleInputChange = (index: number, value: string) => {
     if (!locked[index]) {
-      // 仅允许英文字母输入：过滤掉中文、数字、符号及全角字符
-      // 这样即使输入法为中文，输入的候选内容也会被剔除，只保留 a-z / A-Z
-      const filtered = value.replace(/[^a-zA-Z]/g, '');
+      // 允许英文字母、空格及常见半角标点符号输入，过滤掉中文及全角字符
+      // 空格和标点仅作为输入内容保留，核对时由 normalizeSpelling 忽略，不影响判断
+      const filtered = value.replace(SPELLING_DISALLOWED_RE, '');
       setAnswers(index, filtered);
     }
   };
@@ -2041,10 +2055,10 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onBeforeInput={(e) => {
-                    // 拦截中文/全角等非字母字符的合成输入
+                    // 拦截中文/全角等不在允许集合内的合成输入（空格与半角标点已被允许）
                     const nativeEvent = e.nativeEvent as InputEvent;
                     const data = nativeEvent.data;
-                    if (data && /[^a-zA-Z]/.test(data)) {
+                    if (data && SPELLING_DISALLOWED_TEST_RE.test(data)) {
                       e.preventDefault();
                     }
                   }}
