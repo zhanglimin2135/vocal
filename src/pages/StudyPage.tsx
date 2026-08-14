@@ -1414,9 +1414,6 @@ export default function StudyPage() {
                     </p>
                     <p className="mt-1 font-mono text-2xl font-extrabold text-rose-500">
                       {stats.wrong}
-                      <span className="ml-1 text-[10px] font-medium text-slate-400">
-                        （{stats.timeout}超时{chineseCount > 0 ? `、${chineseCount}中文输入` : ''}）
-                      </span>
                     </p>
                   </div>
                 </div>
@@ -1459,6 +1456,13 @@ export default function StudyPage() {
                         <div>
                           <h3 className="text-base font-extrabold text-slate-800">
                             📋 错题列表（共 {wrongRecords.length} 个）
+                            {(stats.timeout > 0 || chineseCount > 0) && (
+                              <span className="ml-2 align-middle text-xs font-medium text-slate-400">
+                                {stats.timeout > 0 && `${stats.timeout} 超时`}
+                                {stats.timeout > 0 && chineseCount > 0 && ' · '}
+                                {chineseCount > 0 && `${chineseCount} 中文输入`}
+                              </span>
+                            )}
                           </h3>
                           <p className="mt-0.5 text-xs text-slate-500">
                             显示正确单词、中文释义、以及你当时拼写的错误答案
@@ -2103,11 +2107,17 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
+                  onCompositionStart={() => {
+                    // IME 合成一开始（在中文输入法下敲下第一个字母就会触发），
+                    // 立即判定该单词使用了中文输入法：标记为错误 + 弹出「请切换英文输入法」提示。
+                    // 这样哪怕只在中文输入法下输入一个字母，也会按错误计算。
+                    if (locked[index]) return;
+                    onChineseInput(index);
+                    showImeWarn(index);
+                  }}
                   onCompositionEnd={() => {
-                    // 只要发生了 IME 合成（compositionstart→end），即判定该单词
-                    // 使用了中文/日文等非英文输入法。此处不再撤销输入内容（允许保留），
-                    // 而是标记该单词「用了中文输入法」，核对时一律判为错误，
-                    // 同时弹出提示并在结果页统计中文输入的单词数量。
+                    // 合成结束再兜底标记一次（防止某些输入法不触发 start）。
+                    // 此处不撤销输入内容（允许保留），核对时一律判为错误。
                     if (locked[index]) return;
                     onChineseInput(index);
                     showImeWarn(index);
@@ -2154,7 +2164,7 @@ function SpellingListUI(props: SpellingListUIProps) {
               {imeWarnIndex === index && !isLocked && (
                 <div className="mt-2 flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">
                   <span>⚠️</span>
-                  <span>检测到中文输入法，本词将判为错误。建议切换英文输入法后重新拼写。</span>
+                  <span>检测到中文输入法，请切换为英文输入法！本词已判为错误。</span>
                 </div>
               )}
 
