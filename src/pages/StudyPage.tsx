@@ -72,8 +72,6 @@ function shuffleArray<T>(arr: T[]): T[] {
 const SPELLING_ALLOWED_CHARS = "a-zA-Z \\-'.,!?;:()\\[\\]{}\"/\\\\@#&*+=_~`^%$";
 // 匹配「不在允许集合内」的字符，用于清洗输入（全局替换）
 const SPELLING_DISALLOWED_RE = new RegExp(`[^${SPELLING_ALLOWED_CHARS}]`, 'g');
-// 匹配「不在允许集合内」的字符，用于合成输入前的拦截判断（单字符检测）
-const SPELLING_DISALLOWED_TEST_RE = new RegExp(`[^${SPELLING_ALLOWED_CHARS}]`);
 
 export default function StudyPage() {
   // =========================
@@ -1781,18 +1779,14 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   const hasFocusedRef = useRef<boolean[]>(new Array(words.length).fill(false));
 
-  // 记录每个输入框是否正处于输入法（IME）合成过程中
-  // 中文/日文等输入法在选字上屏前会经历 compositionstart -> update -> end，
-  // 合成过程中不应把拼音等中间态写入答案，上屏后再按允许字符集清洗
-  const composingRef = useRef<boolean[]>([]);
-
   const handleInputChange = (index: number, value: string) => {
     if (!locked[index]) {
-      // 若正处于 IME 合成中（如中文输入法拼音阶段），忽略中间态，
-      // 待 compositionend 上屏后统一清洗，避免拼音字母被误当作有效输入
-      if (composingRef.current[index]) return;
-      // 允许英文字母、空格及常见半角标点符号输入，过滤掉中文及全角字符
-      // 空格和标点仅作为输入内容保留，核对时由 normalizeSpelling 忽略，不影响判断
+      // 清洗输入：只保留英文字母、空格及常见半角标点，过滤中文/全角字符。
+      // 关键说明：React 受控 input 在 IME 合成（中文拼音）期间不会触发 onChange，
+      // 只在 compositionend 上屏后触发一次，此时 value 是最终文本（如汉字）。
+      // 因此这里无需自己维护「合成中」标志位——直接清洗即可，
+      // 汉字会被过滤为空，从而实现「中文输入法下无法拼写」，
+      // 同时也避免了切换输入法时合成标志位卡死导致英文无法输入的问题。
       const filtered = value.replace(SPELLING_DISALLOWED_RE, '');
       setAnswers(index, filtered);
     }
@@ -2062,44 +2056,6 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  onBeforeInput={(e) => {
-                    // 拦截中文/全角等不在允许集合内的合成输入（空格与半角标点已被允许）
-                    const nativeEvent = e.nativeEvent as InputEvent;
-                    const data = nativeEvent.data;
-                    if (data && SPELLING_DISALLOWED_TEST_RE.test(data)) {
-                      e.preventDefault();
-                    }
-                  }}
-                  onCompositionStart={() => {
-                    // 标记进入 IME 合成态（中文输入法开始拼音阶段）
-                    // 合成期间 onChange 会被忽略，避免拼音中间态污染答案
-                    composingRef.current[index] = true;
-                  }}
-                  onCompositionEnd={(e) => {
-                    // 合成结束（选字上屏或取消）：解除合成标记
-                    composingRef.current[index] = false;
-                    // 上屏内容按允许字符集清洗——中文汉字/拼音会被过滤，
-                    // 从而实现「中文输入法下无法拼写」，仅英文字母/空格/标点被保留
-                    const target = e.currentTarget;
-                    const cleaned = target.value.replace(SPELLING_DISALLOWED_RE, '');
-                    if (locked[index]) return;
-                    // 关键修复：合成期间被拦截后，React 的受控值追踪器（value tracker）
-                    // 记录的是脏的拼音值，且清洗结果常与当前答案相同（如都为空），
-                    // 直接 setAnswers 不会触发重渲染，DOM 与 tracker 都停留在脏值上，
-                    // 导致切回英文输入法后 onChange 判定「值未变」而无法输入。
-                    // 这里用原生 setter 重置 DOM value 并同步 React 的 tracker，
-                    // 再手动派发一次 input 事件，让受控流程重新对齐到干净值。
-                    const nativeSetter = Object.getOwnPropertyDescriptor(
-                      window.HTMLInputElement.prototype,
-                      'value'
-                    )?.set;
-                    if (nativeSetter) {
-                      nativeSetter.call(target, cleaned);
-                      target.dispatchEvent(new Event('input', { bubbles: true }));
-                    } else {
-                      setAnswers(index, cleaned);
-                    }
-                  }}
                   onPaste={(e) => {
                     // 禁止粘贴，只能一个一个字母手动输入
                     e.preventDefault();
