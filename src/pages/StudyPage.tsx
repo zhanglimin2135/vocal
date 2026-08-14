@@ -1769,7 +1769,10 @@ function SpellingListUI(props: SpellingListUIProps) {
 
   const handleInputChange = (index: number, value: string) => {
     if (!locked[index]) {
-      setAnswers(index, value);
+      // 仅允许英文字母输入：过滤掉中文、数字、符号及全角字符
+      // 这样即使输入法为中文，输入的候选内容也会被剔除，只保留 a-z / A-Z
+      const filtered = value.replace(/[^a-zA-Z]/g, '');
+      setAnswers(index, filtered);
     }
   };
 
@@ -2037,6 +2040,37 @@ function SpellingListUI(props: SpellingListUIProps) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onFocus={() => handleInputFocus(index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
+                  onBeforeInput={(e) => {
+                    // 拦截中文/全角等非字母字符的合成输入
+                    const nativeEvent = e.nativeEvent as InputEvent;
+                    const data = nativeEvent.data;
+                    if (data && /[^a-zA-Z]/.test(data)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onCompositionStart={(e) => {
+                    // 禁止输入法（中文等）的候选合成，强制为英文直接输入
+                    e.preventDefault();
+                    const target = e.currentTarget;
+                    // 清空可能残留的合成文本，保持只有已确认的英文字母
+                    requestAnimationFrame(() => {
+                      handleInputChange(index, target.value);
+                    });
+                  }}
+                  onPaste={(e) => {
+                    // 禁止粘贴，只能一个一个字母手动输入
+                    e.preventDefault();
+                  }}
+                  onCopy={(e) => {
+                    // 禁止复制
+                    e.preventDefault();
+                  }}
+                  onDrop={(e) => {
+                    // 禁止拖拽文本进入输入框
+                    e.preventDefault();
+                  }}
+                  inputMode="text"
+                  lang="en"
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck={false}
