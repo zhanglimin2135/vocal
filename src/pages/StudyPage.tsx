@@ -278,6 +278,11 @@ export default function StudyPage() {
   const [isCapturing, setIsCapturing] = useState(false);
   const [captureSuccess, setCaptureSuccess] = useState(false);
 
+  // —— 强制全屏相关 ——
+  // 标记「正在主动离开学习页」：主动退出（如卸载、点返回）会触发 fullscreenchange，
+  // 需靠这个标记跳过「退出全屏 → 回首页」的强制逻辑，避免误跳转。
+  const leavingStudyRef = useRef(false);
+
   /**
    * 拼写输入规范化（供正确性比对用）：
    *   - 去掉所有空格
@@ -533,6 +538,57 @@ export default function StudyPage() {
       resetStarredWords();
     };
   }, [resetStarredWords]);
+
+  /**
+   * 强制全屏：进入学习页后必须处于全屏状态
+   *   规则（网站强制要求）：
+   *     - 选好词表单元 + 学习模式，点「开始学习」进入本页后，立即请求浏览器全屏；
+   *     - 一旦用户退出全屏（按 Esc、F11、点右上退出等），页面强制返回选择词表单元页 '/select'.
+   *   实现要点：
+   *     - 只在词表合法（不会被上面的 effect 重定向回 /select）时才启用；
+   *     - 主动离开（卸载/点返回）时也会触发 fullscreenchange，用 leavingStudyRef 跳过误判；
+   *     - 卸载时移除监听并退出全屏，避免影响其它页面。
+   */
+  useEffect(() => {
+    // 词表非法时，上面的 effect 会重定向到 /select，这里不启用全屏逻辑
+    if (!currentBook || selectedSheetIds.length === 0) return;
+
+    leavingStudyRef.current = false;
+    const rootEl = document.documentElement;
+
+    // 请求进入全屏（部分浏览器要求用户手势触发；点「开始学习」跳转本页通常仍在手势上下文内）
+    const enterFullscreen = () => {
+      const req = rootEl.requestFullscreen?.bind(rootEl);
+      if (req && !document.fullscreenElement) {
+        // 某些环境（如未处于用户手势中）会 reject，静默忽略即可，
+        // 后续 fullscreenchange 若检测到没进全屏并不会误跳转（初始本就非全屏）
+        void req().catch(() => {});
+      }
+    };
+
+    // 全屏状态变化：若「已退出全屏」且不是主动离开，则强制返回选择词表单元页
+    const handleFullscreenChange = () => {
+      if (leavingStudyRef.current) return;
+      if (!document.fullscreenElement) {
+        leavingStudyRef.current = true;
+        navigate('/select');
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    // 延迟一帧再请求，确保页面已挂载、仍在点击手势上下文内
+    const t = window.setTimeout(enterFullscreen, 0);
+
+    return () => {
+      window.clearTimeout(t);
+      // 标记为主动离开，避免卸载时退出全屏又触发一次跳转
+      leavingStudyRef.current = true;
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      if (document.fullscreenElement) {
+        void document.exitFullscreen?.().catch(() => {});
+      }
+    };
+  }, [currentBook, selectedSheetIds, navigate]);
 
   // =========================
   // 交互回调（useCallback 包装，避免不必要的子组件重渲染）
@@ -926,8 +982,14 @@ export default function StudyPage() {
     return `${mm}:${ss}.${tenths}`;
   };
 
-  // 返回选择页
-  const goBack = () => navigate('/select');
+  // 返回选择页（主动离开：先置离开标记，避免退出全屏被误判为「返回首页」）
+  const goBack = () => {
+    leavingStudyRef.current = true;
+    if (document.fullscreenElement) {
+      void document.exitFullscreen?.().catch(() => {});
+    }
+    navigate('/select');
+  };
 
   // 单词为空时的加载占位（通常发生在初始化尚未完成时）
   if (words.length === 0) {

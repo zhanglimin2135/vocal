@@ -174,6 +174,13 @@ export default function SelectPage() {
       setSpellingModalOpen(true);
       return;
     }
+    // 网站强制要求：进入学习页必须全屏。
+    // 在按钮点击这次用户手势内同步请求全屏，成功率最高（浏览器要求全屏由用户手势触发）；
+    // 学习页里还有兜底逻辑，并负责「退出全屏 → 回首页」。
+    const rootEl = document.documentElement;
+    if (rootEl.requestFullscreen && !document.fullscreenElement) {
+      void rootEl.requestFullscreen().catch(() => {});
+    }
     navigate('/study');
   };
 
