@@ -34,7 +34,7 @@ import {
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
 import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
-import { cn, generateId } from '@/lib/utils';
+import { cn, generateId, canUseForcedFullscreen } from '@/lib/utils';
 
 /**
  * StudyWord - 学习态单词对象类型
@@ -544,6 +544,9 @@ export default function StudyPage() {
    *   规则（网站强制要求）：
    *     - 选好词表单元 + 学习模式，点「开始学习」进入本页后，立即请求浏览器全屏；
    *     - 一旦用户退出全屏（按 Esc、F11、点右上退出等），页面强制返回选择词表单元页 '/select'.
+   *   适配说明：
+   *     - iPad / iOS 等不支持可靠全屏的设备直接跳过整段逻辑（不请求、不监听、不跳转），
+   *       避免它们进页面后因全屏异常被误踢回选择页，保证正常使用。
    *   实现要点：
    *     - 只在词表合法（不会被上面的 effect 重定向回 /select）时才启用；
    *     - 主动离开（卸载/点返回）时也会触发 fullscreenchange，用 leavingStudyRef 跳过误判；
@@ -552,6 +555,8 @@ export default function StudyPage() {
   useEffect(() => {
     // 词表非法时，上面的 effect 会重定向到 /select，这里不启用全屏逻辑
     if (!currentBook || selectedSheetIds.length === 0) return;
+    // iPad/iOS 等不支持可靠全屏的设备：完全跳过强制全屏，让页面正常使用
+    if (!canUseForcedFullscreen()) return;
 
     leavingStudyRef.current = false;
     const rootEl = document.documentElement;

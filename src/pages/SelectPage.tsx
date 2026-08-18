@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import type { LookSubMode, SpellingSubMode, StudyMode } from '@/types';
-import { cn } from '@/lib/utils';
+import { cn, canUseForcedFullscreen } from '@/lib/utils';
 
 export default function SelectPage() {
   // useNavigate：react-router-dom 提供的 Hook，用于编程式路由跳转
@@ -175,11 +175,12 @@ export default function SelectPage() {
       return;
     }
     // 网站强制要求：进入学习页必须全屏。
+    // 仅在支持可靠全屏的设备（桌面浏览器）上请求；iPad/iOS 等不支持全屏的设备直接跳过，
+    // 避免它们进学习页后因全屏异常被误踢回选择页，保证正常使用。
     // 在按钮点击这次用户手势内同步请求全屏，成功率最高（浏览器要求全屏由用户手势触发）；
-    // 学习页里还有兜底逻辑，并负责「退出全屏 → 回首页」。
-    const rootEl = document.documentElement;
-    if (rootEl.requestFullscreen && !document.fullscreenElement) {
-      void rootEl.requestFullscreen().catch(() => {});
+    // 学习页里还有兜底逻辑，并负责「退出全屏 → 返回选择页」。
+    if (canUseForcedFullscreen() && !document.fullscreenElement) {
+      void document.documentElement.requestFullscreen().catch(() => {});
     }
     navigate('/study');
   };
