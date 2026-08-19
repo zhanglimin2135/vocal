@@ -761,12 +761,8 @@ export default function StudyPage() {
       return next;
     });
     
-    setStats((prev) => ({
-      ...prev,
-      correct: prev.correct + (correct ? 1 : 0),
-      wrong: prev.wrong + (correct ? 0 : 1),
-      timeout: prev.timeout + (isTimeout ? 1 : 0),
-    }));
+    // 统计数据由 useEffect 从 results/wrongRecords 派生，这里不再直接 setStats
+    // 避免与 useEffect 的计算结果冲突（如增量更新 vs 全量重算的竞态）
     
     if (!correct) {
       setWrongRecords((prev) => [
@@ -1377,7 +1373,7 @@ export default function StudyPage() {
                 {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
                 <div
                   className={cn(
-                    'relative px-6 py-10 text-center text-white',
+                    'relative px-6 py-4 text-center text-white',
                     passed
                       ? 'bg-gradient-to-br from-emerald-500 via-teal-500 to-sky-600'
                       : 'bg-gradient-to-br from-rose-500 via-orange-500 to-amber-500'
@@ -1388,7 +1384,7 @@ export default function StudyPage() {
                     onClick={captureResultScreenshot}
                     disabled={isCapturing}
                     className={cn(
-                      'absolute right-4 top-4 flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition',
+                      'absolute right-4 top-3 flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition',
                       isCapturing
                         ? 'bg-white/20 text-white/70 cursor-not-allowed'
                         : captureSuccess
@@ -1414,25 +1410,27 @@ export default function StudyPage() {
                     )}
                   </button>
                   
-                  <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white/15 backdrop-blur">
-                    <Trophy className="h-10 w-10" />
+                  <div className="mx-auto flex items-center justify-center gap-2">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur">
+                      <Trophy className="h-5 w-5" />
+                    </div>
+                    {passed ? (
+                      <div className="text-left">
+                        <h2 className="text-lg font-extrabold sm:text-xl">🎉 恭喜你，闯关成功！</h2>
+                        <p className="mt-0.5 text-xs text-white/90">
+                          准确率 {accuracyStr}，超过 90% 合格线，太棒啦，继续保持！
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="text-left">
+                        <h2 className="text-lg font-extrabold sm:text-xl">💪 很遗憾，再接再厉！</h2>
+                        <p className="mt-0.5 text-xs text-white/90">
+                          当前准确率 {accuracyStr}，合格线是 90%。别灰心，复习错题，再来一遍一定能过！
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  {passed ? (
-                    <>
-                      <h2 className="text-2xl font-extrabold sm:text-3xl">🎉 恭喜你，闯关成功！</h2>
-                      <p className="mt-2 text-sm text-white/90">
-                        准确率 {accuracyStr}，超过 90% 合格线，太棒啦，继续保持！
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <h2 className="text-2xl font-extrabold sm:text-3xl">💪 很遗憾，再接再厉！</h2>
-                      <p className="mt-2 text-sm text-white/90">
-                        当前准确率 {accuracyStr}，合格线是 90%。别灰心，复习错题，再来一遍一定能过！
-                      </p>
-                    </>
-                  )}
-                  <p className="mt-3 text-xs text-white/80">
+                  <p className="mt-2 text-[11px] text-white/80">
                     模式：单词拼写 · {modeText}　·　共 {words.length} 个单词　·　总用时{' '}
                     <span className="font-mono font-bold">{formatTotalTime(totalElapsedMs)}</span>
                   </p>
@@ -1440,7 +1438,7 @@ export default function StudyPage() {
 
                 {/* —— 4 格统计卡（检查时间 / 检查内容 / 正确 / 错误 / 正确率 合并） —— */}
                 <div className="grid grid-cols-2 gap-px bg-slate-100 sm:grid-cols-4">
-                  <div className="bg-white px-4 py-4 text-center">
+                  <div className="bg-white px-4 py-3 text-center">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       检查时间
                     </p>
@@ -1448,7 +1446,7 @@ export default function StudyPage() {
                       {checkTimeStr}
                     </p>
                   </div>
-                  <div className="bg-white px-4 py-4 text-center sm:col-span-1">
+                  <div className="bg-white px-4 py-3 text-center sm:col-span-1">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       检查内容（词表）
                     </p>
@@ -1467,7 +1465,7 @@ export default function StudyPage() {
                       )}
                     </div>
                   </div>
-                  <div className="bg-white px-4 py-4 text-center">
+                  <div className="bg-white px-4 py-3 text-center">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       正确
                     </p>
@@ -1475,7 +1473,7 @@ export default function StudyPage() {
                       {stats.correct}
                     </p>
                   </div>
-                  <div className="bg-white px-4 py-4 text-center">
+                  <div className="bg-white px-4 py-3 text-center">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       错误
                     </p>
@@ -1486,7 +1484,7 @@ export default function StudyPage() {
                 </div>
 
                 {/* —— 单独一行：准确率大字（突出） —— */}
-                <div className="border-y border-slate-100 bg-gradient-to-r from-indigo-50 via-blue-50 to-sky-50 px-6 py-4 text-center">
+                <div className="border-y border-slate-100 bg-gradient-to-r from-indigo-50 via-blue-50 to-sky-50 px-6 py-3 text-center">
                   <p className="text-[11px] font-medium uppercase tracking-wider text-indigo-500">
                     本次准确率
                   </p>
@@ -1504,9 +1502,9 @@ export default function StudyPage() {
                 </div>
 
                 {/* —— 准确率下方：所有错题列表（正确单词 / 释义 / 错误拼写） —— */}
-                <div className="px-6 py-6">
+                <div className="px-6 py-4">
                   {wrongRecords.length === 0 ? (
-                    <div className="rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-6 text-center">
+                    <div className="rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-5 text-center">
                       <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                         <Check className="h-7 w-7" />
                       </div>
@@ -1681,6 +1679,9 @@ export default function StudyPage() {
                 totalElapsedMs={totalElapsedMs}
                 formatTotalTime={formatTotalTime}
                 onSubmit={() => {
+                  // 提交时：把所有尚未锁定且没有答案的单词标记为错误（跳过/未作答）
+                  // 统计数据由 useEffect 从 results/wrongRecords 派生，不再用 setTimeout 延迟计算
+                  // 避免闭包中 results/wrongRecords 过期导致的统计不一致
                   for (let i = 0; i < words.length; i++) {
                     if (!locked[i] && !answers[i].trim()) {
                       setLocked((prev) => {
@@ -1703,22 +1704,9 @@ export default function StudyPage() {
                       ]);
                     }
                   }
-                  
-                  setTimeout(() => {
-                    const finalStats = { correct: 0, wrong: 0, timeout: 0 };
-                    results.forEach((result, idx) => {
-                      if (result === true) {
-                        finalStats.correct++;
-                      } else {
-                        finalStats.wrong++;
-                        if (wrongRecords.find(r => r.word.uid === words[idx].uid)?.isTimeout) {
-                          finalStats.timeout++;
-                        }
-                      }
-                    });
-                    setStats(finalStats);
-                    setSpellingIndex(words.length);
-                  }, 300);
+                  // 直接触发结果页：上述状态更新会被 React 18 自动批处理，
+                  // useEffect 会在渲染后根据最新 results/wrongRecords 重新计算 stats
+                  setSpellingIndex(words.length);
                 }}
               />
             )}
