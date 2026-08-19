@@ -30,6 +30,8 @@ import {
   Send,
   Camera,
   CheckCircle,
+  Share2,
+  Download,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
@@ -277,6 +279,10 @@ export default function StudyPage() {
   // 截图状态
   const [isCapturing, setIsCapturing] = useState(false);
   const [captureSuccess, setCaptureSuccess] = useState(false);
+  // 分享状态
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareImageUrl, setShareImageUrl] = useState<string | null>(null);
+  const [isSharing, setIsSharing] = useState(false);
 
   // —— 强制全屏相关 ——
   // 标记「正在主动离开学习页」：主动退出（如卸载、点返回）会触发 fullscreenchange，
@@ -333,28 +339,20 @@ export default function StudyPage() {
   };
 
   /**
-   * captureResultScreenshot - 截图函数
-   *   先将所有样式内联化，再使用 SVG foreignObject + Canvas 方案截图
+   * generateResultImage - 生成结果页图片（返回 dataURL）
+   *   使用 SVG foreignObject + Canvas 方案，生成高分辨率 PNG
    */
-  const captureResultScreenshot = async () => {
-    if (!resultPageRef.current) return;
-    
-    setIsCapturing(true);
-    setCaptureSuccess(false);
-    
+  const generateResultImage = useCallback(async (): Promise<string | null> => {
+    if (!resultPageRef.current) return null;
     try {
       const node = resultPageRef.current;
       const rect = node.getBoundingClientRect();
       const width = Math.ceil(rect.width);
       const height = Math.ceil(rect.height);
       
-      // 深克隆节点
       const clone = node.cloneNode(true) as HTMLElement;
-      
-      // 应用内联样式
       inlineStyles(clone);
       
-      // 确保没有固定定位导致的问题
       const fixPosition = (el: HTMLElement) => {
         const pos = el.style.position;
         if (pos === 'fixed' || pos === 'sticky') {
@@ -368,7 +366,6 @@ export default function StudyPage() {
       };
       fixPosition(clone);
       
-      // 创建包装器
       const wrapper = document.createElement('div');
       wrapper.style.width = `${width}px`;
       wrapper.style.height = `${height}px`;
@@ -377,7 +374,6 @@ export default function StudyPage() {
       wrapper.style.position = 'relative';
       wrapper.appendChild(clone);
       
-      // 创建 SVG
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('width', String(width));
       svg.setAttribute('height', String(height));
@@ -394,12 +390,10 @@ export default function StudyPage() {
       foreignObject.appendChild(xhtmlDiv);
       svg.appendChild(foreignObject);
       
-      // 序列化 SVG
       const svgData = new XMLSerializer().serializeToString(svg);
       const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
       
-      // 绘制到 Canvas
       const img = new Image();
       img.crossOrigin = 'anonymous';
       
@@ -409,80 +403,98 @@ export default function StudyPage() {
         img.src = url;
       });
       
-      // 创建高分辨率 Canvas (2x)
       const scale = 2;
       const canvas = document.createElement('canvas');
       canvas.width = width * scale;
       canvas.height = height * scale;
       const ctx = canvas.getContext('2d')!;
-      
-      // 绘制白色背景
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // 绘制图片
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
       URL.revokeObjectURL(url);
       
-      // 转换为 Blob
-      const blob: Blob | null = await new Promise((resolve) => {
-        canvas.toBlob((b) => resolve(b), 'image/png', 1.0);
-      });
+      return canvas.toDataURL('image/png');
+    } catch (error) {
+      console.error('生成图片失败:', error);
+      return null;
+    }
+  }, []);
+
+  /**
+   * captureResultScreenshot - 截图并复制到剪贴板/下载
+   */
+  const captureResultScreenshot = async () => {
+    setIsCapturing(true);
+    setCaptureSuccess(false);
+    
+    try {
+      const dataUrl = await generateResultImage();
+      if (!dataUrl) throw new Error('图片生成失败');
       
-      if (blob) {
-        // 保存到剪贴板
-        try {
-          if (navigator.clipboard && window.ClipboardItem) {
-            await navigator.clipboard.write([
-              new ClipboardItem({
-                'image/png': blob,
-              }),
-            ]);
-            setCaptureSuccess(true);
-            setTimeout(() => setCaptureSuccess(false), 2000);
-          } else {
-            // 回退方案：下载图片
-            const downloadUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(downloadUrl);
-            setCaptureSuccess(true);
-            setTimeout(() => setCaptureSuccess(false), 2000);
-          }
-        } catch (clipboardErr) {
-          console.warn('剪贴板写入失败，尝试下载:', clipboardErr);
-          // 回退方案：下载图片
-          const downloadUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = downloadUrl;
-          a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(downloadUrl);
+      // 转换为 Blob
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      
+      // 保存到剪贴板
+      try {
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'image/png': blob,
+            }),
+          ]);
+          setCaptureSuccess(true);
+          setTimeout(() => setCaptureSuccess(false), 2000);
+        } else {
+          triggerImageDownload(blob);
           setCaptureSuccess(true);
           setTimeout(() => setCaptureSuccess(false), 2000);
         }
+      } catch (clipboardErr) {
+        console.warn('剪贴板写入失败，尝试下载:', clipboardErr);
+        triggerImageDownload(blob);
+        setCaptureSuccess(true);
+        setTimeout(() => setCaptureSuccess(false), 2000);
       }
     } catch (error) {
       console.error('截图失败:', error);
-      
-      // 最终回退：直接下载
-      try {
-        const node = resultPageRef.current;
-        if (node) {
-          alert('截图组件不支持当前浏览器，已改为下载模式。请允许下载后手动保存。');
-        }
-      } catch (_) {
-        // 忽略
-      }
+      alert('截图失败，请重试');
     } finally {
       setIsCapturing(false);
+    }
+  };
+
+  const triggerImageDownload = (blob: Blob) => {
+    const downloadUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
+  };
+
+  /**
+   * shareResult - 生成图片并打开分享弹窗
+   */
+  const shareResult = async () => {
+    setIsSharing(true);
+    setShareImageUrl(null);
+    try {
+      const dataUrl = await generateResultImage();
+      if (dataUrl) {
+        setShareImageUrl(dataUrl);
+        setShowShareModal(true);
+      } else {
+        alert('生成图片失败，请重试');
+      }
+    } catch (error) {
+      console.error('分享失败:', error);
+      alert('分享失败，请重试');
+    } finally {
+      setIsSharing(false);
     }
   };
 
@@ -1379,33 +1391,26 @@ export default function StudyPage() {
                       : 'bg-gradient-to-br from-rose-500 via-orange-500 to-amber-500'
                   )}
                 >
-                  {/* 截图按钮 - 右上角 */}
+                  {/* 分享按钮 - 右上角 */}
                   <button
-                    onClick={captureResultScreenshot}
-                    disabled={isCapturing}
+                    onClick={shareResult}
+                    disabled={isSharing}
                     className={cn(
                       'absolute right-4 top-3 flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition',
-                      isCapturing
+                      isSharing
                         ? 'bg-white/20 text-white/70 cursor-not-allowed'
-                        : captureSuccess
-                          ? 'bg-white text-emerald-600 hover:bg-white/90'
-                          : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur'
+                        : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur'
                     )}
                   >
-                    {captureSuccess ? (
+                    {isSharing ? (
                       <>
-                        <CheckCircle className="h-3.5 w-3.5" />
-                        已复制
-                      </>
-                    ) : isCapturing ? (
-                      <>
-                        <Camera className="h-3.5 w-3.5 animate-pulse" />
-                        截图中...
+                        <Share2 className="h-3.5 w-3.5 animate-pulse" />
+                        生成中...
                       </>
                     ) : (
                       <>
-                        <Camera className="h-3.5 w-3.5" />
-                        截图
+                        <Share2 className="h-3.5 w-3.5" />
+                        分享
                       </>
                     )}
                   </button>
@@ -1415,14 +1420,14 @@ export default function StudyPage() {
                       <Trophy className="h-5 w-5" />
                     </div>
                     {passed ? (
-                      <div className="text-left">
+                      <div className="text-center">
                         <h2 className="text-lg font-extrabold sm:text-xl">🎉 恭喜你，闯关成功！</h2>
                         <p className="mt-0.5 text-xs text-white/90">
                           准确率 {accuracyStr}，超过 90% 合格线，太棒啦，继续保持！
                         </p>
                       </div>
                     ) : (
-                      <div className="text-left">
+                      <div className="text-center">
                         <h2 className="text-lg font-extrabold sm:text-xl">💪 很遗憾，再接再厉！</h2>
                         <p className="mt-0.5 text-xs text-white/90">
                           当前准确率 {accuracyStr}，合格线是 90%。别灰心，复习错题，再来一遍一定能过！
@@ -1826,6 +1831,102 @@ export default function StudyPage() {
           )
         )}
       </div>
+
+      {/* —— 分享弹窗 —— */}
+      {showShareModal && shareImageUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+          onClick={() => setShowShareModal(false)}
+        >
+          <div
+            className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowShareModal(false)}
+              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <h3 className="mb-4 text-center text-lg font-bold text-slate-800">
+              📤 分享到微信
+            </h3>
+
+            <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+              <img
+                src={shareImageUrl}
+                alt="学习结果"
+                className="mx-auto block w-full max-w-sm"
+                style={{ imageRendering: 'auto' }}
+              />
+            </div>
+
+            <div className="mb-4 space-y-3 rounded-xl bg-slate-50 p-4 text-sm">
+              <p className="font-semibold text-slate-700">📱 分享到微信的方法：</p>
+              <ol className="space-y-2 text-slate-600">
+                <li className="flex gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">1</span>
+                  <span>长按上方图片，选择「保存图片」</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">2</span>
+                  <span>打开微信，进入聊天窗口</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">3</span>
+                  <span>点击「+」→「相册」，选择刚保存的图片发送</span>
+                </li>
+              </ol>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  const a = document.createElement('a');
+                  a.href = shareImageUrl;
+                  a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+              >
+                <Download className="h-4 w-4" />
+                下载图片
+              </button>
+              <button
+                onClick={() => {
+                  if (navigator.clipboard) {
+                    fetch(shareImageUrl)
+                      .then((r) => r.blob())
+                      .then((blob) => {
+                        navigator.clipboard
+                          .write([new ClipboardItem({ 'image/png': blob })])
+                          .then(() => {
+                            alert('图片已复制到剪贴板，打开微信粘贴发送即可');
+                          })
+                          .catch(() => {
+                            alert('剪贴板写入失败，请使用「下载图片」');
+                          });
+                      });
+                  } else {
+                    alert('当前浏览器不支持剪贴板，请使用「下载图片」');
+                  }
+                }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+              >
+                <CheckCircle className="h-4 w-4" />
+                复制图片
+              </button>
+            </div>
+
+            <p className="mt-3 text-center text-xs text-slate-400">
+              提示：在微信中也可直接「长按图片 → 发送给朋友」
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
