@@ -30,7 +30,6 @@ import {
   Send,
   Camera,
   CheckCircle,
-  Share2,
   Download,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
@@ -274,15 +273,6 @@ export default function StudyPage() {
   const spellingInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
-  // 结果页面截图区域 ref
-  const resultPageRef = useRef<HTMLDivElement>(null);
-  // 截图状态
-  const [isCapturing, setIsCapturing] = useState(false);
-  const [captureSuccess, setCaptureSuccess] = useState(false);
-  // 分享状态
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [shareImageUrl, setShareImageUrl] = useState<string | null>(null);
-  const [isSharing, setIsSharing] = useState(false);
 
   // —— 强制全屏相关 ——
   // 标记「正在主动离开学习页」：主动退出（如卸载、点返回）会触发 fullscreenchange，
@@ -299,204 +289,6 @@ export default function StudyPage() {
     // 核对时忽略空格与标点符号：只保留字母和数字，再转小写
     // 这样用户输入的空格、连字符、逗号等不会影响判断结果
     s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-
-  /**
-   * 将元素及其子元素的 computed styles 应用为内联样式
-   * 这是 SVG foreignObject 方案能正确渲染的关键
-   */
-  const inlineStyles = (element: HTMLElement) => {
-    const computed = window.getComputedStyle(element);
-    const importantProps = [
-      'box-sizing', 'width', 'height', 'min-width', 'min-height',
-      'max-width', 'max-height', 'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
-      'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
-      'border', 'border-radius', 'border-width', 'border-color', 'border-style',
-      'background', 'background-color', 'background-image', 'background-size', 'background-position',
-      'color', 'font', 'font-size', 'font-weight', 'font-family', 'font-style',
-      'text-align', 'text-decoration', 'text-transform', 'line-height', 'letter-spacing',
-      'display', 'flex', 'flex-direction', 'flex-wrap', 'flex-grow', 'flex-shrink',
-      'justify-content', 'align-items', 'align-content', 'align-self',
-      'gap', 'row-gap', 'column-gap',
-      'position', 'top', 'right', 'bottom', 'left', 'z-index',
-      'overflow', 'overflow-x', 'overflow-y',
-      'opacity', 'transform', 'box-shadow', 'text-shadow',
-      'cursor', 'list-style', 'outline',
-      'grid-template-columns', 'grid-template-rows', 'grid-gap',
-      'gap',
-    ];
-    let style = '';
-    for (const prop of importantProps) {
-      const val = computed.getPropertyValue(prop);
-      if (val) {
-        style += `${prop}:${val};`;
-      }
-    }
-    element.setAttribute('style', style);
-    // 递归处理子元素
-    for (const child of element.children) {
-      inlineStyles(child as HTMLElement);
-    }
-  };
-
-  /**
-   * generateResultImage - 生成结果页图片（返回 dataURL）
-   *   使用 SVG foreignObject + Canvas 方案，生成高分辨率 PNG
-   */
-  const generateResultImage = useCallback(async (): Promise<string | null> => {
-    if (!resultPageRef.current) return null;
-    try {
-      const node = resultPageRef.current;
-      const rect = node.getBoundingClientRect();
-      const width = Math.ceil(rect.width);
-      const height = Math.ceil(rect.height);
-      
-      const clone = node.cloneNode(true) as HTMLElement;
-      inlineStyles(clone);
-      
-      const fixPosition = (el: HTMLElement) => {
-        const pos = el.style.position;
-        if (pos === 'fixed' || pos === 'sticky') {
-          el.style.position = 'absolute';
-          el.style.top = '0';
-          el.style.left = '0';
-        }
-        for (const child of el.children) {
-          fixPosition(child as HTMLElement);
-        }
-      };
-      fixPosition(clone);
-      
-      const wrapper = document.createElement('div');
-      wrapper.style.width = `${width}px`;
-      wrapper.style.height = `${height}px`;
-      wrapper.style.background = '#ffffff';
-      wrapper.style.overflow = 'hidden';
-      wrapper.style.position = 'relative';
-      wrapper.appendChild(clone);
-      
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', String(width));
-      svg.setAttribute('height', String(height));
-      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      
-      const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-      foreignObject.setAttribute('width', '100%');
-      foreignObject.setAttribute('height', '100%');
-      
-      const xhtmlDiv = document.createElement('div');
-      xhtmlDiv.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-      xhtmlDiv.appendChild(wrapper);
-      
-      foreignObject.appendChild(xhtmlDiv);
-      svg.appendChild(foreignObject);
-      
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-      
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      
-      await new Promise<void>((resolve, reject) => {
-        img.onload = () => resolve();
-        img.onerror = (e) => reject(new Error('图片加载失败: ' + String(e)));
-        img.src = url;
-      });
-      
-      const scale = 2;
-      const canvas = document.createElement('canvas');
-      canvas.width = width * scale;
-      canvas.height = height * scale;
-      const ctx = canvas.getContext('2d')!;
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
-      URL.revokeObjectURL(url);
-      
-      return canvas.toDataURL('image/png');
-    } catch (error) {
-      console.error('生成图片失败:', error);
-      return null;
-    }
-  }, []);
-
-  /**
-   * captureResultScreenshot - 截图并复制到剪贴板/下载
-   */
-  const captureResultScreenshot = async () => {
-    setIsCapturing(true);
-    setCaptureSuccess(false);
-    
-    try {
-      const dataUrl = await generateResultImage();
-      if (!dataUrl) throw new Error('图片生成失败');
-      
-      // 转换为 Blob
-      const response = await fetch(dataUrl);
-      const blob = await response.blob();
-      
-      // 保存到剪贴板
-      try {
-        if (navigator.clipboard && window.ClipboardItem) {
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ]);
-          setCaptureSuccess(true);
-          setTimeout(() => setCaptureSuccess(false), 2000);
-        } else {
-          triggerImageDownload(blob);
-          setCaptureSuccess(true);
-          setTimeout(() => setCaptureSuccess(false), 2000);
-        }
-      } catch (clipboardErr) {
-        console.warn('剪贴板写入失败，尝试下载:', clipboardErr);
-        triggerImageDownload(blob);
-        setCaptureSuccess(true);
-        setTimeout(() => setCaptureSuccess(false), 2000);
-      }
-    } catch (error) {
-      console.error('截图失败:', error);
-      alert('截图失败，请重试');
-    } finally {
-      setIsCapturing(false);
-    }
-  };
-
-  const triggerImageDownload = (blob: Blob) => {
-    const downloadUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-    a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
-  };
-
-  /**
-   * shareResult - 生成图片并打开分享弹窗
-   */
-  const shareResult = async () => {
-    setIsSharing(true);
-    setShareImageUrl(null);
-    try {
-      const dataUrl = await generateResultImage();
-      if (dataUrl) {
-        setShareImageUrl(dataUrl);
-        setShowShareModal(true);
-      } else {
-        alert('生成图片失败，请重试');
-      }
-    } catch (error) {
-      console.error('分享失败:', error);
-      alert('分享失败，请重试');
-    } finally {
-      setIsSharing(false);
-    }
-  };
 
   // =========================
   // 初始化副作用（useEffect）
@@ -567,6 +359,8 @@ export default function StudyPage() {
   useEffect(() => {
     // 词表非法时，上面的 effect 会重定向到 /select，这里不启用全屏逻辑
     if (!currentBook || selectedSheetIds.length === 0) return;
+    // 只有单词拼写模块才强制全屏
+    if (mode !== 'spelling') return;
     // iPad/iOS 等不支持可靠全屏的设备：完全跳过强制全屏，让页面正常使用
     if (!canUseForcedFullscreen()) return;
 
@@ -605,7 +399,7 @@ export default function StudyPage() {
         void document.exitFullscreen?.().catch(() => {});
       }
     };
-  }, [currentBook, selectedSheetIds, navigate]);
+  }, [currentBook, selectedSheetIds, navigate, mode]);
 
   // =========================
   // 交互回调（useCallback 包装，避免不必要的子组件重渲染）
@@ -714,15 +508,15 @@ export default function StudyPage() {
     });
     
     if (!correct) {
-      setWrongRecords((prev) => [
-        ...prev,
-        {
+      setWrongRecords((prev) => {
+        if (prev.some(r => r.word.uid === cur.uid)) return prev;
+        return [...prev, {
           word: cur,
           userAnswer: answers[index] || '',
           isTimeout: false,
           isChinese: usedChinese,
-        },
-      ]);
+        }];
+      });
     }
     
     const nextIndex = index + 1;
@@ -777,15 +571,15 @@ export default function StudyPage() {
     // 避免与 useEffect 的计算结果冲突（如增量更新 vs 全量重算的竞态）
     
     if (!correct) {
-      setWrongRecords((prev) => [
-        ...prev,
-        {
+      setWrongRecords((prev) => {
+        if (prev.some(r => r.word.uid === cur.uid)) return prev;
+        return [...prev, {
           word: cur,
           userAnswer: answers[index] || '',
           isTimeout,
           isChinese: usedChinese,
-        },
-      ]);
+        }];
+      });
     }
     
     const nextIndex = index + 1;
@@ -1381,7 +1175,7 @@ export default function StudyPage() {
                 const modeText =
                   spellingSubMode === 'meaning-spelling' ? '释义拼写' : '听音拼写';
                 return (
-              <div ref={resultPageRef} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+              <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
                 {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
                 <div
                   className={cn(
@@ -1391,30 +1185,6 @@ export default function StudyPage() {
                       : 'bg-gradient-to-br from-rose-500 via-orange-500 to-amber-500'
                   )}
                 >
-                  {/* 分享按钮 - 右上角 */}
-                  <button
-                    onClick={shareResult}
-                    disabled={isSharing}
-                    className={cn(
-                      'absolute right-4 top-3 flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition',
-                      isSharing
-                        ? 'bg-white/20 text-white/70 cursor-not-allowed'
-                        : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur'
-                    )}
-                  >
-                    {isSharing ? (
-                      <>
-                        <Share2 className="h-3.5 w-3.5 animate-pulse" />
-                        生成中...
-                      </>
-                    ) : (
-                      <>
-                        <Share2 className="h-3.5 w-3.5" />
-                        分享
-                      </>
-                    )}
-                  </button>
-                  
                   <div className="mx-auto flex items-center justify-center gap-2">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur">
                       <Trophy className="h-5 w-5" />
@@ -1831,102 +1601,6 @@ export default function StudyPage() {
           )
         )}
       </div>
-
-      {/* —— 分享弹窗 —— */}
-      {showShareModal && shareImageUrl && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-          onClick={() => setShowShareModal(false)}
-        >
-          <div
-            className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowShareModal(false)}
-              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200"
-            >
-              <X className="h-4 w-4" />
-            </button>
-
-            <h3 className="mb-4 text-center text-lg font-bold text-slate-800">
-              📤 分享到微信
-            </h3>
-
-            <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-              <img
-                src={shareImageUrl}
-                alt="学习结果"
-                className="mx-auto block w-full max-w-sm"
-                style={{ imageRendering: 'auto' }}
-              />
-            </div>
-
-            <div className="mb-4 space-y-3 rounded-xl bg-slate-50 p-4 text-sm">
-              <p className="font-semibold text-slate-700">📱 分享到微信的方法：</p>
-              <ol className="space-y-2 text-slate-600">
-                <li className="flex gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">1</span>
-                  <span>长按上方图片，选择「保存图片」</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">2</span>
-                  <span>打开微信，进入聊天窗口</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">3</span>
-                  <span>点击「+」→「相册」，选择刚保存的图片发送</span>
-                </li>
-              </ol>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  const a = document.createElement('a');
-                  a.href = shareImageUrl;
-                  a.download = `拼写结果_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.png`;
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                }}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
-              >
-                <Download className="h-4 w-4" />
-                下载图片
-              </button>
-              <button
-                onClick={() => {
-                  if (navigator.clipboard) {
-                    fetch(shareImageUrl)
-                      .then((r) => r.blob())
-                      .then((blob) => {
-                        navigator.clipboard
-                          .write([new ClipboardItem({ 'image/png': blob })])
-                          .then(() => {
-                            alert('图片已复制到剪贴板，打开微信粘贴发送即可');
-                          })
-                          .catch(() => {
-                            alert('剪贴板写入失败，请使用「下载图片」');
-                          });
-                      });
-                  } else {
-                    alert('当前浏览器不支持剪贴板，请使用「下载图片」');
-                  }
-                }}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
-              >
-                <CheckCircle className="h-4 w-4" />
-                复制图片
-              </button>
-            </div>
-
-            <p className="mt-3 text-center text-xs text-slate-400">
-              提示：在微信中也可直接「长按图片 → 发送给朋友」
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
