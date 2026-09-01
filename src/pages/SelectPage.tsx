@@ -174,12 +174,12 @@ export default function SelectPage() {
       setSpellingModalOpen(true);
       return;
     }
-    // 网站强制要求：进入学习页必须全屏。
+    // 仅「单词拼写」模式要求强制全屏；看词说意/听音辨义不再强制全屏。
     // 仅在支持可靠全屏的设备（桌面浏览器）上请求；iPad/iOS 等不支持全屏的设备直接跳过，
     // 避免它们进学习页后因全屏异常被误踢回选择页，保证正常使用。
     // 在按钮点击这次用户手势内同步请求全屏，成功率最高（浏览器要求全屏由用户手势触发）；
     // 学习页里还有兜底逻辑，并负责「退出全屏 → 返回选择页」。
-    if (canUseForcedFullscreen() && !document.fullscreenElement) {
+    if (mode === 'spelling' && canUseForcedFullscreen() && !document.fullscreenElement) {
       void document.documentElement.requestFullscreen().catch(() => {});
     }
     navigate('/study');
