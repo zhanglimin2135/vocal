@@ -36,6 +36,7 @@ import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
 import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
 import { cn, generateId, canUseForcedFullscreen } from '@/lib/utils';
+import * as XLSX from 'xlsx';
 
 /**
  * StudyWord - 学习态单词对象类型
@@ -181,6 +182,13 @@ export default function StudyPage() {
    */
   const [showStarredOnly, setShowStarredOnly] = useState(false);
 
+  /**
+   * exportModalOpen - 「导出标星单词」弹窗的开关
+   *   - true：显示导出弹窗（表格展示所有标星单词 + 下载按钮）
+   *   - false：隐藏弹窗
+   */
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+
   // ===== 标星模块：派生数据 =====
   /**
    * displayWords - 最终要渲染的单词列表
@@ -194,6 +202,15 @@ export default function StudyPage() {
     if (!showStarredOnly) return words;
     return words.filter((w) => starredWords.includes(w.word));
   }, [words, showStarredOnly, mode, starredWords]);
+
+  /**
+   * starredWordItems - 当前学习会话中已标星的单词对象列表（含 word + meaning）
+   *   用于「导出标星单词」弹窗展示，以及导出 Excel 文件。
+   *   只取本次学习词表中存在的标星词，保证释义能查到。
+   */
+  const starredWordItems = useMemo<StudyWord[]>(() => {
+    return words.filter((w) => starredWords.includes(w.word));
+  }, [words, starredWords]);
 
   // =========================
   // 【单词拼写模式】专属状态
@@ -798,6 +815,28 @@ export default function StudyPage() {
     navigate('/select');
   };
 
+  /**
+   * handleExportStarredExcel - 将当前所有标星单词导出为 Excel 文件
+   *   - 表头与导入词表一致：第 1 列「单词」、第 2 列「释义」
+   *   - 仅导出已标星的单词，文件名带时间戳避免覆盖
+   */
+  const handleExportStarredExcel = () => {
+    if (starredWordItems.length === 0) return;
+    // 二维数组：首行表头 + 每行 [单词, 释义]
+    const aoa: (string | number)[][] = [
+      ['单词', '释义'],
+      ...starredWordItems.map((w) => [w.word, w.meaning]),
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    // 调整列宽，让单词和释义显示更完整
+    ws['!cols'] = [{ wch: 24 }, { wch: 60 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, '标星单词');
+    const ts = new Date();
+    const stamp = `${ts.getFullYear()}${String(ts.getMonth() + 1).padStart(2, '0')}${String(ts.getDate()).padStart(2, '0')}`;
+    XLSX.writeFile(wb, `标星单词_${stamp}.xlsx`);
+  };
+
   // 单词为空时的加载占位（通常发生在初始化尚未完成时）
   if (words.length === 0) {
     return (
@@ -858,14 +897,14 @@ export default function StudyPage() {
             <div className="min-w-0 hidden sm:block">
               <p className="truncate text-sm font-semibold text-slate-800">{titleModeLabel}</p>
               <p className="truncate text-xs text-slate-500">
-                {currentBook?.fileName} ·{' '}
-                {mode !== 'spelling' && showStarredOnly ? (
-                  <span>
-                    已标星 <span className="font-bold text-amber-600">{displayWords.length}</span>{' '}
-                    / {words.length} 个单词
-                  </span>
-                ) : (
-                  <>{words.length} 个单词</>
+                {currentBook?.fileName} · {words.length} 个单词
+                {/* 非拼写模式：始终实时显示已标星数量，方便学习过程中掌握收藏情况 */}
+                {mode !== 'spelling' && (
+                  <>
+                    {' · '}
+                    已标星{' '}
+                    <span className="font-bold text-amber-600">{starredWords.length}</span>
+                  </>
                 )}
               </p>
             </div>
@@ -962,14 +1001,33 @@ export default function StudyPage() {
                   <Star
                     className={cn('h-4 w-4', showStarredOnly ? 'fill-current' : '')}
                   />
-                  <span className="hidden sm:inline">
-                    只看标星
-                    {showStarredOnly && (
-                      <span className="ml-1 rounded-full bg-white/25 px-1.5 text-[10px]">
-                        {displayWords.length}
-                      </span>
+                  <span className="hidden sm:inline">只看标星</span>
+                  {/* 标星单词个数：始终实时显示，方便在学习过程中掌握收藏数量 */}
+                  <span
+                    className={cn(
+                      'ml-0.5 inline-flex min-w-[1.25rem] items-center justify-center rounded-full px-1.5 text-[10px] font-bold',
+                      showStarredOnly
+                        ? 'bg-white/30 text-white'
+                        : 'bg-amber-100 text-amber-700'
                     )}
+                  >
+                    {starredWords.length}
                   </span>
+                </button>
+                {/* 按钮 3：导出标星单词（仅非拼写模式）—— 弹窗展示并支持下载 Excel */}
+                <button
+                  onClick={() => setExportModalOpen(true)}
+                  disabled={starredWordItems.length === 0}
+                  title="导出已标星的单词（Excel 格式）"
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
+                    starredWordItems.length === 0
+                      ? 'cursor-not-allowed bg-slate-100 text-slate-300 ring-1 ring-slate-200'
+                      : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 hover:text-emerald-600'
+                  )}
+                >
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">导出</span>
                 </button>
               </>
             )}
@@ -1601,6 +1659,106 @@ export default function StudyPage() {
           )
         )}
       </div>
+
+      {/* 导出标星单词弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
+      {exportModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+          onClick={() => setExportModalOpen(false)}
+        >
+          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
+          >
+            {/* 右上角关闭按钮 × */}
+            <button
+              onClick={() => setExportModalOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {/* 弹窗头部：图标 + 标题 + 说明 */}
+            <div className="border-b border-slate-100 px-6 py-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-200">
+                  <Download className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-slate-800">导出标星单词</h3>
+                  <p className="text-xs text-slate-500">
+                    共 <span className="font-bold text-amber-600">{starredWordItems.length}</span> 个标星单词，格式与导入词表一致（单词 / 释义）
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 表格区域：可滚动，表头固定 */}
+            <div className="flex-1 overflow-auto px-6 py-4">
+              {starredWordItems.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Star className="h-10 w-10 text-slate-300" />
+                  <p className="mt-3 text-sm text-slate-400">还没有标星任何单词</p>
+                </div>
+              ) : (
+                <table className="w-full border-collapse text-left text-sm">
+                  <thead className="sticky top-0 z-10 bg-slate-50">
+                    <tr>
+                      <th className="w-12 rounded-l-lg border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
+                        #
+                      </th>
+                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
+                        单词
+                      </th>
+                      <th className="rounded-r-lg border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
+                        释义
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {starredWordItems.map((w, idx) => (
+                      <tr key={w.uid} className="hover:bg-slate-50">
+                        <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
+                          {idx + 1}
+                        </td>
+                        <td className="border-b border-slate-100 px-3 py-2.5 font-mono font-semibold text-slate-800">
+                          {w.word}
+                        </td>
+                        <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
+                          {w.meaning}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* 底部操作区：下载 + 关闭 */}
+            <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">
+              <button
+                onClick={() => setExportModalOpen(false)}
+                className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+              >
+                关闭
+              </button>
+              <button
+                onClick={handleExportStarredExcel}
+                disabled={starredWordItems.length === 0}
+                className={cn(
+                  'flex flex-1 items-center justify-center gap-2 rounded-2xl py-2.5 text-sm font-bold text-white shadow-lg transition-all',
+                  starredWordItems.length === 0
+                    ? 'cursor-not-allowed bg-slate-300 shadow-none'
+                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-emerald-200 hover:shadow-xl hover:shadow-emerald-300 active:translate-y-0.5'
+                )}
+              >
+                <Download className="h-4 w-4" />
+                下载 Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
