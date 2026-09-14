@@ -254,6 +254,15 @@ export default function StudyPage() {
    */
   const [reciteRevealed, setReciteRevealed] = useState(false);
 
+  /**
+   * reciteKeyPressed - 快捷键触发的按钮按压状态（用于显示按键反馈）
+   *   - 'remember'：刚按了 ↑ 键，记住按钮显示按压效果
+   *   - 'mark'：刚按了 ↓ 键，标星按钮显示按压效果
+   *   - null：无按压
+   *   按下后 150ms 自动清除
+   */
+  const [reciteKeyPressed, setReciteKeyPressed] = useState<'remember' | 'mark' | null>(null);
+
   // =========================
   // 【单词拼写模式】专属状态
   // =========================
@@ -1062,6 +1071,11 @@ export default function StudyPage() {
   };
   useEffect(() => {
     if (!reciteActive) return;
+    // 触发某个按钮的按压反馈：设置状态后 150ms 自动清除
+    const flashPressed = (key: 'remember' | 'mark') => {
+      setReciteKeyPressed(key);
+      window.setTimeout(() => setReciteKeyPressed(null), 150);
+    };
     const handler = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowRight':
@@ -1074,10 +1088,12 @@ export default function StudyPage() {
           break;
         case 'ArrowUp':
           e.preventDefault();
+          flashPressed('remember');
           reciteActionsRef.current.remember();
           break;
         case 'ArrowDown':
           e.preventDefault();
+          flashPressed('mark');
           reciteActionsRef.current.mark();
           break;
         case ' ':
@@ -2279,14 +2295,20 @@ export default function StudyPage() {
                 <div className="flex gap-3">
                   <button
                     onClick={reciteRemember}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:shadow-emerald-300 active:translate-y-0.5"
+                    className={cn(
+                      'flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:shadow-emerald-300 active:translate-y-0.5',
+                      reciteKeyPressed === 'remember' && 'scale-95 brightness-110 shadow-inner translate-y-0.5'
+                    )}
                   >
                     <Check className="h-5 w-5" />
                     记住
                   </button>
                   <button
                     onClick={reciteMark}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 py-3.5 text-base font-bold text-white shadow-lg shadow-orange-200 transition-all hover:shadow-xl hover:shadow-orange-300 active:translate-y-0.5"
+                    className={cn(
+                      'flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 py-3.5 text-base font-bold text-white shadow-lg shadow-orange-200 transition-all hover:shadow-xl hover:shadow-orange-300 active:translate-y-0.5',
+                      reciteKeyPressed === 'mark' && 'scale-95 brightness-110 shadow-inner translate-y-0.5'
+                    )}
                   >
                     <Star className="h-5 w-5" />
                     标星
