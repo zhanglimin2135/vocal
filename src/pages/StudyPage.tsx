@@ -31,6 +31,9 @@ import {
   Camera,
   CheckCircle,
   Download,
+  Timer,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
@@ -211,6 +214,45 @@ export default function StudyPage() {
   const starredWordItems = useMemo<StudyWord[]>(() => {
     return words.filter((w) => starredWords.includes(w.word));
   }, [words, starredWords]);
+
+  // ===== 计时背诵模块：本地 UI 状态 =====
+  /**
+   * recitePickerOpen - 「计时背诵」时间选择浮层的开关
+   *   - true：显示时间选项浮层（5 / 7 / 10 / 15 秒）
+   *   - false：隐藏浮层
+   *   仅在「看词说意」和「听音辨义」两种非拼写模式下使用
+   */
+  const [recitePickerOpen, setRecitePickerOpen] = useState(false);
+
+  /**
+   * reciteActive - 是否正在计时背诵中（弹窗已弹出，背景虚化）
+   *   - true：显示背诵弹窗，每词独立倒计时
+   *   - false：不显示弹窗
+   */
+  const [reciteActive, setReciteActive] = useState(false);
+
+  /**
+   * reciteSeconds - 每个单词的倒计时秒数（用户从 5 / 7 / 10 / 15 中选择）
+   */
+  const [reciteSeconds, setReciteSeconds] = useState(5);
+
+  /**
+   * reciteIndex - 计时背诵当前做到第几个单词（words 数组下标）
+   */
+  const [reciteIndex, setReciteIndex] = useState(0);
+
+  /**
+   * reciteRemaining - 当前单词的剩余秒数（实时递减，弹窗倒计时显示用）
+   */
+  const [reciteRemaining, setReciteRemaining] = useState(0);
+
+  /**
+   * reciteRevealed - 当前单词的释义/单词是否已展开
+   *   - false：隐藏释义（或单词），只显示正面内容
+   *   - true：已点击展开，显示完整内容
+   *   切换到新单词时自动重置为 false（见下方 useEffect）
+   */
+  const [reciteRevealed, setReciteRevealed] = useState(false);
 
   // =========================
   // 【单词拼写模式】专属状态
@@ -837,6 +879,220 @@ export default function StudyPage() {
     XLSX.writeFile(wb, `标星单词_${stamp}.xlsx`);
   };
 
+  // =========================
+  // 【计时背诵模式】交互回调
+  // =========================
+
+  /**
+   * startRecite - 用户在时间选择浮层中选定秒数后启动计时背诵
+   *   @param seconds - 每个单词的倒计时秒数（5 / 7 / 10 / 15）
+   *   行为：关闭浮层 → 打开背诵弹窗 → 从第 0 个单词开始，倒计时设为选定秒数
+   */
+  const startRecite = (seconds: number) => {
+    setReciteSeconds(seconds);
+    setReciteIndex(0);
+    setReciteRemaining(seconds);
+    setRecitePickerOpen(false);
+    setReciteActive(true);
+  };
+
+  /**
+   * reciteRemember - 点击「记住」：不标记当前单词，跳转下一个
+   *   - 当前单词不做任何标星操作
+   *   - 倒计时重置为 reciteSeconds，切到下一个单词
+   *   - 若已是最后一个单词 → 关闭弹窗
+   */
+  const reciteRemember = () => {
+    const next = reciteIndex + 1;
+    if (next >= words.length) {
+      setReciteActive(false);
+    } else {
+      setReciteRemaining(reciteSeconds);
+      setReciteIndex(next);
+    }
+  };
+
+  /**
+   * reciteMark - 点击「标星」：标记当前单词并跳转下一个
+   *   - 如果当前单词尚未标星 → 加入标星列表（toggleStarredWord）
+   *   - 已标星的单词不会被取消（避免重复切换）
+   *   - 倒计时重置，切到下一个单词；若是最后一个 → 关闭弹窗
+   */
+  const reciteMark = () => {
+    const cur = words[reciteIndex];
+    if (cur && !starredWords.includes(cur.word)) {
+      toggleStarredWord(cur.word);
+    }
+    const next = reciteIndex + 1;
+    if (next >= words.length) {
+      setReciteActive(false);
+    } else {
+      setReciteRemaining(reciteSeconds);
+      setReciteIndex(next);
+    }
+  };
+
+  /**
+   * recitePrev - 点击「上一词」：回到上一个单词，倒计时重置
+   *   - 已是第一个单词时无效
+   *   - 标星状态不受影响（之前标记过的单词仍保持标星）
+   */
+  const recitePrev = () => {
+    if (reciteIndex <= 0) return;
+    setReciteRemaining(reciteSeconds);
+    setReciteIndex(reciteIndex - 1);
+  };
+
+  /**
+   * reciteNext - 点击「下一词」：跳到下一个单词，不标记
+   *   与「记住」功能一致：跳转下一词、不做标记
+   */
+  const reciteNext = () => {
+    const next = reciteIndex + 1;
+    if (next >= words.length) {
+      setReciteActive(false);
+    } else {
+      setReciteRemaining(reciteSeconds);
+      setReciteIndex(next);
+    }
+  };
+
+  /**
+   * reciteClose - 退出计时背诵（手动关闭弹窗）
+   *   标星结果已实时写入全局 store，关闭后单词展示页自动反映标星状态
+   */
+  const reciteClose = () => {
+    setReciteActive(false);
+  };
+
+  /**
+   * 超时处理 ref：保存最新的超时动作（标记当前单词 + 跳转下一个）
+   *   使用 ref 是为了让 setInterval 回调始终调用最新闭包，避免因依赖变化导致计时器中断
+   *   （与拼写模式 lockSpellingWordRef 同一模式）
+   */
+  const reciteTimeoutRef = useRef<() => void>(() => {});
+  reciteTimeoutRef.current = () => {
+    const cur = words[reciteIndex];
+    // 超时 = 标星：如果尚未标星则加入标星列表
+    if (cur && !starredWords.includes(cur.word)) {
+      toggleStarredWord(cur.word);
+    }
+    const next = reciteIndex + 1;
+    if (next >= words.length) {
+      setReciteActive(false);
+    } else {
+      setReciteRemaining(reciteSeconds);
+      setReciteIndex(next);
+    }
+  };
+
+  /**
+   * 计时背诵 · 每词独立倒计时
+   *   - 仅在背诵弹窗激活时运行
+   *   - 每秒递减 1，到 0 时自动标记当前单词并跳转下一个
+   *   - 依赖 reciteIndex 变化时重新启动计时（切到新单词 → 新的 15 秒倒计时）
+   *   - 超时动作通过 ref 调用，避免将 action 函数放入依赖导致计时器重启
+   */
+  useEffect(() => {
+    if (!reciteActive) return;
+    if (reciteIndex >= words.length) {
+      setReciteActive(false);
+      return;
+    }
+
+    const timerId = window.setInterval(() => {
+      setReciteRemaining((prev) => {
+        if (prev <= 1) {
+          // 倒计时归零：延迟调用超时动作，避免在 setState 回调中直接调用其它 setState
+          window.setTimeout(() => reciteTimeoutRef.current(), 0);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(timerId);
+  }, [reciteActive, reciteIndex, words.length]);
+
+  /**
+   * 听音辨义模式下的计时背诵：进入一个新单词时自动播放发音
+   *   - 依赖 reciteIndex 变化即触发（换到新单词自动播放）
+   */
+  useEffect(() => {
+    if (!reciteActive) return;
+    if (mode !== 'audio-meaning') return;
+    if (reciteIndex >= words.length) return;
+    const cur = words[reciteIndex];
+    if (!cur) return;
+    const t = window.setTimeout(() => {
+      void playWordAudio(cur.word);
+    }, 120);
+    return () => window.clearTimeout(t);
+  }, [reciteActive, reciteIndex, mode, words]);
+
+  /**
+   * 切换到新单词时自动重置「展开」状态
+   *   - reciteIndex 变化（记住/标星/上一词/下一词/超时跳转）时触发
+   *   - reciteActive 变化（启动/关闭）时触发
+   */
+  useEffect(() => {
+    setReciteRevealed(false);
+  }, [reciteIndex, reciteActive]);
+
+  /**
+   * 计时背诵 · 键盘快捷键（仅在背诵弹窗激活时生效）
+   *   - ← 左方向键：上一词
+   *   - → 右方向键：下一词
+   *   - ↑ 上方向键：记住（不标记，跳下一词）
+   *   - ↓ 下方向键：标星（标记并跳下一词）
+   *   - 空格键：查看释义 / 单词（展开当前单词的答案）
+   *   动作通过 ref 调用最新闭包，监听器只在 reciteActive 切换时重新绑定
+   */
+  const reciteActionsRef = useRef({
+    next: reciteNext,
+    prev: recitePrev,
+    remember: reciteRemember,
+    mark: reciteMark,
+  });
+  reciteActionsRef.current = {
+    next: reciteNext,
+    prev: recitePrev,
+    remember: reciteRemember,
+    mark: reciteMark,
+  };
+  useEffect(() => {
+    if (!reciteActive) return;
+    const handler = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowRight':
+          e.preventDefault();
+          reciteActionsRef.current.next();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          reciteActionsRef.current.prev();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          reciteActionsRef.current.remember();
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          reciteActionsRef.current.mark();
+          break;
+        case ' ':
+        case 'Spacebar':
+          e.preventDefault();
+          setReciteRevealed(true);
+          break;
+        default:
+          break;
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [reciteActive]);
+
   // 单词为空时的加载占位（通常发生在初始化尚未完成时）
   if (words.length === 0) {
     return (
@@ -897,7 +1153,8 @@ export default function StudyPage() {
             <div className="min-w-0 hidden sm:block">
               <p className="truncate text-sm font-semibold text-slate-800">{titleModeLabel}</p>
               <p className="truncate text-xs text-slate-500">
-                {currentBook?.fileName} · {words.length} 个单词
+                {/* 词表名只显示前 4 个字，后面用省略号替代 */}
+                {currentBook?.fileName ? `${currentBook.fileName.slice(0, 4)}…` : ''} · {words.length} 词
                 {/* 非拼写模式：始终实时显示已标星数量，方便学习过程中掌握收藏情况 */}
                 {mode !== 'spelling' && (
                   <>
@@ -1028,6 +1285,15 @@ export default function StudyPage() {
                 >
                   <Download className="h-4 w-4" />
                   <span className="hidden sm:inline">导出</span>
+                </button>
+                {/* 按钮 4：计时背诵（仅非拼写模式）—— 选择每词秒数后弹窗背诵 */}
+                <button
+                  onClick={() => setRecitePickerOpen(true)}
+                  title="计时背诵：每词独立倒计时，超时或标记的单词自动加入标星"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 px-3.5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:from-violet-600 hover:to-purple-600"
+                >
+                  <Timer className="h-4 w-4" />
+                  <span className="hidden sm:inline">计时背诵</span>
                 </button>
               </>
             )}
@@ -1759,6 +2025,298 @@ export default function StudyPage() {
           </div>
         </div>
       )}
+
+      {/* ===== 计时背诵 · 时间选择浮层 ===== */}
+      {/* 点击工具栏「计时背诵」按钮后出现，选择每词倒计时秒数 */}
+      {recitePickerOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+          onClick={() => setRecitePickerOpen(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
+          >
+            {/* 右上角关闭 */}
+            <button
+              onClick={() => setRecitePickerOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {/* 头部：图标 + 标题 */}
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-purple-200">
+                <Timer className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-extrabold text-slate-800">计时背诵</h3>
+                <p className="text-xs text-slate-500">
+                  选择每个单词的倒计时秒数，超时未操作将自动标星
+                </p>
+              </div>
+            </div>
+            {/* 4 个时间选项 */}
+            <div className="grid grid-cols-2 gap-3">
+              {[5, 7, 10, 15].map((sec) => (
+                <button
+                  key={sec}
+                  onClick={() => startRecite(sec)}
+                  className="flex flex-col items-center gap-1 rounded-2xl border-2 border-slate-200 bg-white py-5 transition-all hover:border-violet-400 hover:bg-violet-50 active:translate-y-0.5"
+                >
+                  <span className="font-mono text-3xl font-black text-violet-600">{sec}</span>
+                  <span className="text-xs font-medium text-slate-500">秒 / 词</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== 计时背诵 · 背诵弹窗（背景虚化，仅显示弹窗） ===== */}
+      {reciteActive && reciteIndex < words.length && (() => {
+        const cur = words[reciteIndex];
+        if (!cur) return null;
+        const starred = starredWords.includes(cur.word);
+        // 倒计时进度比例（0~1），用于圆形 SVG 进度环
+        const pct = Math.max(0, Math.min(1, reciteRemaining / reciteSeconds));
+        // 剩余秒数 ≤ 3 时变红色提醒
+        const isUrgent = reciteRemaining <= 3;
+        // 判断当前背诵模式的展示形式
+        // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
+        // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
+        // - 听音辨义（mode==='audio-meaning'）：正面显示发音按钮，点击查看单词+释义
+        const isWordMeaningMode = mode === 'word-meaning' && lookSubMode === 'word-meaning';
+        const isMeaningWordMode = mode === 'word-meaning' && lookSubMode === 'meaning-word';
+        // 听音辨义模式作为 else 分支（mode === 'audio-meaning'）
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md px-2 sm:px-4">
+            {/* 卡片 + 两侧导航箭头（横向 flex：左箭头 | 卡片 | 右箭头） */}
+            <div className="flex w-full max-w-2xl items-center gap-2 sm:gap-4">
+              {/* 左侧：上一词（仅图标） */}
+              <button
+                onClick={recitePrev}
+                disabled={reciteIndex <= 0}
+                title="上一词（←）"
+                className={cn(
+                  'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
+                  reciteIndex <= 0
+                    ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
+                    : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
+                )}
+              >
+                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+              </button>
+
+              {/* 弹窗主体 */}
+              <div className="relative min-w-0 flex-1 overflow-hidden rounded-3xl bg-white shadow-2xl">
+              {/* —— 顶部进度条 + 关闭按钮 —— */}
+              <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-violet-50/70 to-purple-50/70 px-8 py-4">
+                <div className="flex items-center gap-2">
+                  <Timer className="h-4 w-4 text-violet-600" />
+                  <span className="text-sm font-bold text-slate-700">
+                    第 <span className="text-violet-600">{reciteIndex + 1}</span> / {words.length} 个
+                  </span>
+                </div>
+                <button
+                  onClick={reciteClose}
+                  title="退出计时背诵"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              {/* 顶部进度条 */}
+              <div className="h-1 w-full bg-slate-100">
+                <div
+                  className="h-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all"
+                  style={{ width: `${((reciteIndex) / Math.max(1, words.length)) * 100}%` }}
+                />
+              </div>
+
+              {/* —— 单词展示区 —— 倒计时环居中置于顶部，内容根据模式展示 */}
+              <div className="px-8 py-8">
+                {/* 顶部居中：圆形倒计时 + 标星状态 */}
+                <div className="mb-6 flex flex-col items-center">
+                  <div className="relative h-20 w-20">
+                    <svg className="h-20 w-20 -rotate-90" viewBox="0 0 36 36">
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none" stroke="#e2e8f0" strokeWidth="3"
+                      />
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke={isUrgent ? '#f43f5e' : '#8b5cf6'}
+                        strokeWidth="3"
+                        strokeDasharray={`${pct * 100}, 100`}
+                        className="transition-all"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className={cn(
+                        'font-mono text-2xl font-black tabular-nums',
+                        isUrgent ? 'text-rose-500' : 'text-violet-600'
+                      )}>
+                        {reciteRemaining}
+                      </span>
+                    </div>
+                  </div>
+                  {starred && (
+                    <div className="mt-2 flex items-center gap-1 text-xs font-medium text-amber-600">
+                      <Star className="h-3 w-3 fill-current" />
+                      已标星
+                    </div>
+                  )}
+                </div>
+
+                {/* —— 根据背诵模式显示不同内容 —— */}
+                {isWordMeaningMode ? (
+                  // ===== 看词说意：正面显示单词，上方播放发音，下方点击查看释义 =====
+                  <div className="text-center">
+                    <p className="break-words text-4xl font-black tracking-tight text-slate-900">
+                      {cur.word}
+                    </p>
+                    <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
+                    {/* 上方：播放发音按钮 */}
+                    <button
+                      onClick={() => void playWordAudio(cur.word)}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-violet-50 px-4 py-2 text-sm font-medium text-violet-600 transition-all hover:bg-violet-100 hover:scale-105"
+                      title="播放发音"
+                    >
+                      <Volume2 className="h-4 w-4" />
+                      播放发音
+                    </button>
+                    {/* 下方：点击查看释义 / 已展开则显示释义（按钮文字大小与释义一致，仅透明度降低） */}
+                    <div className="mt-3 min-h-[1.75rem]">
+                      {reciteRevealed ? (
+                        <p className="break-words text-xl leading-relaxed text-slate-700">
+                          {cur.meaning}
+                        </p>
+                      ) : (
+                        <button
+                          onClick={() => setReciteRevealed(true)}
+                          className="text-xl leading-relaxed text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                        >
+                          点击查看释义
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ) : isMeaningWordMode ? (
+                  // ===== 看意说词：正面显示释义，上方播放发音，下方点击查看单词 =====
+                  <div className="text-center">
+                    <p className="break-words text-2xl font-bold tracking-tight leading-snug text-slate-900">
+                      {cur.meaning}
+                    </p>
+                    <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
+                    {/* 上方：播放发音按钮 */}
+                    <button
+                      onClick={() => void playWordAudio(cur.word)}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-violet-50 px-4 py-2 text-sm font-medium text-violet-600 transition-all hover:bg-violet-100 hover:scale-105"
+                      title="播放发音"
+                    >
+                      <Volume2 className="h-4 w-4" />
+                      播放发音
+                    </button>
+                    {/* 下方：点击查看单词 / 已展开则显示单词（按钮文字大小与单词一致，仅透明度降低） */}
+                    <div className="mt-3 min-h-[2.5rem]">
+                      {reciteRevealed ? (
+                        <p className="break-words text-4xl font-black tracking-tight text-slate-900">
+                          {cur.word}
+                        </p>
+                      ) : (
+                        <button
+                          onClick={() => setReciteRevealed(true)}
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                        >
+                          点击查看单词
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  // ===== 听音辨义：上方播放发音，下方点击查看单词+释义 =====
+                  <div className="text-center">
+                    {/* 上方：大号播放发音按钮 */}
+                    <button
+                      onClick={() => void playWordAudio(cur.word)}
+                      className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-purple-200 transition hover:scale-105"
+                      title="点击播放发音"
+                    >
+                      <Volume2 className="h-12 w-12" />
+                    </button>
+                    <p className="mt-4 text-sm font-medium text-slate-500">
+                      点击喇叭播放发音，尝试回想单词和释义
+                    </p>
+                    {/* 下方：点击查看单词和释义 / 已展开则显示（按钮文字大小与单词一致，仅透明度降低） */}
+                    <div className="mt-4 min-h-[2.5rem]">
+                      {reciteRevealed ? (
+                        <div>
+                          <p className="break-words text-4xl font-black tracking-tight text-slate-900">
+                            {cur.word}
+                          </p>
+                          <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
+                          <p className="break-words text-xl leading-relaxed text-slate-700">
+                            {cur.meaning}
+                          </p>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setReciteRevealed(true)}
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                        >
+                          显示单词和释义
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* —— 底部操作按钮区（仅记住 / 标星，导航箭头已移至卡片两侧） —— */}
+              <div className="border-t border-slate-100 bg-slate-50/60 px-8 py-5">
+                <div className="flex gap-3">
+                  <button
+                    onClick={reciteRemember}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:shadow-emerald-300 active:translate-y-0.5"
+                  >
+                    <Check className="h-5 w-5" />
+                    记住
+                  </button>
+                  <button
+                    onClick={reciteMark}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 py-3.5 text-base font-bold text-white shadow-lg shadow-orange-200 transition-all hover:shadow-xl hover:shadow-orange-300 active:translate-y-0.5"
+                  >
+                    <Star className="h-5 w-5" />
+                    标星
+                  </button>
+                </div>
+                {/* 快捷键提示 */}
+                <p className="mt-3 text-center text-[11px] text-slate-400">
+                  快捷键：← 上一词 · → 下一词 · ↑ 记住 · ↓ 标星 · 空格 查看释义
+                </p>
+              </div>
+              </div>
+
+              {/* 右侧：下一词（仅图标） */}
+              <button
+                onClick={reciteNext}
+                disabled={reciteIndex >= words.length - 1}
+                title="下一词（→）"
+                className={cn(
+                  'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
+                  reciteIndex >= words.length - 1
+                    ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
+                    : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
+                )}
+              >
+                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+              </button>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
