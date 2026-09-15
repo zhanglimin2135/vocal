@@ -247,6 +247,14 @@ export default function StudyPage() {
   const [reciteRemaining, setReciteRemaining] = useState(0);
 
   /**
+   * reciteList - 计时背诵的单词队列（启动背诵时对单词列表做的快照）
+   *   - 默认（未开启「只看标星」）：全部单词
+   *   - 开启「只看标星」：仅包含当时已标星的单词
+   *   使用快照而非动态列表：背诵过程中新标星的单词不会插入队列，进度稳定可控
+   */
+  const [reciteList, setReciteList] = useState<StudyWord[]>([]);
+
+  /**
    * reciteRevealed - 当前单词的释义/单词是否已展开
    *   - false：隐藏释义（或单词），只显示正面内容
    *   - true：已点击展开，显示完整内容
@@ -898,6 +906,13 @@ export default function StudyPage() {
    *   行为：关闭浮层 → 打开背诵弹窗 → 从第 0 个单词开始，倒计时设为选定秒数
    */
   const startRecite = (seconds: number) => {
+    // 生成背诵队列快照：
+    //   - 「只看标星」开启时 → 仅当前已标星的单词
+    //   - 否则 → 全部单词
+    const list = showStarredOnly
+      ? words.filter((w) => starredWords.includes(w.word))
+      : words;
+    setReciteList(list);
     setReciteSeconds(seconds);
     setReciteIndex(0);
     setReciteRemaining(seconds);
@@ -906,14 +921,20 @@ export default function StudyPage() {
   };
 
   /**
-   * reciteRemember - 点击「记住」：不标记当前单词，跳转下一个
-   *   - 当前单词不做任何标星操作
+   * reciteRemember - 点击「记住」：取消当前单词的标星（若有），跳转下一个
+   *   - 已标星的单词 → 移除标星（背诵标星单词时表示"已掌握"，标星数量实时 -1）
+   *   - 未标星的单词 → 保持原样
    *   - 倒计时重置为 reciteSeconds，切到下一个单词
    *   - 若已是最后一个单词 → 关闭弹窗
    */
   const reciteRemember = () => {
+    const cur = reciteList[reciteIndex];
+    // 记住 = 取消标星：如果当前单词已标星则移除，标星数量实时更新
+    if (cur && starredWords.includes(cur.word)) {
+      toggleStarredWord(cur.word);
+    }
     const next = reciteIndex + 1;
-    if (next >= words.length) {
+    if (next >= reciteList.length) {
       setReciteActive(false);
     } else {
       setReciteRemaining(reciteSeconds);
@@ -928,12 +949,12 @@ export default function StudyPage() {
    *   - 倒计时重置，切到下一个单词；若是最后一个 → 关闭弹窗
    */
   const reciteMark = () => {
-    const cur = words[reciteIndex];
+    const cur = reciteList[reciteIndex];
     if (cur && !starredWords.includes(cur.word)) {
       toggleStarredWord(cur.word);
     }
     const next = reciteIndex + 1;
-    if (next >= words.length) {
+    if (next >= reciteList.length) {
       setReciteActive(false);
     } else {
       setReciteRemaining(reciteSeconds);
@@ -958,7 +979,7 @@ export default function StudyPage() {
    */
   const reciteNext = () => {
     const next = reciteIndex + 1;
-    if (next >= words.length) {
+    if (next >= reciteList.length) {
       setReciteActive(false);
     } else {
       setReciteRemaining(reciteSeconds);
@@ -981,13 +1002,13 @@ export default function StudyPage() {
    */
   const reciteTimeoutRef = useRef<() => void>(() => {});
   reciteTimeoutRef.current = () => {
-    const cur = words[reciteIndex];
+    const cur = reciteList[reciteIndex];
     // 超时 = 标星：如果尚未标星则加入标星列表
     if (cur && !starredWords.includes(cur.word)) {
       toggleStarredWord(cur.word);
     }
     const next = reciteIndex + 1;
-    if (next >= words.length) {
+    if (next >= reciteList.length) {
       setReciteActive(false);
     } else {
       setReciteRemaining(reciteSeconds);
@@ -1004,7 +1025,7 @@ export default function StudyPage() {
    */
   useEffect(() => {
     if (!reciteActive) return;
-    if (reciteIndex >= words.length) {
+    if (reciteIndex >= reciteList.length) {
       setReciteActive(false);
       return;
     }
@@ -1021,7 +1042,7 @@ export default function StudyPage() {
     }, 1000);
 
     return () => window.clearInterval(timerId);
-  }, [reciteActive, reciteIndex, words.length]);
+  }, [reciteActive, reciteIndex, reciteList.length]);
 
   /**
    * 听音辨义模式下的计时背诵：进入一个新单词时自动播放发音
@@ -1030,14 +1051,14 @@ export default function StudyPage() {
   useEffect(() => {
     if (!reciteActive) return;
     if (mode !== 'audio-meaning') return;
-    if (reciteIndex >= words.length) return;
-    const cur = words[reciteIndex];
+    if (reciteIndex >= reciteList.length) return;
+    const cur = reciteList[reciteIndex];
     if (!cur) return;
     const t = window.setTimeout(() => {
       void playWordAudio(cur.word);
     }, 120);
     return () => window.clearTimeout(t);
-  }, [reciteActive, reciteIndex, mode, words]);
+  }, [reciteActive, reciteIndex, mode, reciteList]);
 
   /**
    * 切换到新单词时自动重置「展开」状态
@@ -1052,9 +1073,9 @@ export default function StudyPage() {
    * 计时背诵 · 键盘快捷键（仅在背诵弹窗激活时生效）
    *   - ← 左方向键：上一词
    *   - → 右方向键：下一词
-   *   - ↑ 上方向键：记住（不标记，跳下一词）
+   *   - ↑ 上方向键：查看释义 / 单词（展开当前单词的答案）
    *   - ↓ 下方向键：标星（标记并跳下一词）
-   *   - 空格键：查看释义 / 单词（展开当前单词的答案）
+   *   - 空格键：记住（取消标星（若有）并跳下一词）
    *   动作通过 ref 调用最新闭包，监听器只在 reciteActive 切换时重新绑定
    */
   const reciteActionsRef = useRef({
@@ -1088,8 +1109,8 @@ export default function StudyPage() {
           break;
         case 'ArrowUp':
           e.preventDefault();
-          flashPressed('remember');
-          reciteActionsRef.current.remember();
+          // 上方向键：展开当前单词的答案（释义/单词）
+          setReciteRevealed(true);
           break;
         case 'ArrowDown':
           e.preventDefault();
@@ -1099,7 +1120,9 @@ export default function StudyPage() {
         case ' ':
         case 'Spacebar':
           e.preventDefault();
-          setReciteRevealed(true);
+          // 空格键：记住（取消标星（若有）并跳下一词）
+          flashPressed('remember');
+          reciteActionsRef.current.remember();
           break;
         default:
           break;
@@ -1303,10 +1326,21 @@ export default function StudyPage() {
                   <span className="hidden sm:inline">导出</span>
                 </button>
                 {/* 按钮 4：计时背诵（仅非拼写模式）—— 选择每词秒数后弹窗背诵 */}
+                {/* 「只看标星」开启且无标星单词时禁用（背诵队列为空） */}
                 <button
                   onClick={() => setRecitePickerOpen(true)}
-                  title="计时背诵：每词独立倒计时，超时或标记的单词自动加入标星"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 px-3.5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:from-violet-600 hover:to-purple-600"
+                  disabled={showStarredOnly && starredWords.length === 0}
+                  title={
+                    showStarredOnly && starredWords.length === 0
+                      ? '当前「只看标星」且没有标星单词，无法开始计时背诵'
+                      : '计时背诵：每词独立倒计时，超时或标记的单词自动加入标星'
+                  }
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-medium shadow-sm transition-all',
+                    showStarredOnly && starredWords.length === 0
+                      ? 'cursor-not-allowed bg-slate-100 text-slate-300 ring-1 ring-slate-200'
+                      : 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-600 hover:to-purple-600'
+                  )}
                 >
                   <Timer className="h-4 w-4" />
                   <span className="hidden sm:inline">计时背诵</span>
@@ -2090,10 +2124,12 @@ export default function StudyPage() {
       )}
 
       {/* ===== 计时背诵 · 背诵弹窗（背景虚化，仅显示弹窗） ===== */}
-      {reciteActive && reciteIndex < words.length && (() => {
-        const cur = words[reciteIndex];
+      {reciteActive && reciteIndex < reciteList.length && (() => {
+        const cur = reciteList[reciteIndex];
         if (!cur) return null;
         const starred = starredWords.includes(cur.word);
+        // 当前背诵队列中已标星的单词数（实时跟随标星操作更新）
+        const reciteStarredCount = reciteList.filter((w) => starredWords.includes(w.word)).length;
         // 倒计时进度比例（0~1），用于圆形 SVG 进度环
         const pct = Math.max(0, Math.min(1, reciteRemaining / reciteSeconds));
         // 剩余秒数 ≤ 3 时变红色提醒
@@ -2131,7 +2167,9 @@ export default function StudyPage() {
                 <div className="flex items-center gap-2">
                   <Timer className="h-4 w-4 text-violet-600" />
                   <span className="text-sm font-bold text-slate-700">
-                    第 <span className="text-violet-600">{reciteIndex + 1}</span> / {words.length} 个
+                    第 <span className="text-violet-600">{reciteIndex + 1}</span> / {reciteList.length} 个
+                    <span className="ml-1 font-normal text-slate-400">·</span>
+                    <span className="ml-1 text-amber-600">标星<span className="font-bold">{reciteStarredCount}</span>个</span>
                   </span>
                 </div>
                 <button
@@ -2146,7 +2184,7 @@ export default function StudyPage() {
               <div className="h-1 w-full bg-slate-100">
                 <div
                   className="h-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all"
-                  style={{ width: `${((reciteIndex) / Math.max(1, words.length)) * 100}%` }}
+                  style={{ width: `${((reciteIndex) / Math.max(1, reciteList.length)) * 100}%` }}
                 />
               </div>
 
@@ -2316,7 +2354,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑ 记住 · ↓ 标星 · 空格 查看释义
+                  快捷键：← 上一词 · → 下一词 · ↑ 查看释义 · ↓ 标星 · 空格 记住
                 </p>
               </div>
               </div>
@@ -2324,11 +2362,11 @@ export default function StudyPage() {
               {/* 右侧：下一词（仅图标） */}
               <button
                 onClick={reciteNext}
-                disabled={reciteIndex >= words.length - 1}
+                disabled={reciteIndex >= reciteList.length - 1}
                 title="下一词（→）"
                 className={cn(
                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
-                  reciteIndex >= words.length - 1
+                  reciteIndex >= reciteList.length - 1
                     ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
                     : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
                 )}
