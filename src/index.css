@@ -67,3 +67,11 @@
     background: rgba(99, 102, 241, 0.5);
   }
 }
+
+/* ===== 计时背诵 · 倒计时圆环平滑递减动画 =====
+   圆周长 ≈ 100（路径半径 15.9155）
+   strokeDashoffset 从 0（完整圆）→ 100（空），线性递减 */
+@keyframes recite-deplete {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 100; }
+}

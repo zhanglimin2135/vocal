@@ -2130,8 +2130,6 @@ export default function StudyPage() {
         const starred = starredWords.includes(cur.word);
         // 当前背诵队列中已标星的单词数（实时跟随标星操作更新）
         const reciteStarredCount = reciteList.filter((w) => starredWords.includes(w.word)).length;
-        // 倒计时进度比例（0~1），用于圆形 SVG 进度环
-        const pct = Math.max(0, Math.min(1, reciteRemaining / reciteSeconds));
         // 剩余秒数 ≤ 3 时变红色提醒
         const isUrgent = reciteRemaining <= 3;
         // 判断当前背诵模式的展示形式
@@ -2180,10 +2178,10 @@ export default function StudyPage() {
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              {/* 顶部进度条 */}
-              <div className="h-1 w-full bg-slate-100">
+              {/* 顶部进度条 —— 圆头 + 平滑过渡（跟随换词一点点滑动，非瞬移） */}
+              <div className="h-1.5 w-full rounded-full bg-slate-100">
                 <div
-                  className="h-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-[width] duration-700 ease-out"
                   style={{ width: `${((reciteIndex) / Math.max(1, reciteList.length)) * 100}%` }}
                 />
               </div>
@@ -2194,17 +2192,23 @@ export default function StudyPage() {
                 <div className="mb-6 flex flex-col items-center">
                   <div className="relative h-20 w-20">
                     <svg className="h-20 w-20 -rotate-90" viewBox="0 0 36 36">
+                      {/* 底色轨道 */}
                       <path
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none" stroke="#e2e8f0" strokeWidth="3"
+                        fill="none" stroke="#e2e8f0" strokeWidth="3" strokeLinecap="round"
                       />
+                      {/* 进度弧：圆头 + CSS 动画线性递减，跟随时间一点点缩短（非每秒跳变） */}
                       <path
+                        key={`${reciteIndex}-${reciteSeconds}`}
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
                         stroke={isUrgent ? '#f43f5e' : '#8b5cf6'}
                         strokeWidth="3"
-                        strokeDasharray={`${pct * 100}, 100`}
-                        className="transition-all"
+                        strokeLinecap="round"
+                        strokeDasharray="100"
+                        style={{
+                          animation: `recite-deplete ${reciteSeconds}s linear forwards`,
+                        }}
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
