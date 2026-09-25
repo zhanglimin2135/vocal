@@ -75,3 +75,17 @@
   from { stroke-dashoffset: 0; }
   to { stroke-dashoffset: 100; }
 }
+
+/* 倒计时圆环颜色渐变：从紫色 (#8b5cf6) 平滑过渡到红色 (#f43f5e) */
+@keyframes recite-color-fade {
+  0%   { stroke: #8b5cf6; }
+  70%  { stroke: #f59e0b; }
+  100% { stroke: #f43f5e; }
+}
+
+/* 倒计时数字颜色渐变：与圆环同步（紫 → 橙 → 红） */
+@keyframes recite-text-color-fade {
+  0%   { color: #8b5cf6; }
+  70%  { color: #f59e0b; }
+  100% { color: #f43f5e; }
+}

@@ -215,6 +215,18 @@ export default function StudyPage() {
     return words.filter((w) => starredWords.includes(w.word));
   }, [words, starredWords]);
 
+  /**
+   * starredAccuracy - 背诵准确率（计时背诵 / 导出错词共用）
+   *   标星的单词视为错误，未标星的视为正确
+   *   准确率 = (总词数 - 标星数) / 总词数
+   */
+  const starredAccuracy = useMemo(() => {
+    const total = words.length;
+    const wrong = starredWords.length;
+    const correct = total - wrong;
+    return total > 0 ? Math.round((correct / total) * 100) : 100;
+  }, [words.length, starredWords.length]);
+
   // ===== 计时背诵模块：本地 UI 状态 =====
   /**
    * recitePickerOpen - 「计时背诵」时间选择浮层的开关
@@ -1076,6 +1088,7 @@ export default function StudyPage() {
    *   - ↑ 上方向键：查看释义 / 单词（展开当前单词的答案）
    *   - ↓ 下方向键：标星（标记并跳下一词）
    *   - 空格键：记住（取消标星（若有）并跳下一词）
+   *   - Shift 键：播放当前单词发音（长按不重复播放）
    *   动作通过 ref 调用最新闭包，监听器只在 reciteActive 切换时重新绑定
    */
   const reciteActionsRef = useRef({
@@ -1083,12 +1096,18 @@ export default function StudyPage() {
     prev: recitePrev,
     remember: reciteRemember,
     mark: reciteMark,
+    speak: () => {},
   });
   reciteActionsRef.current = {
     next: reciteNext,
     prev: recitePrev,
     remember: reciteRemember,
     mark: reciteMark,
+    // 播放当前背诵单词的发音（闭包始终引用最新的 reciteIndex / reciteList）
+    speak: () => {
+      const cur = reciteList[reciteIndex];
+      if (cur) void playWordAudio(cur.word);
+    },
   };
   useEffect(() => {
     if (!reciteActive) return;
@@ -1123,6 +1142,12 @@ export default function StudyPage() {
           // 空格键：记住（取消标星（若有）并跳下一词）
           flashPressed('remember');
           reciteActionsRef.current.remember();
+          break;
+        case 'Shift':
+          // Shift 键：播放当前单词发音；e.repeat 过滤长按重复触发
+          if (e.repeat) break;
+          e.preventDefault();
+          reciteActionsRef.current.speak();
           break;
         default:
           break;
@@ -1323,7 +1348,7 @@ export default function StudyPage() {
                   )}
                 >
                   <Download className="h-4 w-4" />
-                  <span className="hidden sm:inline">导出</span>
+                  <span className="hidden sm:inline">导出标星</span>
                 </button>
                 {/* 按钮 4：计时背诵（仅非拼写模式）—— 选择每词秒数后弹窗背诵 */}
                 {/* 「只看标星」开启且无标星单词时禁用（背诵队列为空） */}
@@ -2001,9 +2026,18 @@ export default function StudyPage() {
                   <Download className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-slate-800">导出标星单词</h3>
+                  <h3 className="text-lg font-extrabold text-slate-800">
+                    {/* sheet 名：去掉扩展名后只显示前 8 个字符，超出加省略号 */}
+                    {(() => {
+                      const raw = currentBook?.fileName || '标星单词';
+                      const base = raw.replace(/\.(xlsx|xls)$/i, '');
+                      return base.length > 8 ? `${base.slice(0, 8)}…` : base;
+                    })()} · 准确率{starredAccuracy}%
+                  </h3>
                   <p className="text-xs text-slate-500">
-                    共 <span className="font-bold text-amber-600">{starredWordItems.length}</span> 个标星单词，格式与导入词表一致（单词 / 释义）
+                    共 <span className="font-bold text-amber-600">{starredWordItems.length}</span> 个标星单词，
+                    错<span className="font-bold text-rose-500">{starredWordItems.length}</span>，
+                    对<span className="font-bold text-emerald-600">{words.length - starredWordItems.length}</span>
                   </p>
                 </div>
               </div>
@@ -2018,15 +2052,16 @@ export default function StudyPage() {
                 </div>
               ) : (
                 <table className="w-full border-collapse text-left text-sm">
-                  <thead className="sticky top-0 z-10 bg-slate-50">
+                  {/* 表头不固定，随单词列表一起上下滚动 */}
+                  <thead>
                     <tr>
-                      <th className="w-12 rounded-l-lg border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
+                      <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
                         #
                       </th>
                       <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
                         单词
                       </th>
-                      <th className="rounded-r-lg border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
+                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
                         释义
                       </th>
                     </tr>
@@ -2130,8 +2165,6 @@ export default function StudyPage() {
         const starred = starredWords.includes(cur.word);
         // 当前背诵队列中已标星的单词数（实时跟随标星操作更新）
         const reciteStarredCount = reciteList.filter((w) => starredWords.includes(w.word)).length;
-        // 剩余秒数 ≤ 3 时变红色提醒
-        const isUrgent = reciteRemaining <= 3;
         // 判断当前背诵模式的展示形式
         // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
         // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
@@ -2168,6 +2201,18 @@ export default function StudyPage() {
                     第 <span className="text-violet-600">{reciteIndex + 1}</span> / {reciteList.length} 个
                     <span className="ml-1 font-normal text-slate-400">·</span>
                     <span className="ml-1 text-amber-600">标星<span className="font-bold">{reciteStarredCount}</span>个</span>
+                    <span className="ml-1 font-normal text-slate-400">·</span>
+                    {(() => {
+                      const total = reciteList.length;
+                      const wrong = reciteStarredCount;
+                      const correct = total - wrong;
+                      const acc = total > 0 ? Math.round((correct / total) * 100) : 100;
+                      return (
+                        <span className={cn('ml-1 font-bold', acc >= 90 ? 'text-emerald-600' : 'text-rose-500')}>
+                          准确率<span>{acc}</span>%
+                        </span>
+                      );
+                    })()}
                   </span>
                 </div>
                 <button
@@ -2197,25 +2242,28 @@ export default function StudyPage() {
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none" stroke="#e2e8f0" strokeWidth="3" strokeLinecap="round"
                       />
-                      {/* 进度弧：圆头 + CSS 动画线性递减，跟随时间一点点缩短（非每秒跳变） */}
+                      {/* 进度弧：圆头 + CSS 动画线性递减并伴随颜色渐变（紫→橙→红） */}
                       <path
                         key={`${reciteIndex}-${reciteSeconds}`}
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         fill="none"
-                        stroke={isUrgent ? '#f43f5e' : '#8b5cf6'}
                         strokeWidth="3"
                         strokeLinecap="round"
                         strokeDasharray="100"
                         style={{
-                          animation: `recite-deplete ${reciteSeconds}s linear forwards`,
+                          animation: `recite-deplete ${reciteSeconds}s linear forwards, recite-color-fade ${reciteSeconds}s linear forwards`,
                         }}
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={cn(
-                        'font-mono text-2xl font-black tabular-nums',
-                        isUrgent ? 'text-rose-500' : 'text-violet-600'
-                      )}>
+                      {/* 数字颜色与圆环同步：紫 → 橙 → 红，随时间平滑过渡 */}
+                      <span
+                        key={`num-${reciteIndex}-${reciteSeconds}`}
+                        className="font-mono text-2xl font-black tabular-nums"
+                        style={{
+                          animation: `recite-text-color-fade ${reciteSeconds}s linear forwards`,
+                        }}
+                      >
                         {reciteRemaining}
                       </span>
                     </div>
@@ -2358,7 +2406,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑ 查看释义 · ↓ 标星 · 空格 记住
+                  快捷键：← 上一词 · → 下一词 · ↑ 查看释义 · ↓ 标星 · 空格 记住 · Shift 播放发音
                 </p>
               </div>
               </div>
