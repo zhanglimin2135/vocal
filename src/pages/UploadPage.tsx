@@ -11,8 +11,8 @@
  * ============================================
  */
 
-// 从 React 导入需要的 Hook：状态管理、回调函数缓存、DOM 引用
-import { useState, useCallback, useRef } from 'react';
+// 从 React 导入需要的 Hook：状态管理、回调函数缓存、DOM 引用、副作用
+import { useState, useCallback, useRef, useEffect } from 'react';
 // 从 react-router-dom 导入路由跳转 Hook
 import { useNavigate } from 'react-router-dom';
 // 从 lucide-react 导入 UI 图标组件
@@ -27,6 +27,7 @@ import {
   Loader2,          // 加载转圈图标
   Trash2,           // 垃圾桶删除图标
   BookText,         // 书本图标（托福阅读模块入口）
+  Sparkles,         // 星光图标（欢迎弹窗装饰）
 } from 'lucide-react';
 // 导入全局状态管理 Hook（Zustand）
 import { useAppStore } from '@/store/appStore';
@@ -54,6 +55,22 @@ export default function UploadPage() {
   const [progressName, setProgressName] = useState('');
   // useState：管理拖拽文件时的高亮状态（true=拖拽中，控制上传区样式）
   const [dragActive, setDragActive] = useState(false);
+
+  // ===== 欢迎弹窗：首次进入首页时显示，5 秒后自动消失 =====
+  // showWelcome：弹窗是否挂载在页面上
+  const [showWelcome, setShowWelcome] = useState(true);
+  // welcomeClosing：是否进入淡出阶段（4.5 秒开始淡出，5 秒完全移除）
+  const [welcomeClosing, setWelcomeClosing] = useState(false);
+  useEffect(() => {
+    // 4.5 秒：触发淡出过渡（0.5 秒）
+    const fadeTimer = window.setTimeout(() => setWelcomeClosing(true), 4500);
+    // 5 秒：动画结束后彻底移除弹窗，页面恢复正常使用
+    const removeTimer = window.setTimeout(() => setShowWelcome(false), 5000);
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(removeTimer);
+    };
+  }, []);
 
   // useAppStore：从全局状态读取【词表列表】数组，展示用户已导入的所有词表
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
@@ -395,6 +412,39 @@ export default function UploadPage() {
           )}
         </section>
       </div>
+
+      {/* ======== 欢迎弹窗：打开首页显示 5 秒后自动淡出消失 ======== */}
+      {showWelcome && (
+        <div
+          className={cn(
+            'fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-6 backdrop-blur-md transition-opacity duration-500',
+            welcomeClosing ? 'opacity-0' : 'opacity-100'
+          )}
+          style={{ animation: welcomeClosing ? undefined : 'welcome-overlay-in 0.4s ease-out' }}
+        >
+          {/* 弹窗卡片：简洁大方，大标题 + 小字诗句；跟随遮罩一起淡出 */}
+          <div
+            className="w-full max-w-md rounded-3xl bg-white/95 px-10 py-12 text-center shadow-2xl"
+            style={{ animation: welcomeClosing ? undefined : 'welcome-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1)' }}
+          >
+            {/* 顶部装饰图标 */}
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 shadow-lg shadow-blue-200">
+              <Sparkles className="h-8 w-8 text-white" />
+            </div>
+            {/* 欢迎大标题 */}
+            <h2 className="bg-gradient-to-r from-indigo-700 via-blue-700 to-sky-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl">
+              尚远国际 · 背单词助手
+            </h2>
+            {/* 分隔细线 */}
+            <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+            {/* 励志诗句（小字） */}
+            <p className="mt-6 text-sm leading-relaxed tracking-wide text-slate-500">
+              盛年不重来，一日难再晨。<br />
+              及时当勉励，岁月不待人。
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
