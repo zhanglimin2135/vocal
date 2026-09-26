@@ -192,7 +192,7 @@ export default function UploadPage() {
           {/* 上方小圆角标签：应用 Logo + 名称 */}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-sm text-indigo-700 shadow-sm backdrop-blur">
             <BookOpen className="h-4 w-4" />
-            <span>Vocabulary · 你的专属背单词助手</span>
+            <span>尚远国际 · 你的专属背单词助手</span>
           </div>
           {/* 主标题：渐变色大字标题 */}
           <h1 className="whitespace-nowrap bg-gradient-to-r from-indigo-700 via-blue-700 to-sky-600 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl md:text-5xl lg:text-[52px]">
