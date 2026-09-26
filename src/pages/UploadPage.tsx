@@ -200,7 +200,7 @@ export default function UploadPage() {
           </h1>
           {/* 副标题：功能简介说明 */}
           <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
-            上传 Excel 词表，自由选择学习单元，支持看词说意与听音辨义两种模式，一键获取有道纯正发音。
+            上传 Excel 词表，自由选择学习单元，支持看词说意、听音辨义、单词拼写三种模式
           </p>
         </header>
 
