@@ -1610,9 +1610,10 @@ export default function StudyPage() {
                   </p>
                 </div>
 
-                {/* —— 4 格统计卡（检查时间 / 检查内容 / 正确 / 错误 / 正确率 合并） —— */}
-                <div className="grid grid-cols-2 gap-px bg-slate-100 sm:grid-cols-4">
-                  <div className="bg-white px-4 py-3 text-center">
+                {/* —— 统计区 —— */}
+                {/* 第 1 行：检查时间（占 1 列，与下方准确率格同宽）+ 检查内容（占 3 列，居中） */}
+                <div className="grid grid-cols-4 border-b border-slate-100 bg-white">
+                  <div className="border-r border-slate-100 px-4 py-3 text-center">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       检查时间
                     </p>
@@ -1620,7 +1621,7 @@ export default function StudyPage() {
                       {checkTimeStr}
                     </p>
                   </div>
-                  <div className="bg-white px-4 py-3 text-center sm:col-span-1">
+                  <div className="col-span-3 px-4 py-3 text-center">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       检查内容（词表）
                     </p>
@@ -1639,7 +1640,31 @@ export default function StudyPage() {
                       )}
                     </div>
                   </div>
-                  <div className="bg-white px-4 py-3 text-center">
+                </div>
+                {/* 第 2 行：准确率 + 总词数 + 正确 + 错误 同行，字号保持原样 */}
+                <div className="grid grid-cols-4 gap-px border-b border-slate-100 bg-slate-100">
+                  <div className="flex flex-col items-center justify-center bg-white px-2 py-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                      准确率
+                    </p>
+                    <p
+                      className={cn(
+                        'mt-1 font-mono text-4xl font-black tabular-nums',
+                        passed ? 'text-emerald-600' : 'text-rose-500'
+                      )}
+                    >
+                      {accuracyStr}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center bg-white px-2 py-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                      总词数
+                    </p>
+                    <p className="mt-1 font-mono text-2xl font-extrabold text-slate-800">
+                      {words.length}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center bg-white px-2 py-3">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       正确
                     </p>
@@ -1647,7 +1672,7 @@ export default function StudyPage() {
                       {stats.correct}
                     </p>
                   </div>
-                  <div className="bg-white px-4 py-3 text-center">
+                  <div className="flex flex-col items-center justify-center bg-white px-2 py-3">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       错误
                     </p>
@@ -1655,24 +1680,6 @@ export default function StudyPage() {
                       {stats.wrong}
                     </p>
                   </div>
-                </div>
-
-                {/* —— 单独一行：准确率大字（突出） —— */}
-                <div className="border-y border-slate-100 bg-gradient-to-r from-indigo-50 via-blue-50 to-sky-50 px-6 py-3 text-center">
-                  <p className="text-[11px] font-medium uppercase tracking-wider text-indigo-500">
-                    本次准确率
-                  </p>
-                  <p
-                    className={cn(
-                      'mt-1 font-mono text-4xl font-black tabular-nums',
-                      passed ? 'text-emerald-600' : 'text-rose-500'
-                    )}
-                  >
-                    {accuracyStr}
-                    <span className="ml-2 align-middle text-xs font-semibold text-slate-500">
-                      {passed ? '✅ ≥ 90%（合格）' : '❌ < 90%（未达标）'}
-                    </span>
-                  </p>
                 </div>
 
                 {/* —— 准确率下方：所有错题列表（正确单词 / 释义 / 错误拼写） —— */}
@@ -2027,17 +2034,18 @@ export default function StudyPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-extrabold text-slate-800">
-                    {/* sheet 名：去掉扩展名后只显示前 8 个字符，超出加省略号 */}
-                    {(() => {
-                      const raw = currentBook?.fileName || '标星单词';
-                      const base = raw.replace(/\.(xlsx|xls)$/i, '');
-                      return base.length > 8 ? `${base.slice(0, 8)}…` : base;
-                    })()} · 准确率{starredAccuracy}%
+                    {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
+                    {(currentBook?.fileName || '标星单词').replace(/\.(xlsx|xls)$/i, '')}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    共 <span className="font-bold text-amber-600">{starredWordItems.length}</span> 个标星单词，
-                    错<span className="font-bold text-rose-500">{starredWordItems.length}</span>，
-                    对<span className="font-bold text-emerald-600">{words.length - starredWordItems.length}</span>
+                    {/* 副标题：单元名称 · 总词数 · 错误数(标星) · 正确数(未标星) · 准确率 */}
+                    {selectedSheetNames.length === 1
+                      ? selectedSheetNames[0]
+                      : `${selectedSheetNames.length} 个单元`}
+                    {' · '}共<span className="font-bold text-slate-700"> {words.length} </span>词
+                    {' · '}错<span className="font-bold text-rose-500"> {starredWordItems.length} </span>
+                    {' · '}对<span className="font-bold text-emerald-600"> {words.length - starredWordItems.length} </span>
+                    {' · '}准确率<span className="font-bold text-slate-700"> {starredAccuracy}%</span>
                   </p>
                 </div>
               </div>
@@ -2072,7 +2080,7 @@ export default function StudyPage() {
                         <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
                           {idx + 1}
                         </td>
-                        <td className="border-b border-slate-100 px-3 py-2.5 font-mono font-semibold text-slate-800">
+                        <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
                           {w.word}
                         </td>
                         <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">

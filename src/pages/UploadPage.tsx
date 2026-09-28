@@ -56,12 +56,33 @@ export default function UploadPage() {
   // useState：管理拖拽文件时的高亮状态（true=拖拽中，控制上传区样式）
   const [dragActive, setDragActive] = useState(false);
 
-  // ===== 欢迎弹窗：首次进入首页时显示，5 秒后自动消失 =====
+  // ===== 欢迎弹窗：30 分钟内只弹一次，5 秒后自动消失 =====
   // showWelcome：弹窗是否挂载在页面上
-  const [showWelcome, setShowWelcome] = useState(true);
+  //   初始值通过 localStorage 记录的上次弹出时间判断：
+  //     - 无记录（首次访问）或距上次 ≥ 30 分钟 → 显示
+  //     - 30 分钟内再次进入首页 → 不显示
+  //   30 分钟 = 1800 秒 = 1800000 毫秒
+  const [showWelcome, setShowWelcome] = useState(() => {
+    try {
+      const last = window.localStorage.getItem('welcome_last_show');
+      if (!last) return true; // 首次访问，显示
+      return Date.now() - Number(last) >= 1800000; // 超过 30 分钟才显示
+    } catch {
+      // 隐私模式等 localStorage 不可用时，默认显示
+      return true;
+    }
+  });
   // welcomeClosing：是否进入淡出阶段（4.5 秒开始淡出，5 秒完全移除）
   const [welcomeClosing, setWelcomeClosing] = useState(false);
   useEffect(() => {
+    // 不显示弹窗时直接跳过（30 分钟内已弹过）
+    if (!showWelcome) return;
+    // 记录本次弹出时间戳，作为下次判断的基准
+    try {
+      window.localStorage.setItem('welcome_last_show', String(Date.now()));
+    } catch {
+      // 忽略 localStorage 写入失败
+    }
     // 4.5 秒：触发淡出过渡（0.5 秒）
     const fadeTimer = window.setTimeout(() => setWelcomeClosing(true), 4500);
     // 5 秒：动画结束后彻底移除弹窗，页面恢复正常使用
@@ -70,7 +91,7 @@ export default function UploadPage() {
       window.clearTimeout(fadeTimer);
       window.clearTimeout(removeTimer);
     };
-  }, []);
+  }, [showWelcome]);
 
   // useAppStore：从全局状态读取【词表列表】数组，展示用户已导入的所有词表
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
