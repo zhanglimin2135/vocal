@@ -275,11 +275,11 @@ export default function StudyPage() {
   const [reciteRevealed, setReciteRevealed] = useState(false);
 
   /**
-   * reciteFinished - 全部单词背诵完成
-   *   - true：进入庆祝状态（烟花动画），2 秒后自动关闭弹窗
-   *   - 完成时不立即关闭弹窗，给一个简短有趣的收尾动画
+   * reciteResultOpen - 背诵全部完成后显示「背诵结果」弹窗
+   *   - true：显示结果弹窗（单元名、单词数据、错误单词列表）
+   *   - 形式类似于「导出标星单词」弹窗
    */
-  const [reciteFinished, setReciteFinished] = useState(false);
+  const [reciteResultOpen, setReciteResultOpen] = useState(false);
 
   /**
    * reciteKeyPressed - 快捷键触发的按钮按压状态（用于显示按键反馈）
@@ -935,7 +935,7 @@ export default function StudyPage() {
     setReciteSeconds(seconds);
     setReciteIndex(0);
     setReciteRemaining(seconds);
-    setReciteFinished(false);
+    setReciteResultOpen(false);
     setRecitePickerOpen(false);
     setReciteActive(true);
   };
@@ -956,7 +956,7 @@ export default function StudyPage() {
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
-      setReciteFinished(true);
+      finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -977,7 +977,7 @@ export default function StudyPage() {
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
-      setReciteFinished(true);
+      finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -1003,7 +1003,7 @@ export default function StudyPage() {
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
-      setReciteFinished(true);
+      finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -1016,21 +1016,16 @@ export default function StudyPage() {
    */
   const reciteClose = () => {
     setReciteActive(false);
-    setReciteFinished(false);
   };
 
   /**
-   * 全部背完后的收尾：庆祝动画展示 2 秒，随后自动关闭弹窗
-   *   组件卸载 / 手动关闭时清理定时器，避免泄漏
+   * finishRecite - 全部单词背完后调用：关闭背诵弹窗，直接弹出「背诵结果」弹窗
+   *   结果弹窗展示：单元名、单词数据、错误单词列表（形式同导出标星弹窗）
    */
-  useEffect(() => {
-    if (!reciteFinished) return;
-    const t = window.setTimeout(() => {
-      setReciteActive(false);
-      setReciteFinished(false);
-    }, 2000);
-    return () => window.clearTimeout(t);
-  }, [reciteFinished]);
+  const finishRecite = () => {
+    setReciteActive(false);
+    setReciteResultOpen(true);
+  };
 
   /**
    * 超时处理 ref：保存最新的超时动作（标记当前单词 + 跳转下一个）
@@ -1047,7 +1042,7 @@ export default function StudyPage() {
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
-      setReciteFinished(true);
+      finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -1063,8 +1058,6 @@ export default function StudyPage() {
    */
   useEffect(() => {
     if (!reciteActive) return;
-    // 全部背完进入庆祝状态：停止倒计时，避免最后 2 秒误触发超时标星
-    if (reciteFinished) return;
     if (reciteIndex >= reciteList.length) {
       setReciteActive(false);
       return;
@@ -1082,7 +1075,7 @@ export default function StudyPage() {
     }, 1000);
 
     return () => window.clearInterval(timerId);
-  }, [reciteActive, reciteIndex, reciteList.length, reciteFinished]);
+  }, [reciteActive, reciteIndex, reciteList.length]);
 
   /**
    * 听音辨义模式下的计时背诵：进入一个新单词时自动播放发音
@@ -1139,8 +1132,6 @@ export default function StudyPage() {
   };
   useEffect(() => {
     if (!reciteActive) return;
-    // 完成庆祝阶段暂停所有快捷键，避免误标记最后一个单词
-    if (reciteFinished) return;
     // 触发某个按钮的按压反馈：设置状态后 150ms 自动清除
     const flashPressed = (key: 'remember' | 'mark') => {
       setReciteKeyPressed(key);
@@ -1185,7 +1176,7 @@ export default function StudyPage() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [reciteActive, reciteFinished]);
+  }, [reciteActive]);
 
   // 单词为空时的加载占位（通常发生在初始化尚未完成时）
   if (words.length === 0) {
@@ -2206,17 +2197,9 @@ export default function StudyPage() {
         // 鼠标点击 / ↑ 键：切换答案展开 ↔ 收起
         const toggleReveal = () => setReciteRevealed((v) => !v);
 
-        // ===== 进度条参数（完成庆祝时填满到 100%）=====
+        // ===== 进度条参数 =====
         // 进度条填充宽度
-        const barWidthPct = reciteFinished ? 100 : (reciteIndex / Math.max(1, reciteList.length)) * 100;
-        // 烟花数据：不同位置 / 颜色 / 延迟，共两波
-        const fireworks = [
-          { left: '26%', top: '34%', delay: 0, color: '#f43f5e' },
-          { left: '74%', top: '30%', delay: 0.25, color: '#8b5cf6' },
-          { left: '50%', top: '22%', delay: 0.5, color: '#f59e0b' },
-          { left: '34%', top: '40%', delay: 1.0, color: '#10b981' },
-          { left: '68%', top: '42%', delay: 1.2, color: '#3b82f6' },
-        ];
+        const barWidthPct = (reciteIndex / Math.max(1, reciteList.length)) * 100;
         // 判断当前背诵模式的展示形式
         // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
         // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
@@ -2231,11 +2214,11 @@ export default function StudyPage() {
               {/* 左侧：上一词（仅图标） */}
               <button
                 onClick={recitePrev}
-                disabled={reciteIndex <= 0 || reciteFinished}
+                disabled={reciteIndex <= 0}
                 title="上一词（←）"
                 className={cn(
                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
-                  reciteIndex <= 0 || reciteFinished
+                  reciteIndex <= 0
                     ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
                     : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
                 )}
@@ -2474,64 +2457,128 @@ export default function StudyPage() {
                 </p>
               </div>
 
-              {/* —— 全部背完：烟花庆祝层（轻量装饰，2 秒后随弹窗消失） —— */}
-              {reciteFinished && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center overflow-hidden bg-white/75 backdrop-blur-[2px]">
-                  {/* 烟花：每处 10 个彩色粒子向外迸射，分两波错峰出现 */}
-                  {fireworks.map((fw, fi) => (
-                    <div key={fi} className="absolute" style={{ left: fw.left, top: fw.top }}>
-                      {Array.from({ length: 10 }).map((_, pi) => {
-                        const angle = (pi / 10) * Math.PI * 2;
-                        const dist = 32;
-                        return (
-                          <span
-                            key={pi}
-                            className="absolute h-1.5 w-1.5 rounded-full"
-                            style={{
-                              backgroundColor: fw.color,
-                              boxShadow: `0 0 6px ${fw.color}`,
-                              ['--dx' as string]: `${Math.cos(angle) * dist}px`,
-                              ['--dy' as string]: `${Math.sin(angle) * dist}px`,
-                              animation: `recite-fw-particle 0.9s ease-out ${fw.delay}s forwards`,
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  ))}
-                  {/* 中央：烟花 + 撒花，小尺寸不喧宾夺主 */}
-                  <div
-                    className="flex flex-col items-center"
-                    style={{ animation: 'recite-finish-pop 0.5s cubic-bezier(0.22,1,0.36,1) both' }}
-                  >
-                    <div
-                      className="text-4xl"
-                      style={{ animation: 'recite-finish-jump 0.6s ease-in-out 0.15s infinite' }}
-                    >
-                      🎆🎉
-                    </div>
-                    <p className="mt-2 rounded-full bg-violet-600 px-4 py-1 text-sm font-bold text-white shadow-md">
-                      全部背完啦！
-                    </p>
-                  </div>
-                </div>
-              )}
               </div>
 
               {/* 右侧：下一词（仅图标） */}
               <button
                 onClick={reciteNext}
-                disabled={reciteIndex >= reciteList.length - 1 || reciteFinished}
+                disabled={reciteIndex >= reciteList.length - 1}
                 title="下一词（→）"
                 className={cn(
                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
-                  reciteIndex >= reciteList.length - 1 || reciteFinished
+                  reciteIndex >= reciteList.length - 1
                     ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
                     : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
                 )}
               >
                 <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ===== 背诵结果弹窗：全部背完后弹出，形式同导出标星弹窗 ===== */}
+      {reciteResultOpen && (() => {
+        // 错误单词 = 背诵队列中标星的单词
+        const reciteWrongWords = reciteList.filter((w) => starredWords.includes(w.word));
+        const total = reciteList.length;
+        const wrong = reciteWrongWords.length;
+        const correct = total - wrong;
+        const accuracy = total > 0 ? Math.round((correct / total) * 100) : 100;
+        // 单元名称（单 sheet 显示该 sheet 名，多 sheet 显示"N 个单元"）
+        const unitName = selectedSheetNames.length === 1
+          ? selectedSheetNames[0]
+          : `${selectedSheetNames.length} 个单元`;
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+            onClick={() => setReciteResultOpen(false)}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
+            >
+              {/* 右上角关闭按钮 × */}
+              <button
+                onClick={() => setReciteResultOpen(false)}
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              {/* 弹窗头部：图标 + 标题 + 说明 */}
+              <div className="border-b border-slate-100 px-6 py-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-violet-200">
+                    <Trophy className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-extrabold text-slate-800">
+                      {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
+                      {(currentBook?.fileName || '背诵结果').replace(/\.(xlsx|xls)$/i, '')}
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      {/* 副标题：单元名称 · 总词数 · 错误数 · 正确数 · 准确率 */}
+                      {unitName}
+                      {' · '}共<span className="font-bold text-slate-700"> {total} </span>词
+                      {' · '}错<span className="font-bold text-rose-500"> {wrong} </span>
+                      {' · '}对<span className="font-bold text-emerald-600"> {correct} </span>
+                      {' · '}准确率<span className="font-bold text-slate-700"> {accuracy}%</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 错误单词表格区域：可滚动，表头随内容一起滚动 */}
+              <div className="flex-1 overflow-auto px-6 py-4">
+                {reciteWrongWords.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <CheckCircle className="h-10 w-10 text-emerald-400" />
+                    <p className="mt-3 text-sm font-semibold text-emerald-600">全部掌握，没有错误单词！</p>
+                  </div>
+                ) : (
+                  <table className="w-full border-collapse text-left text-sm">
+                    <thead>
+                      <tr>
+                        <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
+                          #
+                        </th>
+                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
+                          单词
+                        </th>
+                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
+                          释义
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reciteWrongWords.map((w, idx) => (
+                        <tr key={w.uid} className="hover:bg-slate-50">
+                          <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
+                            {idx + 1}
+                          </td>
+                          <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
+                            {w.word}
+                          </td>
+                          <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
+                            {w.meaning}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+
+              {/* 底部操作区：关闭 */}
+              <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">
+                <button
+                  onClick={() => setReciteResultOpen(false)}
+                  className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+                >
+                  关闭
+                </button>
+              </div>
             </div>
           </div>
         );
