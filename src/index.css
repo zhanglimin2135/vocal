@@ -101,3 +101,22 @@
   from { opacity: 0; transform: translateY(20px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* ===== 计时背诵：完成庆祝动画（纯装饰） ===== */
+/* 烟花粒子：从中心向四周迸射后缩小消失（位移由 --dx/--dy 变量指定） */
+@keyframes recite-fw-particle {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.2); opacity: 0; }
+}
+
+/* 完成庆祝：中央小人整体弹出 */
+@keyframes recite-finish-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 完成庆祝：小人开心地连续蹦跳 */
+@keyframes recite-finish-jump {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%      { transform: translateY(-10px) rotate(5deg); }
+}

@@ -275,6 +275,13 @@ export default function StudyPage() {
   const [reciteRevealed, setReciteRevealed] = useState(false);
 
   /**
+   * reciteFinished - 全部单词背诵完成
+   *   - true：进入庆祝状态（烟花动画），2 秒后自动关闭弹窗
+   *   - 完成时不立即关闭弹窗，给一个简短有趣的收尾动画
+   */
+  const [reciteFinished, setReciteFinished] = useState(false);
+
+  /**
    * reciteKeyPressed - 快捷键触发的按钮按压状态（用于显示按键反馈）
    *   - 'remember'：刚按了 ↑ 键，记住按钮显示按压效果
    *   - 'mark'：刚按了 ↓ 键，标星按钮显示按压效果
@@ -928,6 +935,7 @@ export default function StudyPage() {
     setReciteSeconds(seconds);
     setReciteIndex(0);
     setReciteRemaining(seconds);
+    setReciteFinished(false);
     setRecitePickerOpen(false);
     setReciteActive(true);
   };
@@ -947,7 +955,8 @@ export default function StudyPage() {
     }
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
-      setReciteActive(false);
+      // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
+      setReciteFinished(true);
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -967,7 +976,8 @@ export default function StudyPage() {
     }
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
-      setReciteActive(false);
+      // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
+      setReciteFinished(true);
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -992,7 +1002,8 @@ export default function StudyPage() {
   const reciteNext = () => {
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
-      setReciteActive(false);
+      // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
+      setReciteFinished(true);
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -1005,7 +1016,21 @@ export default function StudyPage() {
    */
   const reciteClose = () => {
     setReciteActive(false);
+    setReciteFinished(false);
   };
+
+  /**
+   * 全部背完后的收尾：庆祝动画展示 2 秒，随后自动关闭弹窗
+   *   组件卸载 / 手动关闭时清理定时器，避免泄漏
+   */
+  useEffect(() => {
+    if (!reciteFinished) return;
+    const t = window.setTimeout(() => {
+      setReciteActive(false);
+      setReciteFinished(false);
+    }, 2000);
+    return () => window.clearTimeout(t);
+  }, [reciteFinished]);
 
   /**
    * 超时处理 ref：保存最新的超时动作（标记当前单词 + 跳转下一个）
@@ -1021,7 +1046,8 @@ export default function StudyPage() {
     }
     const next = reciteIndex + 1;
     if (next >= reciteList.length) {
-      setReciteActive(false);
+      // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
+      setReciteFinished(true);
     } else {
       setReciteRemaining(reciteSeconds);
       setReciteIndex(next);
@@ -1037,6 +1063,8 @@ export default function StudyPage() {
    */
   useEffect(() => {
     if (!reciteActive) return;
+    // 全部背完进入庆祝状态：停止倒计时，避免最后 2 秒误触发超时标星
+    if (reciteFinished) return;
     if (reciteIndex >= reciteList.length) {
       setReciteActive(false);
       return;
@@ -1054,7 +1082,7 @@ export default function StudyPage() {
     }, 1000);
 
     return () => window.clearInterval(timerId);
-  }, [reciteActive, reciteIndex, reciteList.length]);
+  }, [reciteActive, reciteIndex, reciteList.length, reciteFinished]);
 
   /**
    * 听音辨义模式下的计时背诵：进入一个新单词时自动播放发音
@@ -1111,6 +1139,8 @@ export default function StudyPage() {
   };
   useEffect(() => {
     if (!reciteActive) return;
+    // 完成庆祝阶段暂停所有快捷键，避免误标记最后一个单词
+    if (reciteFinished) return;
     // 触发某个按钮的按压反馈：设置状态后 150ms 自动清除
     const flashPressed = (key: 'remember' | 'mark') => {
       setReciteKeyPressed(key);
@@ -1128,8 +1158,8 @@ export default function StudyPage() {
           break;
         case 'ArrowUp':
           e.preventDefault();
-          // 上方向键：展开当前单词的答案（释义/单词）
-          setReciteRevealed(true);
+          // 上方向键：切换当前单词答案的展开 / 收起（释义/单词）
+          setReciteRevealed((v) => !v);
           break;
         case 'ArrowDown':
           e.preventDefault();
@@ -1155,7 +1185,7 @@ export default function StudyPage() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [reciteActive]);
+  }, [reciteActive, reciteFinished]);
 
   // 单词为空时的加载占位（通常发生在初始化尚未完成时）
   if (words.length === 0) {
@@ -2173,6 +2203,20 @@ export default function StudyPage() {
         const starred = starredWords.includes(cur.word);
         // 当前背诵队列中已标星的单词数（实时跟随标星操作更新）
         const reciteStarredCount = reciteList.filter((w) => starredWords.includes(w.word)).length;
+        // 鼠标点击 / ↑ 键：切换答案展开 ↔ 收起
+        const toggleReveal = () => setReciteRevealed((v) => !v);
+
+        // ===== 进度条参数（完成庆祝时填满到 100%）=====
+        // 进度条填充宽度
+        const barWidthPct = reciteFinished ? 100 : (reciteIndex / Math.max(1, reciteList.length)) * 100;
+        // 烟花数据：不同位置 / 颜色 / 延迟，共两波
+        const fireworks = [
+          { left: '26%', top: '34%', delay: 0, color: '#f43f5e' },
+          { left: '74%', top: '30%', delay: 0.25, color: '#8b5cf6' },
+          { left: '50%', top: '22%', delay: 0.5, color: '#f59e0b' },
+          { left: '34%', top: '40%', delay: 1.0, color: '#10b981' },
+          { left: '68%', top: '42%', delay: 1.2, color: '#3b82f6' },
+        ];
         // 判断当前背诵模式的展示形式
         // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
         // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
@@ -2187,11 +2231,11 @@ export default function StudyPage() {
               {/* 左侧：上一词（仅图标） */}
               <button
                 onClick={recitePrev}
-                disabled={reciteIndex <= 0}
+                disabled={reciteIndex <= 0 || reciteFinished}
                 title="上一词（←）"
                 className={cn(
                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
-                  reciteIndex <= 0
+                  reciteIndex <= 0 || reciteFinished
                     ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
                     : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
                 )}
@@ -2235,7 +2279,7 @@ export default function StudyPage() {
               <div className="h-1.5 w-full rounded-full bg-slate-100">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-[width] duration-700 ease-out"
-                  style={{ width: `${((reciteIndex) / Math.max(1, reciteList.length)) * 100}%` }}
+                  style={{ width: `${barWidthPct}%` }}
                 />
               </div>
 
@@ -2301,15 +2345,19 @@ export default function StudyPage() {
                       <Volume2 className="h-4 w-4" />
                       播放发音
                     </button>
-                    {/* 下方：点击查看释义 / 已展开则显示释义（按钮文字大小与释义一致，仅透明度降低） */}
+                    {/* 下方：点击查看/收起释义（同一块区域点击或 ↑ 键均可切换） */}
                     <div className="mt-3 min-h-[1.75rem]">
                       {reciteRevealed ? (
-                        <p className="break-words text-xl leading-relaxed text-slate-700">
+                        <button
+                          onClick={toggleReveal}
+                          title="点击收起（↑）"
+                          className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-700 transition-opacity hover:opacity-60"
+                        >
                           {cur.meaning}
-                        </p>
+                        </button>
                       ) : (
                         <button
-                          onClick={() => setReciteRevealed(true)}
+                          onClick={toggleReveal}
                           className="text-xl leading-relaxed text-slate-400 opacity-40 transition-opacity hover:opacity-100"
                         >
                           点击查看释义
@@ -2333,15 +2381,19 @@ export default function StudyPage() {
                       <Volume2 className="h-4 w-4" />
                       播放发音
                     </button>
-                    {/* 下方：点击查看单词 / 已展开则显示单词（按钮文字大小与单词一致，仅透明度降低） */}
+                    {/* 下方：点击查看/收起单词（同一块区域点击或 ↑ 键均可切换） */}
                     <div className="mt-3 min-h-[2.5rem]">
                       {reciteRevealed ? (
-                        <p className="break-words text-4xl font-black tracking-tight text-slate-900">
+                        <button
+                          onClick={toggleReveal}
+                          title="点击收起（↑）"
+                          className="w-full cursor-pointer break-words bg-transparent text-4xl font-black tracking-tight text-slate-900 transition-opacity hover:opacity-60"
+                        >
                           {cur.word}
-                        </p>
+                        </button>
                       ) : (
                         <button
-                          onClick={() => setReciteRevealed(true)}
+                          onClick={toggleReveal}
                           className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
                         >
                           点击查看单词
@@ -2363,10 +2415,14 @@ export default function StudyPage() {
                     <p className="mt-4 text-sm font-medium text-slate-500">
                       点击喇叭播放发音，尝试回想单词和释义
                     </p>
-                    {/* 下方：点击查看单词和释义 / 已展开则显示（按钮文字大小与单词一致，仅透明度降低） */}
+                    {/* 下方：点击查看/收起单词和释义（点击内容或 ↑ 键均可切换） */}
                     <div className="mt-4 min-h-[2.5rem]">
                       {reciteRevealed ? (
-                        <div>
+                        <button
+                          onClick={toggleReveal}
+                          title="点击收起（↑）"
+                          className="w-full cursor-pointer bg-transparent transition-opacity hover:opacity-60"
+                        >
                           <p className="break-words text-4xl font-black tracking-tight text-slate-900">
                             {cur.word}
                           </p>
@@ -2374,10 +2430,10 @@ export default function StudyPage() {
                           <p className="break-words text-xl leading-relaxed text-slate-700">
                             {cur.meaning}
                           </p>
-                        </div>
+                        </button>
                       ) : (
                         <button
-                          onClick={() => setReciteRevealed(true)}
+                          onClick={toggleReveal}
                           className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
                         >
                           显示单词和释义
@@ -2414,19 +2470,62 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑ 查看释义 · ↓ 标星 · 空格 记住 · Shift 播放发音
+                  快捷键：← 上一词 · → 下一词 · ↑ 显示/收起释义 · ↓ 标星 · 空格 记住 · Shift 播放发音
                 </p>
               </div>
+
+              {/* —— 全部背完：烟花庆祝层（轻量装饰，2 秒后随弹窗消失） —— */}
+              {reciteFinished && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center overflow-hidden bg-white/75 backdrop-blur-[2px]">
+                  {/* 烟花：每处 10 个彩色粒子向外迸射，分两波错峰出现 */}
+                  {fireworks.map((fw, fi) => (
+                    <div key={fi} className="absolute" style={{ left: fw.left, top: fw.top }}>
+                      {Array.from({ length: 10 }).map((_, pi) => {
+                        const angle = (pi / 10) * Math.PI * 2;
+                        const dist = 32;
+                        return (
+                          <span
+                            key={pi}
+                            className="absolute h-1.5 w-1.5 rounded-full"
+                            style={{
+                              backgroundColor: fw.color,
+                              boxShadow: `0 0 6px ${fw.color}`,
+                              ['--dx' as string]: `${Math.cos(angle) * dist}px`,
+                              ['--dy' as string]: `${Math.sin(angle) * dist}px`,
+                              animation: `recite-fw-particle 0.9s ease-out ${fw.delay}s forwards`,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
+                  {/* 中央：烟花 + 撒花，小尺寸不喧宾夺主 */}
+                  <div
+                    className="flex flex-col items-center"
+                    style={{ animation: 'recite-finish-pop 0.5s cubic-bezier(0.22,1,0.36,1) both' }}
+                  >
+                    <div
+                      className="text-4xl"
+                      style={{ animation: 'recite-finish-jump 0.6s ease-in-out 0.15s infinite' }}
+                    >
+                      🎆🎉
+                    </div>
+                    <p className="mt-2 rounded-full bg-violet-600 px-4 py-1 text-sm font-bold text-white shadow-md">
+                      全部背完啦！
+                    </p>
+                  </div>
+                </div>
+              )}
               </div>
 
               {/* 右侧：下一词（仅图标） */}
               <button
                 onClick={reciteNext}
-                disabled={reciteIndex >= reciteList.length - 1}
+                disabled={reciteIndex >= reciteList.length - 1 || reciteFinished}
                 title="下一词（→）"
                 className={cn(
                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
-                  reciteIndex >= reciteList.length - 1
+                  reciteIndex >= reciteList.length - 1 || reciteFinished
                     ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
                     : 'bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600 hover:scale-110 active:translate-y-0.5'
                 )}
