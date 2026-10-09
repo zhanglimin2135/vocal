@@ -2518,10 +2518,9 @@ export default function StudyPage() {
                       {(currentBook?.fileName || '背诵结果').replace(/\.(xlsx|xls)$/i, '')}
                     </h3>
                     <p className="text-xs text-slate-500">
-                      {/* 副标题：单元名称 · 总词数 · 错误数 · 正确数 · 准确率 */}
+                      {/* 副标题：单元名称 · 总词数 · 正确数 · 准确率 */}
                       {unitName}
                       {' · '}共<span className="font-bold text-slate-700"> {total} </span>词
-                      {' · '}错<span className="font-bold text-rose-500"> {wrong} </span>
                       {' · '}对<span className="font-bold text-emerald-600"> {correct} </span>
                       {' · '}准确率<span className="font-bold text-slate-700"> {accuracy}%</span>
                     </p>
