@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: 'Poppins', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+      'Microsoft YaHei', 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #4338ca 0%, #3b82f6 50%, #0ea5e9 100%);
+  }
+  .gradient-btn {
+    @apply text-white shadow-soft transition-all duration-200;
+    background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #0ea5e9 100%);
+  }
+  .gradient-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.25);
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.5);
+  }
+}
+
+/* ===== 计时背诵 · 倒计时圆环平滑递减动画 =====
+   圆周长 ≈ 100（路径半径 15.9155）
+   strokeDashoffset 从 0（完整圆）→ 100（空），线性递减 */
+@keyframes recite-deplete {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 100; }
+}
+
+/* 倒计时圆环颜色渐变：从紫色 (#8b5cf6) 平滑过渡到红色 (#f43f5e) */
+@keyframes recite-color-fade {
+  0%   { stroke: #8b5cf6; }
+  70%  { stroke: #f59e0b; }
+  100% { stroke: #f43f5e; }
+}
+
+/* 倒计时数字颜色渐变：与圆环同步（紫 → 橙 → 红） */
+@keyframes recite-text-color-fade {
+  0%   { color: #8b5cf6; }
+  70%  { color: #f59e0b; }
+  100% { color: #f43f5e; }
+}
+
+/* ===== 首页欢迎弹窗动画 ===== */
+/* 遮罩淡入 */
+@keyframes welcome-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* 卡片上浮 + 轻微放大进入 */
+@keyframes welcome-card-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 完成庆祝：中央小人整体弹出 */
+@keyframes recite-finish-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 完成庆祝：小人开心地连续蹦跳 */
+@keyframes recite-finish-jump {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%      { transform: translateY(-10px) rotate(5deg); }
+}
