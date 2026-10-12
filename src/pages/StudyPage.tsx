@@ -406,15 +406,25 @@ export default function StudyPage() {
     }
     // —— 标星模块：每次进入学习页（换词表/换模式/重新开始）都确保标星是全新的空状态 ——
     resetStarredWords();
-    // 看词说意/听音辨义：保持原表顺序；单词拼写：选择子模式后出现的检测词直接乱序
-    setWords(mode === 'spelling' ? shuffleArray(baseWords) : baseWords);
+    // 看词说意/听音辨义：保持原表顺序；
+    // 单词拼写：'all' 整体拼写=全部单词随机乱序；'random' 随机抽测=乱序后取前 N 个
+    let finalWords: StudyWord[] = baseWords;
+    if (mode === 'spelling') {
+      const shuffled = shuffleArray(baseWords);
+      const quizCount = studyConfig?.spellingQuizCount || 0;
+      finalWords =
+        studyConfig?.spellingFlow === 'random' && quizCount > 0
+          ? shuffled.slice(0, quizCount)
+          : shuffled;
+    }
+    setWords(finalWords);
     setRevealedMap({});
     setAllRevealed(false);
     // 同时把"只看标星"开关也关掉（新会话默认显示全部单词）
     setShowStarredOnly(false);
-    // —— 拼写模式初始化 ——
+    // —— 拼写模式初始化（数组长度按最终单词数：整体=全部，抽测=抽出的数量）——
     setSpellingIndex(0);
-    const initCount = mode === 'spelling' ? baseWords.length : 0;
+    const initCount = mode === 'spelling' ? finalWords.length : 0;
     setAnswers(new Array(initCount).fill(''));
     setLocked(new Array(initCount).fill(false));
     setResults(new Array(initCount).fill(null));
@@ -425,7 +435,7 @@ export default function StudyPage() {
     setWrongRecords([]);
     setHintVisible(true);
     setPlayingUid(null);
-  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS, mode, resetStarredWords]);
+  }, [currentBook, selectedSheetIds, baseWords, navigate, PER_WORD_SECONDS, mode, studyConfig, resetStarredWords]);
 
   /**
    * 离开学习页（返回选择页/跳首页/浏览器后退等）时：
@@ -1646,7 +1656,13 @@ export default function StudyPage() {
                     <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                       检查内容（词表）
                     </p>
-                    <div className="mt-1 flex flex-wrap justify-center gap-1">
+                    <div className="mt-1 flex flex-wrap items-center justify-center gap-1">
+                      {/* 随机抽测模式：在单元标签前显示「随机抽测」琥珀色标签，与整体检查区分 */}
+                      {mode === 'spelling' && studyConfig?.spellingFlow === 'random' && (
+                        <span className="inline-block rounded-md bg-amber-100 px-1.5 py-0.5 text-[11px] font-bold text-amber-700">
+                          随机抽测 · {words.length} 个
+                        </span>
+                      )}
                       {selectedSheetNames.length === 0 ? (
                         <span className="text-xs text-slate-400">-</span>
                       ) : (

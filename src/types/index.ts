@@ -53,6 +53,14 @@ export type LookSubMode = 'word-meaning' | 'meaning-word';
 export type SpellingSubMode = 'meaning-spelling' | 'audio-spelling';
 
 /**
+ * 单词拼写的范围模式（选择单元后、点击"开始拼写"时弹出选择）：
+ * - 'all'：整体拼写（选中单元的全部单词，随机乱序检查）
+ * - 'random'：随机抽测（全部单词乱序后随机抽取指定数量，数量由用户输入，
+ *              最少 5 个，最多不超过所选单元的单词总数）
+ */
+export type SpellingFlow = 'all' | 'random';
+
+/**
  * 学习配置：记录用户在第 2 页（选择页）选了什么
  * 选中了哪些 sheet + 选择了哪种学习模式
  * 点击"开始学习"时会把这份配置保存下来，并在第 3 页使用
@@ -62,6 +70,8 @@ export interface StudyConfig {
   mode: StudyMode;                      // 用户选择的学习模式
   lookSubMode?: LookSubMode;            // 仅当 mode 为 'word-meaning' 时必填：看词/看意子模式
   spellingSubMode?: SpellingSubMode;    // 仅当 mode 为 'spelling' 时必填：拼写字模式
+  spellingFlow?: SpellingFlow;          // 仅当 mode 为 'spelling' 时必填：整体拼写 / 随机抽测
+  spellingQuizCount?: number;           // 仅当 spellingFlow 为 'random' 时必填：抽测的单词数量
 }
 
 // ============================================

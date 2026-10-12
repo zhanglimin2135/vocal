@@ -26,9 +26,11 @@ import {
   X,
   MessageSquareText,
   Volume2,
+  Shuffle,
+  Dices,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
-import type { LookSubMode, SpellingSubMode, StudyMode } from '@/types';
+import type { LookSubMode, SpellingFlow, SpellingSubMode, StudyMode } from '@/types';
 import { cn, canUseForcedFullscreen } from '@/lib/utils';
 
 export default function SelectPage() {
@@ -46,6 +48,16 @@ export default function SelectPage() {
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
   // 「看词说意/看意说词」子模式弹窗的开关状态：true=显示弹窗
   const [lookModalOpen, setLookModalOpen] = useState(false);
+
+  // ===== 拼写范围弹窗（整体拼写 / 随机抽测）=====
+  // 点击「开始学习」后弹出，用于选择本次拼写的单词范围
+  const [spellingFlowOpen, setSpellingFlowOpen] = useState(false);
+  // 当前选中的范围：null=未选 / 'all'=整体拼写 / 'random'=随机抽测
+  const [spellingFlowChoice, setSpellingFlowChoice] = useState<SpellingFlow | null>(null);
+  // 随机抽测的数量输入值（字符串，便于输入框受控）
+  const [quizCountInput, setQuizCountInput] = useState('');
+  // 抽测数量的校验错误提示（为空表示无错误）
+  const [quizCountError, setQuizCountError] = useState('');
 
   // useMemo：根据 vocabularyBooks 和 currentBookId 计算出当前选中的词汇书对象，避免重复查找
   const currentBook = useMemo(
@@ -161,7 +173,8 @@ export default function SelectPage() {
    * 开始学习 按钮处理函数
    * - 校验 1：至少选中 1 个单元，否则不跳转
    * - 校验 2：若模式是 看词说意/看意说词，必须先选子模式
-   * - 校验 3：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写）
+   * - 校验 3：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写），
+   *           并弹出「整体拼写 / 随机抽测」范围选择弹窗（不立即跳转）
    * - 通过则跳转到 /study 路由，进入学习页
    */
   const startStudy = () => {
@@ -174,15 +187,65 @@ export default function SelectPage() {
       setSpellingModalOpen(true);
       return;
     }
-    // 仅「单词拼写」模式要求强制全屏；看词说意/听音辨义不再强制全屏。
-    // 仅在支持可靠全屏的设备（桌面浏览器）上请求；iPad/iOS 等不支持全屏的设备直接跳过，
-    // 避免它们进学习页后因全屏异常被误踢回选择页，保证正常使用。
-    // 在按钮点击这次用户手势内同步请求全屏，成功率最高（浏览器要求全屏由用户手势触发）；
-    // 学习页里还有兜底逻辑，并负责「退出全屏 → 返回选择页」。
-    if (mode === 'spelling' && canUseForcedFullscreen() && !document.fullscreenElement) {
+    // 单词拼写：先弹出范围选择（整体拼写 / 随机抽测），由确认函数负责跳转
+    if (mode === 'spelling') {
+      // 每次打开弹窗前重置上一次的选择与输入，保证从干净状态开始
+      setSpellingFlowChoice(null);
+      setQuizCountInput('');
+      setQuizCountError('');
+      setSpellingFlowOpen(true);
+      return;
+    }
+    // 看词说意/听音辨义：直接进入学习页（不强制全屏）
+    navigate('/study');
+  };
+
+  /**
+   * 写入拼写配置并跳转学习页（整体拼写 / 随机抽测共用的跳转逻辑）
+   * - 写入 studyConfig（含拼写范围与抽测数量）
+   * - 在用户手势内同步请求全屏（仅拼写模式需要），再跳转 /study
+   */
+  const goToSpelling = (flow: SpellingFlow, quizCount?: number) => {
+    setStudyConfig({
+      selectedSheetIds: selectedIds,
+      mode: 'spelling',
+      lookSubMode: undefined,
+      spellingSubMode: studyConfig?.spellingSubMode,
+      spellingFlow: flow,
+      spellingQuizCount: quizCount,
+    });
+    setSpellingFlowOpen(false);
+    // 仅「单词拼写」模式要求强制全屏；在用户手势内同步请求，成功率最高。
+    // iPad/iOS 等不支持全屏的设备自动跳过（canUseForcedFullscreen 内部判断）。
+    if (canUseForcedFullscreen() && !document.fullscreenElement) {
       void document.documentElement.requestFullscreen().catch(() => {});
     }
     navigate('/study');
+  };
+
+  /**
+   * 点击「整体拼写」卡片：直接进入拼写页（全部单词随机乱序），无需再点确认按钮
+   */
+  const startSpellingAll = () => {
+    goToSpelling('all', undefined);
+  };
+
+  /**
+   * 随机抽测确认按钮：校验输入数量（最少 5 个，最多不超过所选单元的单词总数），
+   * 通过后进入抽测拼写页（全部单词乱序后随机抽取对应数量）
+   */
+  const confirmSpellingRandom = () => {
+    const n = parseInt(quizCountInput, 10);
+    // 校验：必须是有效数字，且在 [5, totalSelectedWords] 范围内
+    if (isNaN(n) || n < 5) {
+      setQuizCountError('抽测数量不能少于 5 个');
+      return;
+    }
+    if (n > totalSelectedWords) {
+      setQuizCountError(`抽测数量不能超过 ${totalSelectedWords} 个`);
+      return;
+    }
+    goToSpelling('random', n);
   };
 
   /**
@@ -607,6 +670,131 @@ export default function SelectPage() {
             >
               取消
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 拼写范围选择弹窗（整体拼写 / 随机抽测）：点击「开始学习」后弹出 */}
+      {spellingFlowOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
+          onClick={() => setSpellingFlowOpen(false)}
+        >
+          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
+          >
+            {/* 右上角关闭按钮 × */}
+            <button
+              onClick={() => setSpellingFlowOpen(false)}
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {/* 弹窗标题：图标 + 标题 + 说明 */}
+            <div className="mb-6">
+              <div className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-lg shadow-indigo-200">
+                <PencilLine className="h-7 w-7" />
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-800">请选择拼写范围</h3>
+              <p className="mt-1 text-sm text-slate-500">
+                共 {totalSelectedWords} 个单词 · 每个单词限时 15 秒
+              </p>
+            </div>
+            {/* 范围选项列表 */}
+            <div className="space-y-3">
+              {/* 选项 1：整体拼写（点击直接进入拼写页，无需再点确认按钮） */}
+              <button
+                onClick={startSpellingAll}
+                className="flex w-full items-center gap-4 rounded-2xl border-2 border-slate-200 bg-white p-4 text-left transition-all duration-200 hover:border-indigo-200 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 transition group-hover:bg-indigo-100">
+                  <Shuffle className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-bold text-slate-800">整体拼写</h4>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    所选单元全部 {totalSelectedWords} 个单词，随机乱序检查
+                  </p>
+                </div>
+              </button>
+              {/* 选项 2：随机抽测（卡片内同时显示抽测数量输入框，未选中灰色 / 选中高亮） */}
+              <div
+                onClick={() => setSpellingFlowChoice('random')}
+                className={cn(
+                  'w-full cursor-pointer rounded-2xl border-2 p-4 text-left transition-all duration-200 hover:shadow-lg',
+                  spellingFlowChoice === 'random'
+                    ? 'border-indigo-600 bg-gradient-to-r from-indigo-50 to-blue-50 shadow-indigo-100'
+                    : 'border-slate-200 bg-white hover:border-indigo-200'
+                )}
+              >
+                {/* 上半部分：图标 + 标题说明 */}
+                <div className="flex items-center gap-4">
+                  <div className={cn(
+                    'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                    spellingFlowChoice === 'random'
+                      ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-md'
+                      : 'bg-slate-100 text-slate-500'
+                  )}>
+                    <Dices className="h-6 w-6" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-bold text-slate-800">随机抽测</h4>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      全部单词乱序后随机抽取部分检查，最少 5 个
+                    </p>
+                  </div>
+                </div>
+                {/* 下半部分：缩短的抽测数量输入框 + 确认按钮（同一行，确认按钮仅随机抽测使用） */}
+                <div className="mt-3 flex items-start gap-2">
+                  <div className="min-w-0 flex-1">
+                    <input
+                      type="number"
+                      min={5}
+                      max={totalSelectedWords}
+                      value={quizCountInput}
+                      onClick={(e) => e.stopPropagation()} // 阻止冒泡，避免触发卡片选中重复 setState
+                      onFocus={() => setSpellingFlowChoice('random')} // 聚焦输入框时自动选中随机抽测
+                      onChange={(e) => {
+                        setQuizCountInput(e.target.value);
+                        setQuizCountError(''); // 输入变化时清除错误提示
+                      }}
+                      placeholder="抽测数量"
+                      className={cn(
+                        'w-full rounded-xl border-2 bg-white px-3 py-2 text-sm font-bold text-slate-800 outline-none transition',
+                        spellingFlowChoice === 'random'
+                          ? 'border-indigo-300 focus:border-indigo-500'
+                          : 'border-slate-200 opacity-60 focus:border-indigo-500 focus:opacity-100'
+                      )}
+                    />
+                    {/* 范围提示 + 校验错误（错误时替换提示） */}
+                    <p className={cn(
+                      'mt-1 text-[11px]',
+                      quizCountError ? 'font-semibold text-rose-500' : 'text-slate-400'
+                    )}>
+                      {quizCountError || `5 ~ ${totalSelectedWords}`}
+                    </p>
+                  </div>
+                  {/* 确认按钮：未输入数量时灰色禁用，输入后高亮可点击 */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // 阻止冒泡到卡片
+                      confirmSpellingRandom();
+                    }}
+                    disabled={!quizCountInput.trim()}
+                    className={cn(
+                      'shrink-0 rounded-xl px-4 py-2 text-sm font-bold text-white transition-all duration-200',
+                      !quizCountInput.trim()
+                        ? 'cursor-not-allowed bg-slate-300'
+                        : 'bg-gradient-to-r from-indigo-600 to-blue-600 shadow-md shadow-indigo-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0'
+                    )}
+                  >
+                    确认
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
