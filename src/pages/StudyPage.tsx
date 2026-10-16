@@ -1158,11 +1158,15 @@ export default function StudyPage() {
           reciteActionsRef.current.prev();
           break;
         case 'ArrowUp':
+        case 'n':
+        case 'N':
           e.preventDefault();
-          // 上方向键：切换当前单词答案的展开 / 收起（释义/单词）
+          // 上方向键 / N 键：切换当前单词答案的展开 / 收起（释义/单词）
           setReciteRevealed((v) => !v);
           break;
         case 'ArrowDown':
+        case 'm':
+        case 'M':
           e.preventDefault();
           flashPressed('mark');
           reciteActionsRef.current.mark();
@@ -2350,14 +2354,14 @@ export default function StudyPage() {
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-700 transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-900 focus:outline-none"
                         >
                           {cur.meaning}
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-xl leading-relaxed text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-xl leading-relaxed text-slate-400 opacity-40 focus:outline-none"
                         >
                           点击查看释义
                         </button>
@@ -2386,14 +2390,14 @@ export default function StudyPage() {
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer break-words bg-transparent text-4xl font-black tracking-tight text-slate-900 transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer break-words bg-transparent text-4xl font-black tracking-tight text-slate-900 focus:outline-none"
                         >
                           {cur.word}
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 focus:outline-none"
                         >
                           点击查看单词
                         </button>
@@ -2420,20 +2424,20 @@ export default function StudyPage() {
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer bg-transparent transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer bg-transparent focus:outline-none"
                         >
                           <p className="break-words text-4xl font-black tracking-tight text-slate-900">
                             {cur.word}
                           </p>
                           <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
-                          <p className="break-words text-xl leading-relaxed text-slate-700">
+                          <p className="break-words text-xl leading-relaxed text-slate-900">
                             {cur.meaning}
                           </p>
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 focus:outline-none"
                         >
                           显示单词和释义
                         </button>
@@ -2469,7 +2473,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑ 显示/收起释义 · ↓ 标星 · 空格 记住 · Shift 播放发音
+                  快捷键：← 上一词 · → 下一词 · ↑/N 显示/收起释义 · ↓/M 标星 · 空格 记住 · Shift 播放发音
                 </p>
               </div>
 
@@ -2502,10 +2506,8 @@ export default function StudyPage() {
         const wrong = reciteWrongWords.length;
         const correct = total - wrong;
         const accuracy = total > 0 ? Math.round((correct / total) * 100) : 100;
-        // 单元名称（单 sheet 显示该 sheet 名，多 sheet 显示"N 个单元"）
-        const unitName = selectedSheetNames.length === 1
-          ? selectedSheetNames[0]
-          : `${selectedSheetNames.length} 个单元`;
+        // 单元名称：显示所有已选单元名（多单元时用顿号连接）
+        const unitName = selectedSheetNames.join('、');
         return (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
@@ -2553,19 +2555,6 @@ export default function StudyPage() {
                   </div>
                 ) : (
                   <table className="w-full border-collapse text-left text-sm">
-                    <thead>
-                      <tr>
-                        <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
-                          #
-                        </th>
-                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                          单词
-                        </th>
-                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                          释义
-                        </th>
-                      </tr>
-                    </thead>
                     <tbody>
                       {reciteWrongWords.map((w, idx) => (
                         <tr key={w.uid} className="hover:bg-slate-50">
