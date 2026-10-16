@@ -1158,10 +1158,10 @@ export default function StudyPage() {
           reciteActionsRef.current.prev();
           break;
         case 'ArrowUp':
-        case 'n':
-        case 'N':
+        case ' ':
+        case 'Spacebar':
           e.preventDefault();
-          // 上方向键 / N 键：切换当前单词答案的展开 / 收起（释义/单词）
+          // 上方向键 / 空格键：切换当前单词答案的展开 / 收起（释义/单词）
           setReciteRevealed((v) => !v);
           break;
         case 'ArrowDown':
@@ -1171,10 +1171,10 @@ export default function StudyPage() {
           flashPressed('mark');
           reciteActionsRef.current.mark();
           break;
-        case ' ':
-        case 'Spacebar':
+        case 'n':
+        case 'N':
           e.preventDefault();
-          // 空格键：记住（取消标星（若有）并跳下一词）
+          // N 键：记住（取消标星（若有）并跳下一词）
           flashPressed('remember');
           reciteActionsRef.current.remember();
           break;
@@ -2473,7 +2473,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑/N 显示/收起释义 · ↓/M 标星 · 空格 记住 · Shift 播放发音
+                  快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift 播放发音
                 </p>
               </div>
 
