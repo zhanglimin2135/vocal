@@ -1006,7 +1006,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置倒计时和释义显示状态：避免上一个单词展开中切下一词时闪一下
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1027,7 +1029,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置释义显示状态
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1040,6 +1044,7 @@ export default function StudyPage() {
   const recitePrev = () => {
     if (reciteIndex <= 0) return;
     setReciteRemaining(reciteSeconds);
+    setReciteRevealed(false);
     setReciteIndex(reciteIndex - 1);
   };
 
@@ -1053,7 +1058,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置释义显示状态
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1093,6 +1100,7 @@ export default function StudyPage() {
       finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1552,18 +1560,32 @@ export default function StudyPage() {
                             </button>
                           </div>
                           <div className="mt-4">
+                            {/*
+                              隐藏态固定两行高度（84px），提示文字居中；
+                              展开态 min-h-[84px] 保持同一最小高度，
+                                - 一行释义垂直居中；
+                                - 正好两行时刚好用满；
+                                - 超过两行自动撑高，下方元素正常下移。
+                              84px 由来：p-4(32px 垂直 padding) + text-base×leading-relaxed×2(52px)。
+                            */}
                             <div
                               className={cn(
-                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                'rounded-xl border p-4',
+                                'transition-[background,border-color,box-shadow,opacity] duration-300',
                                 revealed
-                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
-                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
+                                  ? // flex items-center 让释义在固定两行空间里垂直居中；
+                                    // 超过两行时容器随内容撑高，flex 依然生效但高度刚好等于内容，视觉无影响
+                                    'flex items-center border border-indigo-300 bg-white opacity-100 shadow-sm min-h-[84px]'
+                                  : 'border-dashed border-slate-300 bg-slate-100/70 opacity-90 h-[84px]'
                               )}
                             >
                               {revealed ? (
-                                <p className="text-base font-medium leading-relaxed text-slate-900">{w.meaning}</p>
+                                // text-center 让释义左右也居中，配合父容器 flex items-center 实现完全居中
+                                <p className="w-full text-center text-base font-medium leading-relaxed text-slate-900">
+                                  {w.meaning}
+                                </p>
                               ) : (
-                                <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
+                                <div className="flex h-full items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
                                   <Eye className="h-3.5 w-3.5" />
                                   点击单词或此处查看释义
                                 </div>
@@ -1580,12 +1602,14 @@ export default function StudyPage() {
                             </p>
                           </div>
                           <div className="mt-4">
+                            {/* 隐藏态同样固定高度，展开态用 min-h 保证不抖动 */}
                             <div
                               className={cn(
-                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                'rounded-xl border p-4',
+                                'transition-[background,border-color,box-shadow,opacity] duration-300',
                                 revealed
-                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
-                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
+                                  ? 'border border-indigo-300 bg-white opacity-100 shadow-sm min-h-[84px]'
+                                  : 'border-dashed border-slate-300 bg-slate-100/70 opacity-90 h-[84px]'
                               )}
                             >
                               {revealed ? (
@@ -2398,8 +2422,11 @@ export default function StudyPage() {
                       <Volume2 className="h-4 w-4" />
                       播放发音
                     </button>
-                    {/* 下方：点击查看/收起释义（同一块区域点击或 ↑ 键均可切换） */}
-                    <div className="mt-3 min-h-[1.75rem]">
+                    {/* 下方：点击查看/收起释义（同一块区域点击或 ↑ 键均可切换）
+                        固定为两行高度，一行时上下居中，超过两行自动增加 */}
+                    <div
+                      className="mt-3 flex min-h-[66px] items-center justify-center"
+                    >
                       {reciteRevealed ? (
                         <button
                           onClick={toggleReveal}
