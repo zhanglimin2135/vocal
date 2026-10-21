@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      不发送 Referer 请求头。原因：备用发音音源（百度翻译朗读接口）做了防盗链，
+      只允许百度自家域名的 Referer，带其它站点 Referer 会返回空音频。
+      本应用是纯前端（词表在本地解析、无后端接口），不发送 Referer 无副作用。
+    -->
+    <meta name="referrer" content="no-referrer" />
     <title>尚远国际 · 背单词助手</title>
     <meta
       name="description"

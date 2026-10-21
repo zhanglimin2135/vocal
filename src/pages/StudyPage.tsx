@@ -38,7 +38,7 @@ import {
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
 import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
-import { cn, generateId, canUseForcedFullscreen } from '@/lib/utils';
+import { cn, generateId, canUseForcedFullscreen, roundAccuracy } from '@/lib/utils';
 import * as XLSX from 'xlsx';
 
 /**
@@ -224,7 +224,8 @@ export default function StudyPage() {
     const total = words.length;
     const wrong = starredWords.length;
     const correct = total - wrong;
-    return total > 0 ? Math.round((correct / total) * 100) : 100;
+    // 取整规则：小数部分 ≥0.8 进一位，否则舍去（例如 98.8%→99%，98.7%→98%）
+    return total > 0 ? roundAccuracy((correct / total) * 100) : 100;
   }, [words.length, starredWords.length]);
 
   // ===== 计时背诵模块：本地 UI 状态 =====
@@ -368,6 +369,14 @@ export default function StudyPage() {
   const spellingInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
+
+  /**
+   * 卡片点击「延迟切换」计时器
+   *   目的：双击选中单词准备复制时，不能被当成「切换释义显示/隐藏」。
+   *   做法：单击后先不切换，等一小段时间；若这期间发生了第二次点击（双击），
+   *        就取消这次切换，让用户安心选中并复制文字。
+   */
+  const cardClickTimerRef = useRef<number | null>(null);
 
   // —— 强制全屏相关 ——
   // 标记「正在主动离开学习页」：主动退出（如卸载、点返回）会触发 fullscreenchange，
@@ -518,6 +527,35 @@ export default function StudyPage() {
   const toggleReveal = useCallback((uid: string) => {
     setRevealedMap((prev) => ({ ...prev, [uid]: !prev[uid] }));
   }, []);
+
+  /**
+   * handleCardClick - 卡片点击（已支持选中文字复制）
+   *   规则：
+   *     1. 若当前有选中文字（用户正在拖选准备复制）→ 不切换显示/隐藏；
+   *     2. 双击选词（250ms 内的第二次点击）→ 取消切换，方便用户双击选中单词后复制；
+   *     3. 普通单击单词 / 释义区域 → 正常切换释义显示/隐藏。
+   */
+  const handleCardClick = useCallback(
+    (uid: string) => {
+      // 情况 1：页面上已有非空的文字选区 → 认为用户在选中复制，不做切换
+      const sel = window.getSelection();
+      if (sel && !sel.isCollapsed && sel.toString().trim() !== '') return;
+
+      // 情况 2：短时间内的第二次点击 → 属于双击选词，取消上一次待执行的切换
+      if (cardClickTimerRef.current !== null) {
+        window.clearTimeout(cardClickTimerRef.current);
+        cardClickTimerRef.current = null;
+        return;
+      }
+
+      // 情况 3：普通单击 → 延迟 250ms 再切换；期间若发生双击则在上一步被取消
+      cardClickTimerRef.current = window.setTimeout(() => {
+        cardClickTimerRef.current = null;
+        toggleReveal(uid);
+      }, 250);
+    },
+    [toggleReveal],
+  );
 
   /**
    * toggleAllReveal - 一键显示/隐藏所有卡片的释义
@@ -1229,7 +1267,6 @@ export default function StudyPage() {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
       
-      
 
       {/* 顶部 Sticky 工具栏（滚动固定）：左侧返回，中间模式信息，右侧工具按钮 */}
       <div className="sticky top-0 z-20 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
@@ -1484,11 +1521,13 @@ export default function StudyPage() {
                   </div>
                   {/* 卡片主体 */}
                   <div className="p-5">
-                    {/* 整块可点击区域：点击切换 revealed（展开/收起） */}
-                    <div
-                      onClick={() => toggleReveal(w.uid)}
-                      className="cursor-pointer select-none"
-                    >
+                    {/* 整块可点击区域：点击切换 revealed（展开/收起）
+                      这里不用 select-none，允许用户选中并复制单词/释义；
+                      拖选文字或双击选词时不会触发显示/隐藏（见 handleCardClick） */}
+                  <div
+                    onClick={() => handleCardClick(w.uid)}
+                    className="cursor-pointer"
+                  >
                       {lookSubMode === 'word-meaning' ? (
                         <>
                           {/* ===== 看词说意（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
@@ -1597,8 +1636,11 @@ export default function StudyPage() {
                 // ====== 派生数据：准确率 / 是否达标 / 检查时间 / 模式文案 ======
                 const accuracyVal =
                   words.length === 0 ? 0 : (stats.correct / words.length) * 100;
-                const accuracyStr = `${Math.round(accuracyVal)}%`;
-                const passed = accuracyVal >= 90;
+                // 取整规则：小数部分 ≥0.8 进一位，否则舍去（例如 98.8%→99%，98.7%→98%）
+                const accuracyNum = roundAccuracy(accuracyVal);
+                const accuracyStr = `${accuracyNum}%`;
+                // 合格判定与展示值保持一致，避免出现「显示 90% 却判不合格」的矛盾
+                const passed = accuracyNum >= 90;
                 // 因「使用中文输入法」而被判错的单词数量
                 const chineseCount = wrongRecords.filter((r) => r.isChinese).length;
                 // 检查时间（当前系统时间）
@@ -1961,9 +2003,8 @@ export default function StudyPage() {
                 return (
                   <div
                     key={w.uid}
-                    onClick={() => toggleReveal(w.uid)}
                     className={cn(
-                      'group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
+                      'group overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
                       revealed ? 'border-indigo-200' : 'border-slate-200/80',
                       starred ? 'ring-2 ring-amber-300/70' : ''
                     )}
@@ -2014,11 +2055,14 @@ export default function StudyPage() {
                           <Volume2 className="h-10 w-10" />
                         </button>
                       </div>
-                      {/* 答案区：单词 + 释义（未展开时只显示提示） */}
+                      {/* 答案区：单词 + 释义（未展开时只显示提示）
+                          只有点击这一块（单词/释义位置）才切换显示隐藏；
+                          选中文字复制时不会触发（见 handleCardClick） */}
                       <div className="mt-5">
                         <div
+                          onClick={() => handleCardClick(w.uid)}
                           className={cn(
-                            'overflow-hidden rounded-xl border transition-all duration-300',
+                            'cursor-pointer overflow-hidden rounded-xl border transition-all duration-300',
                             revealed
                               ? 'max-h-96 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
                               : 'max-h-14 border-dashed border-slate-200 bg-slate-50/60 p-3 opacity-80'
@@ -2035,7 +2079,7 @@ export default function StudyPage() {
                           ) : (
                             <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
                               <Eye className="h-3.5 w-3.5" />
-                              点击卡片显示单词和释义
+                              点击此处显示单词和释义
                             </div>
                           )}
                         </div>
@@ -2228,7 +2272,13 @@ export default function StudyPage() {
         const isMeaningWordMode = mode === 'word-meaning' && lookSubMode === 'meaning-word';
         // 听音辨义模式作为 else 分支（mode === 'audio-meaning'）
         return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md px-2 sm:px-4">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md px-2 sm:px-4"
+            // 计时检查期间禁止复制单词/释义：屏蔽复制、剪切和右键菜单（防止抄写答案）
+            onCopy={(e) => e.preventDefault()}
+            onCut={(e) => e.preventDefault()}
+            onContextMenu={(e) => e.preventDefault()}
+          >
             {/* 卡片 + 两侧导航箭头（横向 flex：左箭头 | 卡片 | 右箭头） */}
             <div className="flex w-full max-w-2xl items-center gap-2 sm:gap-4">
               {/* 左侧：上一词（仅图标） */}
@@ -2246,8 +2296,8 @@ export default function StudyPage() {
                 <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
 
-              {/* 弹窗主体 */}
-              <div className="relative min-w-0 flex-1 overflow-hidden rounded-3xl bg-white shadow-2xl">
+              {/* 弹窗主体（select-none：计时检查时文字不可选中，配合上面的复制拦截彻底防抄写） */}
+              <div className="relative min-w-0 flex-1 select-none overflow-hidden rounded-3xl bg-white shadow-2xl">
               {/* —— 顶部进度条 + 关闭按钮 —— */}
               <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-violet-50/70 to-purple-50/70 px-8 py-4">
                 <div className="flex items-center gap-2">
@@ -2261,7 +2311,7 @@ export default function StudyPage() {
                       const total = reciteList.length;
                       const wrong = reciteStarredCount;
                       const correct = total - wrong;
-                      const acc = total > 0 ? Math.round((correct / total) * 100) : 100;
+                      const acc = total > 0 ? roundAccuracy((correct / total) * 100) : 100;
                       return (
                         <span className={cn('ml-1 font-bold', acc >= 90 ? 'text-emerald-600' : 'text-rose-500')}>
                           准确率<span>{acc}</span>%
@@ -2505,7 +2555,7 @@ export default function StudyPage() {
         const total = reciteList.length;
         const wrong = reciteWrongWords.length;
         const correct = total - wrong;
-        const accuracy = total > 0 ? Math.round((correct / total) * 100) : 100;
+        const accuracy = total > 0 ? roundAccuracy((correct / total) * 100) : 100;
         // 单元名称：显示所有已选单元名（多单元时用顿号连接）
         const unitName = selectedSheetNames.join('、');
         return (

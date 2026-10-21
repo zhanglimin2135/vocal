@@ -10,6 +10,21 @@ export function generateId(): string {
 }
 
 /**
+ * 准确率取整规则（业务约定）
+ *   - 小数部分 ≥ 0.8 → 向上进一位
+ *   - 小数部分 < 0.8 → 直接舍去（向下取整）
+ *   例：98.8% → 99%，98.7% → 98%，100% → 100%
+ * @param value 百分数原值（例如 98.8 表示 98.8%）
+ */
+export function roundAccuracy(value: number): number {
+  // 先四舍五入到两位小数，消除除法产生的浮点误差（如 98.79999999）
+  const fixed = Math.round(value * 100) / 100;
+  const whole = Math.floor(fixed);
+  // 小数部分 >= 0.8 才进位，否则只保留整数部分
+  return fixed - whole >= 0.8 ? whole + 1 : whole;
+}
+
+/**
  * 判断当前设备/浏览器是否为 iOS / iPadOS。
  *   - iPhone / iPod / 旧 iPad：UA 直接含 iPhone/iPad/iPod
  *   - iPadOS 13+：Safari 默认把 UA 伪装成 macOS，需靠「平台是 Mac + 有多点触控」识别
