@@ -68,21 +68,29 @@ export default function SelectPage() {
     [vocabularyBooks, currentBookId]
   );
 
-  // useEffect：页面初始化及依赖变化时执行，做两件事：
+  // useEffect：每次进入选择页时跑一次，做两件事：
   //   1. 若找不到当前词汇书 → 跳转回首页
-  //   2. 若 studyConfig 未初始化 → 初始化默认值（空选中列表 + 看词说意模式）
+  //   2. 强制清空 selectedSheetIds 与所有子模式，让用户重新选择单元
+  //      （哪怕从学习页返回、或浏览器后退进来，都不保留上次的勾选；
+  //        但保留 mode，让"先选模式再选单元"的用户不必重新选模式）
   useEffect(() => {
     if (!currentBook) {
       navigate('/');
       return;
     }
-    if (!studyConfig) {
-      setStudyConfig({
-        selectedSheetIds: [],
-        mode: 'word-meaning',
-      });
-    }
-  }, [currentBook, navigate, studyConfig, setStudyConfig]);
+    // 取之前已经选好的 mode，避免"先选学习模式再回来选单元"的用户被清空模式
+    const prevMode = studyConfig?.mode || 'word-meaning';
+    setStudyConfig({
+      selectedSheetIds: [],
+      mode: prevMode,
+      lookSubMode: undefined,
+      spellingSubMode: undefined,
+      spellingFlow: undefined,
+      spellingQuizCount: undefined,
+    });
+    // 只跑一次：依赖数组为空，配合 eslint-disable 避免警告
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 若当前词汇书不存在，提前 return null，防止后续渲染报错
   if (!currentBook) return null;
@@ -174,32 +182,56 @@ export default function SelectPage() {
 
   /**
    * 开始学习 按钮处理函数
-   * - 校验 1：至少选中 1 个单元，否则不跳转
-   * - 校验 2：若模式是 看词说意/看意说词，必须先选子模式
-   * - 校验 3：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写），
-   *           并弹出「整体拼写 / 随机抽测」范围选择弹窗（不立即跳转）
-   * - 通过则跳转到 /study 路由，进入学习页
+   *   只要选了单元就直接进入学习页——不管先选单元还是先选模式，都不再二次弹窗。
+   *   若 mode / 子模式未设，自动补默认值：
+   *     - mode 缺省 → 'word-meaning'（看词说意）
+   *     - lookSubMode 缺省 → 'word-meaning'（看词说意）
+   *     - spellingSubMode 缺省 → 'meaning-spelling'（释义拼写）
+   *     - 拼写模式额外弹出「整体拼写 / 随机抽测」范围选择（拼写特有必选项）
    */
   const startStudy = () => {
     if (selectedIds.length === 0) return;
-    if (mode === 'word-meaning' && !studyConfig?.lookSubMode) {
-      setLookModalOpen(true);
-      return;
-    }
-    if (mode === 'spelling' && !studyConfig?.spellingSubMode) {
-      setSpellingModalOpen(true);
-      return;
-    }
-    // 单词拼写：先弹出范围选择（整体拼写 / 随机抽测），由确认函数负责跳转
-    if (mode === 'spelling') {
-      // 每次打开弹窗前重置上一次的选择与输入，保证从干净状态开始
+
+    // 缺省 mode → 看词说意
+    const effectiveMode = mode || 'word-meaning';
+
+    if (effectiveMode === 'spelling') {
+      // 拼写模式：子模式缺省 → 释义拼写；然后弹范围选择
+      const effectiveSub = studyConfig?.spellingSubMode || 'meaning-spelling';
+      setStudyConfig({
+        selectedSheetIds: selectedIds,
+        mode: 'spelling',
+        lookSubMode: undefined,
+        spellingSubMode: effectiveSub,
+      });
+      // 每次打开弹窗前重置上次的选择，保证干净状态
       setSpellingFlowChoice(null);
       setQuizCountInput('');
       setQuizCountError('');
       setSpellingFlowOpen(true);
       return;
     }
-    // 看词说意/听音辨义：直接进入学习页（不强制全屏）
+
+    if (effectiveMode === 'word-meaning') {
+      // 看词说意模式：子模式缺省 → 看词说意
+      const effectiveSub = studyConfig?.lookSubMode || 'word-meaning';
+      setStudyConfig({
+        selectedSheetIds: selectedIds,
+        mode: 'word-meaning',
+        lookSubMode: effectiveSub,
+        spellingSubMode: undefined,
+      });
+      navigate('/study');
+      return;
+    }
+
+    // 听音辨义：不需要子模式，直接进
+    setStudyConfig({
+      selectedSheetIds: selectedIds,
+      mode: effectiveMode,
+      lookSubMode: undefined,
+      spellingSubMode: undefined,
+    });
     navigate('/study');
   };
 
