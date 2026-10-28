@@ -28,6 +28,7 @@ import {
   Volume2,
   Shuffle,
   Dices,
+  Search,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import type { LookSubMode, SpellingFlow, SpellingSubMode, StudyMode } from '@/types';
@@ -48,6 +49,8 @@ export default function SelectPage() {
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
   // 「看词说意/看意说词」子模式弹窗的开关状态：true=显示弹窗
   const [lookModalOpen, setLookModalOpen] = useState(false);
+  // 单元搜索关键词：按 sheet.name 子串匹配，不区分大小写；空字符串表示显示全部
+  const [searchQuery, setSearchQuery] = useState('');
 
   // ===== 拼写范围弹窗（整体拼写 / 随机抽测）=====
   // 点击「开始学习」后弹出，用于选择本次拼写的单词范围
@@ -295,12 +298,35 @@ export default function SelectPage() {
           </div>
         </header>
 
-        {/* 选中统计条：左侧显示已选单元/单词数，右侧是全选/取消全选按钮 */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm text-slate-600">
+        {/* 选中统计条 + 搜索框 + 全选按钮
+            布局：左边统计文字  |  flex-1 占位（推右）  |  搜索框（紧挨全选）  |  全选按钮 */}
+        <div className="mb-4 flex items-center gap-3">
+          <div className="text-sm text-slate-600 shrink-0">
             已选择 <span className="font-semibold text-indigo-700">{selectedIds.length}</span> /{' '}
             {currentBook.sheets.length} 个单元，
             <span className="font-semibold text-indigo-700">{totalSelectedWords}</span> 个单词
+          </div>
+          {/* 占位 spacer：把右侧的搜索框 + 全选按钮 推到最右边，让搜索框紧贴全选按钮 */}
+          <div className="flex-1" />
+          {/* 搜索框：窄宽度、紧挨全选按钮（固定宽度约 224px，约为原先 max-w-sm 的一半） */}
+          <div className="relative w-56 shrink-0">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="搜索单元…"
+              className="w-full rounded-full border border-slate-200 bg-white/90 py-2 pl-9 pr-9 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                title="清空搜索"
+                className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
           <button
             onClick={toggleAll}
@@ -320,10 +346,27 @@ export default function SelectPage() {
           </button>
         </div>
 
-        {/* Sheet 卡片列表区：遍历当前词汇书的所有单元，生成可点击选择的卡片 */}
-        <div className="space-y-3">
-          {currentBook.sheets.map((sheet, idx) => {
-            const checked = selectedIds.includes(sheet.id);
+        {/* Sheet 卡片列表区：只渲染匹配搜索关键词的单元，支持空结果提示 */}
+        {(() => {
+          const q = searchQuery.trim().toLowerCase();
+          const filteredSheets = q
+            ? currentBook.sheets.filter((s) => s.name.toLowerCase().includes(q))
+            : currentBook.sheets;
+
+          if (q && filteredSheets.length === 0) {
+            return (
+              <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-white/60 py-16 text-center text-sm text-slate-500">
+                未找到包含 <span className="font-semibold text-indigo-600">「{searchQuery}」</span> 的单元
+              </div>
+            );
+          }
+
+          return (
+            <div className="space-y-3">
+              {filteredSheets.map((sheet) => {
+                const checked = selectedIds.includes(sheet.id);
+                // 显示卡片序号时还原为 sheet 在原列表中的位置，保持编号连贯易认
+                const idx = currentBook.sheets.findIndex((s) => s.id === sheet.id);
             return (
               <div
                 key={sheet.id}
@@ -370,7 +413,9 @@ export default function SelectPage() {
               </div>
             );
           })}
-        </div>
+          </div>
+        );
+        })()}
       </div>
 
       {/* 底部固定操作栏：学习模式选择区 + 开始学习按钮 */}
