@@ -1230,6 +1230,13 @@ export default function StudyPage() {
           e.preventDefault();
           reciteActionsRef.current.speak();
           break;
+        case 'b':
+        case 'B':
+          // B 键：播放当前单词发音（与 Shift 等价，方便单键触发）
+          if (e.repeat) break;
+          e.preventDefault();
+          reciteActionsRef.current.speak();
+          break;
         default:
           break;
       }
@@ -2550,7 +2557,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift 播放发音
+                  快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift/B 播放发音
                 </p>
               </div>
 
