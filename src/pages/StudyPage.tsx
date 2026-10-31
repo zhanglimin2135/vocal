@@ -118,18 +118,25 @@ export default function StudyPage() {
 
   // 从当前词书中按 selectedSheetIds 筛选出所有单词，
   // 扁平化为 StudyWord[] 数组（每个单词附加 uid + sheetName）
+  // 同时按「单词文本」去重：同一个单词不管在几个 sheet 里出现，
+  // 整个学习会话中只保留一份（避免拼写模式下被当成多道题重复考查、错词列表重复）
   const baseWords = useMemo<StudyWord[]>(() => {
     if (!currentBook) return [];
     const selectedSheets = currentBook.sheets.filter((sh) =>
       selectedSheetIds.includes(sh.id)
     );
     const result: StudyWord[] = [];
+    // 用小写 trim 后的单词文本作 key，做不区分大小写的去重
+    const seen = new Set<string>();
     for (const sh of selectedSheets) {
       for (const w of sh.words) {
+        const key = w.word.trim().toLowerCase();
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
         result.push({
           ...w,
           uid: generateId(),   // 为每个单词生成会话内唯一 id
-          sheetName: sh.name,  // 记录来自哪个单词表
+          sheetName: sh.name,  // 记录来自哪个单词表（去重后保留首次出现的来源）
         });
       }
     }
