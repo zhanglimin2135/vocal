@@ -341,11 +341,9 @@ export default function UploadPage() {
 
         {/* ======== 固定词表：平台预置词表卡片（初中/高中/四级 同行）======== */}
         <section className="mt-12">
-          <div className="mb-5 flex items-end justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-slate-800">固定词表</h3>
-              <p className="text-sm text-slate-500">平台预置，点击卡片直接进入</p>
-            </div>
+          <div className="mb-5 flex flex-wrap items-baseline gap-3">
+            <h3 className="text-xl font-bold text-slate-800">固定词表</h3>
+            <p className="text-base text-slate-400/70">单词仅为背诵使用，检查请到我的词表中导入检查</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
