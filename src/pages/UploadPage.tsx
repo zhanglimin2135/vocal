@@ -26,7 +26,11 @@ import {
   ChevronRight,     // 向右箭头（进入选择按钮）
   Loader2,          // 加载转圈图标
   Trash2,           // 垃圾桶删除图标
-  BookText,         // 书本图标（托福阅读模块入口）
+  Volume2,          // 音量图标（听力精听模块入口）
+  GraduationCap,    // 学士帽图标（初中词汇）
+  School,           // 学校图标（高中词汇）
+  Award,            // 奖牌图标（四级词汇）
+  Hammer,           // 锤子图标（赶工中）
   Sparkles,         // 星光图标（欢迎弹窗装饰）
 } from 'lucide-react';
 // 导入全局状态管理 Hook（Zustand）
@@ -212,18 +216,18 @@ export default function UploadPage() {
 
         {/* ======== Header 顶部标题介绍区 ======== */}
         <header className="mb-10 text-center">
-          {/* 顶部两大功能模块切换标签：背单词 / 托福阅读补全 */}
+          {/* 顶部两大功能模块切换标签：背单词 / 听力精听 */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/60 p-1 shadow-sm backdrop-blur">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow">
               <BookOpen className="h-4 w-4" />
               背单词
             </span>
             <button
-              onClick={() => navigate('/reading-upload')}
+              onClick={() => navigate('/listening')}
               className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-white hover:text-emerald-700"
             >
-              <BookText className="h-4 w-4" />
-              托福阅读补全
+              <Volume2 className="h-4 w-4" />
+              听力精听
               <ChevronRight className="h-3.5 w-3.5 opacity-70" />
             </button>
           </div>
@@ -238,7 +242,7 @@ export default function UploadPage() {
           </h1>
           {/* 副标题：功能简介说明 */}
           <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
-            上传 Excel 词表，自由选择学习单元，支持看词说意、听音辨义、单词拼写三种模式
+            上传 Excel 词表，自由选择学习单元，支持识别背诵、听音辨义、单词拼写三种模式
           </p>
         </header>
 
@@ -334,6 +338,70 @@ export default function UploadPage() {
             </button>
           </div>
         </div>
+
+        {/* ======== 固定词表：平台预置词表卡片（初中/高中/四级 同行）======== */}
+        <section className="mt-12">
+          <div className="mb-5 flex items-end justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-slate-800">固定词表</h3>
+              <p className="text-sm text-slate-500">平台预置，点击卡片直接进入</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {/* 初中词汇 —— 赶工中 */}
+            <div
+              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <GraduationCap className="h-6 w-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="truncate text-base font-semibold text-slate-800">初中词汇</h4>
+                  <p className="mt-0.5 text-xs text-slate-400">共 30 单元 · ~500 词</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 高中词汇 —— 赶工中 */}
+            <div
+              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <School className="h-6 w-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="truncate text-base font-semibold text-slate-800">高中词汇</h4>
+                  <p className="mt-0.5 text-xs text-slate-400">共 40 单元 · ~800 词</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 四级词汇 —— 可用，跳 /cet4 */}
+            <div
+              onClick={() => navigate('/cet4')}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <Award className="h-6 w-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="truncate text-base font-semibold text-slate-800">四级词汇</h4>
+                  <p className="mt-0.5 text-xs text-slate-400">共 28 单元 · 567 词</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ======== 我的词表：已导入词表列表展示区 ======== */}
         <section className="mt-12">

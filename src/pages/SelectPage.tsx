@@ -6,7 +6,7 @@
  *   1. 进入页面 → 从全局 Store 读取已选择的词汇书和学习配置
  *   2. 若未选择词汇书或无配置 → 跳转回首页或初始化配置
  *   3. 用户勾选/取消勾选要学习的 Sheet（词表单元），支持全选
- *   4. 用户选择学习模式：看词说意 / 听音辨义
+ *   4. 用户选择学习模式：识别背诵 / 听音辨义
  *   5. 点击「开始学习」跳转到 /study 学习页进行学习
  *   6. 点击「返回首页」清空当前词汇书并回到首页
  * ============================================================
@@ -47,7 +47,7 @@ export default function SelectPage() {
 
   // 「单词拼写」子模式弹窗的开关状态：true=显示弹窗
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
-  // 「看词说意/看意说词」子模式弹窗的开关状态：true=显示弹窗
+  // 「识别背诵/释义识别」子模式弹窗的开关状态：true=显示弹窗
   const [lookModalOpen, setLookModalOpen] = useState(false);
   // 单元搜索关键词：按 sheet.name 子串匹配，不区分大小写；空字符串表示显示全部
   const [searchQuery, setSearchQuery] = useState('');
@@ -130,7 +130,7 @@ export default function SelectPage() {
    * 学习模式切换函数
    * - 入参 m：StudyMode（'word-meaning' | 'audio-meaning' | 'spelling'）
    * - 更新 studyConfig：保留当前已选单元，仅覆盖 mode 字段
-   * - 当模式是 'word-meaning' 时，额外弹出 看词说意/看意说词 子模式选择弹窗
+   * - 当模式是 'word-meaning' 时，额外弹出 识别背诵/释义识别 子模式选择弹窗
    * - 当模式是 'spelling' 单词拼写时，额外弹出子模式选择弹窗（不立即设置）
    */
   const setMode = (m: StudyMode) => {
@@ -151,8 +151,8 @@ export default function SelectPage() {
   };
 
   /**
-   * 看词说意 / 看意说词 子模式选择处理函数
-   * - 入参 sub：'word-meaning' 看词说意 / 'meaning-word' 看意说词
+   * 识别背诵 / 释义识别 子模式选择处理函数
+   * - 入参 sub：'word-meaning' 识别背诵 / 'meaning-word' 释义识别
    * - 选中后：写入 studyConfig 的 mode + lookSubMode，关闭弹窗
    */
   const selectLookSubMode = (sub: LookSubMode) => {
@@ -167,7 +167,7 @@ export default function SelectPage() {
 
   /**
    * 单词拼写子模式选择处理函数
-   * - 入参 sub：'meaning-spelling' 释义拼写 / 'audio-spelling' 听音拼写
+   * - 入参 sub：'meaning-spelling' 释义拼写 / 'audio-spelling' 单词拼写
    * - 选中后：写入 studyConfig 的 mode + spellingSubMode，关闭弹窗
    */
   const selectSpellingSubMode = (sub: SpellingSubMode) => {
@@ -184,15 +184,15 @@ export default function SelectPage() {
    * 开始学习 按钮处理函数
    *   只要选了单元就直接进入学习页——不管先选单元还是先选模式，都不再二次弹窗。
    *   若 mode / 子模式未设，自动补默认值：
-   *     - mode 缺省 → 'word-meaning'（看词说意）
-   *     - lookSubMode 缺省 → 'word-meaning'（看词说意）
+   *     - mode 缺省 → 'word-meaning'（识别背诵）
+   *     - lookSubMode 缺省 → 'word-meaning'（识别背诵）
    *     - spellingSubMode 缺省 → 'meaning-spelling'（释义拼写）
    *     - 拼写模式额外弹出「整体拼写 / 随机抽测」范围选择（拼写特有必选项）
    */
   const startStudy = () => {
     if (selectedIds.length === 0) return;
 
-    // 缺省 mode → 看词说意
+    // 缺省 mode → 识别背诵
     const effectiveMode = mode || 'word-meaning';
 
     if (effectiveMode === 'spelling') {
@@ -213,7 +213,7 @@ export default function SelectPage() {
     }
 
     if (effectiveMode === 'word-meaning') {
-      // 看词说意模式：子模式缺省 → 看词说意
+      // 识别背诵模式：子模式缺省 → 识别背诵
       const effectiveSub = studyConfig?.lookSubMode || 'word-meaning';
       setStudyConfig({
         selectedSheetIds: selectedIds,
@@ -453,13 +453,13 @@ export default function SelectPage() {
       {/* 底部固定操作栏：学习模式选择区 + 开始学习按钮 */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200/70 bg-white/85 backdrop-blur-lg">
         <div className="mx-auto max-w-4xl px-6 py-4">
-          {/* 学习模式三选择区：看词说意 / 听音辨义 / 单词拼写，当前选中卡片会高亮 */}
+          {/* 学习模式三选择区：识别背诵 / 听音辨义 / 单词拼写，当前选中卡片会高亮 */}
           <div className="mb-3">
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
               请选择学习模式
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
-              {/* 模式 1：看词说意 */}
+              {/* 模式 1：识别背诵 */}
               <button
                 onClick={() => setMode('word-meaning')}
                 className={cn(
@@ -480,13 +480,13 @@ export default function SelectPage() {
                   <Eye className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看词说意</h4>
+                  <h4 className="font-bold text-slate-800">识别背诵</h4>
                   <p className="mt-0.5 truncate text-xs text-slate-500">
                     {studyConfig?.lookSubMode === 'word-meaning'
-                      ? '已选：看词识意（显示单词，隐藏释义）'
+                      ? '已选：看词识别（显示单词，隐藏释义）'
                       : studyConfig?.lookSubMode === 'meaning-word'
-                        ? '已选：看意说词（显示释义，隐藏单词）'
-                        : '看词识意 / 看意说词 两种子模式'}
+                        ? '已选：释义识别（显示释义，隐藏单词）'
+                        : '看词识别 / 释义识别 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -543,8 +543,8 @@ export default function SelectPage() {
                     {studyConfig?.spellingSubMode === 'meaning-spelling'
                       ? '已选：释义拼写（首字母提示）'
                       : studyConfig?.spellingSubMode === 'audio-spelling'
-                        ? '已选：听音拼写（输入即发音）'
-                        : '释义拼写 / 听音拼写 两种子模式'}
+                        ? '已选：单词拼写（输入即发音）'
+                        : '释义拼写 / 单词拼写 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -567,7 +567,7 @@ export default function SelectPage() {
         </div>
       </div>
 
-      {/* 看词说意 / 看意说词 子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
+      {/* 识别背诵 / 释义识别 子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
       {lookModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
@@ -597,7 +597,7 @@ export default function SelectPage() {
             </div>
             {/* 子模式选项列表 */}
             <div className="space-y-3">
-              {/* 子模式 1：看词识意 */}
+              {/* 子模式 1：看词识别 */}
               <button
                 onClick={() => selectLookSubMode('word-meaning')}
                 className={cn(
@@ -616,13 +616,13 @@ export default function SelectPage() {
                   <Eye className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看词识意</h4>
+                  <h4 className="font-bold text-slate-800">看词识别</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     上方显示英文单词，隐藏中文释义，点击查看释义
                   </p>
                 </div>
               </button>
-              {/* 子模式 2：看意说词 */}
+              {/* 子模式 2：释义识别 */}
               <button
                 onClick={() => selectLookSubMode('meaning-word')}
                 className={cn(
@@ -641,7 +641,7 @@ export default function SelectPage() {
                   <MessageSquareText className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看意说词</h4>
+                  <h4 className="font-bold text-slate-800">释义识别</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     上方显示中文释义，隐藏英文单词，点击查看英文单词
                   </p>
@@ -714,7 +714,7 @@ export default function SelectPage() {
                   </p>
                 </div>
               </button>
-              {/* 子模式 2：听音拼写 */}
+              {/* 子模式 2：单词拼写 */}
               <button
                 onClick={() => selectSpellingSubMode('audio-spelling')}
                 className={cn(
@@ -733,7 +733,7 @@ export default function SelectPage() {
                   <Volume2 className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">听音拼写</h4>
+                  <h4 className="font-bold text-slate-800">单词拼写</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     输入框有任何操作即自动播放发音，其他要求同释义拼写
                   </p>

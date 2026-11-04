@@ -5,13 +5,13 @@
  *   根据用户在选择页（/select）选定的词书和单词表，进入学习模式进行单词记忆练习。
  *
  * 两种学习模式（由 studyConfig.mode 决定）：
- *   1. 看词说意（word-meaning）：卡片正面显示单词（可点击发音），释义默认隐藏，
+ *   1. 识别背诵（word-meaning）：卡片正面显示单词（可点击发音），释义默认隐藏，
  *      用户先尝试回忆释义，再点击卡片或"显示释义"查看答案。
  *   2. 听音辨义（meaning-word）：卡片正面只显示一个大号发音按钮，
  *      用户先听发音尝试回想单词和释义，再点击卡片显示单词 + 释义。
  */
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   Volume2,
@@ -83,6 +83,20 @@ export default function StudyPage() {
   // 路由与全局状态读取
   // =========================
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 支持从固定词表入口直接传入词表（CET4 等）
+  // navigate('/study', { state: { source: 'cet4', mode, subMode, words: StudyWord[] } })
+  const externalWords = useMemo<StudyWord[] | null>(() => {
+    const st = location.state as { source?: string; words?: StudyWord[]; title?: string; mode?: StudyMode; subMode?: LookSubMode | SpellingSubMode } | null;
+    if (st?.words && Array.isArray(st.words) && st.words.length > 0) {
+      return st.words.map((w) => ({ ...w, uid: w.uid || generateId(), sheetName: w.sheetName || (st.source === 'cet4' ? 'CET4 List 09–15' : st.title || '固定词表') }));
+    }
+    return null;
+  }, [location.state]);
+  const externalSource = externalWords ? ((location.state as { source?: string })?.source || 'external') : null;
+  const externalMode = externalWords ? ((location.state as { mode?: StudyMode })?.mode ?? 'word-meaning') : null;
+  const externalSubMode = externalWords ? ((location.state as { subMode?: LookSubMode | SpellingSubMode })?.subMode) : null;
   // 全部词书列表（来自全局 store）
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
   // 当前选中词书的 id
@@ -97,14 +111,17 @@ export default function StudyPage() {
   // 清空本次学习会话所有标星的方法（返回选择页/离开学习页时调用）
   const resetStarredWords = useAppStore((s) => s.resetStarredWords);
 
-  // 当前学习模式：默认看词说意
-  const mode: StudyMode = studyConfig?.mode || 'word-meaning';
+  // 当前学习模式：默认识别背诵；外部词表优先用传入的 mode
+  const mode: StudyMode = externalMode || studyConfig?.mode || 'word-meaning';
   // 用户勾选的单词表 id 列表
   const selectedSheetIds = studyConfig?.selectedSheetIds || [];
-  // 看词/看意 子模式：仅当 mode==='word-meaning' 时有值（看词识意 / 看意说词）
-  const lookSubMode: LookSubMode = studyConfig?.lookSubMode || 'word-meaning';
-  // 单词拼写子模式：仅当 mode==='spelling' 时有值（释义拼写 / 听音拼写）
-  const spellingSubMode: SpellingSubMode | undefined = studyConfig?.spellingSubMode;
+  // 看词/看意 子模式：仅当 mode==='word-meaning' 时有值（看词识别 / 释义识别）
+  const lookSubMode: LookSubMode = externalSubMode === 'word-meaning' || externalSubMode === 'meaning-word'
+    ? externalSubMode : (studyConfig?.lookSubMode || 'word-meaning');
+  // 单词拼写子模式：仅当 mode==='spelling' 时有值（释义拼写 / 单词拼写）
+  const spellingSubMode: SpellingSubMode | undefined =
+    (externalSubMode === 'meaning-spelling' || externalSubMode === 'audio-spelling')
+      ? externalSubMode : studyConfig?.spellingSubMode;
 
   // =========================
   // 派生数据：用 useMemo 避免重复计算
@@ -121,6 +138,8 @@ export default function StudyPage() {
   // 同时按「单词文本」去重：同一个单词不管在几个 sheet 里出现，
   // 整个学习会话中只保留一份（避免拼写模式下被当成多道题重复考查、错词列表重复）
   const baseWords = useMemo<StudyWord[]>(() => {
+    // 外部词表来源（固定词表入口）优先
+    if (externalWords) return externalWords;
     if (!currentBook) return [];
     const selectedSheets = currentBook.sheets.filter((sh) =>
       selectedSheetIds.includes(sh.id)
@@ -141,7 +160,7 @@ export default function StudyPage() {
       }
     }
     return result;
-  }, [currentBook, selectedSheetIds]);
+  }, [externalWords, currentBook, selectedSheetIds]);
 
   // 选中的单词表名称（去重，结果页"检查内容"展示用）
   const selectedSheetNames = useMemo<string[]>(() => {
@@ -188,7 +207,7 @@ export default function StudyPage() {
    * showStarredOnly - 是否只显示已标星的单词（筛选开关）
    *   - true：只渲染被打星标的单词卡片；
    *   - false：渲染全部单词（默认行为）。
-   *   仅在「看词说意」和「听音辨义」两种非拼写模式下生效。
+   *   仅在「识别背诵」和「听音辨义」两种非拼写模式下生效。
    */
   const [showStarredOnly, setShowStarredOnly] = useState(false);
 
@@ -240,7 +259,7 @@ export default function StudyPage() {
    * recitePickerOpen - 「计时背诵」时间选择浮层的开关
    *   - true：显示时间选项浮层（5 / 7 / 10 / 15 秒）
    *   - false：隐藏浮层
-   *   仅在「看词说意」和「听音辨义」两种非拼写模式下使用
+   *   仅在「识别背诵」和「听音辨义」两种非拼写模式下使用
    */
   const [recitePickerOpen, setRecitePickerOpen] = useState(false);
 
@@ -422,7 +441,7 @@ export default function StudyPage() {
     }
     // —— 标星模块：每次进入学习页（换词表/换模式/重新开始）都确保标星是全新的空状态 ——
     resetStarredWords();
-    // 看词说意/听音辨义：保持原表顺序；
+    // 识别背诵/听音辨义：保持原表顺序；
     // 单词拼写：'all' 整体拼写=全部单词随机乱序；'random' 随机抽测=乱序后取前 N 个
     let finalWords: StudyWord[] = baseWords;
     if (mode === 'spelling') {
@@ -852,7 +871,7 @@ export default function StudyPage() {
   }, [mode, spellingIndex, words.length, locked]);
 
   /**
-   * 听音拼写模式：进入一个新单词时，立刻自动播放一次发音
+   * 单词拼写模式：进入一个新单词时，立刻自动播放一次发音
    *   - 依赖项 spellingIndex 变化即触发（换到新单词自动播）
    */
   useEffect(() => {
@@ -1266,16 +1285,16 @@ export default function StudyPage() {
     );
   }
 
-  // 根据当前模式计算顶部显示的文案和图标（新增看意说词子模式 + 单词拼写模式）
+  // 根据当前模式计算顶部显示的文案和图标（新增释义识别子模式 + 单词拼写模式）
   const titleModeLabel: string =
     mode === 'word-meaning'
       ? lookSubMode === 'meaning-word'
-        ? '看意说词'
-        : '看词说意'
+        ? '释义识别'
+        : '识别背诵'
       : mode === 'spelling'
         ? spellingSubMode === 'meaning-spelling'
           ? '单词拼写 · 释义拼写'
-          : '单词拼写 · 听音拼写'
+          : '单词拼写 · 单词拼写'
         : '听音辨义';
   const TitleIcon =
     mode === 'word-meaning'
@@ -1330,7 +1349,7 @@ export default function StudyPage() {
             </span>
           </div>
           {/* 右：操作按钮
-              - 看词说意/听音辨义：一键显隐释义 + 只显示标星
+              - 识别背诵/听音辨义：一键显隐释义 + 只显示标星
               - 拼写模式：切换"首字母提示/提示显示"
            */}
           <div className="flex items-center gap-2">
@@ -1359,7 +1378,7 @@ export default function StudyPage() {
               </button>
             ) : (
               <>
-                {/* 按钮 1：一键显隐（仅非拼写模式）—— 看意说词：显隐单词；其它：显隐释义 */}
+                {/* 按钮 1：一键显隐（仅非拼写模式）—— 释义识别：显隐单词；其它：显隐释义 */}
                 <button
                   onClick={toggleAllReveal}
                   title={
@@ -1479,10 +1498,10 @@ export default function StudyPage() {
         </div>
       </div>
 
-      {/* 主内容区：根据 mode 切换 看词说意 / 单词拼写 / 听音辨义 */}
+      {/* 主内容区：根据 mode 切换 识别背诵 / 单词拼写 / 听音辨义 */}
       <div className="mx-auto max-w-5xl px-6 py-8">
         {mode === 'word-meaning' ? (
-          // 模式 A：看词说意 - 卡片头（序号徽标+词表名+标星）+ 卡片体（单词+发音按钮 + 释义展开区）
+          // 模式 A：识别背诵 - 卡片头（序号徽标+词表名+标星）+ 卡片体（单词+发音按钮 + 释义展开区）
           displayWords.length === 0 ? (
             // 「只看标星」模式下没有任何标星单词时 → 友好空状态引导
             <div className="mx-auto max-w-md py-16 text-center">
@@ -1552,7 +1571,7 @@ export default function StudyPage() {
                   >
                       {lookSubMode === 'word-meaning' ? (
                         <>
-                          {/* ===== 看词说意（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
+                          {/* ===== 识别背诵（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
                           <div className="flex items-start justify-between gap-2">
                             <p className="flex-1 break-words text-2xl font-bold tracking-tight text-slate-900 transition group-hover:text-indigo-700">
                               {w.word}
@@ -1609,7 +1628,7 @@ export default function StudyPage() {
                         </>
                       ) : (
                         <>
-                          {/* ===== 看意说词（新逻辑）：上方显示中文释义，下方展开英文单词+发音 ===== */}
+                          {/* ===== 释义识别（新逻辑）：上方显示中文释义，下方展开英文单词+发音 ===== */}
                           <div className="min-h-[3.5rem] flex items-center">
                             <p className="flex-1 break-words text-xl font-bold tracking-tight leading-snug text-slate-900 transition group-hover:text-indigo-700">
                               {w.meaning}
@@ -1665,7 +1684,7 @@ export default function StudyPage() {
             </div>
           )
         ) : mode === 'spelling' ? (
-          // 模式 C：单词拼写（子模式 释义拼写 / 听音拼写）
+          // 模式 C：单词拼写（子模式 释义拼写 / 单词拼写）
           // 单卡片居中布局，顶部进度条，中间题目/输入区，底部提交+下一题
           <div className="mx-auto max-w-2xl">
             {spellingIndex >= words.length ? (
@@ -1687,7 +1706,7 @@ export default function StudyPage() {
                   hour: '2-digit', minute: '2-digit', hour12: false,
                 });
                 const modeText =
-                  spellingSubMode === 'meaning-spelling' ? '释义拼写' : '听音拼写';
+                  spellingSubMode === 'meaning-spelling' ? '释义拼写' : '单词拼写';
                 return (
               <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
                 {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
@@ -2303,8 +2322,8 @@ export default function StudyPage() {
         // 进度条填充宽度
         const barWidthPct = (reciteIndex / Math.max(1, reciteList.length)) * 100;
         // 判断当前背诵模式的展示形式
-        // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
-        // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
+        // - 识别背诵（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
+        // - 释义识别（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
         // - 听音辨义（mode==='audio-meaning'）：正面显示发音按钮，点击查看单词+释义
         const isWordMeaningMode = mode === 'word-meaning' && lookSubMode === 'word-meaning';
         const isMeaningWordMode = mode === 'word-meaning' && lookSubMode === 'meaning-word';
@@ -2421,7 +2440,7 @@ export default function StudyPage() {
 
                 {/* —— 根据背诵模式显示不同内容 —— */}
                 {isWordMeaningMode ? (
-                  // ===== 看词说意：正面显示单词，上方播放发音，下方点击查看释义 =====
+                  // ===== 识别背诵：正面显示单词，上方播放发音，下方点击查看释义 =====
                   <div className="text-center">
                     <p className="break-words text-4xl font-black tracking-tight text-slate-900">
                       {cur.word}
@@ -2460,7 +2479,7 @@ export default function StudyPage() {
                     </div>
                   </div>
                 ) : isMeaningWordMode ? (
-                  // ===== 看意说词：正面显示释义，上方播放发音，下方点击查看单词 =====
+                  // ===== 释义识别：正面显示释义，上方播放发音，下方点击查看单词 =====
                   <div className="text-center">
                     <p className="break-words text-2xl font-bold tracking-tight leading-snug text-slate-900">
                       {cur.meaning}

@@ -11,7 +11,7 @@
  */
 
 import { create } from 'zustand';
-import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage } from '@/types';
+import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningLesson } from '@/types';
 // 与 localStorage 读写的工具函数
 import {
   loadVocabularyBooks,
@@ -20,6 +20,9 @@ import {
   loadReadingPassages,
   saveReadingPassages,
   clearReadingPassages,
+  loadListeningLessons,
+  saveListeningLessons,
+  clearListeningLessons,
   clearAllStorage,
 } from '@/utils/storageUtils';
 
@@ -31,6 +34,9 @@ interface AppState {
   vocabularyBooks: VocabularyBook[];   // 所有已上传过的词表
   currentBookId: string | null;        // 当前选中的词表 ID（第 2 页/第 3 页用到）
   studyConfig: StudyConfig | null;     // 第 2 页勾选的 Sheet 列表 + 学习模式
+
+  // ===== 听力精听模块的数据 =====
+  listeningLessons: ListeningLesson[];  // 所有已导入的听力精听材料
 
   // ===== 阅读补全单词练习模块的数据 =====
   readingPassages: ReadingPassage[];   // 所有已上传的阅读文章
@@ -61,6 +67,14 @@ interface AppState {
   /** 设置当前正在练习的文章 ID */
   setCurrentPassage: (id: string | null) => void;
 
+  // ===== 听力精听模块的操作方法 =====
+  /** 新增一篇听力精听材料（同时保存到 localStorage，注意 audioDataUrl 不存） */
+  addListeningLesson: (lesson: ListeningLesson) => void;
+  /** 按 ID 删除一篇听力精听材料 */
+  removeListeningLesson: (id: string) => void;
+  /** 更新某篇听力精听材料（修改分句/翻译/音频内容等） */
+  updateListeningLesson: (id: string, patch: Partial<ListeningLesson>) => void;
+
   // ===== 标星单词模块的操作方法 =====
   /** 切换某个单词的标星状态（已标星则取消，未标星则添加）—— 仅在当前学习会话生效 */
   toggleStarredWord: (word: string) => void;
@@ -83,6 +97,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   vocabularyBooks: [],
   currentBookId: null,
   studyConfig: null,
+  listeningLessons: [],
   readingPassages: [],
   currentPassageId: null,
   starredWords: [],
@@ -159,6 +174,29 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setCurrentPassage: (id) => set({ currentPassageId: id }),
 
+  // ===== 听力精听模块的具体实现 =====
+
+  addListeningLesson: (lesson) =>
+    set((state) => {
+      const next = [lesson, ...state.listeningLessons];
+      saveListeningLessons(next);
+      return { listeningLessons: next };
+    }),
+
+  removeListeningLesson: (id) =>
+    set((state) => {
+      const next = state.listeningLessons.filter((l) => l.id !== id);
+      saveListeningLessons(next);
+      return { listeningLessons: next };
+    }),
+
+  updateListeningLesson: (id, patch) =>
+    set((state) => {
+      const next = state.listeningLessons.map((l) => (l.id === id ? { ...l, ...patch } : l));
+      saveListeningLessons(next);
+      return { listeningLessons: next };
+    }),
+
   // ===== 标星单词模块的具体实现 =====
 
   /**
@@ -197,6 +235,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       vocabularyBooks: [],
       currentBookId: null,
       studyConfig: null,
+      listeningLessons: [],
       readingPassages: [],
       currentPassageId: null,
       starredWords: [],
@@ -204,17 +243,20 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   /**
-   * 应用启动时调用：从浏览器 localStorage 填回词表 + 阅读文章
+   * 应用启动时调用：从浏览器 localStorage 填回词表 + 阅读文章 + 听力精听材料
    * ⚠️ 注意：标星单词是会话级别的，不从 localStorage 恢复（每次进入学习页都是全新的空状态）
+   * ⚠️ 听力精听材料的 audioDataUrl 不持久化，进入听力精听页面时需要重新上传音频
    */
   hydrate: () => {
     const loadedBooks = loadVocabularyBooks();
     const loadedPassages = loadReadingPassages();
+    const loadedLessons = loadListeningLessons();
     set({
       vocabularyBooks: loadedBooks,
       currentBookId: loadedBooks[0]?.id || null,
       readingPassages: loadedPassages,
       currentPassageId: loadedPassages[0]?.id || null,
+      listeningLessons: loadedLessons,
       starredWords: [],
     });
   },

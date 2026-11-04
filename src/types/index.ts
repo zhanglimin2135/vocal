@@ -20,6 +20,19 @@ export interface SheetData {
 }
 
 /**
+ * StudyWord - 学习态单词对象类型
+ *   在原始 WordItem 的基础上额外附带：
+ *   - uid: 每个单词在当前学习会话中的唯一标识（用于独立控制单卡展开/发音状态）
+ *   - sheetName: 该单词所属单词表的名称（卡片顶部显示）
+ *   - extra: 可选扩展字段（固定词表入口会附带词源、拆分、口诀等）
+ */
+export interface StudyWord extends WordItem {
+  uid: string;
+  sheetName: string;
+  extra?: Record<string, unknown>;
+}
+
+/**
  * 词表（一个上传的 Excel 文件整体）
  * 代表用户上传的一份 .xlsx/.xls 文件，里面可能包含多个 sheet
  */
@@ -32,23 +45,23 @@ export interface VocabularyBook {
 
 /**
  * 学习模式的枚举类型：
- * - 'word-meaning'：看词/看意 双向练习（看词说意 / 看意说词 两种子模式，进入时弹窗选择）
+ * - 'word-meaning'：看词/看意 双向练习（识别背诵 / 释义识别 两种子模式，进入时弹窗选择）
  * - 'audio-meaning'：听音辨义（显示喇叭播放发音，隐藏单词和释义）
- * - 'spelling'：单词拼写（释义拼写 / 听音拼写 两种子模式，进入时弹窗选择）
+ * - 'spelling'：单词拼写（释义拼写 / 单词拼写 两种子模式，进入时弹窗选择）
  */
 export type StudyMode = 'word-meaning' | 'audio-meaning' | 'spelling';
 
 /**
  * 看词/看意 子模式：
- * - 'word-meaning'：看词说意（上方显示英文单词，隐藏中文释义，点击查看）
- * - 'meaning-word'：看意说词（上方显示中文释义，隐藏英文单词，点击查看，形式同看词说意）
+ * - 'word-meaning'：识别背诵（上方显示英文单词，隐藏中文释义，点击查看）
+ * - 'meaning-word'：释义识别（上方显示中文释义，隐藏英文单词，点击查看，形式同识别背诵）
  */
 export type LookSubMode = 'word-meaning' | 'meaning-word';
 
 /**
  * 单词拼写的子模式：
  * - 'meaning-spelling'：释义拼写（上方显示中文释义，下方输入框给出首字母提示）
- * - 'audio-spelling'：听音拼写（输入框有任何操作即播放当前单词音频）
+ * - 'audio-spelling'：单词拼写（输入框有任何操作即播放当前单词音频）
  */
 export type SpellingSubMode = 'meaning-spelling' | 'audio-spelling';
 
@@ -144,4 +157,36 @@ export interface PassageResult {
   totalCount: number;         // 总空数
   accuracy: number;           // 正确率（0~1）
   submittedAt: number;        // 提交时间
+}
+
+// ============================================
+// 以下是「听力精听」模块的类型定义
+// ============================================
+
+/**
+ * 单个分句：由逗号拆分或用户在波形图上手动添加断句点形成
+ * - startTime / endTime：该分句在音频中的起止时间（秒）
+ *   默认情况下时间会被平均分；用户在波形图上添加断句点后会被精确调整
+ * - text：该分句的原始文本
+ * - translation：用户填写的中文翻译（可为空，后续手动补充）
+ */
+export interface SentenceSegment {
+  id: string;              // 分句唯一 ID
+  text: string;            // 分句原文（去掉了逗号本身，逗号是拆分标记）
+  translation: string;     // 用户填写的翻译（可为空字符串）
+  startTime: number;       // 音频起始时间（秒）
+  endTime: number;         // 音频结束时间（秒）
+}
+
+/**
+ * 单份听力精听材料（一篇练习）
+ */
+export interface ListeningLesson {
+  id: string;                    // 唯一 ID
+  title: string;                 // 材料标题（用户可自定义，默认用音频文件名）
+  audioName: string;             // 原始音频文件名
+  audioDataUrl: string;          // 音频内容（DataURL，持久化用；不持久化则用 Blob URL）
+  textContent: string;           // 原始文本（未拆分）
+  segments: SentenceSegment[];   // 按逗号拆分后 + 用户手动调整的分句列表
+  createdAt: number;             // 导入时间戳
 }
