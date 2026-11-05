@@ -12,6 +12,10 @@
 
 import { create } from 'zustand';
 import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningLesson } from '@/types';
+// 内嵌固定词表：四级词汇、高中词汇、初中词汇（打包进应用，任意设备打开即可用）
+import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
+import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
+import { JUNIOR_EMBEDDED_BOOK } from '@/data/juniorEmbedded';
 // 与 localStorage 读写的工具函数
 import {
   loadVocabularyBooks,
@@ -32,6 +36,8 @@ import {
 interface AppState {
   // ===== 词表学习模块的数据 =====
   vocabularyBooks: VocabularyBook[];   // 所有已上传过的词表
+  /** 平台内置词表（不持久化，随应用下发）：四级词汇、高中词汇、初中词汇等 */
+  builtInBooks: VocabularyBook[];
   currentBookId: string | null;        // 当前选中的词表 ID（第 2 页/第 3 页用到）
   studyConfig: StudyConfig | null;     // 第 2 页勾选的 Sheet 列表 + 学习模式
 
@@ -85,6 +91,9 @@ interface AppState {
   /** 清空所有标星，等同于 resetStarredWords */
   clearAllStarred: () => void;
 
+  /** 按 ID 查找词表：先查内置词表，再查用户上传词表 */
+  findBookById: (id: string) => VocabularyBook | undefined;
+
   // ===== 全局方法 =====
   /** 清空所有数据（词表 + 阅读 + 当前 + 学习配置）同时清空 localStorage */
   clearAll: () => void;
@@ -95,6 +104,7 @@ interface AppState {
 export const useAppStore = create<AppState>((set, get) => ({
   // ===== 初始默认值 =====
   vocabularyBooks: [],
+  builtInBooks: [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK],
   currentBookId: null,
   studyConfig: null,
   listeningLessons: [],
@@ -126,6 +136,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     }),
 
   setCurrentBook: (id) => set({ currentBookId: id }),
+
+  /**
+   * 按 ID 查找词表：内置词表优先，再查用户上传词表。
+   * 选择页 / 学习页通过它定位当前词表，使固定词表也能走统一流程。
+   */
+  findBookById: (id) => {
+    const builtIn = get().builtInBooks.find((b) => b.id === id);
+    if (builtIn) return builtIn;
+    return get().vocabularyBooks.find((b) => b.id === id);
+  },
 
   setStudyConfig: (config) => set({ studyConfig: config }),
 

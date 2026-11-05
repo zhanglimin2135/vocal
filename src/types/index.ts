@@ -6,6 +6,9 @@ export interface WordItem {
   word: string;       // 英文单词本身，如 "apple"
   meaning: string;    // 中文释义，如 "苹果；苹果树"
   phonetic?: string;  // 可选：音标，如 /ˈæpəl/（目前支持选填）
+  /** 可选：该词的助记信息（词根拆分/词源/口诀/速记/同族词/易错）。
+   *  若导入的表格含有对应列，解析时会写入这里；背诵页的助记卡片会优先使用它。 */
+  extra?: WordMnemonic;
 }
 
 /**
@@ -20,6 +23,28 @@ export interface SheetData {
 }
 
 /**
+ * WordMnemonic - 单词助记信息（固定词表入口会附带，用于背诵页的「助记」弹窗）
+ *   - splitParts: 词素拆分（奇数下标为词根、偶数下标为说明，与词表原始结构一致）
+ *   - etymology:  词源说明
+ *   - rhyme:      口诀
+ *   - quick:      速记
+ *   - family:     同族词
+ *   - caution:    易错提示
+ *   - accent/tint: 该词的主题色与浅底色
+ */
+export interface WordMnemonic {
+  splitParts?: string[];
+  etymology?: string;
+  rhyme?: string;
+  quick?: string;
+  family?: string[];
+  caution?: string;
+  phonetic?: string;
+  accent?: string;
+  tint?: string;
+}
+
+/**
  * StudyWord - 学习态单词对象类型
  *   在原始 WordItem 的基础上额外附带：
  *   - uid: 每个单词在当前学习会话中的唯一标识（用于独立控制单卡展开/发音状态）
@@ -29,7 +54,7 @@ export interface SheetData {
 export interface StudyWord extends WordItem {
   uid: string;
   sheetName: string;
-  extra?: Record<string, unknown>;
+  extra?: WordMnemonic;
 }
 
 /**

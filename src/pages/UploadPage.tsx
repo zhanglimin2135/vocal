@@ -99,6 +99,12 @@ export default function UploadPage() {
 
   // useAppStore：从全局状态读取【词表列表】数组，展示用户已导入的所有词表
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
+  // 平台内置词表（四级词汇、高中词汇、初中词汇，随应用下发）
+  const builtInBooks = useAppStore((s) => s.builtInBooks);
+  // 高中词汇内置词表条目（用于卡片统计展示）
+  const seniorBook = builtInBooks.find((b) => b.id === 'built-in-senior');
+  // 初中词汇内置词表条目（用于卡片统计展示）
+  const juniorBook = builtInBooks.find((b) => b.id === 'built-in-junior');
   // useAppStore：从全局状态读取【添加词表】方法，解析完 Excel 后将词表存入全局状态
   const addVocabularyBook = useAppStore((s) => s.addVocabularyBook);
   // useAppStore：从全局状态读取【删除词表】方法，点击卡片删除按钮时移除对应词表
@@ -261,7 +267,7 @@ export default function UploadPage() {
           onClick={() => inputRef.current?.click()}
           // 动态样式：拖拽中会变蓝、放大，普通状态有虚线边框，悬停有阴影
           className={cn(
-            'group relative cursor-pointer overflow-hidden rounded-3xl border-2 border-dashed bg-white/70 p-12 text-center shadow-lg backdrop-blur transition-all duration-300',
+            'group relative cursor-pointer overflow-hidden rounded-3xl border-2 border-dashed bg-white/70 px-8 py-5 text-center shadow-lg backdrop-blur transition-all duration-300',
             dragActive
               ? 'border-indigo-500 bg-indigo-50/80 shadow-indigo-200/60 scale-[1.01]'
               : 'border-indigo-300/60 hover:border-indigo-400 hover:shadow-xl hover:bg-white'
@@ -282,22 +288,22 @@ export default function UploadPage() {
             {/* 中间大图标容器：根据 status 切换图标（加载转圈/成功对勾/错误感叹/默认云上传） */}
             <div
               className={cn(
-                'mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 shadow-xl shadow-indigo-200 transition-transform duration-300',
+                'mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-500 to-sky-500 shadow-lg shadow-indigo-200 transition-transform duration-300',
                 dragActive && 'scale-110 rotate-3'
               )}
             >
               {status === 'loading' ? (
-                <Loader2 className="h-10 w-10 animate-spin text-white" />
+                <Loader2 className="h-7 w-7 animate-spin text-white" />
               ) : status === 'success' ? (
-                <CheckCircle2 className="h-10 w-10 text-white" />
+                <CheckCircle2 className="h-7 w-7 text-white" />
               ) : status === 'error' ? (
-                <AlertCircle className="h-10 w-10 text-white" />
+                <AlertCircle className="h-7 w-7 text-white" />
               ) : (
-                <CloudUpload className="h-10 w-10 text-white transition-transform group-hover:scale-110" />
+                <CloudUpload className="h-7 w-7 text-white transition-transform group-hover:scale-110" />
               )}
             </div>
             {/* 上传区主文字标题：根据 status 切换提示语 */}
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-lg font-bold text-slate-800">
               {status === 'loading'
                 ? `正在解析 ${progressName} ...`
                 : status === 'success'
@@ -307,7 +313,7 @@ export default function UploadPage() {
                 : '点击上传或拖拽 Excel 文件到此处'}
             </h2>
             {/* 辅助说明文字：支持格式和列定义 */}
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-1 text-xs text-slate-500">
               支持 .xlsx / .xls 格式 · 默认第 1 列为单词，第 2 列为中文释义
             </p>
             {/* 上传失败时：红色错误提示条 */}
@@ -331,9 +337,9 @@ export default function UploadPage() {
                 e.stopPropagation();
                 inputRef.current?.click();
               }}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0"
+              className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-6 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0"
             >
-              <Upload className="h-4 w-4" />
+              <Upload className="h-3.5 w-3.5" />
               选择本地文件
             </button>
           </div>
@@ -346,10 +352,13 @@ export default function UploadPage() {
             <p className="text-base text-slate-400/70">单词仅为背诵使用，检查请到我的词表中导入检查</p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            {/* 初中词汇 —— 赶工中 */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* 初中词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              onClick={() => {
+                setCurrentBook('built-in-junior');
+                navigate('/select');
+              }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -359,14 +368,20 @@ export default function UploadPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-base font-semibold text-slate-800">初中词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">共 30 单元 · ~500 词</p>
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    {juniorBook?.sheets.length ?? 0}单元{juniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                  </p>
                 </div>
+                <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
 
-            {/* 高中词汇 —— 赶工中 */}
+            {/* 高中词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              onClick={() => {
+                setCurrentBook('built-in-senior');
+                navigate('/select');
+              }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -376,14 +391,20 @@ export default function UploadPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-base font-semibold text-slate-800">高中词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">共 40 单元 · ~800 词</p>
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    {seniorBook?.sheets.length ?? 0}单元{seniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                  </p>
                 </div>
+                <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
 
-            {/* 四级词汇 —— 可用，跳 /cet4 */}
+            {/* 四级词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => navigate('/cet4')}
+              onClick={() => {
+                setCurrentBook('built-in-cet4');
+                navigate('/select');
+              }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -393,9 +414,28 @@ export default function UploadPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-base font-semibold text-slate-800">四级词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">共 28 单元 · 567 词</p>
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    {builtInBooks[0]?.sheets.length ?? 32}单元{builtInBooks[0]?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 638}词
+                  </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+
+            {/* 托福词汇 —— 赶工中 */}
+            <div
+              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <BookOpen className="h-6 w-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="truncate text-base font-semibold text-slate-800">托福词汇</h4>
+                  <p className="mt-0.5 text-xs text-slate-400">40单元~1500词</p>
+                </div>
               </div>
             </div>
           </div>

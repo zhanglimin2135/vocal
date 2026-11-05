@@ -39,9 +39,11 @@ export default function SelectPage() {
   const navigate = useNavigate();
   // useAppStore：Zustand 全局状态管理 Hook，批量从 Store 订阅状态和操作函数
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);           // 所有已上传的词汇书列表
+  const builtInBooks = useAppStore((s) => s.builtInBooks);                 // 平台内置词表（四级等）
   const currentBookId = useAppStore((s) => s.currentBookId);                // 当前选中的词汇书 ID
   const studyConfig = useAppStore((s) => s.studyConfig);                    // 学习配置（已选单元 ID + 学习模式）
   const setCurrentBook = useAppStore((s) => s.setCurrentBook);              // 切换当前词汇书的 Action
+  const findBookById = useAppStore((s) => s.findBookById);                  // 按 ID 查找词表（含内置）
   const toggleSelectedSheetId = useAppStore((s) => s.toggleSelectedSheetId);// 切换单个 Sheet 选中状态的 Action
   const setStudyConfig = useAppStore((s) => s.setStudyConfig);              // 设置学习配置的 Action
 
@@ -64,8 +66,8 @@ export default function SelectPage() {
 
   // useMemo：根据 vocabularyBooks 和 currentBookId 计算出当前选中的词汇书对象，避免重复查找
   const currentBook = useMemo(
-    () => vocabularyBooks.find((b) => b.id === currentBookId) || vocabularyBooks[0] || null,
-    [vocabularyBooks, currentBookId]
+    () => findBookById(currentBookId) || builtInBooks[0] || vocabularyBooks[0] || null,
+    [findBookById, currentBookId, builtInBooks, vocabularyBooks]
   );
 
   // useEffect：每次进入选择页时跑一次，做两件事：

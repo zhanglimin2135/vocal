@@ -10,7 +10,7 @@
  *   2. 听音辨义（meaning-word）：卡片正面只显示一个大号发音按钮，
  *      用户先听发音尝试回想单词和释义，再点击卡片显示单词 + 释义。
  */
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -34,10 +34,13 @@ import {
   Timer,
   ChevronLeft,
   ChevronRight,
+  Lightbulb,
+  Loader2,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
-import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
+import { getMnemonic } from '@/utils/mnemonicUtils';
+import type { WordItem, WordMnemonic, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
 import { cn, generateId, canUseForcedFullscreen, roundAccuracy } from '@/lib/utils';
 import * as XLSX from 'xlsx';
 
@@ -50,6 +53,7 @@ import * as XLSX from 'xlsx';
 interface StudyWord extends WordItem {
   uid: string;
   sheetName: string;
+  extra?: WordMnemonic;
 }
 
 /**
@@ -97,10 +101,10 @@ export default function StudyPage() {
   const externalSource = externalWords ? ((location.state as { source?: string })?.source || 'external') : null;
   const externalMode = externalWords ? ((location.state as { mode?: StudyMode })?.mode ?? 'word-meaning') : null;
   const externalSubMode = externalWords ? ((location.state as { subMode?: LookSubMode | SpellingSubMode })?.subMode) : null;
-  // 全部词书列表（来自全局 store）
-  const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
   // 当前选中词书的 id
   const currentBookId = useAppStore((s) => s.currentBookId);
+  // 按 ID 查找词表（内置优先）
+  const findBookById = useAppStore((s) => s.findBookById);
   // 学习配置：包含学习模式 + 选中的单词表 id 列表
   const studyConfig = useAppStore((s) => s.studyConfig);
   // ===== 标星模块：全局状态 =====
@@ -129,8 +133,8 @@ export default function StudyPage() {
 
   // 根据 currentBookId 找到对应的词书对象
   const currentBook = useMemo(
-    () => vocabularyBooks.find((b) => b.id === currentBookId) || null,
-    [vocabularyBooks, currentBookId]
+    () => findBookById(currentBookId) || null,
+    [findBookById, currentBookId]
   );
 
   // 从当前词书中按 selectedSheetIds 筛选出所有单词，
@@ -217,6 +221,122 @@ export default function StudyPage() {
    *   - false：隐藏弹窗
    */
   const [exportModalOpen, setExportModalOpen] = useState(false);
+
+  /**
+   * mnemonicHover - 「助记」悬浮卡片的当前单词与位置
+   *   - null：不显示
+   *   - { word, left, top, btnRect }：在按钮旁边显示该单词的助记卡片（fixed 定位，不遮挡/不虚化页面）
+   *     btnRect 用于卡片渲染后测量实际高度，若底部溢出则翻到按钮上方显示
+   */
+  const [mnemonicHover, setMnemonicHover] = useState<{ word: StudyWord; left: number; top: number; btnRect: DOMRect } | null>(null);
+  /** mnemonicData - 当前悬浮单词的助记内容（本地 + 联网结果） */
+  const [mnemonicData, setMnemonicData] = useState<WordMnemonic | null>(null);
+  /** mnemonicLoading - 是否正在联网查找助记 */
+  const [mnemonicLoading, setMnemonicLoading] = useState(false);
+  /** 鼠标移出后的延迟关闭定时器（便于移入弹窗继续阅读） */
+  const mnemonicCloseTimer = useRef<number | null>(null);
+  /** 助记卡片 DOM 引用，用于渲染后测量实际高度并决定是否向上翻转 */
+  const mnemonicCardRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * 打开助记悬浮卡片：以触发按钮为锚点，优先显示在右侧，右侧放不下则显示在左侧。
+   * 页面不出现遮罩、不模糊，只在该单词旁边弹出一张小卡片。
+   */
+  const openMnemonic = useCallback((word: StudyWord, btn: HTMLElement) => {
+    if (mnemonicCloseTimer.current) {
+      window.clearTimeout(mnemonicCloseTimer.current);
+      mnemonicCloseTimer.current = null;
+    }
+    const CARD_W = 360;
+    const GAP = 10;
+    const MARGIN = 12;
+    const r = btn.getBoundingClientRect();
+    let left = r.right + GAP;
+    if (left + CARD_W > window.innerWidth - MARGIN) {
+      left = Math.max(MARGIN, r.left - CARD_W - GAP);
+    }
+    // 初始 top 对齐按钮顶部；渲染后若底部溢出视口，再由布局效果翻到按钮上方
+    const top = Math.max(MARGIN, r.top - 8);
+    setMnemonicHover({ word, left, top, btnRect: r });
+    setMnemonicData(word.extra || null);
+    // 表格已自带完整助记（口诀+速记）时，无需联网，直接显示
+    const hasFullMnemonic = !!(word.extra?.rhyme && word.extra?.quick);
+    setMnemonicLoading(!hasFullMnemonic);
+  }, []);
+
+  /** 延迟关闭，给鼠标留出移入悬浮卡片的时间 */
+  const scheduleCloseMnemonic = useCallback(() => {
+    if (mnemonicCloseTimer.current) window.clearTimeout(mnemonicCloseTimer.current);
+    mnemonicCloseTimer.current = window.setTimeout(() => {
+      setMnemonicHover(null);
+      mnemonicCloseTimer.current = null;
+    }, 220);
+  }, []);
+
+  const cancelCloseMnemonic = useCallback(() => {
+    if (mnemonicCloseTimer.current) {
+      window.clearTimeout(mnemonicCloseTimer.current);
+      mnemonicCloseTimer.current = null;
+    }
+  }, []);
+
+  // 悬浮期间联网查找助记；鼠标移开或换词后丢弃旧结果
+  // 仅依赖单词本身（word.word），避免卡片翻转（top 变化）时重复请求
+  const hoverWordKey = mnemonicHover?.word.word;
+  useEffect(() => {
+    if (!mnemonicHover) return;
+    let cancelled = false;
+    const { word } = mnemonicHover;
+    // 表格已自带口诀+速记时，直接使用 extra，不再触发任何联网请求
+    if (word.extra?.rhyme && word.extra?.quick) {
+      setMnemonicLoading(false);
+      return;
+    }
+    setMnemonicLoading(true);
+    getMnemonic(word.word, word.meaning, (partial) => {
+      if (!cancelled) setMnemonicData(partial);
+    }, word.extra)
+      .then((data) => {
+        if (cancelled) return;
+        setMnemonicData(data);
+        setMnemonicLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) setMnemonicLoading(false);
+      });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hoverWordKey]);
+
+  // 卡片渲染后测量实际高度：若底部溢出视口，则翻到按钮上方显示，保证内容完整可见
+  useLayoutEffect(() => {
+    if (!mnemonicHover || !mnemonicCardRef.current) return;
+    const el = mnemonicCardRef.current;
+    const h = el.scrollHeight;
+    const { top, btnRect } = mnemonicHover;
+    const MARGIN = 12;
+    const GAP = 10;
+    if (top + h > window.innerHeight - MARGIN) {
+      // 优先向上翻转：卡片底部贴在按钮上方
+      const aboveTop = btnRect.top - h - GAP;
+      const newTop = aboveTop >= MARGIN ? aboveTop : MARGIN;
+      if (Math.abs(newTop - top) > 1) {
+        setMnemonicHover((prev) => (prev ? { ...prev, top: newTop } : prev));
+      }
+    }
+  }, [mnemonicHover, mnemonicData]);
+
+  // 悬浮卡片打开时，滚动或改变窗口大小就关闭，避免卡片脱离单词位置
+  useEffect(() => {
+    if (!mnemonicHover) return;
+    const close = () => setMnemonicHover(null);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [mnemonicHover]);
 
   // ===== 标星模块：派生数据 =====
   /**
@@ -1543,6 +1663,23 @@ export default function StudyPage() {
                     <span className="truncate text-[11px] text-slate-500 flex-1 mx-2 text-center">
                       {w.sheetName}
                     </span>
+                    {/* 助记按钮：鼠标悬停即在该词旁边弹出助记卡片（点击/触摸同样可用） */}
+                    {lookSubMode === 'word-meaning' && (
+                      <button
+                        onMouseEnter={(e) => openMnemonic(w, e.currentTarget)}
+                        onMouseLeave={scheduleCloseMnemonic}
+                        onFocus={(e) => openMnemonic(w, e.currentTarget)}
+                        onBlur={scheduleCloseMnemonic}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMnemonic(w, e.currentTarget);
+                        }}
+                        title="查看助记方法"
+                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-violet-400 transition-all hover:bg-violet-50 hover:text-violet-600 hover:scale-110"
+                      >
+                        <Lightbulb className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                     {/* 标星按钮：点击切换星标，stopPropagation 避免触发卡片展开 */}
                     <button
                       onClick={(e) => {
@@ -2694,6 +2831,147 @@ export default function StudyPage() {
                 </button>
               </div>
             </div>
+          </div>
+        );
+      })()}
+      {/* ===== 助记悬浮卡片：鼠标悬停「助记」按钮时在单词旁边出现，无遮罩、不模糊页面 ===== */}
+      {mnemonicHover && (() => {
+        const { word, left, top } = mnemonicHover;
+        const mn = mnemonicData;
+        const accent = mn?.accent || '#4f46e5';
+        const tint = mn?.tint || '#eef2ff';
+        const splitParts = mn?.splitParts || [];
+        const family = mn?.family || [];
+        const hasMnemonic = !!(
+          mn?.rhyme || mn?.quick || mn?.etymology || mn?.caution ||
+          splitParts.length > 0 || family.length > 0
+        );
+        return (
+          <div
+            ref={mnemonicCardRef}
+            style={{
+              position: 'fixed',
+              left,
+              top,
+              width: 'min(360px, calc(100vw - 24px))',
+              maxHeight: Math.max(220, window.innerHeight - top - 12),
+            }}
+            className="z-50 overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-slate-200/80"
+            onMouseEnter={cancelCloseMnemonic}
+            onMouseLeave={scheduleCloseMnemonic}
+          >
+            {/* 头部：单词 + 音标 + 关闭 */}
+            <div className="mb-2 flex items-start justify-between gap-2">
+              <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <h3 className="text-base font-semibold tracking-tight text-slate-900">{word.word}</h3>
+                {(mn?.phonetic || word.phonetic) && (
+                  <span className="font-mono text-[11px] text-slate-400">
+                    {mn?.phonetic || word.phonetic}
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={() => setMnemonicHover(null)}
+                title="关闭"
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* 释义 */}
+            <p className="text-[13px] leading-relaxed text-slate-800">{word.meaning}</p>
+
+            {/* 词根词缀 */}
+            {splitParts.length > 0 && (
+              <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600">
+                <span
+                  className="mr-1.5 inline-block rounded px-1.5 py-0.5 text-[10px] font-medium"
+                  style={{ backgroundColor: tint, color: accent }}
+                >
+                  词根词缀
+                </span>
+                {splitParts.join(' ')}
+              </p>
+            )}
+
+            {/* 词源 */}
+            {mn?.etymology && (
+              <p className="mt-2 text-[12px] leading-relaxed text-slate-500">
+                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                  词源
+                </span>
+                {mn.etymology}
+              </p>
+            )}
+
+            {/* 口诀 */}
+            {mn?.rhyme && (
+              <div
+                className="mt-2.5 rounded-lg p-2.5 text-[13px] leading-relaxed text-slate-800"
+                style={{ backgroundColor: tint }}
+              >
+                <span
+                  className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium"
+                  style={{ color: accent }}
+                >
+                  口诀
+                </span>
+                {mn.rhyme}
+              </div>
+            )}
+
+            {/* 速记 */}
+            {mn?.quick && (
+              <div className="mt-2 rounded-lg border border-dashed border-amber-300 bg-amber-50/80 p-2.5 text-[12.5px] leading-relaxed text-slate-700">
+                <span className="mr-1.5 inline-block rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-800">
+                  速记
+                </span>
+                {mn.quick}
+              </div>
+            )}
+
+            {/* 词根扩展 */}
+            {family.length > 0 && (
+              <div className="mt-2.5">
+                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                  词根扩展
+                </span>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {family.map((f) => (
+                    <span
+                      key={f}
+                      className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600"
+                    >
+                      {f}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 易错 */}
+            {mn?.caution && (
+              <div className="mt-2.5 rounded-lg bg-rose-50 p-2.5 text-[11.5px] leading-relaxed text-rose-700">
+                <span className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-rose-600">
+                  易错
+                </span>
+                {mn.caution}
+              </div>
+            )}
+
+            {/* 联网中 / 无数据兜底 */}
+            {mnemonicLoading && (
+              <div className="mt-2.5 flex items-center gap-2 rounded-lg bg-slate-50 p-2.5 text-[12px] text-slate-500">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                {hasMnemonic ? '口诀/速记生成中…' : '正在联网查找助记…'}
+              </div>
+            )}
+            {!mnemonicLoading && !hasMnemonic && (
+              <div className="mt-2.5 rounded-lg bg-slate-50 p-2.5 text-[12px] text-slate-500">
+                该词暂未找到可用的口诀与速记，可以先结合释义和发音记忆。
+              </div>
+            )}
           </div>
         );
       })()}
