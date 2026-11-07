@@ -11,7 +11,7 @@
  */
 
 import { create } from 'zustand';
-import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningLesson } from '@/types';
+import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningLesson, ListeningEntry } from '@/types';
 // 内嵌固定词表：四级词汇、高中词汇、初中词汇（打包进应用，任意设备打开即可用）
 import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
 import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
@@ -27,6 +27,8 @@ import {
   loadListeningLessons,
   saveListeningLessons,
   clearListeningLessons,
+  loadListeningEntries,
+  saveListeningEntries,
   clearAllStorage,
 } from '@/utils/storageUtils';
 
@@ -43,6 +45,8 @@ interface AppState {
 
   // ===== 听力精听模块的数据 =====
   listeningLessons: ListeningLesson[];  // 所有已导入的听力精听材料
+  /** 听力精听「目录」条目（拖拽排序后的顺序即数组顺序） */
+  listeningEntries: ListeningEntry[];
 
   // ===== 阅读补全单词练习模块的数据 =====
   readingPassages: ReadingPassage[];   // 所有已上传的阅读文章
@@ -80,6 +84,12 @@ interface AppState {
   removeListeningLesson: (id: string) => void;
   /** 更新某篇听力精听材料（修改分句/翻译/音频内容等） */
   updateListeningLesson: (id: string, patch: Partial<ListeningLesson>) => void;
+  /** 新增一条听力目录条目（追加到末尾） */
+  addListeningEntry: (entry: ListeningEntry) => void;
+  /** 按 ID 删除一条听力目录条目 */
+  removeListeningEntry: (id: string) => void;
+  /** 拖拽排序：把 from 位置的条目移动到 to 位置，并重排 order */
+  moveListeningEntry: (from: number, to: number) => void;
 
   // ===== 标星单词模块的操作方法 =====
   /** 切换某个单词的标星状态（已标星则取消，未标星则添加）—— 仅在当前学习会话生效 */
@@ -108,6 +118,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   currentBookId: null,
   studyConfig: null,
   listeningLessons: [],
+  listeningEntries: [],
   readingPassages: [],
   currentPassageId: null,
   starredWords: [],
@@ -217,6 +228,37 @@ export const useAppStore = create<AppState>((set, get) => ({
       return { listeningLessons: next };
     }),
 
+  // ----- 听力目录：新增 / 删除 / 拖拽排序 -----
+
+  addListeningEntry: (entry) =>
+    set((state) => {
+      const next = [...state.listeningEntries, { ...entry, order: state.listeningEntries.length }];
+      saveListeningEntries(next);
+      return { listeningEntries: next };
+    }),
+
+  removeListeningEntry: (id) =>
+    set((state) => {
+      const next = state.listeningEntries
+        .filter((e) => e.id !== id)
+        .map((e, i) => ({ ...e, order: i }));
+      saveListeningEntries(next);
+      return { listeningEntries: next };
+    }),
+
+  moveListeningEntry: (from, to) =>
+    set((state) => {
+      const list = [...state.listeningEntries];
+      if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) {
+        return { listeningEntries: list };
+      }
+      const [moved] = list.splice(from, 1);
+      list.splice(to, 0, moved);
+      const next = list.map((e, i) => ({ ...e, order: i }));
+      saveListeningEntries(next);
+      return { listeningEntries: next };
+    }),
+
   // ===== 标星单词模块的具体实现 =====
 
   /**
@@ -271,12 +313,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     const loadedBooks = loadVocabularyBooks();
     const loadedPassages = loadReadingPassages();
     const loadedLessons = loadListeningLessons();
+    const loadedEntries = loadListeningEntries()
+      .slice()
+      .sort((a, b) => a.order - b.order);
     set({
       vocabularyBooks: loadedBooks,
       currentBookId: loadedBooks[0]?.id || null,
       readingPassages: loadedPassages,
       currentPassageId: loadedPassages[0]?.id || null,
       listeningLessons: loadedLessons,
+      listeningEntries: loadedEntries,
       starredWords: [],
     });
   },

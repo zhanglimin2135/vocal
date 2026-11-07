@@ -215,3 +215,21 @@ export interface ListeningLesson {
   segments: SentenceSegment[];   // 按逗号拆分后 + 用户手动调整的分句列表
   createdAt: number;             // 导入时间戳
 }
+
+/**
+ * 听力精听「目录」条目（首页 → 听力精听 → 目录页）
+ *   kind = 'link'：用户粘贴的分享链接，点击在新标签页打开外部播放页
+ *   kind = 'html'：用户导入的「下载网页」.html 文件，解析出句数与时长，
+ *                  原文件存在 IndexedDB（htmlKey），点击时用 Blob URL 打开
+ */
+export interface ListeningEntry {
+  id: string;              // 唯一 ID
+  title: string;           // 目录卡片标题
+  kind: 'link' | 'html';   // 条目类型：外链 / 本地网页文件
+  url?: string;            // kind=link 时的分享链接
+  htmlKey?: string;        // kind=html 时 IndexedDB 中的键
+  lineCount?: number;      // 句数（kind=html 解析得出）
+  duration?: number;       // 音频时长（秒，kind=html 解析得出）
+  createdAt: number;       // 导入时间戳
+  order: number;           // 手动拖拽排序的位置索引
+}

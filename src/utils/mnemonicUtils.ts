@@ -9,6 +9,9 @@
 
 import type { WordMnemonic } from '@/types';
 import { findCet4Mnemonic } from './cet4Parser';
+import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
+import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
+import { JUNIOR_EMBEDDED_BOOK } from '@/data/juniorEmbedded';
 
 const CACHE_KEY = 'vocal:mnemonic:v1';
 const CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 天
@@ -201,32 +204,37 @@ export async function getMnemonic(
   const key = word.trim().toLowerCase();
   if (!key) return null;
 
-  const cached = cacheGet(key);
-  if (cached) {
-    onUpdate?.(cached);
-    return cached;
+  // 数据来源优先级：导入表格自带 > 固定词表（四级/高中/初中）> 旧版本地四级词库
+  const builtIn = getBuiltInIndex().get(key) || findCet4Mnemonic(word);
+  let seed = fillGaps(existing, builtIn);
+
+  // 固定词表命中且字段齐全 → 直接返回，不联网
+  if (isComplete(seed)) {
+    cacheSet(key, seed!);
+    onUpdate?.(seed!);
+    return seed;
   }
 
-  // 表格自带助记 > 本地四级词库，取两者里"更完整"的作为基底
-  const local = findCet4Mnemonic(word);
-  const base = pickMoreComplete(existing, local);
-  if (isComplete(base)) {
-    cacheSet(key, base!);
-    onUpdate?.(base!);
-    return base;
+  // 缓存里的历史结果（例如之前联网补全过的）用来补齐剩余字段
+  const cached = cacheGet(key);
+  seed = fillGaps(seed, cached);
+  if (isComplete(seed)) {
+    cacheSet(key, seed!);
+    onUpdate?.(seed!);
+    return seed;
   }
 
   const [accent, tint] = paletteFor(word);
   const merged: WordMnemonic = {
-    splitParts: base?.splitParts || [],
-    etymology: base?.etymology || '',
-    rhyme: base?.rhyme || '',
-    quick: base?.quick || '',
-    family: base?.family || [],
-    caution: base?.caution || '',
-    phonetic: base?.phonetic || '',
-    accent: base?.accent || accent,
-    tint: base?.tint || tint,
+    splitParts: seed?.splitParts || [],
+    etymology: seed?.etymology || '',
+    rhyme: seed?.rhyme || '',
+    quick: seed?.quick || '',
+    family: seed?.family || [],
+    caution: seed?.caution || '',
+    phonetic: seed?.phonetic || '',
+    accent: seed?.accent || accent,
+    tint: seed?.tint || tint,
   };
 
   const emit = () => {
@@ -282,15 +290,49 @@ function completeness(m: WordMnemonic | null | undefined): number {
   return s;
 }
 
-/** 取两份助记里更完整的那份（优先保留导入表格自带内容） */
-function pickMoreComplete(
-  a: WordMnemonic | null | undefined,
-  b: WordMnemonic | null | undefined,
+// ============================================
+// 固定词表索引：用户自导入词表缺少助记时，从这里兜底查找
+// ============================================
+
+/** word(小写) → 助记，来源为四级 / 高中 / 初中三份内置词表 */
+let builtInMnemonicIndex: Map<string, WordMnemonic> | null = null;
+
+/** 惰性构建内置词表索引（约 7000 词，只在首次使用时构建一次） */
+function getBuiltInIndex(): Map<string, WordMnemonic> {
+  if (builtInMnemonicIndex) return builtInMnemonicIndex;
+  const map = new Map<string, WordMnemonic>();
+  for (const book of [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK]) {
+    for (const sheet of book.sheets) {
+      for (const item of sheet.words) {
+        const extra = item.extra;
+        if (!extra) continue;
+        const key = item.word.trim().toLowerCase();
+        if (!key) continue;
+        // 同一单词在多份词表里出现时，保留字段更完整的那份
+        const prev = map.get(key);
+        if (!prev || completeness(extra) > completeness(prev)) map.set(key, extra);
+      }
+    }
+  }
+  builtInMnemonicIndex = map;
+  return map;
+}
+
+/** 以 base 为准，用 donor 补全 base 里缺失的字段（不覆盖已有内容） */
+function fillGaps(
+  base: WordMnemonic | null | undefined,
+  donor: WordMnemonic | null | undefined,
 ): WordMnemonic | null {
-  const sa = completeness(a);
-  const sb = completeness(b);
-  if (!a && !b) return null;
-  if (!a) return b!;
-  if (!b) return a;
-  return sa >= sb ? a : b;
+  if (!base) return donor || null;
+  if (!donor) return base;
+  return {
+    ...base,
+    phonetic: base.phonetic || donor.phonetic,
+    etymology: base.etymology || donor.etymology,
+    rhyme: base.rhyme || donor.rhyme,
+    quick: base.quick || donor.quick,
+    caution: base.caution || donor.caution,
+    splitParts: base.splitParts?.length ? base.splitParts : donor.splitParts,
+    family: base.family?.length ? base.family : donor.family,
+  };
 }

@@ -3,7 +3,7 @@
  * 这样用户即使刷新页面或关闭浏览器，再次打开时已上传的词表仍然在
  */
 
-import type { VocabularyBook, ReadingPassage, ListeningLesson } from '@/types';
+import type { VocabularyBook, ReadingPassage, ListeningLesson, ListeningEntry } from '@/types';
 
 // localStorage 里存词表使用的"键名"，相当于抽屉的标签
 const STORAGE_KEY = 'vocabulary_books_storage';
@@ -16,6 +16,9 @@ const STARRED_WORDS_KEY = 'starred_words_storage';
 
 // localStorage 里存听力精听材料的键名
 const LISTENING_LESSONS_KEY = 'listening_lessons_storage';
+
+// localStorage 里存听力精听「目录」条目的键名（网页本体存在 IndexedDB）
+const LISTENING_ENTRIES_KEY = 'listening_entries_storage';
 
 /**
  * 把当前所有的词表列表保存到浏览器本地
@@ -135,6 +138,39 @@ export function clearListeningLessons(): void {
   localStorage.removeItem(LISTENING_LESSONS_KEY);
 }
 
+// ============================================
+// 以下是「听力精听目录」模块的存储
+//   目录条目本身很小（标题 / 链接 / 句数 / 顺序），直接存 localStorage；
+//   导入的 .html 网页本体体积大（内嵌音频），由 htmlStore.ts 存到 IndexedDB。
+// ============================================
+
+/** 保存听力精听目录条目 */
+export function saveListeningEntries(entries: ListeningEntry[]): void {
+  try {
+    localStorage.setItem(LISTENING_ENTRIES_KEY, JSON.stringify(entries));
+  } catch (e) {
+    console.error('保存听力目录失败', e);
+  }
+}
+
+/** 读取听力精听目录条目 */
+export function loadListeningEntries(): ListeningEntry[] {
+  try {
+    const raw = localStorage.getItem(LISTENING_ENTRIES_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? (arr as ListeningEntry[]) : [];
+  } catch (e) {
+    console.error('读取听力目录失败', e);
+    return [];
+  }
+}
+
+/** 清空听力精听目录条目 */
+export function clearListeningEntries(): void {
+  localStorage.removeItem(LISTENING_ENTRIES_KEY);
+}
+
 /**
  * 清空所有和本应用相关的 localStorage 数据
  */
@@ -143,6 +179,7 @@ export function clearAllStorage(): void {
   clearReadingPassages();
   clearStarredWords();
   clearListeningLessons();
+  clearListeningEntries();
 }
 
 // ============================================

@@ -228,9 +228,10 @@ export default function UploadPage() {
               <BookOpen className="h-4 w-4" />
               背单词
             </span>
+            {/* 听力精听：进入精听目录页（页内「上传音频」再跳外部拆分工具） */}
             <button
               onClick={() => navigate('/listening')}
-              className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-white hover:text-emerald-700"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow transition hover:from-indigo-500 hover:to-blue-500"
             >
               <Volume2 className="h-4 w-4" />
               听力精听
