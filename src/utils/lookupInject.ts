@@ -99,23 +99,19 @@ const LOOKUP_SCRIPT = String.raw`
     head.appendChild(close);
     card.appendChild(head);
 
-    // 音标行：英 / 美 + 喇叭
-    if (data.uk || data.us) {
+    // 音标行：单词始终显示 英 / 美 两个喇叭；有 IPA 时顺带显示音标
+    if (data.isWord) {
       var pron = el('div', 'pron');
-      if (data.uk) {
-        var uk = el('span', 'pronItem');
-        uk.appendChild(el('span', 'pronLabel', '英'));
-        uk.appendChild(el('span', 'ipa', data.uk));
-        uk.appendChild(speakerButton(function () { playWord(data.title, 1, data.ukAudio); }));
-        pron.appendChild(uk);
-      }
-      if (data.us) {
-        var us = el('span', 'pronItem');
-        us.appendChild(el('span', 'pronLabel', '美'));
-        us.appendChild(el('span', 'ipa', data.us));
-        us.appendChild(speakerButton(function () { playWord(data.title, 2, data.usAudio); }));
-        pron.appendChild(us);
-      }
+      var uk = el('span', 'pronItem');
+      uk.appendChild(el('span', 'pronLabel', '英'));
+      if (data.uk) uk.appendChild(el('span', 'ipa', data.uk));
+      uk.appendChild(speakerButton(function () { playPronunciation(data.title, 'uk'); }));
+      pron.appendChild(uk);
+      var us = el('span', 'pronItem');
+      us.appendChild(el('span', 'pronLabel', '美'));
+      if (data.us) us.appendChild(el('span', 'ipa', data.us));
+      us.appendChild(speakerButton(function () { playPronunciation(data.title, 'us'); }));
+      pron.appendChild(us);
       card.appendChild(pron);
     }
 
@@ -168,23 +164,65 @@ const LOOKUP_SCRIPT = String.raw`
     setTimeout(place, 60);
   }
 
-  // ---------- 发音 ----------
+  // ---------- 发音（有道优先，失败按原形/小写/词根重试，最后百度） ----------
 
-  /** 有道发音优先（英 type=1 / 美 type=2），失败时用开放词典的音频兜底 */
-  function playWord(word, type, fallback) {
-    var src = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(word) + '&type=' + type;
-    try {
-      var audio = new Audio(src);
-      var playFallback = function () {
-        if (!fallback) return;
-        try { new Audio(fallback).play(); } catch (e) { /* 忽略 */ }
-      };
-      audio.onerror = playFallback;
-      var p = audio.play();
-      if (p && p.catch) p.catch(playFallback);
-    } catch (e) {
-      if (fallback) { try { new Audio(fallback).play(); } catch (e2) { /* 忽略 */ } }
+  /** 生成可能的词形：原形、小写、去复数/过去式/进行时等后缀的词根 */
+  function wordForms(w) {
+    var lower = w.toLowerCase();
+    var forms = [w, lower];
+    var push = function (s) {
+      if (s && s.length > 2 && forms.indexOf(s) < 0) forms.push(s);
+    };
+    if (/ies$/.test(lower)) push(lower.slice(0, -3) + 'y');
+    if (/es$/.test(lower)) push(lower.slice(0, -2));
+    if (/s$/.test(lower) && !/ss$/.test(lower)) push(lower.slice(0, -1));
+    if (/ed$/.test(lower)) {
+      push(lower.slice(0, -2));
+      push(lower.slice(0, -1)); // created -> create, lived -> live
     }
+    if (/ing$/.test(lower)) {
+      push(lower.slice(0, -3));
+      push(lower.slice(0, -3) + 'e'); // running -> runne? 由前面去掉
+      // 双写辅音还原：running -> run
+      var stem = lower.slice(0, -3);
+      if (stem.length > 2 && stem.slice(-1) === stem.slice(-2, -1)) {
+        push(stem.slice(0, -1));
+      }
+    }
+    return forms;
+  }
+
+  /** 有道发音（type=1 英 / type=2 美） → 百度 TTS（lan=uk 英 / lan=en 美） */
+  function audioUrls(word, accent) {
+    var youdaoType = accent === 'uk' ? 1 : 2;
+    var baiduLan = accent === 'uk' ? 'uk' : 'en';
+    var forms = wordForms(word);
+    var urls = [];
+    for (var i = 0; i < forms.length; i++) {
+      urls.push('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(forms[i]) + '&type=' + youdaoType);
+    }
+    // 百度 TTS 兜底（用原词，百度对变形词支持较好）
+    urls.push('https://fanyi.baidu.com/gettts?lan=' + baiduLan + '&text=' + encodeURIComponent(word) + '&spd=3&source=web');
+    return urls;
+  }
+
+  /** 依次尝试一组音频 URL，成功即播放，全部失败则静默 */
+  function playChain(urls) {
+    var i = 0;
+    function next() {
+      if (i >= urls.length) return;
+      try {
+        var audio = new Audio(urls[i++]);
+        audio.onerror = next;
+        var p = audio.play();
+        if (p && p.catch) p.catch(next);
+      } catch (e) { next(); }
+    }
+    next();
+  }
+
+  function playPronunciation(word, accent) {
+    playChain(audioUrls(word, accent));
   }
 
   // ---------- 数据源 ----------
@@ -237,36 +275,46 @@ const LOOKUP_SCRIPT = String.raw`
     );
   }
 
-  /** 英/美音标 + 音频（有道接口不允许浏览器跨域，这里用开放的 dictionaryapi.dev 补音标） */
+  /** 英/美音标：依次尝试原形、小写、去词缀词根（复数/过去式/进行时等） */
   function fetchPhonetics(word, cb) {
     var empty = { uk: '', us: '', ukAudio: '', usAudio: '' };
-    try {
-      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word))
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (arr) {
-          if (!Array.isArray(arr) || !arr.length) { cb(empty); return; }
-          var out = { uk: '', us: '', ukAudio: '', usAudio: '' };
-          for (var i = 0; i < arr.length; i++) {
-            var phs = (arr[i] && arr[i].phonetics) || [];
-            for (var j = 0; j < phs.length; j++) {
-              var p = phs[j] || {};
-              var audio = String(p.audio || '');
-              var text = String(p.text || '');
-              if (!out.us && /[-_]us\./i.test(audio)) { out.us = text; out.usAudio = audio; }
-              if (!out.uk && /[-_]uk\./i.test(audio)) { out.uk = text; out.ukAudio = audio; }
+    var forms = wordForms(word);
+
+    function tryAt(idx, acc) {
+      if (idx >= forms.length) { cb(acc || empty); return; }
+      try {
+        fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(forms[idx]))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (arr) {
+            var found = null;
+            if (Array.isArray(arr) && arr.length) {
+              found = { uk: '', us: '', ukAudio: '', usAudio: '' };
+              for (var i = 0; i < arr.length; i++) {
+                var phs = (arr[i] && arr[i].phonetics) || [];
+                for (var j = 0; j < phs.length; j++) {
+                  var p = phs[j] || {};
+                  var audio = String(p.audio || '');
+                  var text = String(p.text || '');
+                  if (!found.us && /[-_]us\./i.test(audio)) { found.us = text; found.usAudio = audio; }
+                  if (!found.uk && /[-_]uk\./i.test(audio)) { found.uk = text; found.ukAudio = audio; }
+                }
+              }
+              if (!found.uk && !found.us) {
+                var single = (arr[0] && arr[0].phonetic) || '';
+                if (!single && arr[0] && arr[0].phonetics && arr[0].phonetics[0]) {
+                  single = arr[0].phonetics[0].text || '';
+                }
+                found.uk = single;
+              }
+              if (!found.uk && !found.us) found = null;
             }
-          }
-          if (!out.uk && !out.us) {
-            var single = (arr[0] && arr[0].phonetic) || '';
-            if (!single && arr[0] && arr[0].phonetics && arr[0].phonetics[0]) {
-              single = arr[0].phonetics[0].text || '';
-            }
-            out.uk = single;
-          }
-          cb(out);
-        })
-        .catch(function () { cb(empty); });
-    } catch (e) { cb(empty); }
+            if (found) cb(found); else tryAt(idx + 1, acc);
+          })
+          .catch(function () { tryAt(idx + 1, acc); });
+      } catch (e) { tryAt(idx + 1, acc); }
+    }
+
+    tryAt(0, empty);
   }
 
   /** MyMemory 开源翻译（最后兜底） */
@@ -287,7 +335,7 @@ const LOOKUP_SCRIPT = String.raw`
     var key = text.toLowerCase();
     if (cache[key]) { show(cache[key], rect); return; }
 
-    show({ title: text, loading: true, defs: [], related: [], source: '' }, rect);
+    show({ title: text, loading: true, defs: [], related: [], source: '', isWord: isWord }, rect);
 
     function finishData(data) {
       cache[key] = data;
@@ -296,6 +344,7 @@ const LOOKUP_SCRIPT = String.raw`
     }
 
     function withPhonetics(data) {
+      data.isWord = isWord;
       if (!isWord) { finishData(data); return; }
       fetchPhonetics(text, function (ph) {
         data.uk = ph.uk;
