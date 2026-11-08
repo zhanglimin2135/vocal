@@ -6,9 +6,9 @@
  * 所以在打开前把下面这段脚本插到 </body> 之前，给它加上：
  *
  *   - 在完整版文本里选中单词 / 短语 / 句子 → 自动弹出释义卡片（无需额外点击）
- *   - 数据源优先「有道翻译」（词典 JSONP 接口，不受跨域限制）
- *   - 有道查不到时：单词补音标（dictionaryapi.dev）+ MyMemory 翻译兜底
- *   - 卡片样式尽量贴近有道词典：单词、音标、词性释义、相关释义、来源
+ *   - 释义优先「有道词典」，其次「百度翻译」，最后 MyMemory 兜底
+ *   - 单词附带英/美两套音标与发音（发音走有道发音接口，失败时用开放词典音频兜底）
+ *   - 卡片样式贴近有道词典：单词标题、英 / 美 音标、喇叭按钮、词性释义、来源
  *
  * 说明：脚本运行在独立页面的 Shadow DOM 里，样式与播放页互不影响。
  */
@@ -26,22 +26,28 @@ const LOOKUP_SCRIPT = String.raw`
 
   var style = document.createElement('style');
   style.textContent = [
-    '.card{position:absolute;box-sizing:border-box;background:#fff;border-radius:14px;',
+    '.card{position:absolute;box-sizing:border-box;background:#fff;border-radius:16px;',
     'box-shadow:0 12px 40px rgba(15,23,42,.18),0 2px 8px rgba(15,23,42,.08);',
-    'border:1px solid #e8ecf3;padding:14px 16px 12px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
+    'border:1px solid #edf0f5;padding:16px 18px 12px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
     '"PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;display:none;}',
     '.head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}',
-    '.title{font-size:19px;font-weight:700;line-height:1.3;word-break:break-word;}',
-    '.close{border:0;background:transparent;color:#9aa4b2;font-size:20px;line-height:1;cursor:pointer;',
-    'padding:0 2px;margin-top:-2px;}',
-    '.close:hover{color:#4b5563;}',
-    '.phonetic{margin-top:6px;font-size:13px;color:#6b7280;font-family:Georgia,"Times New Roman",serif;}',
-    '.divider{height:1px;background:#eef1f6;margin:9px 0;}',
-    '.def{font-size:14px;line-height:1.65;color:#374151;margin:0 0 4px;word-break:break-word;}',
-    '.def b{font-weight:600;color:#111827;}',
-    '.related{font-size:12px;line-height:1.6;color:#8b93a1;margin-top:6px;word-break:break-word;}',
+    '.title{font-size:22px;font-weight:700;line-height:1.25;word-break:break-word;letter-spacing:-.2px;}',
+    '.close{border:0;background:transparent;color:#b6bdc8;font-size:22px;line-height:1;cursor:pointer;',
+    'padding:0 2px;margin-top:-3px;transition:color .15s;}',
+    '.close:hover{color:#6b7280;}',
+    '.pron{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}',
+    '.pronItem{display:inline-flex;align-items:center;gap:6px;}',
+    '.pronLabel{font-size:13px;color:#9aa4b2;}',
+    '.ipa{font-size:13.5px;color:#4b5563;font-family:Georgia,"Times New Roman",serif;}',
+    '.spk{border:0;background:transparent;padding:0;cursor:pointer;display:inline-flex;align-items:center;',
+    'color:#7c8696;transition:color .15s;}',
+    '.spk:hover{color:#4f46e5;}',
+    '.spk svg{width:17px;height:17px;display:block;}',
+    '.divider{height:1px;background:#eef1f6;margin:11px 0 9px;}',
+    '.def{font-size:14.5px;line-height:1.75;color:#374151;margin:0 0 5px;word-break:break-word;}',
+    '.related{font-size:12px;line-height:1.6;color:#8b93a1;margin-top:7px;word-break:break-word;}',
     '.related span{color:#6b7280;}',
-    '.foot{margin-top:9px;display:flex;align-items:center;justify-content:space-between;gap:8px;}',
+    '.foot{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}',
     '.src{font-size:11px;color:#a3aab6;}',
     '.hint{font-size:12px;color:#9aa4b2;}',
     '.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6366f1;margin-right:6px;',
@@ -68,6 +74,21 @@ const LOOKUP_SCRIPT = String.raw`
     card.style.display = 'none';
   }
 
+  function speakerButton(onClick) {
+    var btn = document.createElement('button');
+    btn.className = 'spk';
+    btn.type = 'button';
+    btn.title = '播放发音';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path>' +
+      '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>';
+    btn.onclick = function (e) {
+      e.stopPropagation();
+      onClick();
+    };
+    return btn;
+  }
+
   function render(data) {
     card.innerHTML = '';
     var head = el('div', 'head');
@@ -78,7 +99,26 @@ const LOOKUP_SCRIPT = String.raw`
     head.appendChild(close);
     card.appendChild(head);
 
-    if (data.phonetic) card.appendChild(el('div', 'phonetic', data.phonetic));
+    // 音标行：英 / 美 + 喇叭
+    if (data.uk || data.us) {
+      var pron = el('div', 'pron');
+      if (data.uk) {
+        var uk = el('span', 'pronItem');
+        uk.appendChild(el('span', 'pronLabel', '英'));
+        uk.appendChild(el('span', 'ipa', data.uk));
+        uk.appendChild(speakerButton(function () { playWord(data.title, 1, data.ukAudio); }));
+        pron.appendChild(uk);
+      }
+      if (data.us) {
+        var us = el('span', 'pronItem');
+        us.appendChild(el('span', 'pronLabel', '美'));
+        us.appendChild(el('span', 'ipa', data.us));
+        us.appendChild(speakerButton(function () { playWord(data.title, 2, data.usAudio); }));
+        pron.appendChild(us);
+      }
+      card.appendChild(pron);
+    }
+
     card.appendChild(el('div', 'divider'));
 
     if (data.loading) {
@@ -105,19 +145,19 @@ const LOOKUP_SCRIPT = String.raw`
     card.appendChild(foot);
   }
 
+  var lastRect = { left: 0, top: 0, bottom: 0, right: 0 };
+
   function place() {
     if (card.style.display === 'none') return;
-    var w = Math.min(340, window.innerWidth - 24);
+    var w = Math.min(360, window.innerWidth - 24);
     card.style.width = w + 'px';
-    var h = card.offsetHeight || 120;
+    var h = card.offsetHeight || 130;
     var left = Math.min(Math.max(12, lastRect.left), window.innerWidth - w - 12);
     var top = lastRect.bottom + 10;
     if (top + h > window.innerHeight - 12) top = Math.max(12, lastRect.top - h - 10);
     card.style.left = left + 'px';
     card.style.top = top + 'px';
   }
-
-  var lastRect = { left: 0, top: 0, bottom: 0, right: 0 };
 
   function show(data, rect) {
     lastRect = rect;
@@ -128,57 +168,108 @@ const LOOKUP_SCRIPT = String.raw`
     setTimeout(place, 60);
   }
 
+  // ---------- 发音 ----------
+
+  /** 有道发音优先（英 type=1 / 美 type=2），失败时用开放词典的音频兜底 */
+  function playWord(word, type, fallback) {
+    var src = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(word) + '&type=' + type;
+    try {
+      var audio = new Audio(src);
+      var playFallback = function () {
+        if (!fallback) return;
+        try { new Audio(fallback).play(); } catch (e) { /* 忽略 */ }
+      };
+      audio.onerror = playFallback;
+      var p = audio.play();
+      if (p && p.catch) p.catch(playFallback);
+    } catch (e) {
+      if (fallback) { try { new Audio(fallback).play(); } catch (e2) { /* 忽略 */ } }
+    }
+  }
+
   // ---------- 数据源 ----------
 
-  /** 有道词典建议接口（支持 JSONP，浏览器可直接请求） */
-  function youdaoSuggest(text, cb) {
-    var name = '__yd_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+  function jsonp(url, paramName, namePrefix, cb, timeout) {
+    var name = namePrefix + Date.now() + '_' + Math.floor(Math.random() * 1e6);
     var script = document.createElement('script');
     var done = false;
-    var timer = setTimeout(function () { finish(null); }, 7000);
+    var timer = setTimeout(function () { finish(null); }, timeout || 7000);
 
-    function finish(entries) {
+    function finish(payload) {
       if (done) return;
       done = true;
       clearTimeout(timer);
       try { delete window[name]; } catch (e) { window[name] = undefined; }
       if (script.parentNode) script.parentNode.removeChild(script);
-      cb(entries);
+      cb(payload);
     }
 
-    window[name] = function (res) {
-      var entries = res && res.data && res.data.entries;
-      finish(Array.isArray(entries) ? entries : null);
-    };
+    window[name] = finish;
     script.onerror = function () { finish(null); };
-    script.src = 'https://dict.youdao.com/suggest?num=5&ver=3.0&doctype=json&cache=false&le=en&q=' +
-      encodeURIComponent(text) + '&callback=' + name;
+    script.src = url + '&' + paramName + '=' + name;
     (document.head || document.documentElement).appendChild(script);
   }
 
-  /** 音标（有道接口不允许浏览器跨域，这里用开放的 dictionaryapi.dev 补音标） */
-  function fetchPhonetic(word, cb) {
+  /** 有道词典建议接口（JSONP 参数名 callback）：返回词性 + 中文释义 */
+  function youdaoSuggest(text, cb) {
+    jsonp(
+      'https://dict.youdao.com/suggest?num=5&ver=3.0&doctype=json&cache=false&le=en&q=' +
+        encodeURIComponent(text),
+      'callback',
+      '__yd_cb_',
+      function (res) {
+        var entries = res && res.data && res.data.entries;
+        cb(Array.isArray(entries) ? entries : null);
+      }
+    );
+  }
+
+  /** 百度翻译词典建议接口（JSONP 参数名 cb）：k=词, v=中文释义 */
+  function baiduSuggest(text, cb) {
+    jsonp(
+      'https://fanyi.baidu.com/sug?kw=' + encodeURIComponent(text),
+      'cb',
+      '__bd_cb_',
+      function (res) {
+        var list = res && res.data;
+        cb(Array.isArray(list) ? list : null);
+      }
+    );
+  }
+
+  /** 英/美音标 + 音频（有道接口不允许浏览器跨域，这里用开放的 dictionaryapi.dev 补音标） */
+  function fetchPhonetics(word, cb) {
+    var empty = { uk: '', us: '', ukAudio: '', usAudio: '' };
     try {
       fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word))
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (arr) {
-          var ph = '';
-          if (Array.isArray(arr) && arr.length) {
-            var first = arr[0];
-            if (first.phonetic) ph = first.phonetic;
-            if (!ph && Array.isArray(first.phonetics)) {
-              for (var i = 0; i < first.phonetics.length; i++) {
-                if (first.phonetics[i] && first.phonetics[i].text) { ph = first.phonetics[i].text; break; }
-              }
+          if (!Array.isArray(arr) || !arr.length) { cb(empty); return; }
+          var out = { uk: '', us: '', ukAudio: '', usAudio: '' };
+          for (var i = 0; i < arr.length; i++) {
+            var phs = (arr[i] && arr[i].phonetics) || [];
+            for (var j = 0; j < phs.length; j++) {
+              var p = phs[j] || {};
+              var audio = String(p.audio || '');
+              var text = String(p.text || '');
+              if (!out.us && /[-_]us\./i.test(audio)) { out.us = text; out.usAudio = audio; }
+              if (!out.uk && /[-_]uk\./i.test(audio)) { out.uk = text; out.ukAudio = audio; }
             }
           }
-          cb(ph);
+          if (!out.uk && !out.us) {
+            var single = (arr[0] && arr[0].phonetic) || '';
+            if (!single && arr[0] && arr[0].phonetics && arr[0].phonetics[0]) {
+              single = arr[0].phonetics[0].text || '';
+            }
+            out.uk = single;
+          }
+          cb(out);
         })
-        .catch(function () { cb(''); });
-    } catch (e) { cb(''); }
+        .catch(function () { cb(empty); });
+    } catch (e) { cb(empty); }
   }
 
-  /** MyMemory 开源翻译（句子 / 有道查不到时的兜底） */
+  /** MyMemory 开源翻译（最后兜底） */
   function translateMemory(text, cb) {
     try {
       fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|zh-CN')
@@ -204,6 +295,27 @@ const LOOKUP_SCRIPT = String.raw`
       show(data, rect);
     }
 
+    function withPhonetics(data) {
+      if (!isWord) { finishData(data); return; }
+      fetchPhonetics(text, function (ph) {
+        data.uk = ph.uk;
+        data.us = ph.us;
+        data.ukAudio = ph.ukAudio;
+        data.usAudio = ph.usAudio;
+        finishData(data);
+      });
+    }
+
+    function memoryFallback() {
+      translateMemory(text, function (zh) {
+        withPhonetics({
+          title: text, loading: false, defs: zh ? [zh] : [], related: [],
+          source: zh ? 'MyMemory 翻译' : '',
+        });
+      });
+    }
+
+    // 1) 有道词典
     youdaoSuggest(text, function (entries) {
       if (entries && entries.length) {
         var defs = [];
@@ -214,38 +326,35 @@ const LOOKUP_SCRIPT = String.raw`
           if (i === 0) defs.push(item.explain);
           else if (related.length < 3) related.push(item.explain);
         }
-        var data = { title: text, loading: false, defs: defs, related: related, phonetic: '', source: '有道翻译' };
-        if (isWord) {
-          fetchPhonetic(text, function (ph) {
-            data.phonetic = ph || '';
-            finishData(data);
-          });
-        } else {
-          finishData(data);
+        if (defs.length) {
+          withPhonetics({ title: text, loading: false, defs: defs, related: related, source: '有道翻译' });
+          return;
         }
-        return;
       }
 
-      // 有道没有收录 → 音标 + MyMemory 兜底
-      if (isWord) {
-        fetchPhonetic(text, function (ph) {
-          translateMemory(text, function (zh) {
-            finishData({
-              title: text, loading: false, phonetic: ph || '',
-              defs: zh ? [zh] : [], related: [],
-              source: zh ? 'MyMemory 翻译' : '',
-            });
-          });
-        });
-      } else {
-        translateMemory(text, function (zh) {
-          finishData({
-            title: text, loading: false, phonetic: '',
-            defs: zh ? [zh] : [], related: [],
-            source: zh ? 'MyMemory 翻译' : '',
-          });
-        });
-      }
+      // 2) 百度翻译
+      baiduSuggest(text, function (list) {
+        if (list && list.length) {
+          var defs2 = [];
+          var related2 = [];
+          var lower = text.toLowerCase();
+          for (var k = 0; k < list.length; k++) {
+            var it = list[k];
+            if (!it || !it.v) continue;
+            var same = String(it.k || '').toLowerCase() === lower;
+            if (same && defs2.length === 0) defs2.push(it.v);
+            else if (related2.length < 3) related2.push(it.k + '：' + it.v);
+          }
+          if (!defs2.length && list[0] && list[0].v) defs2.push(list[0].v);
+          if (defs2.length) {
+            withPhonetics({ title: text, loading: false, defs: defs2, related: related2, source: '百度翻译' });
+            return;
+          }
+        }
+
+        // 3) MyMemory 兜底
+        memoryFallback();
+      });
     });
   }
 
