@@ -18,11 +18,12 @@ import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Volume2, Plus, Link2, FileUp, GripVertical, Trash2, ExternalLink,
-  Music2, Loader2, X, Check, ListMusic, Sparkles, Lock,
+  Music2, Loader2, X, Check, ListMusic, Sparkles, Lock, Search,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import type { ListeningEntry, SentenceSegment } from '@/types';
 import { getHtmlPage, saveHtmlPage, deleteHtmlPage } from '@/utils/htmlStore';
+import { injectLookup } from '@/utils/lookupInject';
 import { cn } from '@/lib/utils';
 
 // ============================================
@@ -217,6 +218,8 @@ export default function ListeningPage() {
 
   // 排序模式（拖拽）
   const [sorting, setSorting] = useState(false);
+  // 目录搜索关键词
+  const [search, setSearch] = useState('');
   const dragFromRef = useRef<number | null>(null);
   const [dragOver, setDragOver] = useState<number | null>(null);
 
@@ -267,7 +270,9 @@ export default function ListeningPage() {
         alert('本地网页文件已丢失，请重新导入这份 .html');
         return;
       }
-      const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
+      // 打开前注入「划词查义」脚本：完整版文本里选中单词/句子自动显示释义（有道优先）
+      const patched = injectLookup(html);
+      const url = URL.createObjectURL(new Blob([patched], { type: 'text/html;charset=utf-8' }));
       window.open(url, '_blank', 'noopener,noreferrer');
       // 给新标签页留出加载时间后释放
       setTimeout(() => URL.revokeObjectURL(url), 60_000);
@@ -407,6 +412,14 @@ export default function ListeningPage() {
     moveListeningEntry(from, idx);
   };
 
+  // 搜索过滤：按名称匹配（不区分大小写）
+  const keyword = search.trim().toLowerCase();
+  const visibleEntries = keyword
+    ? entries.filter((e) => e.title.toLowerCase().includes(keyword))
+    : entries;
+  /** 可见条目 → 在原始目录中的位置（拖拽排序要用原始索引） */
+  const realIndex = (id: string) => entries.findIndex((e) => e.id === id);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50">
       {/* 顶部栏 */}
@@ -446,6 +459,25 @@ export default function ListeningPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* 搜索：按精听名称过滤目录 */}
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="搜索精听名称"
+                className="w-48 rounded-full border border-slate-200 bg-white py-2 pl-9 pr-8 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:w-60 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  title="清空搜索"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
             <button
               onClick={() => requireUnlock(() => { setDialog('link'); setImportError(''); })}
               className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50"
@@ -517,9 +549,26 @@ export default function ListeningPage() {
               </button>
             </div>
           </div>
+        ) : visibleEntries.length === 0 ? (
+          <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-white/70 px-8 py-14 text-center">
+            <Search className="mx-auto mb-3 h-8 w-8 text-slate-300" />
+            <h2 className="text-base font-semibold text-slate-700">没有找到匹配的精听</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              没有名称包含「{search.trim()}」的条目
+            </p>
+            <button
+              onClick={() => setSearch('')}
+              className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:text-indigo-700"
+            >
+              <X className="h-4 w-4" />
+              清空搜索
+            </button>
+          </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
-            {entries.map((entry, idx) => (
+            {visibleEntries.map((entry) => {
+              const idx = realIndex(entry.id);
+              return (
               <div
                 key={entry.id}
                 draggable={sorting}
@@ -593,7 +642,8 @@ export default function ListeningPage() {
                   )}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
