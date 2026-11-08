@@ -258,28 +258,26 @@ export default function ListeningPage() {
   >([]);
   const [pendingTitle, setPendingTitle] = useState('');
 
-  // 打开某个目录条目（需密码）
-  const openEntry = useCallback((entry: ListeningEntry) => {
-    requireUnlock(async () => {
-      if (entry.kind === 'link' && entry.url) {
-        window.open(entry.url, '_blank', 'noopener,noreferrer');
+  // 打开某个目录条目（点击目录或分享直接跳转，无需密码）
+  const openEntry = useCallback(async (entry: ListeningEntry) => {
+    if (entry.kind === 'link' && entry.url) {
+      window.open(entry.url, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (entry.kind === 'html' && entry.htmlKey) {
+      const html = await getHtmlPage(entry.htmlKey);
+      if (!html) {
+        alert('本地网页文件已丢失，请重新导入这份 .html');
         return;
       }
-      if (entry.kind === 'html' && entry.htmlKey) {
-        const html = await getHtmlPage(entry.htmlKey);
-        if (!html) {
-          alert('本地网页文件已丢失，请重新导入这份 .html');
-          return;
-        }
-        // 打开前注入「划词查义」脚本：完整版文本里选中单词/句子自动显示释义（有道优先）
-        const patched = injectLookup(html);
-        const url = URL.createObjectURL(new Blob([patched], { type: 'text/html;charset=utf-8' }));
-        window.open(url, '_blank', 'noopener,noreferrer');
-        // 给新标签页留出加载时间后释放
-        setTimeout(() => URL.revokeObjectURL(url), 60_000);
-      }
-    });
-  }, [requireUnlock]);
+      // 打开前注入「划词查义」脚本：完整版文本里选中单词/句子自动显示释义（有道优先）
+      const patched = injectLookup(html);
+      const url = URL.createObjectURL(new Blob([patched], { type: 'text/html;charset=utf-8' }));
+      window.open(url, '_blank', 'noopener,noreferrer');
+      // 给新标签页留出加载时间后释放
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    }
+  }, []);
 
   // 删除条目
   const handleDelete = useCallback((entry: ListeningEntry, e: React.MouseEvent) => {
