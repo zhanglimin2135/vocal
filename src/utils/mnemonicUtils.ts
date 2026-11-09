@@ -12,6 +12,7 @@ import { findCet4Mnemonic } from './cet4Parser';
 import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
 import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
 import { JUNIOR_EMBEDDED_BOOK } from '@/data/juniorEmbedded';
+import { TOEFL_EMBEDDED_BOOK } from '@/data/toeflEmbedded';
 
 const CACHE_KEY = 'vocal:mnemonic:v1';
 const CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 天
@@ -294,14 +295,14 @@ function completeness(m: WordMnemonic | null | undefined): number {
 // 固定词表索引：用户自导入词表缺少助记时，从这里兜底查找
 // ============================================
 
-/** word(小写) → 助记，来源为四级 / 高中 / 初中三份内置词表 */
+/** word(小写) → 助记，来源为四级 / 高中 / 初中 / 托福四份内置词表 */
 let builtInMnemonicIndex: Map<string, WordMnemonic> | null = null;
 
-/** 惰性构建内置词表索引（约 7000 词，只在首次使用时构建一次） */
+/** 惰性构建内置词表索引（约 1.1 万词，只在首次使用时构建一次） */
 function getBuiltInIndex(): Map<string, WordMnemonic> {
   if (builtInMnemonicIndex) return builtInMnemonicIndex;
   const map = new Map<string, WordMnemonic>();
-  for (const book of [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK]) {
+  for (const book of [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK, TOEFL_EMBEDDED_BOOK]) {
     for (const sheet of book.sheets) {
       for (const item of sheet.words) {
         const extra = item.extra;

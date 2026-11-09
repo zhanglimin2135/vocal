@@ -99,12 +99,14 @@ export default function UploadPage() {
 
   // useAppStore：从全局状态读取【词表列表】数组，展示用户已导入的所有词表
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
-  // 平台内置词表（四级词汇、高中词汇、初中词汇，随应用下发）
+  // 平台内置词表（四级词汇、高中词汇、初中词汇、托福词汇，随应用下发）
   const builtInBooks = useAppStore((s) => s.builtInBooks);
   // 高中词汇内置词表条目（用于卡片统计展示）
   const seniorBook = builtInBooks.find((b) => b.id === 'built-in-senior');
   // 初中词汇内置词表条目（用于卡片统计展示）
   const juniorBook = builtInBooks.find((b) => b.id === 'built-in-junior');
+  // 托福词汇内置词表条目（用于卡片统计展示）
+  const toeflBook = builtInBooks.find((b) => b.id === 'built-in-toefl');
   // useAppStore：从全局状态读取【添加词表】方法，解析完 Excel 后将词表存入全局状态
   const addVocabularyBook = useAppStore((s) => s.addVocabularyBook);
   // useAppStore：从全局状态读取【删除词表】方法，点击卡片删除按钮时移除对应词表
@@ -423,9 +425,12 @@ export default function UploadPage() {
               </div>
             </div>
 
-            {/* 托福词汇 —— 赶工中 */}
+            {/* 托福词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => alert('🚧 加急赶工中，敬请期待～')}
+              onClick={() => {
+                setCurrentBook('built-in-toefl');
+                navigate('/select');
+              }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -435,8 +440,11 @@ export default function UploadPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-base font-semibold text-slate-800">托福词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">40单元~1500词</p>
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    {toeflBook?.sheets.length ?? 0}单元{toeflBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                  </p>
                 </div>
+                <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
           </div>

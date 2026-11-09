@@ -16,6 +16,7 @@ import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningL
 import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
 import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
 import { JUNIOR_EMBEDDED_BOOK } from '@/data/juniorEmbedded';
+import { TOEFL_EMBEDDED_BOOK } from '@/data/toeflEmbedded';
 // 与 localStorage 读写的工具函数
 import {
   loadVocabularyBooks,
@@ -114,7 +115,7 @@ interface AppState {
 export const useAppStore = create<AppState>((set, get) => ({
   // ===== 初始默认值 =====
   vocabularyBooks: [],
-  builtInBooks: [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK],
+  builtInBooks: [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK, TOEFL_EMBEDDED_BOOK],
   currentBookId: null,
   studyConfig: null,
   listeningLessons: [],
