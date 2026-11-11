@@ -29,7 +29,6 @@ import {
   MessageSquareText,
   Send,
   Camera,
-  CheckCircle,
   Download,
   Timer,
   ChevronLeft,
@@ -362,6 +361,26 @@ export default function StudyPage() {
   }, [words, starredWords]);
 
   /**
+   * starredWordGroups - 标星（错词）按所属单元分组，用于「导出标星」弹窗分单元展示
+   *   分组顺序 = 单词在本次学习列表中首次出现的顺序，保证与上方单元名称一致
+   */
+  const starredWordGroups = useMemo<{ name: string; words: StudyWord[] }[]>(() => {
+    const order: string[] = [];
+    const map = new Map<string, StudyWord[]>();
+    for (const w of starredWordItems) {
+      const name = w.sheetName || '未命名单元';
+      let list = map.get(name);
+      if (!list) {
+        list = [];
+        map.set(name, list);
+        order.push(name);
+      }
+      list.push(w);
+    }
+    return order.map((name) => ({ name, words: map.get(name) as StudyWord[] }));
+  }, [starredWordItems]);
+
+  /**
    * starredAccuracy - 背诵准确率（计时背诵 / 导出错词共用）
    *   标星的单词视为错误，未标星的视为正确
    *   准确率 = (总词数 - 标星数) / 总词数
@@ -423,7 +442,7 @@ export default function StudyPage() {
 
   /**
    * reciteResultOpen - 背诵全部完成后显示「背诵结果」弹窗
-   *   - true：显示结果弹窗（单元名、单词数据、错误单词列表）
+   *   - true：显示结果弹窗（单元名 + 统计，不含错词列表）
    *   - 形式类似于「导出标星单词」弹窗
    */
   const [reciteResultOpen, setReciteResultOpen] = useState(false);
@@ -1109,6 +1128,37 @@ export default function StudyPage() {
     XLSX.writeFile(wb, `标星单词_${stamp}.xlsx`);
   };
 
+  /**
+   * handleCopyStarred - 复制「导出标星」弹窗内容时统一输出纯文本
+   *   - 单词与释义同一行（避免复制到别处被拆成两行）
+   *   - 单元与单元之间空一行
+   */
+  const handleCopyStarred = useCallback((e: ClipboardEvent) => {
+    const bookTitle = (currentBook?.fileName || '标星单词').replace(/\.(xlsx|xls)$/i, '');
+    const lines: string[] = [
+      bookTitle,
+      selectedSheetNames.join('、'),
+      `共 ${words.length} 词 · 错 ${starredWordItems.length} · 对 ${words.length - starredWordItems.length} · 准确率 ${starredAccuracy}%`,
+    ];
+    // 多个单元时，每个单元前空一行并带单元名称；单个单元时单元名已在头部列出
+    for (const group of starredWordGroups) {
+      lines.push('');
+      if (starredWordGroups.length > 1) lines.push(group.name);
+      for (const w of group.words) {
+        lines.push(`${w.word}  ${w.meaning}`);
+      }
+    }
+    e.clipboardData?.setData('text/plain', lines.join('\n'));
+    e.preventDefault();
+  }, [currentBook, selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
+
+  // 导出弹窗打开期间，拦截整页复制事件，保证复制出来的是同行格式的纯文本
+  useEffect(() => {
+    if (!exportModalOpen) return;
+    document.addEventListener('copy', handleCopyStarred);
+    return () => document.removeEventListener('copy', handleCopyStarred);
+  }, [exportModalOpen, handleCopyStarred]);
+
   // =========================
   // 【计时背诵模式】交互回调
   // =========================
@@ -1221,7 +1271,7 @@ export default function StudyPage() {
 
   /**
    * finishRecite - 全部单词背完后调用：关闭背诵弹窗，直接弹出「背诵结果」弹窗
-   *   结果弹窗展示：单元名、单词数据、错误单词列表（形式同导出标星弹窗）
+   *   结果弹窗只展示单元名与统计（总词数 / 对 / 准确率），不再列出错词
    */
   const finishRecite = () => {
     setReciteActive(false);
@@ -2293,7 +2343,7 @@ export default function StudyPage() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
           onClick={() => setExportModalOpen(false)}
         >
-          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          {/* 弹窗卡片：阻止点击冒泡关闭；复制由全局 copy 监听统一处理 */}
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
@@ -2311,26 +2361,28 @@ export default function StudyPage() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-200">
                   <Download className="h-6 w-6" />
                 </div>
-                <div>
-                  <h3 className="text-lg font-extrabold text-slate-800">
+                <div className="min-w-0">
+                  <h3 className="truncate text-lg font-extrabold text-slate-800">
                     {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
                     {(currentBook?.fileName || '标星单词').replace(/\.(xlsx|xls)$/i, '')}
                   </h3>
-                  <p className="text-xs text-slate-500">
-                    {/* 副标题：单元名称 · 总词数 · 错误数(标星) · 正确数(未标星) · 准确率 */}
-                    {selectedSheetNames.length === 1
-                      ? selectedSheetNames[0]
-                      : `${selectedSheetNames.length} 个单元`}
-                    {' · '}共<span className="font-bold text-slate-700"> {words.length} </span>词
-                    {' · '}错<span className="font-bold text-rose-500"> {starredWordItems.length} </span>
-                    {' · '}对<span className="font-bold text-emerald-600"> {words.length - starredWordItems.length} </span>
-                    {' · '}准确率<span className="font-bold text-slate-700"> {starredAccuracy}%</span>
-                  </p>
+                  {/* 副标题分两行：第一行单元名称（多个也用一行显示），第二行统计 */}
+                  <div className="mt-1 space-y-0.5">
+                    <p className="truncate text-xs font-medium leading-snug text-slate-600">
+                      {selectedSheetNames.join('、')}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      共<span className="font-bold text-slate-700"> {words.length} </span>词
+                      {' · '}错<span className="font-bold text-rose-500"> {starredWordItems.length} </span>
+                      {' · '}对<span className="font-bold text-emerald-600"> {words.length - starredWordItems.length} </span>
+                      {' · '}准确率<span className="font-bold text-slate-700"> {starredAccuracy}%</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 表格区域：可滚动，表头固定 */}
+            {/* 错词区域：按单元分组展示（多单元时先显示单元名，再显示该单元的错词） */}
             <div className="flex-1 overflow-auto px-6 py-4">
               {starredWordItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -2338,37 +2390,33 @@ export default function StudyPage() {
                   <p className="mt-3 text-sm text-slate-400">还没有标星任何单词</p>
                 </div>
               ) : (
-                <table className="w-full border-collapse text-left text-sm">
-                  {/* 表头不固定，随单词列表一起上下滚动 */}
-                  <thead>
-                    <tr>
-                      <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
-                        #
-                      </th>
-                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                        单词
-                      </th>
-                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                        释义
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {starredWordItems.map((w, idx) => (
-                      <tr key={w.uid} className="hover:bg-slate-50">
-                        <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
-                          {idx + 1}
-                        </td>
-                        <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
-                          {w.word}
-                        </td>
-                        <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
-                          {w.meaning}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="space-y-4">
+                  {starredWordGroups.map((group) => (
+                    <div key={group.name}>
+                      {/* 单元名称（只有多个单元时才显示分组标题） */}
+                      {starredWordGroups.length > 1 && (
+                        <h4 className="mb-1.5 flex items-center gap-2 text-xs font-bold text-slate-700">
+                          <span className="h-3.5 w-1 rounded-full bg-indigo-500" />
+                          {group.name}
+                        </h4>
+                      )}
+                      {/* 错词：直接列出单词 + 释义，两者各占一列、均左对齐 */}
+                      <ul className="divide-y divide-slate-100">
+                        {group.words.map((w) => (
+                          <li
+                            key={w.uid}
+                            className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-2 text-left"
+                          >
+                            <span className="text-left text-sm font-semibold tracking-tight text-slate-800">
+                              {w.word}
+                            </span>
+                            <span className="text-left text-xs text-slate-500">{w.meaning}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
@@ -2745,12 +2793,10 @@ export default function StudyPage() {
         );
       })()}
 
-      {/* ===== 背诵结果弹窗：全部背完后弹出，形式同导出标星弹窗 ===== */}
+      {/* ===== 背诵结果弹窗：全部背完后弹出（仅展示统计，不再展示错词列表） ===== */}
       {reciteResultOpen && (() => {
-        // 错误单词 = 背诵队列中标星的单词
-        const reciteWrongWords = reciteList.filter((w) => starredWords.includes(w.word));
         const total = reciteList.length;
-        const wrong = reciteWrongWords.length;
+        const wrong = reciteList.filter((w) => starredWords.includes(w.word)).length;
         const correct = total - wrong;
         const accuracy = total > 0 ? roundAccuracy((correct / total) * 100) : 100;
         // 单元名称：显示所有已选单元名（多单元时用顿号连接）
@@ -2793,33 +2839,7 @@ export default function StudyPage() {
                 </div>
               </div>
 
-              {/* 错误单词表格区域：可滚动，表头随内容一起滚动 */}
-              <div className="flex-1 overflow-auto px-6 py-4">
-                {reciteWrongWords.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <CheckCircle className="h-10 w-10 text-emerald-400" />
-                    <p className="mt-3 text-sm font-semibold text-emerald-600">全部掌握，没有错误单词！</p>
-                  </div>
-                ) : (
-                  <table className="w-full border-collapse text-left text-sm">
-                    <tbody>
-                      {reciteWrongWords.map((w, idx) => (
-                        <tr key={w.uid} className="hover:bg-slate-50">
-                          <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
-                            {idx + 1}
-                          </td>
-                          <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
-                            {w.word}
-                          </td>
-                          <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
-                            {w.meaning}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
+              {/* 错误单词列表已取消展示，仅保留顶部统计信息 */}
 
               {/* 底部操作区：关闭 */}
               <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">

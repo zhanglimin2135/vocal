@@ -216,8 +216,10 @@ export default function ListeningPage() {
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState('');
 
-  // 排序模式（拖拽）
+  // 排序模式（拖拽 + 序号输入）
   const [sorting, setSorting] = useState(false);
+  // 排序模式下每张卡片的「目标序号」输入框值（entry.id → 字符串）
+  const [rankInputs, setRankInputs] = useState<Record<string, string>>({});
   // 目录搜索关键词
   const [search, setSearch] = useState('');
   const dragFromRef = useRef<number | null>(null);
@@ -414,6 +416,24 @@ export default function ListeningPage() {
     moveListeningEntry(from, idx);
   };
 
+  /** 把 entry（1-based）移动到用户输入的目标序号；后面的自动后移 */
+  const moveToRank = (id: string, rankInput: string) => {
+    const from = realIndex(id);
+    const total = entries.length;
+    const raw = parseInt(rankInput, 10);
+    if (Number.isNaN(raw)) return;
+    // 目标序号 clamp 到 [1, total]
+    let to = Math.max(1, Math.min(total, raw)) - 1; // 转 0-based
+    if (from === to) return;
+    moveListeningEntry(from, to);
+    // 移动后清空这张卡片的输入框，避免显示旧值
+    setRankInputs((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
   // 搜索过滤：按名称匹配（不区分大小写）
   const keyword = search.trim().toLowerCase();
   const visibleEntries = keyword
@@ -511,10 +531,10 @@ export default function ListeningPage() {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/80 px-4 py-3">
             <p className="flex items-center gap-2 text-sm text-indigo-800">
               <Sparkles className="h-4 w-4" />
-              已生成新的目录：拖拽卡片调整顺序，完成后点右侧按钮
+              已生成新的目录：每张卡片左上角显示当前序号，输入目标序号（1 ~ {entries.length}）后回车或点「确定」即可移动
             </p>
             <button
-              onClick={() => setSorting(false)}
+              onClick={() => { setSorting(false); setRankInputs({}); }}
               className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
             >
               <Check className="h-4 w-4" />
@@ -570,6 +590,8 @@ export default function ListeningPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {visibleEntries.map((entry) => {
               const idx = realIndex(entry.id);
+              const rank = idx + 1; // 1-based 显示
+              const rankValue = rankInputs[entry.id] ?? '';
               return (
               <div
                 key={entry.id}
@@ -586,6 +608,10 @@ export default function ListeningPage() {
                   dragOver === idx && 'border-indigo-400 ring-2 ring-indigo-200',
                 )}
               >
+                {/* 序号徽章 —— 始终显示 */}
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-700 text-sm font-bold text-white shadow-md ring-1 ring-indigo-900/30">
+                  {rank}
+                </div>
                 {/* 拖拽手柄（排序模式显示） */}
                 {sorting && (
                   <GripVertical className="h-5 w-5 shrink-0 text-slate-300" />
@@ -621,6 +647,41 @@ export default function ListeningPage() {
                     {!!fmtDuration(entry.duration) && <span>{fmtDuration(entry.duration)}</span>}
                     <span>{fmtDate(entry.createdAt)}</span>
                   </p>
+                  {/* 排序模式：移动到序号输入框 */}
+                  {sorting && (
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-[11px] text-indigo-600">移动到序号</span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={entries.length}
+                        placeholder={String(rank)}
+                        value={rankValue}
+                        onChange={(e) => {
+                          const v = e.target.value.replace(/[^0-9]/g, '');
+                          setRankInputs((prev) => ({ ...prev, [entry.id]: v }));
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            moveToRank(entry.id, rankValue || String(rank));
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="h-7 w-16 rounded-md border border-indigo-200 bg-indigo-50/50 px-2 text-center text-sm font-semibold text-indigo-700 outline-none transition focus:border-indigo-400 focus:bg-white"
+                      />
+                      <span className="text-[11px] text-slate-400">/ {entries.length}</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          moveToRank(entry.id, rankValue || String(rank));
+                        }}
+                        className="rounded-md bg-indigo-600 px-3 py-1 text-[11px] font-semibold text-white transition hover:bg-indigo-500"
+                      >
+                        确定
+                      </button>
+                    </div>
+                  )}
                 </div>
                 {/* 操作 */}
                 <div className="flex shrink-0 items-center gap-1">
