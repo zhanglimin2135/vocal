@@ -91,6 +91,8 @@ interface AppState {
   removeListeningEntry: (id: string) => void;
   /** 拖拽排序：把 from 位置的条目移动到 to 位置，并重排 order */
   moveListeningEntry: (from: number, to: number) => void;
+  /** 按给定 id 顺序重排整个目录（用于分类内部调整顺序） */
+  reorderListeningEntries: (orderedIds: string[]) => void;
 
   // ===== 标星单词模块的操作方法 =====
   /** 切换某个单词的标星状态（已标星则取消，未标星则添加）—— 仅在当前学习会话生效 */
@@ -258,6 +260,25 @@ export const useAppStore = create<AppState>((set, get) => ({
       const next = list.map((e, i) => ({ ...e, order: i }));
       saveListeningEntries(next);
       return { listeningEntries: next };
+    }),
+
+  reorderListeningEntries: (orderedIds) =>
+    set((state) => {
+      const map = new Map(state.listeningEntries.map((e) => [e.id, e]));
+      const next: ListeningEntry[] = [];
+      // 1. 按传入顺序依次取出条目
+      for (const id of orderedIds) {
+        const item = map.get(id);
+        if (item) {
+          next.push(item);
+          map.delete(id);
+        }
+      }
+      // 2. 兜底：未出现在顺序列表里的条目追加到末尾，避免数据丢失
+      map.forEach((item) => next.push(item));
+      const ordered = next.map((e, i) => ({ ...e, order: i }));
+      saveListeningEntries(ordered);
+      return { listeningEntries: ordered };
     }),
 
   // ===== 标星单词模块的具体实现 =====

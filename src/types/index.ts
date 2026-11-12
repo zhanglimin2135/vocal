@@ -217,6 +217,15 @@ export interface ListeningLesson {
 }
 
 /**
+ * 精听目录「大类」
+ *   toefl-new：TOEFL（新版，默认归属）
+ *   toefl-old：TOEFL（旧版）
+ *   toefl-junior：TOEFL Junior
+ *   ielts：雅思（IELTS）
+ */
+export type ListeningCategory = 'toefl-new' | 'toefl-old' | 'toefl-junior' | 'ielts';
+
+/**
  * 听力精听「目录」条目（首页 → 听力精听 → 目录页）
  *   kind = 'link'：用户粘贴的分享链接，点击在新标签页打开外部播放页
  *   kind = 'html'：用户导入的「下载网页」.html 文件，解析出句数与时长，
@@ -226,6 +235,7 @@ export interface ListeningEntry {
   id: string;              // 唯一 ID
   title: string;           // 目录卡片标题
   kind: 'link' | 'html';   // 条目类型：外链 / 本地网页文件
+  category?: ListeningCategory; // 所属大类（旧数据无此字段时视为 toefl-new）
   url?: string;            // kind=link 时的分享链接
   htmlKey?: string;        // kind=html 时 IndexedDB 中的键
   lineCount?: number;      // 句数（kind=html 解析得出）

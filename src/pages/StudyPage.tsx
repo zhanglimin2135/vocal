@@ -441,13 +441,6 @@ export default function StudyPage() {
   const [reciteRevealed, setReciteRevealed] = useState(false);
 
   /**
-   * reciteResultOpen - 背诵全部完成后显示「背诵结果」弹窗
-   *   - true：显示结果弹窗（单元名 + 统计，不含错词列表）
-   *   - 形式类似于「导出标星单词」弹窗
-   */
-  const [reciteResultOpen, setReciteResultOpen] = useState(false);
-
-  /**
    * reciteKeyPressed - 快捷键触发的按钮按压状态（用于显示按键反馈）
    *   - 'remember'：刚按了 ↑ 键，记住按钮显示按压效果
    *   - 'mark'：刚按了 ↓ 键，标星按钮显示按压效果
@@ -1130,13 +1123,12 @@ export default function StudyPage() {
 
   /**
    * handleCopyStarred - 复制「导出标星」弹窗内容时统一输出纯文本
-   *   - 单词与释义同一行（避免复制到别处被拆成两行）
+   *   - 单词与释义用制表符分隔：粘贴到表格时单词落第一列、释义落第二列
+   *   - 不复制最上面的词表名称
    *   - 单元与单元之间空一行
    */
   const handleCopyStarred = useCallback((e: ClipboardEvent) => {
-    const bookTitle = (currentBook?.fileName || '标星单词').replace(/\.(xlsx|xls)$/i, '');
     const lines: string[] = [
-      bookTitle,
       selectedSheetNames.join('、'),
       `共 ${words.length} 词 · 错 ${starredWordItems.length} · 对 ${words.length - starredWordItems.length} · 准确率 ${starredAccuracy}%`,
     ];
@@ -1145,12 +1137,13 @@ export default function StudyPage() {
       lines.push('');
       if (starredWordGroups.length > 1) lines.push(group.name);
       for (const w of group.words) {
-        lines.push(`${w.word}  ${w.meaning}`);
+        // 制表符分隔，粘贴到 Excel / 表格时自动分列
+        lines.push(`${w.word}\t${w.meaning}`);
       }
     }
     e.clipboardData?.setData('text/plain', lines.join('\n'));
     e.preventDefault();
-  }, [currentBook, selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
+  }, [selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
 
   // 导出弹窗打开期间，拦截整页复制事件，保证复制出来的是同行格式的纯文本
   useEffect(() => {
@@ -1179,7 +1172,6 @@ export default function StudyPage() {
     setReciteSeconds(seconds);
     setReciteIndex(0);
     setReciteRemaining(seconds);
-    setReciteResultOpen(false);
     setRecitePickerOpen(false);
     setReciteActive(true);
   };
@@ -1270,12 +1262,13 @@ export default function StudyPage() {
   };
 
   /**
-   * finishRecite - 全部单词背完后调用：关闭背诵弹窗，直接弹出「背诵结果」弹窗
-   *   结果弹窗只展示单元名与统计（总词数 / 对 / 准确率），不再列出错词
+   * finishRecite - 全部单词背完后调用：关闭背诵蒙层，直接切换到「只看标星」视图
+   *   直接进入错词复盘，不再弹出结果统计弹窗
    */
   const finishRecite = () => {
     setReciteActive(false);
-    setReciteResultOpen(true);
+    // 有标星（没记住）的单词时自动打开「只看标星」，直接展示这些错词
+    if (useAppStore.getState().starredWords.length > 0) setShowStarredOnly(true);
   };
 
   /**
@@ -2793,67 +2786,6 @@ export default function StudyPage() {
         );
       })()}
 
-      {/* ===== 背诵结果弹窗：全部背完后弹出（仅展示统计，不再展示错词列表） ===== */}
-      {reciteResultOpen && (() => {
-        const total = reciteList.length;
-        const wrong = reciteList.filter((w) => starredWords.includes(w.word)).length;
-        const correct = total - wrong;
-        const accuracy = total > 0 ? roundAccuracy((correct / total) * 100) : 100;
-        // 单元名称：显示所有已选单元名（多单元时用顿号连接）
-        const unitName = selectedSheetNames.join('、');
-        return (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
-            onClick={() => setReciteResultOpen(false)}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
-            >
-              {/* 右上角关闭按钮 × */}
-              <button
-                onClick={() => setReciteResultOpen(false)}
-                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-              >
-                <X className="h-5 w-5" />
-              </button>
-              {/* 弹窗头部：图标 + 标题 + 说明 */}
-              <div className="border-b border-slate-100 px-6 py-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-violet-200">
-                    <Trophy className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-extrabold text-slate-800">
-                      {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
-                      {(currentBook?.fileName || '背诵结果').replace(/\.(xlsx|xls)$/i, '')}
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      {/* 副标题：单元名称 · 总词数 · 正确数 · 准确率 */}
-                      {unitName}
-                      {' · '}共<span className="font-bold text-slate-700"> {total} </span>词
-                      {' · '}对<span className="font-bold text-emerald-600"> {correct} </span>
-                      {' · '}准确率<span className="font-bold text-slate-700"> {accuracy}%</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 错误单词列表已取消展示，仅保留顶部统计信息 */}
-
-              {/* 底部操作区：关闭 */}
-              <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">
-                <button
-                  onClick={() => setReciteResultOpen(false)}
-                  className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
-                >
-                  关闭
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })()}
       {/* ===== 助记悬浮卡片：鼠标悬停「助记」按钮时在单词旁边出现，无遮罩、不模糊页面 ===== */}
       {mnemonicHover && (() => {
         const { word, left, top } = mnemonicHover;

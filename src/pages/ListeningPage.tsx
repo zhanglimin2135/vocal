@@ -21,10 +21,32 @@ import {
   Music2, Loader2, X, Check, ListMusic, Sparkles, Lock, Search,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
-import type { ListeningEntry, SentenceSegment } from '@/types';
+import type { ListeningCategory, ListeningEntry, SentenceSegment } from '@/types';
 import { getHtmlPage, saveHtmlPage, deleteHtmlPage } from '@/utils/htmlStore';
 import { injectLookup } from '@/utils/lookupInject';
 import { cn } from '@/lib/utils';
+
+// ============================================
+// 精听目录大类
+// ============================================
+
+/** 目录的四个大类（标签顺序即页面展示顺序） */
+export const LISTENING_CATEGORIES: { id: ListeningCategory; label: string }[] = [
+  { id: 'toefl-new', label: 'TOEFL（新版）' },
+  { id: 'toefl-old', label: 'TOEFL（旧版）' },
+  { id: 'toefl-junior', label: 'TOEFL Junior' },
+  { id: 'ielts', label: '雅思（IELTS）' },
+];
+
+/** 旧数据没有 category 字段，统一归入 TOEFL（新版） */
+export function categoryOf(entry: ListeningEntry): ListeningCategory {
+  return entry.category || 'toefl-new';
+}
+
+/** 分类 id → 显示名称 */
+export function categoryLabel(id: ListeningCategory): string {
+  return LISTENING_CATEGORIES.find((c) => c.id === id)?.label || 'TOEFL（新版）';
+}
 
 // ============================================
 // 工具函数（export 给 ListeningUpload / ListeningEditor 复用）
@@ -202,12 +224,49 @@ function fmtDate(ts: number): string {
 // 主组件
 // ============================================
 
+/**
+ * CategoryPicker - 导入时的「大类」选择器
+ *   上传（粘贴链接 / 导入网页）时必须选择归属哪一类
+ */
+function CategoryPicker({
+  value,
+  onChange,
+}: {
+  value: ListeningCategory;
+  onChange: (v: ListeningCategory) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      {LISTENING_CATEGORIES.map((c) => (
+        <button
+          key={c.id}
+          type="button"
+          onClick={() => onChange(c.id)}
+          className={cn(
+            'rounded-xl border px-3 py-2 text-xs font-semibold transition',
+            value === c.id
+              ? 'border-indigo-500 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-100'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200 hover:text-indigo-700',
+          )}
+        >
+          {c.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function ListeningPage() {
   const navigate = useNavigate();
   const entries = useAppStore((s) => s.listeningEntries);
   const addListeningEntry = useAppStore((s) => s.addListeningEntry);
   const removeListeningEntry = useAppStore((s) => s.removeListeningEntry);
-  const moveListeningEntry = useAppStore((s) => s.moveListeningEntry);
+  const reorderListeningEntries = useAppStore((s) => s.reorderListeningEntries);
+
+  // 当前选中的大类（默认 TOEFL 新版）
+  const [activeCategory, setActiveCategory] = useState<ListeningCategory>('toefl-new');
+  // 导入弹窗里选择的目标大类
+  const [formCategory, setFormCategory] = useState<ListeningCategory>('toefl-new');
 
   // 导入弹窗：null=关闭 / 'link'=粘贴链接
   const [dialog, setDialog] = useState<null | 'link'>(null);
@@ -222,8 +281,9 @@ export default function ListeningPage() {
   const [rankInputs, setRankInputs] = useState<Record<string, string>>({});
   // 目录搜索关键词
   const [search, setSearch] = useState('');
-  const dragFromRef = useRef<number | null>(null);
-  const [dragOver, setDragOver] = useState<number | null>(null);
+  // 拖拽排序：记录被拖拽条目的 id 与当前悬停的目标 id
+  const dragFromRef = useRef<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
 
   const htmlInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -328,6 +388,7 @@ export default function ListeningPage() {
       id: generateId(),
       title,
       kind: 'link',
+      category: formCategory,
       url,
       createdAt: Date.now(),
       order: entries.length,
@@ -336,6 +397,7 @@ export default function ListeningPage() {
     setDialog(null);
     setLinkInput('');
     setTitleInput('');
+    setActiveCategory(formCategory); // 切到导入的目标分类，便于看到新条目
     setSorting(true); // 抓取成功后自动回到目录并进入排序
   };
 
@@ -381,6 +443,7 @@ export default function ListeningPage() {
         id,
         title: name,
         kind: 'html',
+        category: formCategory,
         htmlKey: id,
         lineCount: current.lineCount,
         duration: current.duration,
@@ -390,6 +453,7 @@ export default function ListeningPage() {
       const rest = pendingFiles.slice(1);
       setPendingFiles(rest);
       setPendingTitle(rest[0]?.title || '');
+      setActiveCategory(formCategory); // 切到导入的目标分类，便于看到新条目
       if (rest.length === 0) setSorting(true);
     } catch (err) {
       console.error(err);
@@ -400,32 +464,37 @@ export default function ListeningPage() {
   };
 
 
-  // ===== 拖拽排序 =====
-  const onDragStart = (idx: number) => {
-    dragFromRef.current = idx;
-  };
-  const onDragOver = (idx: number, e: React.DragEvent) => {
-    e.preventDefault();
-    if (dragOver !== idx) setDragOver(idx);
-  };
-  const onDrop = (idx: number) => {
-    const from = dragFromRef.current;
-    dragFromRef.current = null;
-    setDragOver(null);
-    if (from === null) return;
-    moveListeningEntry(from, idx);
-  };
+  // ===== 当前分类下的条目 =====
+  const categoryEntries = entries.filter((e) => categoryOf(e) === activeCategory);
 
-  /** 把 entry（1-based）移动到用户输入的目标序号；后面的自动后移 */
-  const moveToRank = (id: string, rankInput: string) => {
-    const from = realIndex(id);
-    const total = entries.length;
+  // ===== 排序（仅作用于当前分类，其他分类的顺序不变） =====
+
+  /**
+   * moveEntryToRank - 在当前分类内把某个条目移动到目标序号（1-based）
+   *   后面的条目自动顺延，序号实时刷新
+   */
+  const moveEntryToRank = (id: string, rankInput: string) => {
+    const ids = categoryEntries.map((e) => e.id);
+    const from = ids.indexOf(id);
+    if (from < 0) return;
     const raw = parseInt(rankInput, 10);
     if (Number.isNaN(raw)) return;
-    // 目标序号 clamp 到 [1, total]
-    let to = Math.max(1, Math.min(total, raw)) - 1; // 转 0-based
+    // 目标序号 clamp 到 [1, 当前分类条目数]
+    const to = Math.max(1, Math.min(ids.length, raw)) - 1;
     if (from === to) return;
-    moveListeningEntry(from, to);
+    const nextIds = [...ids];
+    const [moved] = nextIds.splice(from, 1);
+    nextIds.splice(to, 0, moved);
+    // 重新拼出全局顺序：按分类顺序依次排列各分类的条目
+    const ordered: string[] = [];
+    for (const c of LISTENING_CATEGORIES) {
+      if (c.id === activeCategory) {
+        ordered.push(...nextIds);
+      } else {
+        ordered.push(...entries.filter((e) => categoryOf(e) === c.id).map((e) => e.id));
+      }
+    }
+    reorderListeningEntries(ordered);
     // 移动后清空这张卡片的输入框，避免显示旧值
     setRankInputs((prev) => {
       const next = { ...prev };
@@ -434,13 +503,31 @@ export default function ListeningPage() {
     });
   };
 
-  // 搜索过滤：按名称匹配（不区分大小写）
+  // ===== 拖拽排序（卡片之间） =====
+  const onDragStart = (id: string) => {
+    dragFromRef.current = id;
+  };
+  const onDragOver = (id: string, e: React.DragEvent) => {
+    e.preventDefault();
+    if (dragOverId !== id) setDragOverId(id);
+  };
+  const onDrop = (targetId: string) => {
+    const fromId = dragFromRef.current;
+    dragFromRef.current = null;
+    setDragOverId(null);
+    if (!fromId || fromId === targetId) return;
+    const targetIdx = categoryEntries.findIndex((e) => e.id === targetId);
+    if (targetIdx < 0) return;
+    moveEntryToRank(fromId, String(targetIdx + 1));
+  };
+
+  // 搜索过滤：按名称匹配（不区分大小写），范围仅限当前分类
   const keyword = search.trim().toLowerCase();
   const visibleEntries = keyword
-    ? entries.filter((e) => e.title.toLowerCase().includes(keyword))
-    : entries;
-  /** 可见条目 → 在原始目录中的位置（拖拽排序要用原始索引） */
-  const realIndex = (id: string) => entries.findIndex((e) => e.id === id);
+    ? categoryEntries.filter((e) => e.title.toLowerCase().includes(keyword))
+    : categoryEntries;
+  /** 条目在当前分类中的序号（1-based） */
+  const rankOf = (id: string) => categoryEntries.findIndex((e) => e.id === id) + 1;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50">
@@ -501,14 +588,14 @@ export default function ListeningPage() {
               )}
             </div>
             <button
-              onClick={() => requireUnlock(() => { setDialog('link'); setImportError(''); })}
+              onClick={() => requireUnlock(() => { setFormCategory(activeCategory); setDialog('link'); setImportError(''); })}
               className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50"
             >
               <Link2 className="h-4 w-4" />
               粘贴链接
             </button>
             <button
-              onClick={() => requireUnlock(() => htmlInputRef.current?.click())}
+              onClick={() => requireUnlock(() => { setFormCategory(activeCategory); htmlInputRef.current?.click(); })}
               disabled={importing}
               className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 disabled:opacity-60"
             >
@@ -526,12 +613,42 @@ export default function ListeningPage() {
           </div>
         </div>
 
+        {/* 大类切换：TOEFL 新版 / TOEFL 旧版 / TOEFL Junior / 雅思 */}
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          {LISTENING_CATEGORIES.map((c) => {
+            const count = entries.filter((e) => categoryOf(e) === c.id).length;
+            const active = c.id === activeCategory;
+            return (
+              <button
+                key={c.id}
+                onClick={() => { setActiveCategory(c.id); setSearch(''); }}
+                className={cn(
+                  'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition',
+                  active
+                    ? 'border-transparent bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md shadow-indigo-200'
+                    : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200 hover:text-indigo-700',
+                )}
+              >
+                {c.label}
+                <span
+                  className={cn(
+                    'rounded-full px-1.5 py-0.5 text-[11px] font-bold',
+                    active ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500',
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
         {/* 排序提示条 */}
-        {sorting && entries.length > 0 && (
+        {sorting && categoryEntries.length > 0 && (
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/80 px-4 py-3">
             <p className="flex items-center gap-2 text-sm text-indigo-800">
               <Sparkles className="h-4 w-4" />
-              已生成新的目录：每张卡片左上角显示当前序号，输入目标序号（1 ~ {entries.length}）后回车或点「确定」即可移动
+              已生成新的目录：每张卡片左上角显示当前序号，输入目标序号（1 ~ {categoryEntries.length}）后回车或点「确定」即可移动
             </p>
             <button
               onClick={() => { setSorting(false); setRankInputs({}); }}
@@ -544,7 +661,22 @@ export default function ListeningPage() {
         )}
 
         {/* 目录列表 */}
-        {entries.length === 0 ? (
+        {visibleEntries.length === 0 && keyword ? (
+          <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-white/70 px-8 py-14 text-center">
+            <Search className="mx-auto mb-3 h-8 w-8 text-slate-300" />
+            <h2 className="text-base font-semibold text-slate-700">没有找到匹配的精听</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              当前分类「{categoryLabel(activeCategory)}」下没有名称包含「{search.trim()}」的条目
+            </p>
+            <button
+              onClick={() => setSearch('')}
+              className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:text-indigo-700"
+            >
+              <X className="h-4 w-4" />
+              清空搜索
+            </button>
+          </div>
+        ) : entries.length === 0 ? (
           <div className="rounded-3xl border-2 border-dashed border-indigo-200 bg-white/70 px-8 py-16 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-500 shadow-lg shadow-indigo-200">
               <Music2 className="h-8 w-8 text-white" />
@@ -552,7 +684,7 @@ export default function ListeningPage() {
             <h2 className="text-base font-semibold text-slate-800">目录还是空的</h2>
             <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">
               点右上角「上传音频」去拆分音频，完成后把「分享 / 下载网页」的链接粘贴进来，
-              或直接导入下载好的 .html 网页文件
+              或直接导入下载好的 .html 网页文件（导入时选择所属大类）
             </p>
             <div className="mt-6 flex items-center justify-center gap-3">
               <button
@@ -563,7 +695,7 @@ export default function ListeningPage() {
                 上传音频
               </button>
               <button
-                onClick={() => requireUnlock(() => setDialog('link'))}
+                onClick={() => requireUnlock(() => { setFormCategory(activeCategory); setDialog('link'); })}
                 className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               >
                 <Link2 className="h-4 w-4" />
@@ -571,41 +703,53 @@ export default function ListeningPage() {
               </button>
             </div>
           </div>
-        ) : visibleEntries.length === 0 ? (
-          <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-white/70 px-8 py-14 text-center">
-            <Search className="mx-auto mb-3 h-8 w-8 text-slate-300" />
-            <h2 className="text-base font-semibold text-slate-700">没有找到匹配的精听</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              没有名称包含「{search.trim()}」的条目
+        ) : categoryEntries.length === 0 ? (
+          <div className="rounded-3xl border-2 border-dashed border-indigo-200 bg-white/70 px-8 py-16 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-500 shadow-lg shadow-indigo-200">
+              <Music2 className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-base font-semibold text-slate-800">
+              「{categoryLabel(activeCategory)}」分类下还没有精听
+            </h2>
+            <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">
+              点「粘贴链接」或「导入网页」添加，导入时选择「{categoryLabel(activeCategory)}」即可归入本类
             </p>
-            <button
-              onClick={() => setSearch('')}
-              className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:text-indigo-700"
-            >
-              <X className="h-4 w-4" />
-              清空搜索
-            </button>
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <button
+                onClick={() => requireUnlock(() => { setFormCategory(activeCategory); setDialog('link'); })}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5"
+              >
+                <Link2 className="h-4 w-4" />
+                粘贴链接
+              </button>
+              <button
+                onClick={() => requireUnlock(() => { setFormCategory(activeCategory); htmlInputRef.current?.click(); })}
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              >
+                <FileUp className="h-4 w-4" />
+                导入网页
+              </button>
+            </div>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {visibleEntries.map((entry) => {
-              const idx = realIndex(entry.id);
-              const rank = idx + 1; // 1-based 显示
+              const rank = rankOf(entry.id); // 当前分类内的 1-based 序号
               const rankValue = rankInputs[entry.id] ?? '';
               return (
               <div
                 key={entry.id}
                 draggable={sorting}
-                onDragStart={() => onDragStart(idx)}
-                onDragOver={(e) => onDragOver(idx, e)}
-                onDrop={() => onDrop(idx)}
-                onDragEnd={() => { dragFromRef.current = null; setDragOver(null); }}
+                onDragStart={() => onDragStart(entry.id)}
+                onDragOver={(e) => onDragOver(entry.id, e)}
+                onDrop={() => onDrop(entry.id)}
+                onDragEnd={() => { dragFromRef.current = null; setDragOverId(null); }}
                 onClick={() => { if (!sorting) openEntry(entry); }}
                 className={cn(
                   'group relative flex cursor-pointer items-center gap-4 rounded-2xl border bg-white p-4 shadow-sm transition-all',
                   'border-slate-200/80 hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg',
                   sorting && 'cursor-grab active:cursor-grabbing',
-                  dragOver === idx && 'border-indigo-400 ring-2 ring-indigo-200',
+                  dragOverId === entry.id && 'border-indigo-400 ring-2 ring-indigo-200',
                 )}
               >
                 {/* 序号徽章 —— 始终显示 */}
@@ -654,7 +798,7 @@ export default function ListeningPage() {
                       <input
                         type="number"
                         min={1}
-                        max={entries.length}
+                        max={categoryEntries.length}
                         placeholder={String(rank)}
                         value={rankValue}
                         onChange={(e) => {
@@ -664,17 +808,17 @@ export default function ListeningPage() {
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
-                            moveToRank(entry.id, rankValue || String(rank));
+                            moveEntryToRank(entry.id, rankValue || String(rank));
                           }
                         }}
                         onClick={(e) => e.stopPropagation()}
                         className="h-7 w-16 rounded-md border border-indigo-200 bg-indigo-50/50 px-2 text-center text-sm font-semibold text-indigo-700 outline-none transition focus:border-indigo-400 focus:bg-white"
                       />
-                      <span className="text-[11px] text-slate-400">/ {entries.length}</span>
+                      <span className="text-[11px] text-slate-400">/ {categoryEntries.length}</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          moveToRank(entry.id, rankValue || String(rank));
+                          moveEntryToRank(entry.id, rankValue || String(rank));
                         }}
                         className="rounded-md bg-indigo-600 px-3 py-1 text-[11px] font-semibold text-white transition hover:bg-indigo-500"
                       >
@@ -711,7 +855,7 @@ export default function ListeningPage() {
         )}
 
         {/* 底部提示 */}
-        {entries.length > 0 && !sorting && (
+        {categoryEntries.length > 1 && !sorting && (
           <div className="mt-8 flex justify-center">
             <button
               onClick={() => requireUnlock(() => setSorting(true))}
@@ -752,7 +896,10 @@ export default function ListeningPage() {
               </button>
             </div>
 
-            <label className="mb-1 block text-xs font-medium text-slate-500">链接</label>
+            <label className="mb-1 block text-xs font-medium text-slate-500">分类（选择上传到哪一类）</label>
+            <CategoryPicker value={formCategory} onChange={setFormCategory} />
+
+            <label className="mb-1 mt-3 block text-xs font-medium text-slate-500">链接</label>
             <input
               autoFocus
               value={linkInput}
@@ -815,6 +962,8 @@ export default function ListeningPage() {
               placeholder="例如：四级听力 Unit 3"
               className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
             />
+            <label className="mb-1 mt-3 block text-xs font-medium text-slate-500">分类（选择上传到哪一类）</label>
+            <CategoryPicker value={formCategory} onChange={setFormCategory} />
             <div className="mt-5 flex justify-end gap-2">
               <button
                 onClick={() => { setPendingFiles([]); setPendingTitle(''); }}
