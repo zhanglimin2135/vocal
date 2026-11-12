@@ -14,7 +14,7 @@
  *   这些工具函数被 ListeningUpload / ListeningEditor 直接引用。
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Volume2, Plus, Link2, FileUp, GripVertical, Trash2, ExternalLink,
@@ -23,6 +23,7 @@ import {
 import { useAppStore } from '@/store/appStore';
 import type { ListeningCategory, ListeningEntry, SentenceSegment } from '@/types';
 import { getHtmlPage, saveHtmlPage, deleteHtmlPage } from '@/utils/htmlStore';
+import { cloudFetchHtml, cloudUploadHtml, isCloudEnabled } from '@/utils/cloudStore';
 import { injectLookup } from '@/utils/lookupInject';
 import { cn } from '@/lib/utils';
 
@@ -262,6 +263,12 @@ export default function ListeningPage() {
   const addListeningEntry = useAppStore((s) => s.addListeningEntry);
   const removeListeningEntry = useAppStore((s) => s.removeListeningEntry);
   const reorderListeningEntries = useAppStore((s) => s.reorderListeningEntries);
+  const loadListeningEntriesFromCloud = useAppStore((s) => s.loadListeningEntriesFromCloud);
+
+  // 每次进入目录页都从云端拉取最新目录（多设备共享）；未配置云端时自动跳过
+  useEffect(() => {
+    void loadListeningEntriesFromCloud();
+  }, [loadListeningEntriesFromCloud]);
 
   // 当前选中的大类（默认 TOEFL 新版）
   const [activeCategory, setActiveCategory] = useState<ListeningCategory>('toefl-new');
@@ -327,9 +334,11 @@ export default function ListeningPage() {
       return;
     }
     if (entry.kind === 'html' && entry.htmlKey) {
-      const html = await getHtmlPage(entry.htmlKey);
+      // 优先从云端读取（任何电脑都能打开别人上传的网页）；失败再退回本地 IndexedDB
+      let html = await cloudFetchHtml(entry.htmlKey);
+      if (!html) html = await getHtmlPage(entry.htmlKey);
       if (!html) {
-        alert('本地网页文件已丢失，请重新导入这份 .html');
+        alert('网页文件已丢失，请重新导入这份 .html');
         return;
       }
       // 打开前注入「划词查义」脚本：完整版文本里选中单词/句子自动显示释义（有道优先）
@@ -438,7 +447,12 @@ export default function ListeningPage() {
     setImporting(true);
     try {
       const id = generateId();
+      // 先上传到云端（配置了 Supabase 时），其他电脑才看得到；同时存一份本地
+      const uploaded = await cloudUploadHtml(id, current.html);
       await saveHtmlPage(id, current.html);
+      if (isCloudEnabled && !uploaded) {
+        console.warn('[cloud] 网页上传云端失败，当前仅本机可见');
+      }
       addListeningEntry({
         id,
         title: name,

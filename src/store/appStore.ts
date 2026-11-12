@@ -32,6 +32,16 @@ import {
   saveListeningEntries,
   clearAllStorage,
 } from '@/utils/storageUtils';
+// 云端存储（Supabase）：精听目录跨设备共享；未配置环境变量时自动跳过
+import {
+  isCloudEnabled,
+  cloudGetEntries,
+  cloudUpsertEntry,
+  cloudDeleteEntry,
+  cloudReorder,
+  cloudUploadHtml,
+} from '@/utils/cloudStore';
+import { getHtmlPage } from '@/utils/htmlStore';
 
 /**
  * 全局 Store 的数据结构 + 所有可调用的修改方法
@@ -93,6 +103,10 @@ interface AppState {
   moveListeningEntry: (from: number, to: number) => void;
   /** 按给定 id 顺序重排整个目录（用于分类内部调整顺序） */
   reorderListeningEntries: (orderedIds: string[]) => void;
+  /** 从云端拉取目录（多设备共享）；未配置云端时保持本地数据 */
+  loadListeningEntriesFromCloud: () => Promise<void>;
+  /** 云端目录加载状态：idle 未开始 / loading 加载中 / ready 已完成 */
+  listeningCloudStatus: 'idle' | 'loading' | 'ready';
 
   // ===== 标星单词模块的操作方法 =====
   /** 切换某个单词的标星状态（已标星则取消，未标星则添加）—— 仅在当前学习会话生效 */
@@ -122,6 +136,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   studyConfig: null,
   listeningLessons: [],
   listeningEntries: [],
+  listeningCloudStatus: 'idle',
   readingPassages: [],
   currentPassageId: null,
   starredWords: [],
@@ -237,15 +252,22 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => {
       const next = [...state.listeningEntries, { ...entry, order: state.listeningEntries.length }];
       saveListeningEntries(next);
+      // 同步到云端（未配置云端时为空操作）
+      void cloudUpsertEntry(next[next.length - 1]);
       return { listeningEntries: next };
     }),
 
   removeListeningEntry: (id) =>
     set((state) => {
+      const target = state.listeningEntries.find((e) => e.id === id);
       const next = state.listeningEntries
         .filter((e) => e.id !== id)
         .map((e, i) => ({ ...e, order: i }));
       saveListeningEntries(next);
+      // 云端：删除该条记录及对应的网页文件
+      if (target) void cloudDeleteEntry(target);
+      // 删除后顺序变化，同步新的排序
+      void cloudReorder(next);
       return { listeningEntries: next };
     }),
 
@@ -278,8 +300,41 @@ export const useAppStore = create<AppState>((set, get) => ({
       map.forEach((item) => next.push(item));
       const ordered = next.map((e, i) => ({ ...e, order: i }));
       saveListeningEntries(ordered);
+      void cloudReorder(ordered);
       return { listeningEntries: ordered };
     }),
+
+  loadListeningEntriesFromCloud: async () => {
+    if (!isCloudEnabled) {
+      set({ listeningCloudStatus: 'ready' });
+      return;
+    }
+    set({ listeningCloudStatus: 'loading' });
+    const cloud = await cloudGetEntries();
+    if (cloud) {
+      const local = get().listeningEntries;
+      if (cloud.length === 0 && local.length > 0) {
+        // 云端还是空的：把本机已有目录（及网页文件）迁移上去，
+        // 避免开启云端后之前上传的条目在本机「消失」，其他电脑也看不到
+        for (const e of local) {
+          void cloudUpsertEntry(e);
+          if (e.kind === 'html' && e.htmlKey) {
+            const html = await getHtmlPage(e.htmlKey);
+            if (html) await cloudUploadHtml(e.htmlKey, html);
+          }
+        }
+        saveListeningEntries(local);
+        set({ listeningEntries: local, listeningCloudStatus: 'ready' });
+        return;
+      }
+      // 云端是共享数据的唯一来源，同时写回本地作为离线缓存
+      saveListeningEntries(cloud);
+      set({ listeningEntries: cloud, listeningCloudStatus: 'ready' });
+    } else {
+      // 云端不可用时继续用本地缓存
+      set({ listeningCloudStatus: 'ready' });
+    }
+  },
 
   // ===== 标星单词模块的具体实现 =====
 
