@@ -220,6 +220,8 @@ export default function StudyPage() {
    *   - false：隐藏弹窗
    */
   const [exportModalOpen, setExportModalOpen] = useState(false);
+  /** 弹窗卡片 ref：用于 copy 拦截时判断选中范围是否在弹窗内 */
+  const exportModalRef = useRef<HTMLDivElement | null>(null);
 
   /**
    * mnemonicHover - 「助记」悬浮卡片的当前单词与位置
@@ -1143,9 +1145,58 @@ export default function StudyPage() {
     e.preventDefault();
   }, [selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
 
-  // 注意：不再拦截全局 copy 事件，让浏览器原生复制按用户选中范围工作
-  //   用户选哪些单词行，复制出来就是哪些；选释义、选单元名都行。
-  //   handleCopyStarred 保留作为未来"一键复制全部"按钮的实现，当前不绑定监听。
+  /**
+   * handleCopyStarredFiltered - 导出弹窗内强制 copy 格式化
+   *   - 只拦截弹窗范围内的 copy 事件
+   *   - 从当前用户选中的 DOM 范围里提取被覆盖的错词 <li> 行
+   *   - 每行严格输出 `序号\t单词\t释义`，粘贴到 Excel 自动分三列、同行显示
+   *   - 没选中任何错词行时放行默认行为（不破坏用户选单元名等场景）
+   */
+  const handleCopyStarredFiltered = useCallback((e: ClipboardEvent) => {
+    const modal = exportModalRef.current;
+    if (!modal) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
+
+    // 选中范围必须和弹窗有交集
+    let intersects = false;
+    for (let i = 0; i < sel.rangeCount; i++) {
+      const range = sel.getRangeAt(i);
+      if (modal.contains(range.commonAncestorContainer)) { intersects = true; break; }
+    }
+    if (!intersects) return;
+
+    // 收集弹窗内所有错词 <li>，判断每一行是否被选中覆盖
+    const allLis = modal.querySelectorAll<HTMLLIElement>('li[data-word-row]');
+    const picked: HTMLLIElement[] = [];
+    allLis.forEach((li) => {
+      for (let i = 0; i < sel.rangeCount; i++) {
+        const range = sel.getRangeAt(i);
+        if (range.intersectsNode(li)) { picked.push(li); break; }
+      }
+    });
+
+    if (picked.length === 0) return; // 没选错词行，放行默认行为
+
+    // 从每个 li 里读取三个 span：序号 / 单词 / 释义
+    const lines: string[] = picked.map((li) => {
+      const spans = li.querySelectorAll('span');
+      const idx = (spans[0]?.textContent ?? '').trim();
+      const word = (spans[1]?.textContent ?? '').trim();
+      const meaning = (spans[2]?.textContent ?? '').trim();
+      return `${idx}\t${word}\t${meaning}`;
+    });
+
+    e.clipboardData?.setData('text/plain', lines.join('\n'));
+    e.preventDefault();
+  }, []);
+
+  // 弹窗打开期间，只在弹窗范围内启用 copy 格式化
+  useEffect(() => {
+    if (!exportModalOpen) return;
+    document.addEventListener('copy', handleCopyStarredFiltered);
+    return () => document.removeEventListener('copy', handleCopyStarredFiltered);
+  }, [exportModalOpen, handleCopyStarredFiltered]);
 
   // =========================
   // 【计时背诵模式】交互回调
@@ -2331,8 +2382,9 @@ export default function StudyPage() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
           onClick={() => setExportModalOpen(false)}
         >
-          {/* 弹窗卡片：阻止点击冒泡关闭；复制由浏览器原生选中驱动，选哪些行复制哪些 */}
+          {/* 弹窗卡片：阻止点击冒泡关闭；copy 事件在 ref 范围内按选中行强制格式化 */}
           <div
+            ref={exportModalRef}
             onClick={(e) => e.stopPropagation()}
             className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
           >
@@ -2393,6 +2445,7 @@ export default function StudyPage() {
                         {group.words.map((w) => (
                           <li
                             key={w.uid}
+                            data-word-row
                             className="grid grid-cols-[1.75rem_5.5rem_minmax(0,1fr)] items-baseline gap-x-3 py-2 text-left"
                           >
                             <span className="w-full text-center text-xs font-medium text-slate-400 tabular-nums">
