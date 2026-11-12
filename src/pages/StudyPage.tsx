@@ -1124,24 +1124,30 @@ export default function StudyPage() {
 
   /**
    * buildFullCopyText - 构建「一键复制全部」的纯文本
-   *   格式：单元名称 → 错词列表（每行 `序号\t单词\t释义`，序号整体连续）
-   *   多单元时分单元分组列出；单个单元不再重复单元标题
+   *   格式：
+   *     第 1 行：单元名称（多个用顿号连接，一行显示）
+   *     第 2 行：统计数据 `共 N 词 · 错 X · 对 Y · 准确率 Z%`
+   *     （空一行）
+   *     错词列表：多单元时分单元分组，每行 `序号\t单词\t释义`（序号整体连续 1→N）
    */
   const buildFullCopyText = useCallback(() => {
     const lines: string[] = [];
+    // 头部第一行：单元名称（多个也一行）
+    lines.push(selectedSheetNames.join('、'));
+    // 头部第二行：统计数据
+    lines.push(`共 ${words.length} 词 · 错 ${starredWordItems.length} · 对 ${words.length - starredWordItems.length} · 准确率 ${starredAccuracy}%`);
+    lines.push(''); // 空一行分隔头部和错词列表
+
     for (const group of starredWordGroups) {
-      // 多单元时每个分组前加单元名称；单个单元时不重复（弹窗头部已有）
-      if (starredWordGroups.length > 1) {
-        lines.push(group.name);
-      }
+      // 多单元时每个分组前加单元名称；单个单元时头部已经有了，不再重复
+      if (starredWordGroups.length > 1) lines.push(group.name);
       for (const w of group.words) {
         lines.push(`${w.globalIndex}\t${w.word}\t${w.meaning}`);
       }
-      // 单元之间空一行（最后一个单元后不加）
       if (starredWordGroups.indexOf(group) < starredWordGroups.length - 1) lines.push('');
     }
     return lines.join('\n');
-  }, [starredWordGroups]);
+  }, [selectedSheetNames, words.length, starredWordItems.length, starredAccuracy, starredWordGroups]);
 
   /** 一键复制成功的临时反馈状态（1.5s 后自动消失） */
   const [copyToast, setCopyToast] = useState(false);
