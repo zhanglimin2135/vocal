@@ -6,6 +6,9 @@ export interface WordItem {
   word: string;       // 英文单词本身，如 "apple"
   meaning: string;    // 中文释义，如 "苹果；苹果树"
   phonetic?: string;  // 可选：音标，如 /ˈæpəl/（目前支持选填）
+  /** 可选：该词的助记信息（词根拆分/词源/口诀/速记/同族词/易错）。
+   *  若导入的表格含有对应列，解析时会写入这里；背诵页的助记卡片会优先使用它。 */
+  extra?: WordMnemonic;
 }
 
 /**
@@ -17,6 +20,41 @@ export interface SheetData {
   name: string;        // Sheet 名字，就是 Excel 底部的工作表名，如 "Unit 1"
   wordCount: number;   // 这个 sheet 里一共有多少个单词
   words: WordItem[];   // 这个 sheet 里所有的单词条目（数组）
+}
+
+/**
+ * WordMnemonic - 单词助记信息（固定词表入口会附带，用于背诵页的「助记」弹窗）
+ *   - splitParts: 词素拆分（奇数下标为词根、偶数下标为说明，与词表原始结构一致）
+ *   - etymology:  词源说明
+ *   - rhyme:      口诀
+ *   - quick:      速记
+ *   - family:     同族词
+ *   - caution:    易错提示
+ *   - accent/tint: 该词的主题色与浅底色
+ */
+export interface WordMnemonic {
+  splitParts?: string[];
+  etymology?: string;
+  rhyme?: string;
+  quick?: string;
+  family?: string[];
+  caution?: string;
+  phonetic?: string;
+  accent?: string;
+  tint?: string;
+}
+
+/**
+ * StudyWord - 学习态单词对象类型
+ *   在原始 WordItem 的基础上额外附带：
+ *   - uid: 每个单词在当前学习会话中的唯一标识（用于独立控制单卡展开/发音状态）
+ *   - sheetName: 该单词所属单词表的名称（卡片顶部显示）
+ *   - extra: 可选扩展字段（固定词表入口会附带词源、拆分、口诀等）
+ */
+export interface StudyWord extends WordItem {
+  uid: string;
+  sheetName: string;
+  extra?: WordMnemonic;
 }
 
 /**
@@ -32,23 +70,23 @@ export interface VocabularyBook {
 
 /**
  * 学习模式的枚举类型：
- * - 'word-meaning'：看词/看意 双向练习（看词说意 / 看意说词 两种子模式，进入时弹窗选择）
+ * - 'word-meaning'：看词/看意 双向练习（识别背诵 / 释义识别 两种子模式，进入时弹窗选择）
  * - 'audio-meaning'：听音辨义（显示喇叭播放发音，隐藏单词和释义）
- * - 'spelling'：单词拼写（释义拼写 / 听音拼写 两种子模式，进入时弹窗选择）
+ * - 'spelling'：单词拼写（释义拼写 / 单词拼写 两种子模式，进入时弹窗选择）
  */
 export type StudyMode = 'word-meaning' | 'audio-meaning' | 'spelling';
 
 /**
  * 看词/看意 子模式：
- * - 'word-meaning'：看词说意（上方显示英文单词，隐藏中文释义，点击查看）
- * - 'meaning-word'：看意说词（上方显示中文释义，隐藏英文单词，点击查看，形式同看词说意）
+ * - 'word-meaning'：识别背诵（上方显示英文单词，隐藏中文释义，点击查看）
+ * - 'meaning-word'：释义识别（上方显示中文释义，隐藏英文单词，点击查看，形式同识别背诵）
  */
 export type LookSubMode = 'word-meaning' | 'meaning-word';
 
 /**
  * 单词拼写的子模式：
  * - 'meaning-spelling'：释义拼写（上方显示中文释义，下方输入框给出首字母提示）
- * - 'audio-spelling'：听音拼写（输入框有任何操作即播放当前单词音频）
+ * - 'audio-spelling'：单词拼写（输入框有任何操作即播放当前单词音频）
  */
 export type SpellingSubMode = 'meaning-spelling' | 'audio-spelling';
 
@@ -144,4 +182,64 @@ export interface PassageResult {
   totalCount: number;         // 总空数
   accuracy: number;           // 正确率（0~1）
   submittedAt: number;        // 提交时间
+}
+
+// ============================================
+// 以下是「听力精听」模块的类型定义
+// ============================================
+
+/**
+ * 单个分句：由逗号拆分或用户在波形图上手动添加断句点形成
+ * - startTime / endTime：该分句在音频中的起止时间（秒）
+ *   默认情况下时间会被平均分；用户在波形图上添加断句点后会被精确调整
+ * - text：该分句的原始文本
+ * - translation：用户填写的中文翻译（可为空，后续手动补充）
+ */
+export interface SentenceSegment {
+  id: string;              // 分句唯一 ID
+  text: string;            // 分句原文（去掉了逗号本身，逗号是拆分标记）
+  translation: string;     // 用户填写的翻译（可为空字符串）
+  startTime: number;       // 音频起始时间（秒）
+  endTime: number;         // 音频结束时间（秒）
+}
+
+/**
+ * 单份听力精听材料（一篇练习）
+ */
+export interface ListeningLesson {
+  id: string;                    // 唯一 ID
+  title: string;                 // 材料标题（用户可自定义，默认用音频文件名）
+  audioName: string;             // 原始音频文件名
+  audioDataUrl: string;          // 音频内容（DataURL，持久化用；不持久化则用 Blob URL）
+  textContent: string;           // 原始文本（未拆分）
+  segments: SentenceSegment[];   // 按逗号拆分后 + 用户手动调整的分句列表
+  createdAt: number;             // 导入时间戳
+}
+
+/**
+ * 精听目录「大类」
+ *   toefl-new：TOEFL（新版，默认归属）
+ *   toefl-old：TOEFL（旧版）
+ *   toefl-junior：TOEFL Junior
+ *   ielts：雅思（IELTS）
+ */
+export type ListeningCategory = 'toefl-new' | 'toefl-old' | 'toefl-junior' | 'ielts';
+
+/**
+ * 听力精听「目录」条目（首页 → 听力精听 → 目录页）
+ *   kind = 'link'：用户粘贴的分享链接，点击在新标签页打开外部播放页
+ *   kind = 'html'：用户导入的「下载网页」.html 文件，解析出句数与时长，
+ *                  原文件存在 IndexedDB（htmlKey），点击时用 Blob URL 打开
+ */
+export interface ListeningEntry {
+  id: string;              // 唯一 ID
+  title: string;           // 目录卡片标题
+  kind: 'link' | 'html';   // 条目类型：外链 / 本地网页文件
+  category?: ListeningCategory; // 所属大类（旧数据无此字段时视为 toefl-new）
+  url?: string;            // kind=link 时的分享链接
+  htmlKey?: string;        // kind=html 时 IndexedDB 中的键
+  lineCount?: number;      // 句数（kind=html 解析得出）
+  duration?: number;       // 音频时长（秒，kind=html 解析得出）
+  createdAt: number;       // 导入时间戳
+  order: number;           // 手动拖拽排序的位置索引
 }

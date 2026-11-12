@@ -8,7 +8,7 @@
  *      释义列关键词：meaning、释义、中文、翻译、解释、汉语、definition、chinese 等
  */
 
-import type { WordItem, SheetData, VocabularyBook } from '@/types';
+import type { WordItem, SheetData, VocabularyBook, WordMnemonic } from '@/types';
 import * as XLSX from 'xlsx';
 
 /**
@@ -56,6 +56,36 @@ const MEANING_KEYWORDS = [
   'translation',
 ];
 
+// 助记相关列关键词（用于把导入表里的助记字段写入 WordItem.extra）
+const MNEMONIC_COLUMN_KEYWORDS: { field: keyof WordMnemonic; keywords: string[] }[] = [
+  { field: 'phonetic', keywords: ['音标', 'phonetic', 'pronunciation', '发音', '读音'] },
+  { field: 'rhyme', keywords: ['口诀', '助记口诀', '记忆口诀'] },
+  { field: 'quick', keywords: ['速记', '速记法', '记忆法', '助记'] },
+  { field: 'etymology', keywords: ['词源', '词根', '词源说明', 'etymology'] },
+  { field: 'caution', keywords: ['易错', '注意', '易混', '辨析', '常见错误'] },
+  { field: 'splitParts', keywords: ['词根词缀', '拆分', '词根拆分', '词素拆分', '拆解', 'split'] },
+  { field: 'family', keywords: ['词根扩展', '同族', '同根', '派生词', '同源', 'family', 'derivative'] },
+];
+
+/** 检测助记相关列在表头中的位置，返回字段→列索引的映射 */
+function detectMnemonicColumns(headers: string[]): Partial<Record<keyof WordMnemonic, number>> {
+  const result: Partial<Record<keyof WordMnemonic, number>> = {};
+  for (const { field, keywords } of MNEMONIC_COLUMN_KEYWORDS) {
+    const idx = detectColumnIndex(headers, keywords);
+    if (idx !== -1) result[field] = idx;
+  }
+  return result;
+}
+
+/** 把单元格文本按常见分隔符拆成字符串数组（用于词根拆分/同族词） */
+function splitCell(value: string): string[] {
+  if (!value) return [];
+  return value
+    .split(/[\n,，、;；|｜]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 /**
  * 当 detectColumnIndex 没匹配到任何关键词时，做一层"启发式判断"：
  *  - 这行看起来是不是像"表头"？如果像就跳过，把它当表头行
@@ -99,6 +129,8 @@ function parseSheetWords(ws: XLSX.WorkSheet, sheetName: string): WordItem[] {
   // 先尝试用关键词匹配确定两列索引
   let wordColIdx = detectColumnIndex(headerRow, WORD_KEYWORDS);
   let meaningColIdx = detectColumnIndex(headerRow, MEANING_KEYWORDS);
+  // 助记相关列（音标/口诀/速记/词源/易错/拆分/同族）—— 存在就写入 word.extra
+  let mnemonicCols = detectMnemonicColumns(headerRow);
   let dataStartIdx = 0; // 从第几行开始是真正的单词数据
 
   if (wordColIdx !== -1 && meaningColIdx !== -1) {
@@ -108,6 +140,8 @@ function parseSheetWords(ws: XLSX.WorkSheet, sheetName: string): WordItem[] {
     // 关键词没全部命中 → 用默认约定：第 1 列=单词，第 2 列=释义
     wordColIdx = 0;
     meaningColIdx = 1;
+    // 没有明确表头时，助记列也按默认列位推断（第3列起若有内容可作为速记等，但这里保守只靠表头）
+    mnemonicCols = {};
     // 再启发式判断下第一行是不是表头，是就从下一行开始读数据
     if (looksLikeHeader(headerRow)) {
       dataStartIdx = 1;
@@ -122,11 +156,30 @@ function parseSheetWords(ws: XLSX.WorkSheet, sheetName: string): WordItem[] {
     const rawMeaning = String(row[meaningColIdx] || '').trim();
     // 没单词的空行直接跳过
     if (!rawWord) continue;
-    words.push({
+
+    const item: WordItem = {
       word: rawWord,
       // 没释义就写个占位，免得显示空
       meaning: rawMeaning || '（暂无释义）',
-    });
+    };
+
+    // 若表头里有助记列，把对应单元格内容写入 extra
+    if (Object.keys(mnemonicCols).length > 0) {
+      const extra: WordMnemonic = {};
+      for (const field of Object.keys(mnemonicCols) as (keyof WordMnemonic)[]) {
+        const colIdx = mnemonicCols[field]!;
+        const val = String(row[colIdx] || '').trim();
+        if (!val) continue;
+        if (field === 'splitParts' || field === 'family') {
+          extra[field] = splitCell(val);
+        } else {
+          (extra[field] as string) = val;
+        }
+      }
+      if (Object.keys(extra).length > 0) item.extra = extra;
+    }
+
+    words.push(item);
   }
 
   return words;

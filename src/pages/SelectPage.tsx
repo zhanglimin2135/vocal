@@ -6,7 +6,7 @@
  *   1. 进入页面 → 从全局 Store 读取已选择的词汇书和学习配置
  *   2. 若未选择词汇书或无配置 → 跳转回首页或初始化配置
  *   3. 用户勾选/取消勾选要学习的 Sheet（词表单元），支持全选
- *   4. 用户选择学习模式：看词说意 / 听音辨义
+ *   4. 用户选择学习模式：识别背诵 / 听音辨义
  *   5. 点击「开始学习」跳转到 /study 学习页进行学习
  *   6. 点击「返回首页」清空当前词汇书并回到首页
  * ============================================================
@@ -28,6 +28,7 @@ import {
   Volume2,
   Shuffle,
   Dices,
+  Search,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import type { LookSubMode, SpellingFlow, SpellingSubMode, StudyMode } from '@/types';
@@ -38,16 +39,20 @@ export default function SelectPage() {
   const navigate = useNavigate();
   // useAppStore：Zustand 全局状态管理 Hook，批量从 Store 订阅状态和操作函数
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);           // 所有已上传的词汇书列表
+  const builtInBooks = useAppStore((s) => s.builtInBooks);                 // 平台内置词表（四级等）
   const currentBookId = useAppStore((s) => s.currentBookId);                // 当前选中的词汇书 ID
   const studyConfig = useAppStore((s) => s.studyConfig);                    // 学习配置（已选单元 ID + 学习模式）
   const setCurrentBook = useAppStore((s) => s.setCurrentBook);              // 切换当前词汇书的 Action
+  const findBookById = useAppStore((s) => s.findBookById);                  // 按 ID 查找词表（含内置）
   const toggleSelectedSheetId = useAppStore((s) => s.toggleSelectedSheetId);// 切换单个 Sheet 选中状态的 Action
   const setStudyConfig = useAppStore((s) => s.setStudyConfig);              // 设置学习配置的 Action
 
   // 「单词拼写」子模式弹窗的开关状态：true=显示弹窗
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
-  // 「看词说意/看意说词」子模式弹窗的开关状态：true=显示弹窗
+  // 「识别背诵/释义识别」子模式弹窗的开关状态：true=显示弹窗
   const [lookModalOpen, setLookModalOpen] = useState(false);
+  // 单元搜索关键词：按 sheet.name 子串匹配，不区分大小写；空字符串表示显示全部
+  const [searchQuery, setSearchQuery] = useState('');
 
   // ===== 拼写范围弹窗（整体拼写 / 随机抽测）=====
   // 点击「开始学习」后弹出，用于选择本次拼写的单词范围
@@ -61,25 +66,33 @@ export default function SelectPage() {
 
   // useMemo：根据 vocabularyBooks 和 currentBookId 计算出当前选中的词汇书对象，避免重复查找
   const currentBook = useMemo(
-    () => vocabularyBooks.find((b) => b.id === currentBookId) || vocabularyBooks[0] || null,
-    [vocabularyBooks, currentBookId]
+    () => findBookById(currentBookId) || builtInBooks[0] || vocabularyBooks[0] || null,
+    [findBookById, currentBookId, builtInBooks, vocabularyBooks]
   );
 
-  // useEffect：页面初始化及依赖变化时执行，做两件事：
+  // useEffect：每次进入选择页时跑一次，做两件事：
   //   1. 若找不到当前词汇书 → 跳转回首页
-  //   2. 若 studyConfig 未初始化 → 初始化默认值（空选中列表 + 看词说意模式）
+  //   2. 强制清空 selectedSheetIds 与所有子模式，让用户重新选择单元
+  //      （哪怕从学习页返回、或浏览器后退进来，都不保留上次的勾选；
+  //        但保留 mode，让"先选模式再选单元"的用户不必重新选模式）
   useEffect(() => {
     if (!currentBook) {
       navigate('/');
       return;
     }
-    if (!studyConfig) {
-      setStudyConfig({
-        selectedSheetIds: [],
-        mode: 'word-meaning',
-      });
-    }
-  }, [currentBook, navigate, studyConfig, setStudyConfig]);
+    // 取之前已经选好的 mode，避免"先选学习模式再回来选单元"的用户被清空模式
+    const prevMode = studyConfig?.mode || 'word-meaning';
+    setStudyConfig({
+      selectedSheetIds: [],
+      mode: prevMode,
+      lookSubMode: undefined,
+      spellingSubMode: undefined,
+      spellingFlow: undefined,
+      spellingQuizCount: undefined,
+    });
+    // 只跑一次：依赖数组为空，配合 eslint-disable 避免警告
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 若当前词汇书不存在，提前 return null，防止后续渲染报错
   if (!currentBook) return null;
@@ -119,7 +132,7 @@ export default function SelectPage() {
    * 学习模式切换函数
    * - 入参 m：StudyMode（'word-meaning' | 'audio-meaning' | 'spelling'）
    * - 更新 studyConfig：保留当前已选单元，仅覆盖 mode 字段
-   * - 当模式是 'word-meaning' 时，额外弹出 看词说意/看意说词 子模式选择弹窗
+   * - 当模式是 'word-meaning' 时，额外弹出 识别背诵/释义识别 子模式选择弹窗
    * - 当模式是 'spelling' 单词拼写时，额外弹出子模式选择弹窗（不立即设置）
    */
   const setMode = (m: StudyMode) => {
@@ -140,8 +153,8 @@ export default function SelectPage() {
   };
 
   /**
-   * 看词说意 / 看意说词 子模式选择处理函数
-   * - 入参 sub：'word-meaning' 看词说意 / 'meaning-word' 看意说词
+   * 识别背诵 / 释义识别 子模式选择处理函数
+   * - 入参 sub：'word-meaning' 识别背诵 / 'meaning-word' 释义识别
    * - 选中后：写入 studyConfig 的 mode + lookSubMode，关闭弹窗
    */
   const selectLookSubMode = (sub: LookSubMode) => {
@@ -156,7 +169,7 @@ export default function SelectPage() {
 
   /**
    * 单词拼写子模式选择处理函数
-   * - 入参 sub：'meaning-spelling' 释义拼写 / 'audio-spelling' 听音拼写
+   * - 入参 sub：'meaning-spelling' 释义拼写 / 'audio-spelling' 单词拼写
    * - 选中后：写入 studyConfig 的 mode + spellingSubMode，关闭弹窗
    */
   const selectSpellingSubMode = (sub: SpellingSubMode) => {
@@ -171,32 +184,56 @@ export default function SelectPage() {
 
   /**
    * 开始学习 按钮处理函数
-   * - 校验 1：至少选中 1 个单元，否则不跳转
-   * - 校验 2：若模式是 看词说意/看意说词，必须先选子模式
-   * - 校验 3：若模式是单词拼写，必须先选中子模式（释义拼写/听音拼写），
-   *           并弹出「整体拼写 / 随机抽测」范围选择弹窗（不立即跳转）
-   * - 通过则跳转到 /study 路由，进入学习页
+   *   只要选了单元就直接进入学习页——不管先选单元还是先选模式，都不再二次弹窗。
+   *   若 mode / 子模式未设，自动补默认值：
+   *     - mode 缺省 → 'word-meaning'（识别背诵）
+   *     - lookSubMode 缺省 → 'word-meaning'（识别背诵）
+   *     - spellingSubMode 缺省 → 'meaning-spelling'（释义拼写）
+   *     - 拼写模式额外弹出「整体拼写 / 随机抽测」范围选择（拼写特有必选项）
    */
   const startStudy = () => {
     if (selectedIds.length === 0) return;
-    if (mode === 'word-meaning' && !studyConfig?.lookSubMode) {
-      setLookModalOpen(true);
-      return;
-    }
-    if (mode === 'spelling' && !studyConfig?.spellingSubMode) {
-      setSpellingModalOpen(true);
-      return;
-    }
-    // 单词拼写：先弹出范围选择（整体拼写 / 随机抽测），由确认函数负责跳转
-    if (mode === 'spelling') {
-      // 每次打开弹窗前重置上一次的选择与输入，保证从干净状态开始
+
+    // 缺省 mode → 识别背诵
+    const effectiveMode = mode || 'word-meaning';
+
+    if (effectiveMode === 'spelling') {
+      // 拼写模式：子模式缺省 → 释义拼写；然后弹范围选择
+      const effectiveSub = studyConfig?.spellingSubMode || 'meaning-spelling';
+      setStudyConfig({
+        selectedSheetIds: selectedIds,
+        mode: 'spelling',
+        lookSubMode: undefined,
+        spellingSubMode: effectiveSub,
+      });
+      // 每次打开弹窗前重置上次的选择，保证干净状态
       setSpellingFlowChoice(null);
       setQuizCountInput('');
       setQuizCountError('');
       setSpellingFlowOpen(true);
       return;
     }
-    // 看词说意/听音辨义：直接进入学习页（不强制全屏）
+
+    if (effectiveMode === 'word-meaning') {
+      // 识别背诵模式：子模式缺省 → 识别背诵
+      const effectiveSub = studyConfig?.lookSubMode || 'word-meaning';
+      setStudyConfig({
+        selectedSheetIds: selectedIds,
+        mode: 'word-meaning',
+        lookSubMode: effectiveSub,
+        spellingSubMode: undefined,
+      });
+      navigate('/study');
+      return;
+    }
+
+    // 听音辨义：不需要子模式，直接进
+    setStudyConfig({
+      selectedSheetIds: selectedIds,
+      mode: effectiveMode,
+      lookSubMode: undefined,
+      spellingSubMode: undefined,
+    });
     navigate('/study');
   };
 
@@ -295,12 +332,35 @@ export default function SelectPage() {
           </div>
         </header>
 
-        {/* 选中统计条：左侧显示已选单元/单词数，右侧是全选/取消全选按钮 */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm text-slate-600">
+        {/* 选中统计条 + 搜索框 + 全选按钮
+            布局：左边统计文字  |  flex-1 占位（推右）  |  搜索框（紧挨全选）  |  全选按钮 */}
+        <div className="mb-4 flex items-center gap-3">
+          <div className="text-sm text-slate-600 shrink-0">
             已选择 <span className="font-semibold text-indigo-700">{selectedIds.length}</span> /{' '}
             {currentBook.sheets.length} 个单元，
             <span className="font-semibold text-indigo-700">{totalSelectedWords}</span> 个单词
+          </div>
+          {/* 占位 spacer：把右侧的搜索框 + 全选按钮 推到最右边，让搜索框紧贴全选按钮 */}
+          <div className="flex-1" />
+          {/* 搜索框：窄宽度、紧挨全选按钮（固定宽度约 224px，约为原先 max-w-sm 的一半） */}
+          <div className="relative w-56 shrink-0">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="搜索单元…"
+              className="w-full rounded-full border border-slate-200 bg-white/90 py-2 pl-9 pr-9 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                title="清空搜索"
+                className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
           <button
             onClick={toggleAll}
@@ -320,10 +380,27 @@ export default function SelectPage() {
           </button>
         </div>
 
-        {/* Sheet 卡片列表区：遍历当前词汇书的所有单元，生成可点击选择的卡片 */}
-        <div className="space-y-3">
-          {currentBook.sheets.map((sheet, idx) => {
-            const checked = selectedIds.includes(sheet.id);
+        {/* Sheet 卡片列表区：只渲染匹配搜索关键词的单元，支持空结果提示 */}
+        {(() => {
+          const q = searchQuery.trim().toLowerCase();
+          const filteredSheets = q
+            ? currentBook.sheets.filter((s) => s.name.toLowerCase().includes(q))
+            : currentBook.sheets;
+
+          if (q && filteredSheets.length === 0) {
+            return (
+              <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-white/60 py-16 text-center text-sm text-slate-500">
+                未找到包含 <span className="font-semibold text-indigo-600">「{searchQuery}」</span> 的单元
+              </div>
+            );
+          }
+
+          return (
+            <div className="space-y-3">
+              {filteredSheets.map((sheet) => {
+                const checked = selectedIds.includes(sheet.id);
+                // 显示卡片序号时还原为 sheet 在原列表中的位置，保持编号连贯易认
+                const idx = currentBook.sheets.findIndex((s) => s.id === sheet.id);
             return (
               <div
                 key={sheet.id}
@@ -370,19 +447,21 @@ export default function SelectPage() {
               </div>
             );
           })}
-        </div>
+          </div>
+        );
+        })()}
       </div>
 
       {/* 底部固定操作栏：学习模式选择区 + 开始学习按钮 */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200/70 bg-white/85 backdrop-blur-lg">
         <div className="mx-auto max-w-4xl px-6 py-4">
-          {/* 学习模式三选择区：看词说意 / 听音辨义 / 单词拼写，当前选中卡片会高亮 */}
+          {/* 学习模式三选择区：识别背诵 / 听音辨义 / 单词拼写，当前选中卡片会高亮 */}
           <div className="mb-3">
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
               请选择学习模式
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
-              {/* 模式 1：看词说意 */}
+              {/* 模式 1：识别背诵 */}
               <button
                 onClick={() => setMode('word-meaning')}
                 className={cn(
@@ -403,13 +482,13 @@ export default function SelectPage() {
                   <Eye className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看词说意</h4>
+                  <h4 className="font-bold text-slate-800">识别背诵</h4>
                   <p className="mt-0.5 truncate text-xs text-slate-500">
                     {studyConfig?.lookSubMode === 'word-meaning'
-                      ? '已选：看词识意（显示单词，隐藏释义）'
+                      ? '已选：看词识别（显示单词，隐藏释义）'
                       : studyConfig?.lookSubMode === 'meaning-word'
-                        ? '已选：看意说词（显示释义，隐藏单词）'
-                        : '看词识意 / 看意说词 两种子模式'}
+                        ? '已选：释义识别（显示释义，隐藏单词）'
+                        : '看词识别 / 释义识别 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -466,8 +545,8 @@ export default function SelectPage() {
                     {studyConfig?.spellingSubMode === 'meaning-spelling'
                       ? '已选：释义拼写（首字母提示）'
                       : studyConfig?.spellingSubMode === 'audio-spelling'
-                        ? '已选：听音拼写（输入即发音）'
-                        : '释义拼写 / 听音拼写 两种子模式'}
+                        ? '已选：单词拼写（输入即发音）'
+                        : '释义拼写 / 单词拼写 两种子模式'}
                   </p>
                 </div>
               </button>
@@ -490,7 +569,7 @@ export default function SelectPage() {
         </div>
       </div>
 
-      {/* 看词说意 / 看意说词 子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
+      {/* 识别背诵 / 释义识别 子模式选择弹窗：遮罩层 + 居中卡片，z-50 保证在最上层 */}
       {lookModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
@@ -520,7 +599,7 @@ export default function SelectPage() {
             </div>
             {/* 子模式选项列表 */}
             <div className="space-y-3">
-              {/* 子模式 1：看词识意 */}
+              {/* 子模式 1：看词识别 */}
               <button
                 onClick={() => selectLookSubMode('word-meaning')}
                 className={cn(
@@ -539,13 +618,13 @@ export default function SelectPage() {
                   <Eye className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看词识意</h4>
+                  <h4 className="font-bold text-slate-800">看词识别</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     上方显示英文单词，隐藏中文释义，点击查看释义
                   </p>
                 </div>
               </button>
-              {/* 子模式 2：看意说词 */}
+              {/* 子模式 2：释义识别 */}
               <button
                 onClick={() => selectLookSubMode('meaning-word')}
                 className={cn(
@@ -564,7 +643,7 @@ export default function SelectPage() {
                   <MessageSquareText className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">看意说词</h4>
+                  <h4 className="font-bold text-slate-800">释义识别</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     上方显示中文释义，隐藏英文单词，点击查看英文单词
                   </p>
@@ -637,7 +716,7 @@ export default function SelectPage() {
                   </p>
                 </div>
               </button>
-              {/* 子模式 2：听音拼写 */}
+              {/* 子模式 2：单词拼写 */}
               <button
                 onClick={() => selectSpellingSubMode('audio-spelling')}
                 className={cn(
@@ -656,7 +735,7 @@ export default function SelectPage() {
                   <Volume2 className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-bold text-slate-800">听音拼写</h4>
+                  <h4 className="font-bold text-slate-800">单词拼写</h4>
                   <p className="mt-0.5 text-xs text-slate-500">
                     输入框有任何操作即自动播放发音，其他要求同释义拼写
                   </p>

@@ -5,13 +5,13 @@
  *   根据用户在选择页（/select）选定的词书和单词表，进入学习模式进行单词记忆练习。
  *
  * 两种学习模式（由 studyConfig.mode 决定）：
- *   1. 看词说意（word-meaning）：卡片正面显示单词（可点击发音），释义默认隐藏，
+ *   1. 识别背诵（word-meaning）：卡片正面显示单词（可点击发音），释义默认隐藏，
  *      用户先尝试回忆释义，再点击卡片或"显示释义"查看答案。
  *   2. 听音辨义（meaning-word）：卡片正面只显示一个大号发音按钮，
  *      用户先听发音尝试回想单词和释义，再点击卡片显示单词 + 释义。
  */
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useLayoutEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   Volume2,
@@ -29,16 +29,18 @@ import {
   MessageSquareText,
   Send,
   Camera,
-  CheckCircle,
   Download,
   Timer,
   ChevronLeft,
   ChevronRight,
+  Lightbulb,
+  Loader2,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { playWordAudio } from '@/utils/audioUtils';
-import type { WordItem, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
-import { cn, generateId, canUseForcedFullscreen } from '@/lib/utils';
+import { getMnemonic } from '@/utils/mnemonicUtils';
+import type { WordItem, WordMnemonic, StudyMode, LookSubMode, SpellingSubMode } from '@/types';
+import { cn, generateId, canUseForcedFullscreen, roundAccuracy } from '@/lib/utils';
 import * as XLSX from 'xlsx';
 
 /**
@@ -50,6 +52,7 @@ import * as XLSX from 'xlsx';
 interface StudyWord extends WordItem {
   uid: string;
   sheetName: string;
+  extra?: WordMnemonic;
 }
 
 /**
@@ -83,10 +86,24 @@ export default function StudyPage() {
   // 路由与全局状态读取
   // =========================
   const navigate = useNavigate();
-  // 全部词书列表（来自全局 store）
-  const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
+  const location = useLocation();
+
+  // 支持从固定词表入口直接传入词表（CET4 等）
+  // navigate('/study', { state: { source: 'cet4', mode, subMode, words: StudyWord[] } })
+  const externalWords = useMemo<StudyWord[] | null>(() => {
+    const st = location.state as { source?: string; words?: StudyWord[]; title?: string; mode?: StudyMode; subMode?: LookSubMode | SpellingSubMode } | null;
+    if (st?.words && Array.isArray(st.words) && st.words.length > 0) {
+      return st.words.map((w) => ({ ...w, uid: w.uid || generateId(), sheetName: w.sheetName || (st.source === 'cet4' ? 'CET4 List 09–15' : st.title || '固定词表') }));
+    }
+    return null;
+  }, [location.state]);
+  const externalSource = externalWords ? ((location.state as { source?: string })?.source || 'external') : null;
+  const externalMode = externalWords ? ((location.state as { mode?: StudyMode })?.mode ?? 'word-meaning') : null;
+  const externalSubMode = externalWords ? ((location.state as { subMode?: LookSubMode | SpellingSubMode })?.subMode) : null;
   // 当前选中词书的 id
   const currentBookId = useAppStore((s) => s.currentBookId);
+  // 按 ID 查找词表（内置优先）
+  const findBookById = useAppStore((s) => s.findBookById);
   // 学习配置：包含学习模式 + 选中的单词表 id 列表
   const studyConfig = useAppStore((s) => s.studyConfig);
   // ===== 标星模块：全局状态 =====
@@ -97,14 +114,17 @@ export default function StudyPage() {
   // 清空本次学习会话所有标星的方法（返回选择页/离开学习页时调用）
   const resetStarredWords = useAppStore((s) => s.resetStarredWords);
 
-  // 当前学习模式：默认看词说意
-  const mode: StudyMode = studyConfig?.mode || 'word-meaning';
+  // 当前学习模式：默认识别背诵；外部词表优先用传入的 mode
+  const mode: StudyMode = externalMode || studyConfig?.mode || 'word-meaning';
   // 用户勾选的单词表 id 列表
   const selectedSheetIds = studyConfig?.selectedSheetIds || [];
-  // 看词/看意 子模式：仅当 mode==='word-meaning' 时有值（看词识意 / 看意说词）
-  const lookSubMode: LookSubMode = studyConfig?.lookSubMode || 'word-meaning';
-  // 单词拼写子模式：仅当 mode==='spelling' 时有值（释义拼写 / 听音拼写）
-  const spellingSubMode: SpellingSubMode | undefined = studyConfig?.spellingSubMode;
+  // 看词/看意 子模式：仅当 mode==='word-meaning' 时有值（看词识别 / 释义识别）
+  const lookSubMode: LookSubMode = externalSubMode === 'word-meaning' || externalSubMode === 'meaning-word'
+    ? externalSubMode : (studyConfig?.lookSubMode || 'word-meaning');
+  // 单词拼写子模式：仅当 mode==='spelling' 时有值（释义拼写 / 单词拼写）
+  const spellingSubMode: SpellingSubMode | undefined =
+    (externalSubMode === 'meaning-spelling' || externalSubMode === 'audio-spelling')
+      ? externalSubMode : studyConfig?.spellingSubMode;
 
   // =========================
   // 派生数据：用 useMemo 避免重复计算
@@ -112,29 +132,38 @@ export default function StudyPage() {
 
   // 根据 currentBookId 找到对应的词书对象
   const currentBook = useMemo(
-    () => vocabularyBooks.find((b) => b.id === currentBookId) || null,
-    [vocabularyBooks, currentBookId]
+    () => findBookById(currentBookId) || null,
+    [findBookById, currentBookId]
   );
 
   // 从当前词书中按 selectedSheetIds 筛选出所有单词，
   // 扁平化为 StudyWord[] 数组（每个单词附加 uid + sheetName）
+  // 同时按「单词文本」去重：同一个单词不管在几个 sheet 里出现，
+  // 整个学习会话中只保留一份（避免拼写模式下被当成多道题重复考查、错词列表重复）
   const baseWords = useMemo<StudyWord[]>(() => {
+    // 外部词表来源（固定词表入口）优先
+    if (externalWords) return externalWords;
     if (!currentBook) return [];
     const selectedSheets = currentBook.sheets.filter((sh) =>
       selectedSheetIds.includes(sh.id)
     );
     const result: StudyWord[] = [];
+    // 用小写 trim 后的单词文本作 key，做不区分大小写的去重
+    const seen = new Set<string>();
     for (const sh of selectedSheets) {
       for (const w of sh.words) {
+        const key = w.word.trim().toLowerCase();
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
         result.push({
           ...w,
           uid: generateId(),   // 为每个单词生成会话内唯一 id
-          sheetName: sh.name,  // 记录来自哪个单词表
+          sheetName: sh.name,  // 记录来自哪个单词表（去重后保留首次出现的来源）
         });
       }
     }
     return result;
-  }, [currentBook, selectedSheetIds]);
+  }, [externalWords, currentBook, selectedSheetIds]);
 
   // 选中的单词表名称（去重，结果页"检查内容"展示用）
   const selectedSheetNames = useMemo<string[]>(() => {
@@ -181,7 +210,7 @@ export default function StudyPage() {
    * showStarredOnly - 是否只显示已标星的单词（筛选开关）
    *   - true：只渲染被打星标的单词卡片；
    *   - false：渲染全部单词（默认行为）。
-   *   仅在「看词说意」和「听音辨义」两种非拼写模式下生效。
+   *   仅在「识别背诵」和「听音辨义」两种非拼写模式下生效。
    */
   const [showStarredOnly, setShowStarredOnly] = useState(false);
 
@@ -191,6 +220,122 @@ export default function StudyPage() {
    *   - false：隐藏弹窗
    */
   const [exportModalOpen, setExportModalOpen] = useState(false);
+
+  /**
+   * mnemonicHover - 「助记」悬浮卡片的当前单词与位置
+   *   - null：不显示
+   *   - { word, left, top, btnRect }：在按钮旁边显示该单词的助记卡片（fixed 定位，不遮挡/不虚化页面）
+   *     btnRect 用于卡片渲染后测量实际高度，若底部溢出则翻到按钮上方显示
+   */
+  const [mnemonicHover, setMnemonicHover] = useState<{ word: StudyWord; left: number; top: number; btnRect: DOMRect } | null>(null);
+  /** mnemonicData - 当前悬浮单词的助记内容（本地 + 联网结果） */
+  const [mnemonicData, setMnemonicData] = useState<WordMnemonic | null>(null);
+  /** mnemonicLoading - 是否正在联网查找助记 */
+  const [mnemonicLoading, setMnemonicLoading] = useState(false);
+  /** 鼠标移出后的延迟关闭定时器（便于移入弹窗继续阅读） */
+  const mnemonicCloseTimer = useRef<number | null>(null);
+  /** 助记卡片 DOM 引用，用于渲染后测量实际高度并决定是否向上翻转 */
+  const mnemonicCardRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * 打开助记悬浮卡片：以触发按钮为锚点，优先显示在右侧，右侧放不下则显示在左侧。
+   * 页面不出现遮罩、不模糊，只在该单词旁边弹出一张小卡片。
+   */
+  const openMnemonic = useCallback((word: StudyWord, btn: HTMLElement) => {
+    if (mnemonicCloseTimer.current) {
+      window.clearTimeout(mnemonicCloseTimer.current);
+      mnemonicCloseTimer.current = null;
+    }
+    const CARD_W = 360;
+    const GAP = 10;
+    const MARGIN = 12;
+    const r = btn.getBoundingClientRect();
+    let left = r.right + GAP;
+    if (left + CARD_W > window.innerWidth - MARGIN) {
+      left = Math.max(MARGIN, r.left - CARD_W - GAP);
+    }
+    // 初始 top 对齐按钮顶部；渲染后若底部溢出视口，再由布局效果翻到按钮上方
+    const top = Math.max(MARGIN, r.top - 8);
+    setMnemonicHover({ word, left, top, btnRect: r });
+    setMnemonicData(word.extra || null);
+    // 表格已自带完整助记（口诀+速记）时，无需联网，直接显示
+    const hasFullMnemonic = !!(word.extra?.rhyme && word.extra?.quick);
+    setMnemonicLoading(!hasFullMnemonic);
+  }, []);
+
+  /** 延迟关闭，给鼠标留出移入悬浮卡片的时间 */
+  const scheduleCloseMnemonic = useCallback(() => {
+    if (mnemonicCloseTimer.current) window.clearTimeout(mnemonicCloseTimer.current);
+    mnemonicCloseTimer.current = window.setTimeout(() => {
+      setMnemonicHover(null);
+      mnemonicCloseTimer.current = null;
+    }, 220);
+  }, []);
+
+  const cancelCloseMnemonic = useCallback(() => {
+    if (mnemonicCloseTimer.current) {
+      window.clearTimeout(mnemonicCloseTimer.current);
+      mnemonicCloseTimer.current = null;
+    }
+  }, []);
+
+  // 悬浮期间联网查找助记；鼠标移开或换词后丢弃旧结果
+  // 仅依赖单词本身（word.word），避免卡片翻转（top 变化）时重复请求
+  const hoverWordKey = mnemonicHover?.word.word;
+  useEffect(() => {
+    if (!mnemonicHover) return;
+    let cancelled = false;
+    const { word } = mnemonicHover;
+    // 表格已自带口诀+速记时，直接使用 extra，不再触发任何联网请求
+    if (word.extra?.rhyme && word.extra?.quick) {
+      setMnemonicLoading(false);
+      return;
+    }
+    setMnemonicLoading(true);
+    getMnemonic(word.word, word.meaning, (partial) => {
+      if (!cancelled) setMnemonicData(partial);
+    }, word.extra)
+      .then((data) => {
+        if (cancelled) return;
+        setMnemonicData(data);
+        setMnemonicLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) setMnemonicLoading(false);
+      });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hoverWordKey]);
+
+  // 卡片渲染后测量实际高度：若底部溢出视口，则翻到按钮上方显示，保证内容完整可见
+  useLayoutEffect(() => {
+    if (!mnemonicHover || !mnemonicCardRef.current) return;
+    const el = mnemonicCardRef.current;
+    const h = el.scrollHeight;
+    const { top, btnRect } = mnemonicHover;
+    const MARGIN = 12;
+    const GAP = 10;
+    if (top + h > window.innerHeight - MARGIN) {
+      // 优先向上翻转：卡片底部贴在按钮上方
+      const aboveTop = btnRect.top - h - GAP;
+      const newTop = aboveTop >= MARGIN ? aboveTop : MARGIN;
+      if (Math.abs(newTop - top) > 1) {
+        setMnemonicHover((prev) => (prev ? { ...prev, top: newTop } : prev));
+      }
+    }
+  }, [mnemonicHover, mnemonicData]);
+
+  // 悬浮卡片打开时，滚动或改变窗口大小就关闭，避免卡片脱离单词位置
+  useEffect(() => {
+    if (!mnemonicHover) return;
+    const close = () => setMnemonicHover(null);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [mnemonicHover]);
 
   // ===== 标星模块：派生数据 =====
   /**
@@ -216,6 +361,26 @@ export default function StudyPage() {
   }, [words, starredWords]);
 
   /**
+   * starredWordGroups - 标星（错词）按所属单元分组，用于「导出标星」弹窗分单元展示
+   *   分组顺序 = 单词在本次学习列表中首次出现的顺序，保证与上方单元名称一致
+   */
+  const starredWordGroups = useMemo<{ name: string; words: StudyWord[] }[]>(() => {
+    const order: string[] = [];
+    const map = new Map<string, StudyWord[]>();
+    for (const w of starredWordItems) {
+      const name = w.sheetName || '未命名单元';
+      let list = map.get(name);
+      if (!list) {
+        list = [];
+        map.set(name, list);
+        order.push(name);
+      }
+      list.push(w);
+    }
+    return order.map((name) => ({ name, words: map.get(name) as StudyWord[] }));
+  }, [starredWordItems]);
+
+  /**
    * starredAccuracy - 背诵准确率（计时背诵 / 导出错词共用）
    *   标星的单词视为错误，未标星的视为正确
    *   准确率 = (总词数 - 标星数) / 总词数
@@ -224,7 +389,8 @@ export default function StudyPage() {
     const total = words.length;
     const wrong = starredWords.length;
     const correct = total - wrong;
-    return total > 0 ? Math.round((correct / total) * 100) : 100;
+    // 取整规则：小数部分 ≥0.8 进一位，否则舍去（例如 98.8%→99%，98.7%→98%）
+    return total > 0 ? roundAccuracy((correct / total) * 100) : 100;
   }, [words.length, starredWords.length]);
 
   // ===== 计时背诵模块：本地 UI 状态 =====
@@ -232,7 +398,7 @@ export default function StudyPage() {
    * recitePickerOpen - 「计时背诵」时间选择浮层的开关
    *   - true：显示时间选项浮层（5 / 7 / 10 / 15 秒）
    *   - false：隐藏浮层
-   *   仅在「看词说意」和「听音辨义」两种非拼写模式下使用
+   *   仅在「识别背诵」和「听音辨义」两种非拼写模式下使用
    */
   const [recitePickerOpen, setRecitePickerOpen] = useState(false);
 
@@ -273,13 +439,6 @@ export default function StudyPage() {
    *   切换到新单词时自动重置为 false（见下方 useEffect）
    */
   const [reciteRevealed, setReciteRevealed] = useState(false);
-
-  /**
-   * reciteResultOpen - 背诵全部完成后显示「背诵结果」弹窗
-   *   - true：显示结果弹窗（单元名、单词数据、错误单词列表）
-   *   - 形式类似于「导出标星单词」弹窗
-   */
-  const [reciteResultOpen, setReciteResultOpen] = useState(false);
 
   /**
    * reciteKeyPressed - 快捷键触发的按钮按压状态（用于显示按键反馈）
@@ -369,6 +528,14 @@ export default function StudyPage() {
   // 整体计时器 ID（引用，用于卸载时清理）
   const totalTimerRef = useRef<number | null>(null);
 
+  /**
+   * 卡片点击「延迟切换」计时器
+   *   目的：双击选中单词准备复制时，不能被当成「切换释义显示/隐藏」。
+   *   做法：单击后先不切换，等一小段时间；若这期间发生了第二次点击（双击），
+   *        就取消这次切换，让用户安心选中并复制文字。
+   */
+  const cardClickTimerRef = useRef<number | null>(null);
+
   // —— 强制全屏相关 ——
   // 标记「正在主动离开学习页」：主动退出（如卸载、点返回）会触发 fullscreenchange，
   // 需靠这个标记跳过「退出全屏 → 回首页」的强制逻辑，避免误跳转。
@@ -406,7 +573,7 @@ export default function StudyPage() {
     }
     // —— 标星模块：每次进入学习页（换词表/换模式/重新开始）都确保标星是全新的空状态 ——
     resetStarredWords();
-    // 看词说意/听音辨义：保持原表顺序；
+    // 识别背诵/听音辨义：保持原表顺序；
     // 单词拼写：'all' 整体拼写=全部单词随机乱序；'random' 随机抽测=乱序后取前 N 个
     let finalWords: StudyWord[] = baseWords;
     if (mode === 'spelling') {
@@ -518,6 +685,35 @@ export default function StudyPage() {
   const toggleReveal = useCallback((uid: string) => {
     setRevealedMap((prev) => ({ ...prev, [uid]: !prev[uid] }));
   }, []);
+
+  /**
+   * handleCardClick - 卡片点击（已支持选中文字复制）
+   *   规则：
+   *     1. 若当前有选中文字（用户正在拖选准备复制）→ 不切换显示/隐藏；
+   *     2. 双击选词（250ms 内的第二次点击）→ 取消切换，方便用户双击选中单词后复制；
+   *     3. 普通单击单词 / 释义区域 → 正常切换释义显示/隐藏。
+   */
+  const handleCardClick = useCallback(
+    (uid: string) => {
+      // 情况 1：页面上已有非空的文字选区 → 认为用户在选中复制，不做切换
+      const sel = window.getSelection();
+      if (sel && !sel.isCollapsed && sel.toString().trim() !== '') return;
+
+      // 情况 2：短时间内的第二次点击 → 属于双击选词，取消上一次待执行的切换
+      if (cardClickTimerRef.current !== null) {
+        window.clearTimeout(cardClickTimerRef.current);
+        cardClickTimerRef.current = null;
+        return;
+      }
+
+      // 情况 3：普通单击 → 延迟 250ms 再切换；期间若发生双击则在上一步被取消
+      cardClickTimerRef.current = window.setTimeout(() => {
+        cardClickTimerRef.current = null;
+        toggleReveal(uid);
+      }, 250);
+    },
+    [toggleReveal],
+  );
 
   /**
    * toggleAllReveal - 一键显示/隐藏所有卡片的释义
@@ -807,7 +1003,7 @@ export default function StudyPage() {
   }, [mode, spellingIndex, words.length, locked]);
 
   /**
-   * 听音拼写模式：进入一个新单词时，立刻自动播放一次发音
+   * 单词拼写模式：进入一个新单词时，立刻自动播放一次发音
    *   - 依赖项 spellingIndex 变化即触发（换到新单词自动播）
    */
   useEffect(() => {
@@ -925,6 +1121,37 @@ export default function StudyPage() {
     XLSX.writeFile(wb, `标星单词_${stamp}.xlsx`);
   };
 
+  /**
+   * handleCopyStarred - 复制「导出标星」弹窗内容时统一输出纯文本
+   *   - 单词与释义用制表符分隔：粘贴到表格时单词落第一列、释义落第二列
+   *   - 不复制最上面的词表名称
+   *   - 单元与单元之间空一行
+   */
+  const handleCopyStarred = useCallback((e: ClipboardEvent) => {
+    const lines: string[] = [
+      selectedSheetNames.join('、'),
+      `共 ${words.length} 词 · 错 ${starredWordItems.length} · 对 ${words.length - starredWordItems.length} · 准确率 ${starredAccuracy}%`,
+    ];
+    // 多个单元时，每个单元前空一行并带单元名称；单个单元时单元名已在头部列出
+    for (const group of starredWordGroups) {
+      lines.push('');
+      if (starredWordGroups.length > 1) lines.push(group.name);
+      for (const w of group.words) {
+        // 制表符分隔，粘贴到 Excel / 表格时自动分列
+        lines.push(`${w.word}\t${w.meaning}`);
+      }
+    }
+    e.clipboardData?.setData('text/plain', lines.join('\n'));
+    e.preventDefault();
+  }, [selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
+
+  // 导出弹窗打开期间，拦截整页复制事件，保证复制出来的是同行格式的纯文本
+  useEffect(() => {
+    if (!exportModalOpen) return;
+    document.addEventListener('copy', handleCopyStarred);
+    return () => document.removeEventListener('copy', handleCopyStarred);
+  }, [exportModalOpen, handleCopyStarred]);
+
   // =========================
   // 【计时背诵模式】交互回调
   // =========================
@@ -945,7 +1172,6 @@ export default function StudyPage() {
     setReciteSeconds(seconds);
     setReciteIndex(0);
     setReciteRemaining(seconds);
-    setReciteResultOpen(false);
     setRecitePickerOpen(false);
     setReciteActive(true);
   };
@@ -968,7 +1194,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置倒计时和释义显示状态：避免上一个单词展开中切下一词时闪一下
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -989,7 +1217,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置释义显示状态
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1002,6 +1232,7 @@ export default function StudyPage() {
   const recitePrev = () => {
     if (reciteIndex <= 0) return;
     setReciteRemaining(reciteSeconds);
+    setReciteRevealed(false);
     setReciteIndex(reciteIndex - 1);
   };
 
@@ -1015,7 +1246,9 @@ export default function StudyPage() {
       // 全部背完：进入烟花庆祝状态，2 秒后自动关闭弹窗
       finishRecite();
     } else {
+      // 同时重置释义显示状态
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1029,12 +1262,13 @@ export default function StudyPage() {
   };
 
   /**
-   * finishRecite - 全部单词背完后调用：关闭背诵弹窗，直接弹出「背诵结果」弹窗
-   *   结果弹窗展示：单元名、单词数据、错误单词列表（形式同导出标星弹窗）
+   * finishRecite - 全部单词背完后调用：关闭背诵蒙层，直接切换到「只看标星」视图
+   *   直接进入错词复盘，不再弹出结果统计弹窗
    */
   const finishRecite = () => {
     setReciteActive(false);
-    setReciteResultOpen(true);
+    // 有标星（没记住）的单词时自动打开「只看标星」，直接展示这些错词
+    if (useAppStore.getState().starredWords.length > 0) setShowStarredOnly(true);
   };
 
   /**
@@ -1055,6 +1289,7 @@ export default function StudyPage() {
       finishRecite();
     } else {
       setReciteRemaining(reciteSeconds);
+      setReciteRevealed(false);
       setReciteIndex(next);
     }
   };
@@ -1158,24 +1393,35 @@ export default function StudyPage() {
           reciteActionsRef.current.prev();
           break;
         case 'ArrowUp':
+        case ' ':
+        case 'Spacebar':
           e.preventDefault();
-          // 上方向键：切换当前单词答案的展开 / 收起（释义/单词）
+          // 上方向键 / 空格键：切换当前单词答案的展开 / 收起（释义/单词）
           setReciteRevealed((v) => !v);
           break;
         case 'ArrowDown':
+        case 'm':
+        case 'M':
           e.preventDefault();
           flashPressed('mark');
           reciteActionsRef.current.mark();
           break;
-        case ' ':
-        case 'Spacebar':
+        case 'n':
+        case 'N':
           e.preventDefault();
-          // 空格键：记住（取消标星（若有）并跳下一词）
+          // N 键：记住（取消标星（若有）并跳下一词）
           flashPressed('remember');
           reciteActionsRef.current.remember();
           break;
         case 'Shift':
           // Shift 键：播放当前单词发音；e.repeat 过滤长按重复触发
+          if (e.repeat) break;
+          e.preventDefault();
+          reciteActionsRef.current.speak();
+          break;
+        case 'b':
+        case 'B':
+          // B 键：播放当前单词发音（与 Shift 等价，方便单键触发）
           if (e.repeat) break;
           e.preventDefault();
           reciteActionsRef.current.speak();
@@ -1202,16 +1448,16 @@ export default function StudyPage() {
     );
   }
 
-  // 根据当前模式计算顶部显示的文案和图标（新增看意说词子模式 + 单词拼写模式）
+  // 根据当前模式计算顶部显示的文案和图标（新增释义识别子模式 + 单词拼写模式）
   const titleModeLabel: string =
     mode === 'word-meaning'
       ? lookSubMode === 'meaning-word'
-        ? '看意说词'
-        : '看词说意'
+        ? '释义识别'
+        : '识别背诵'
       : mode === 'spelling'
         ? spellingSubMode === 'meaning-spelling'
           ? '单词拼写 · 释义拼写'
-          : '单词拼写 · 听音拼写'
+          : '单词拼写 · 单词拼写'
         : '听音辨义';
   const TitleIcon =
     mode === 'word-meaning'
@@ -1224,7 +1470,6 @@ export default function StudyPage() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
-      
       
 
       {/* 顶部 Sticky 工具栏（滚动固定）：左侧返回，中间模式信息，右侧工具按钮 */}
@@ -1267,7 +1512,7 @@ export default function StudyPage() {
             </span>
           </div>
           {/* 右：操作按钮
-              - 看词说意/听音辨义：一键显隐释义 + 只显示标星
+              - 识别背诵/听音辨义：一键显隐释义 + 只显示标星
               - 拼写模式：切换"首字母提示/提示显示"
            */}
           <div className="flex items-center gap-2">
@@ -1296,7 +1541,7 @@ export default function StudyPage() {
               </button>
             ) : (
               <>
-                {/* 按钮 1：一键显隐（仅非拼写模式）—— 看意说词：显隐单词；其它：显隐释义 */}
+                {/* 按钮 1：一键显隐（仅非拼写模式）—— 释义识别：显隐单词；其它：显隐释义 */}
                 <button
                   onClick={toggleAllReveal}
                   title={
@@ -1416,10 +1661,10 @@ export default function StudyPage() {
         </div>
       </div>
 
-      {/* 主内容区：根据 mode 切换 看词说意 / 单词拼写 / 听音辨义 */}
+      {/* 主内容区：根据 mode 切换 识别背诵 / 单词拼写 / 听音辨义 */}
       <div className="mx-auto max-w-5xl px-6 py-8">
         {mode === 'word-meaning' ? (
-          // 模式 A：看词说意 - 卡片头（序号徽标+词表名+标星）+ 卡片体（单词+发音按钮 + 释义展开区）
+          // 模式 A：识别背诵 - 卡片头（序号徽标+词表名+标星）+ 卡片体（单词+发音按钮 + 释义展开区）
           displayWords.length === 0 ? (
             // 「只看标星」模式下没有任何标星单词时 → 友好空状态引导
             <div className="mx-auto max-w-md py-16 text-center">
@@ -1461,6 +1706,23 @@ export default function StudyPage() {
                     <span className="truncate text-[11px] text-slate-500 flex-1 mx-2 text-center">
                       {w.sheetName}
                     </span>
+                    {/* 助记按钮：鼠标悬停即在该词旁边弹出助记卡片（点击/触摸同样可用） */}
+                    {lookSubMode === 'word-meaning' && (
+                      <button
+                        onMouseEnter={(e) => openMnemonic(w, e.currentTarget)}
+                        onMouseLeave={scheduleCloseMnemonic}
+                        onFocus={(e) => openMnemonic(w, e.currentTarget)}
+                        onBlur={scheduleCloseMnemonic}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMnemonic(w, e.currentTarget);
+                        }}
+                        title="查看助记方法"
+                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-violet-400 transition-all hover:bg-violet-50 hover:text-violet-600 hover:scale-110"
+                      >
+                        <Lightbulb className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                     {/* 标星按钮：点击切换星标，stopPropagation 避免触发卡片展开 */}
                     <button
                       onClick={(e) => {
@@ -1480,14 +1742,16 @@ export default function StudyPage() {
                   </div>
                   {/* 卡片主体 */}
                   <div className="p-5">
-                    {/* 整块可点击区域：点击切换 revealed（展开/收起） */}
-                    <div
-                      onClick={() => toggleReveal(w.uid)}
-                      className="cursor-pointer select-none"
-                    >
+                    {/* 整块可点击区域：点击切换 revealed（展开/收起）
+                      这里不用 select-none，允许用户选中并复制单词/释义；
+                      拖选文字或双击选词时不会触发显示/隐藏（见 handleCardClick） */}
+                  <div
+                    onClick={() => handleCardClick(w.uid)}
+                    className="cursor-pointer"
+                  >
                       {lookSubMode === 'word-meaning' ? (
                         <>
-                          {/* ===== 看词说意（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
+                          {/* ===== 识别背诵（原逻辑）：上方单词+发音，下方释义展开区 ===== */}
                           <div className="flex items-start justify-between gap-2">
                             <p className="flex-1 break-words text-2xl font-bold tracking-tight text-slate-900 transition group-hover:text-indigo-700">
                               {w.word}
@@ -1509,18 +1773,32 @@ export default function StudyPage() {
                             </button>
                           </div>
                           <div className="mt-4">
+                            {/*
+                              隐藏态固定两行高度（84px），提示文字居中；
+                              展开态 min-h-[84px] 保持同一最小高度，
+                                - 一行释义垂直居中；
+                                - 正好两行时刚好用满；
+                                - 超过两行自动撑高，下方元素正常下移。
+                              84px 由来：p-4(32px 垂直 padding) + text-base×leading-relaxed×2(52px)。
+                            */}
                             <div
                               className={cn(
-                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                'rounded-xl border p-4',
+                                'transition-[background,border-color,box-shadow,opacity] duration-300',
                                 revealed
-                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
-                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
+                                  ? // flex items-center 让释义在固定两行空间里垂直居中；
+                                    // 超过两行时容器随内容撑高，flex 依然生效但高度刚好等于内容，视觉无影响
+                                    'flex items-center border border-indigo-300 bg-white opacity-100 shadow-sm min-h-[84px]'
+                                  : 'border-dashed border-slate-300 bg-slate-100/70 opacity-90 h-[84px]'
                               )}
                             >
                               {revealed ? (
-                                <p className="text-base font-medium leading-relaxed text-slate-900">{w.meaning}</p>
+                                // text-center 让释义左右也居中，配合父容器 flex items-center 实现完全居中
+                                <p className="w-full text-center text-base font-medium leading-relaxed text-slate-900">
+                                  {w.meaning}
+                                </p>
                               ) : (
-                                <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
+                                <div className="flex h-full items-center justify-center gap-1.5 text-xs font-medium text-slate-500">
                                   <Eye className="h-3.5 w-3.5" />
                                   点击单词或此处查看释义
                                 </div>
@@ -1530,19 +1808,21 @@ export default function StudyPage() {
                         </>
                       ) : (
                         <>
-                          {/* ===== 看意说词（新逻辑）：上方显示中文释义，下方展开英文单词+发音 ===== */}
+                          {/* ===== 释义识别（新逻辑）：上方显示中文释义，下方展开英文单词+发音 ===== */}
                           <div className="min-h-[3.5rem] flex items-center">
                             <p className="flex-1 break-words text-xl font-bold tracking-tight leading-snug text-slate-900 transition group-hover:text-indigo-700">
                               {w.meaning}
                             </p>
                           </div>
                           <div className="mt-4">
+                            {/* 隐藏态同样固定高度，展开态用 min-h 保证不抖动 */}
                             <div
                               className={cn(
-                                'overflow-hidden rounded-xl border transition-all duration-300',
+                                'rounded-xl border p-4',
+                                'transition-[background,border-color,box-shadow,opacity] duration-300',
                                 revealed
-                                  ? 'max-h-60 border border-indigo-300 bg-white p-4 opacity-100 shadow-sm'
-                                  : 'max-h-10 border-dashed border-slate-300 bg-slate-100/70 p-2 opacity-90'
+                                  ? 'border border-indigo-300 bg-white opacity-100 shadow-sm min-h-[84px]'
+                                  : 'border-dashed border-slate-300 bg-slate-100/70 opacity-90 h-[84px]'
                               )}
                             >
                               {revealed ? (
@@ -1584,7 +1864,7 @@ export default function StudyPage() {
             </div>
           )
         ) : mode === 'spelling' ? (
-          // 模式 C：单词拼写（子模式 释义拼写 / 听音拼写）
+          // 模式 C：单词拼写（子模式 释义拼写 / 单词拼写）
           // 单卡片居中布局，顶部进度条，中间题目/输入区，底部提交+下一题
           <div className="mx-auto max-w-2xl">
             {spellingIndex >= words.length ? (
@@ -1593,8 +1873,11 @@ export default function StudyPage() {
                 // ====== 派生数据：准确率 / 是否达标 / 检查时间 / 模式文案 ======
                 const accuracyVal =
                   words.length === 0 ? 0 : (stats.correct / words.length) * 100;
-                const accuracyStr = `${Math.round(accuracyVal)}%`;
-                const passed = accuracyVal >= 90;
+                // 取整规则：小数部分 ≥0.8 进一位，否则舍去（例如 98.8%→99%，98.7%→98%）
+                const accuracyNum = roundAccuracy(accuracyVal);
+                const accuracyStr = `${accuracyNum}%`;
+                // 合格判定与展示值保持一致，避免出现「显示 90% 却判不合格」的矛盾
+                const passed = accuracyNum >= 90;
                 // 因「使用中文输入法」而被判错的单词数量
                 const chineseCount = wrongRecords.filter((r) => r.isChinese).length;
                 // 检查时间（当前系统时间）
@@ -1603,7 +1886,7 @@ export default function StudyPage() {
                   hour: '2-digit', minute: '2-digit', hour12: false,
                 });
                 const modeText =
-                  spellingSubMode === 'meaning-spelling' ? '释义拼写' : '听音拼写';
+                  spellingSubMode === 'meaning-spelling' ? '释义拼写' : '单词拼写';
                 return (
               <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
                 {/* —— 顶部祝贺/鼓励横幅（按准确率 ≥90 切换） —— */}
@@ -1957,9 +2240,8 @@ export default function StudyPage() {
                 return (
                   <div
                     key={w.uid}
-                    onClick={() => toggleReveal(w.uid)}
                     className={cn(
-                      'group cursor-pointer overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
+                      'group overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
                       revealed ? 'border-indigo-200' : 'border-slate-200/80',
                       starred ? 'ring-2 ring-amber-300/70' : ''
                     )}
@@ -2010,11 +2292,14 @@ export default function StudyPage() {
                           <Volume2 className="h-10 w-10" />
                         </button>
                       </div>
-                      {/* 答案区：单词 + 释义（未展开时只显示提示） */}
+                      {/* 答案区：单词 + 释义（未展开时只显示提示）
+                          只有点击这一块（单词/释义位置）才切换显示隐藏；
+                          选中文字复制时不会触发（见 handleCardClick） */}
                       <div className="mt-5">
                         <div
+                          onClick={() => handleCardClick(w.uid)}
                           className={cn(
-                            'overflow-hidden rounded-xl border transition-all duration-300',
+                            'cursor-pointer overflow-hidden rounded-xl border transition-all duration-300',
                             revealed
                               ? 'max-h-96 border-indigo-100 bg-gradient-to-br from-indigo-50 to-blue-50 p-4 opacity-100'
                               : 'max-h-14 border-dashed border-slate-200 bg-slate-50/60 p-3 opacity-80'
@@ -2031,7 +2316,7 @@ export default function StudyPage() {
                           ) : (
                             <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
                               <Eye className="h-3.5 w-3.5" />
-                              点击卡片显示单词和释义
+                              点击此处显示单词和释义
                             </div>
                           )}
                         </div>
@@ -2051,7 +2336,7 @@ export default function StudyPage() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
           onClick={() => setExportModalOpen(false)}
         >
-          {/* 弹窗卡片：阻止点击冒泡关闭 */}
+          {/* 弹窗卡片：阻止点击冒泡关闭；复制由全局 copy 监听统一处理 */}
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
@@ -2069,26 +2354,28 @@ export default function StudyPage() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-200">
                   <Download className="h-6 w-6" />
                 </div>
-                <div>
-                  <h3 className="text-lg font-extrabold text-slate-800">
+                <div className="min-w-0">
+                  <h3 className="truncate text-lg font-extrabold text-slate-800">
                     {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
                     {(currentBook?.fileName || '标星单词').replace(/\.(xlsx|xls)$/i, '')}
                   </h3>
-                  <p className="text-xs text-slate-500">
-                    {/* 副标题：单元名称 · 总词数 · 错误数(标星) · 正确数(未标星) · 准确率 */}
-                    {selectedSheetNames.length === 1
-                      ? selectedSheetNames[0]
-                      : `${selectedSheetNames.length} 个单元`}
-                    {' · '}共<span className="font-bold text-slate-700"> {words.length} </span>词
-                    {' · '}错<span className="font-bold text-rose-500"> {starredWordItems.length} </span>
-                    {' · '}对<span className="font-bold text-emerald-600"> {words.length - starredWordItems.length} </span>
-                    {' · '}准确率<span className="font-bold text-slate-700"> {starredAccuracy}%</span>
-                  </p>
+                  {/* 副标题分两行：第一行单元名称（多个也用一行显示），第二行统计 */}
+                  <div className="mt-1 space-y-0.5">
+                    <p className="truncate text-xs font-medium leading-snug text-slate-600">
+                      {selectedSheetNames.join('、')}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      共<span className="font-bold text-slate-700"> {words.length} </span>词
+                      {' · '}错<span className="font-bold text-rose-500"> {starredWordItems.length} </span>
+                      {' · '}对<span className="font-bold text-emerald-600"> {words.length - starredWordItems.length} </span>
+                      {' · '}准确率<span className="font-bold text-slate-700"> {starredAccuracy}%</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 表格区域：可滚动，表头固定 */}
+            {/* 错词区域：按单元分组展示（多单元时先显示单元名，再显示该单元的错词） */}
             <div className="flex-1 overflow-auto px-6 py-4">
               {starredWordItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -2096,37 +2383,33 @@ export default function StudyPage() {
                   <p className="mt-3 text-sm text-slate-400">还没有标星任何单词</p>
                 </div>
               ) : (
-                <table className="w-full border-collapse text-left text-sm">
-                  {/* 表头不固定，随单词列表一起上下滚动 */}
-                  <thead>
-                    <tr>
-                      <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
-                        #
-                      </th>
-                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                        单词
-                      </th>
-                      <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                        释义
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {starredWordItems.map((w, idx) => (
-                      <tr key={w.uid} className="hover:bg-slate-50">
-                        <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
-                          {idx + 1}
-                        </td>
-                        <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
-                          {w.word}
-                        </td>
-                        <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
-                          {w.meaning}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="space-y-4">
+                  {starredWordGroups.map((group) => (
+                    <div key={group.name}>
+                      {/* 单元名称（只有多个单元时才显示分组标题） */}
+                      {starredWordGroups.length > 1 && (
+                        <h4 className="mb-1.5 flex items-center gap-2 text-xs font-bold text-slate-700">
+                          <span className="h-3.5 w-1 rounded-full bg-indigo-500" />
+                          {group.name}
+                        </h4>
+                      )}
+                      {/* 错词：直接列出单词 + 释义，两者各占一列、均左对齐 */}
+                      <ul className="divide-y divide-slate-100">
+                        {group.words.map((w) => (
+                          <li
+                            key={w.uid}
+                            className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-2 text-left"
+                          >
+                            <span className="text-left text-sm font-semibold tracking-tight text-slate-800">
+                              {w.word}
+                            </span>
+                            <span className="text-left text-xs text-slate-500">{w.meaning}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
@@ -2217,14 +2500,20 @@ export default function StudyPage() {
         // 进度条填充宽度
         const barWidthPct = (reciteIndex / Math.max(1, reciteList.length)) * 100;
         // 判断当前背诵模式的展示形式
-        // - 看词说意（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
-        // - 看意说词（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
+        // - 识别背诵（lookSubMode==='word-meaning'）：正面显示单词，点击查看释义
+        // - 释义识别（lookSubMode==='meaning-word'）：正面显示释义，点击查看单词
         // - 听音辨义（mode==='audio-meaning'）：正面显示发音按钮，点击查看单词+释义
         const isWordMeaningMode = mode === 'word-meaning' && lookSubMode === 'word-meaning';
         const isMeaningWordMode = mode === 'word-meaning' && lookSubMode === 'meaning-word';
         // 听音辨义模式作为 else 分支（mode === 'audio-meaning'）
         return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md px-2 sm:px-4">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md px-2 sm:px-4"
+            // 计时检查期间禁止复制单词/释义：屏蔽复制、剪切和右键菜单（防止抄写答案）
+            onCopy={(e) => e.preventDefault()}
+            onCut={(e) => e.preventDefault()}
+            onContextMenu={(e) => e.preventDefault()}
+          >
             {/* 卡片 + 两侧导航箭头（横向 flex：左箭头 | 卡片 | 右箭头） */}
             <div className="flex w-full max-w-2xl items-center gap-2 sm:gap-4">
               {/* 左侧：上一词（仅图标） */}
@@ -2242,8 +2531,8 @@ export default function StudyPage() {
                 <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
 
-              {/* 弹窗主体 */}
-              <div className="relative min-w-0 flex-1 overflow-hidden rounded-3xl bg-white shadow-2xl">
+              {/* 弹窗主体（select-none：计时检查时文字不可选中，配合上面的复制拦截彻底防抄写） */}
+              <div className="relative min-w-0 flex-1 select-none overflow-hidden rounded-3xl bg-white shadow-2xl">
               {/* —— 顶部进度条 + 关闭按钮 —— */}
               <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-violet-50/70 to-purple-50/70 px-8 py-4">
                 <div className="flex items-center gap-2">
@@ -2257,7 +2546,7 @@ export default function StudyPage() {
                       const total = reciteList.length;
                       const wrong = reciteStarredCount;
                       const correct = total - wrong;
-                      const acc = total > 0 ? Math.round((correct / total) * 100) : 100;
+                      const acc = total > 0 ? roundAccuracy((correct / total) * 100) : 100;
                       return (
                         <span className={cn('ml-1 font-bold', acc >= 90 ? 'text-emerald-600' : 'text-rose-500')}>
                           准确率<span>{acc}</span>%
@@ -2329,7 +2618,7 @@ export default function StudyPage() {
 
                 {/* —— 根据背诵模式显示不同内容 —— */}
                 {isWordMeaningMode ? (
-                  // ===== 看词说意：正面显示单词，上方播放发音，下方点击查看释义 =====
+                  // ===== 识别背诵：正面显示单词，上方播放发音，下方点击查看释义 =====
                   <div className="text-center">
                     <p className="break-words text-4xl font-black tracking-tight text-slate-900">
                       {cur.word}
@@ -2344,20 +2633,23 @@ export default function StudyPage() {
                       <Volume2 className="h-4 w-4" />
                       播放发音
                     </button>
-                    {/* 下方：点击查看/收起释义（同一块区域点击或 ↑ 键均可切换） */}
-                    <div className="mt-3 min-h-[1.75rem]">
+                    {/* 下方：点击查看/收起释义（同一块区域点击或 ↑ 键均可切换）
+                        固定为两行高度，一行时上下居中，超过两行自动增加 */}
+                    <div
+                      className="mt-3 flex min-h-[66px] items-center justify-center"
+                    >
                       {reciteRevealed ? (
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-700 transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-900 focus:outline-none"
                         >
                           {cur.meaning}
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-xl leading-relaxed text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-xl leading-relaxed text-slate-400 opacity-40 focus:outline-none"
                         >
                           点击查看释义
                         </button>
@@ -2365,7 +2657,7 @@ export default function StudyPage() {
                     </div>
                   </div>
                 ) : isMeaningWordMode ? (
-                  // ===== 看意说词：正面显示释义，上方播放发音，下方点击查看单词 =====
+                  // ===== 释义识别：正面显示释义，上方播放发音，下方点击查看单词 =====
                   <div className="text-center">
                     <p className="break-words text-2xl font-bold tracking-tight leading-snug text-slate-900">
                       {cur.meaning}
@@ -2386,14 +2678,14 @@ export default function StudyPage() {
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer break-words bg-transparent text-4xl font-black tracking-tight text-slate-900 transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer break-words bg-transparent text-4xl font-black tracking-tight text-slate-900 focus:outline-none"
                         >
                           {cur.word}
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 focus:outline-none"
                         >
                           点击查看单词
                         </button>
@@ -2420,20 +2712,20 @@ export default function StudyPage() {
                         <button
                           onClick={toggleReveal}
                           title="点击收起（↑）"
-                          className="w-full cursor-pointer bg-transparent transition-opacity hover:opacity-60"
+                          className="w-full cursor-pointer bg-transparent focus:outline-none"
                         >
                           <p className="break-words text-4xl font-black tracking-tight text-slate-900">
                             {cur.word}
                           </p>
                           <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
-                          <p className="break-words text-xl leading-relaxed text-slate-700">
+                          <p className="break-words text-xl leading-relaxed text-slate-900">
                             {cur.meaning}
                           </p>
                         </button>
                       ) : (
                         <button
                           onClick={toggleReveal}
-                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 transition-opacity hover:opacity-100"
+                          className="text-4xl font-black tracking-tight text-slate-400 opacity-40 focus:outline-none"
                         >
                           显示单词和释义
                         </button>
@@ -2469,7 +2761,7 @@ export default function StudyPage() {
                 </div>
                 {/* 快捷键提示 */}
                 <p className="mt-3 text-center text-[11px] text-slate-400">
-                  快捷键：← 上一词 · → 下一词 · ↑ 显示/收起释义 · ↓ 标星 · 空格 记住 · Shift 播放发音
+                  快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift/B 播放发音
                 </p>
               </div>
 
@@ -2494,107 +2786,144 @@ export default function StudyPage() {
         );
       })()}
 
-      {/* ===== 背诵结果弹窗：全部背完后弹出，形式同导出标星弹窗 ===== */}
-      {reciteResultOpen && (() => {
-        // 错误单词 = 背诵队列中标星的单词
-        const reciteWrongWords = reciteList.filter((w) => starredWords.includes(w.word));
-        const total = reciteList.length;
-        const wrong = reciteWrongWords.length;
-        const correct = total - wrong;
-        const accuracy = total > 0 ? Math.round((correct / total) * 100) : 100;
-        // 单元名称（单 sheet 显示该 sheet 名，多 sheet 显示"N 个单元"）
-        const unitName = selectedSheetNames.length === 1
-          ? selectedSheetNames[0]
-          : `${selectedSheetNames.length} 个单元`;
+      {/* ===== 助记悬浮卡片：鼠标悬停「助记」按钮时在单词旁边出现，无遮罩、不模糊页面 ===== */}
+      {mnemonicHover && (() => {
+        const { word, left, top } = mnemonicHover;
+        const mn = mnemonicData;
+        const accent = mn?.accent || '#4f46e5';
+        const tint = mn?.tint || '#eef2ff';
+        const splitParts = mn?.splitParts || [];
+        const family = mn?.family || [];
+        const hasMnemonic = !!(
+          mn?.rhyme || mn?.quick || mn?.etymology || mn?.caution ||
+          splitParts.length > 0 || family.length > 0
+        );
         return (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
-            onClick={() => setReciteResultOpen(false)}
+            ref={mnemonicCardRef}
+            style={{
+              position: 'fixed',
+              left,
+              top,
+              width: 'min(360px, calc(100vw - 24px))',
+              maxHeight: Math.max(220, window.innerHeight - top - 12),
+            }}
+            className="z-50 overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-slate-200/80"
+            onMouseEnter={cancelCloseMnemonic}
+            onMouseLeave={scheduleCloseMnemonic}
           >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
-            >
-              {/* 右上角关闭按钮 × */}
-              <button
-                onClick={() => setReciteResultOpen(false)}
-                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-              >
-                <X className="h-5 w-5" />
-              </button>
-              {/* 弹窗头部：图标 + 标题 + 说明 */}
-              <div className="border-b border-slate-100 px-6 py-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-violet-200">
-                    <Trophy className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-extrabold text-slate-800">
-                      {/* 标题：词表名全部显示，仅去掉 .xlsx/.xls 后缀 */}
-                      {(currentBook?.fileName || '背诵结果').replace(/\.(xlsx|xls)$/i, '')}
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      {/* 副标题：单元名称 · 总词数 · 正确数 · 准确率 */}
-                      {unitName}
-                      {' · '}共<span className="font-bold text-slate-700"> {total} </span>词
-                      {' · '}对<span className="font-bold text-emerald-600"> {correct} </span>
-                      {' · '}准确率<span className="font-bold text-slate-700"> {accuracy}%</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 错误单词表格区域：可滚动，表头随内容一起滚动 */}
-              <div className="flex-1 overflow-auto px-6 py-4">
-                {reciteWrongWords.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <CheckCircle className="h-10 w-10 text-emerald-400" />
-                    <p className="mt-3 text-sm font-semibold text-emerald-600">全部掌握，没有错误单词！</p>
-                  </div>
-                ) : (
-                  <table className="w-full border-collapse text-left text-sm">
-                    <thead>
-                      <tr>
-                        <th className="w-12 border-b border-slate-200 px-3 py-2.5 text-center text-xs font-semibold text-slate-500">
-                          #
-                        </th>
-                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                          单词
-                        </th>
-                        <th className="border-b border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-500">
-                          释义
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {reciteWrongWords.map((w, idx) => (
-                        <tr key={w.uid} className="hover:bg-slate-50">
-                          <td className="border-b border-slate-100 px-3 py-2.5 text-center text-xs text-slate-400">
-                            {idx + 1}
-                          </td>
-                          <td className="border-b border-slate-100 px-3 py-2.5 tracking-tight text-slate-800">
-                            {w.word}
-                          </td>
-                          <td className="border-b border-slate-100 px-3 py-2.5 text-slate-600">
-                            {w.meaning}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+            {/* 头部：单词 + 音标 + 关闭 */}
+            <div className="mb-2 flex items-start justify-between gap-2">
+              <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <h3 className="text-base font-semibold tracking-tight text-slate-900">{word.word}</h3>
+                {(mn?.phonetic || word.phonetic) && (
+                  <span className="font-mono text-[11px] text-slate-400">
+                    {mn?.phonetic || word.phonetic}
+                  </span>
                 )}
               </div>
-
-              {/* 底部操作区：关闭 */}
-              <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">
-                <button
-                  onClick={() => setReciteResultOpen(false)}
-                  className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
-                >
-                  关闭
-                </button>
-              </div>
+              <button
+                onClick={() => setMnemonicHover(null)}
+                title="关闭"
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
+
+            {/* 释义 */}
+            <p className="text-[13px] leading-relaxed text-slate-800">{word.meaning}</p>
+
+            {/* 词根词缀 */}
+            {splitParts.length > 0 && (
+              <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600">
+                <span
+                  className="mr-1.5 inline-block rounded px-1.5 py-0.5 text-[10px] font-medium"
+                  style={{ backgroundColor: tint, color: accent }}
+                >
+                  词根词缀
+                </span>
+                {splitParts.join(' ')}
+              </p>
+            )}
+
+            {/* 词源 */}
+            {mn?.etymology && (
+              <p className="mt-2 text-[12px] leading-relaxed text-slate-500">
+                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                  词源
+                </span>
+                {mn.etymology}
+              </p>
+            )}
+
+            {/* 口诀 */}
+            {mn?.rhyme && (
+              <div
+                className="mt-2.5 rounded-lg p-2.5 text-[13px] leading-relaxed text-slate-800"
+                style={{ backgroundColor: tint }}
+              >
+                <span
+                  className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium"
+                  style={{ color: accent }}
+                >
+                  口诀
+                </span>
+                {mn.rhyme}
+              </div>
+            )}
+
+            {/* 速记 */}
+            {mn?.quick && (
+              <div className="mt-2 rounded-lg border border-dashed border-amber-300 bg-amber-50/80 p-2.5 text-[12.5px] leading-relaxed text-slate-700">
+                <span className="mr-1.5 inline-block rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-800">
+                  速记
+                </span>
+                {mn.quick}
+              </div>
+            )}
+
+            {/* 词根扩展 */}
+            {family.length > 0 && (
+              <div className="mt-2.5">
+                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                  词根扩展
+                </span>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {family.map((f) => (
+                    <span
+                      key={f}
+                      className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600"
+                    >
+                      {f}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 易错 */}
+            {mn?.caution && (
+              <div className="mt-2.5 rounded-lg bg-rose-50 p-2.5 text-[11.5px] leading-relaxed text-rose-700">
+                <span className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-rose-600">
+                  易错
+                </span>
+                {mn.caution}
+              </div>
+            )}
+
+            {/* 联网中 / 无数据兜底 */}
+            {mnemonicLoading && (
+              <div className="mt-2.5 flex items-center gap-2 rounded-lg bg-slate-50 p-2.5 text-[12px] text-slate-500">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                {hasMnemonic ? '口诀/速记生成中…' : '正在联网查找助记…'}
+              </div>
+            )}
+            {!mnemonicLoading && !hasMnemonic && (
+              <div className="mt-2.5 rounded-lg bg-slate-50 p-2.5 text-[12px] text-slate-500">
+                该词暂未找到可用的口诀与速记，可以先结合释义和发音记忆。
+              </div>
+            )}
           </div>
         );
       })()}

@@ -3,7 +3,7 @@
  * 这样用户即使刷新页面或关闭浏览器，再次打开时已上传的词表仍然在
  */
 
-import type { VocabularyBook, ReadingPassage } from '@/types';
+import type { VocabularyBook, ReadingPassage, ListeningLesson, ListeningEntry } from '@/types';
 
 // localStorage 里存词表使用的"键名"，相当于抽屉的标签
 const STORAGE_KEY = 'vocabulary_books_storage';
@@ -13,6 +13,12 @@ const READING_PASSAGES_KEY = 'reading_passages_storage';
 
 // localStorage 里存标星单词的键名（单词字符串 → true/false，直接存字符串集合更省空间）
 const STARRED_WORDS_KEY = 'starred_words_storage';
+
+// localStorage 里存听力精听材料的键名
+const LISTENING_LESSONS_KEY = 'listening_lessons_storage';
+
+// localStorage 里存听力精听「目录」条目的键名（网页本体存在 IndexedDB）
+const LISTENING_ENTRIES_KEY = 'listening_entries_storage';
 
 /**
  * 把当前所有的词表列表保存到浏览器本地
@@ -91,6 +97,80 @@ export function clearReadingPassages(): void {
   localStorage.removeItem(READING_PASSAGES_KEY);
 }
 
+// ============================================
+// 以下是「听力精听」模块的存储
+// 注意：音频文件（audioDataUrl）体积较大，存 localStorage 可能触发配额超限，
+//      所以保存前会把 audioDataUrl 字段清掉（只存文本和分句结构），
+//      进入听力精听页面时音频需要用户重新上传。
+// ============================================
+
+/**
+ * 保存所有听力精听材料（剥离 audioDataUrl 避免 localStorage 超限）
+ */
+export function saveListeningLessons(lessons: ListeningLesson[]): void {
+  try {
+    // 保存时不存音频二进制——太大，会触发 QuotaExceededError
+    const lightweight = lessons.map((l) => ({ ...l, audioDataUrl: '' }));
+    localStorage.setItem(LISTENING_LESSONS_KEY, JSON.stringify(lightweight));
+  } catch (e) {
+    console.error('保存听力精听材料失败', e);
+  }
+}
+
+/**
+ * 从 localStorage 读取所有听力精听材料（注意：音频内容丢失，需要重新上传）
+ */
+export function loadListeningLessons(): ListeningLesson[] {
+  try {
+    const raw = localStorage.getItem(LISTENING_LESSONS_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as ListeningLesson[];
+  } catch (e) {
+    console.error('读取听力精听材料失败', e);
+    return [];
+  }
+}
+
+/**
+ * 清空所有听力精听材料
+ */
+export function clearListeningLessons(): void {
+  localStorage.removeItem(LISTENING_LESSONS_KEY);
+}
+
+// ============================================
+// 以下是「听力精听目录」模块的存储
+//   目录条目本身很小（标题 / 链接 / 句数 / 顺序），直接存 localStorage；
+//   导入的 .html 网页本体体积大（内嵌音频），由 htmlStore.ts 存到 IndexedDB。
+// ============================================
+
+/** 保存听力精听目录条目 */
+export function saveListeningEntries(entries: ListeningEntry[]): void {
+  try {
+    localStorage.setItem(LISTENING_ENTRIES_KEY, JSON.stringify(entries));
+  } catch (e) {
+    console.error('保存听力目录失败', e);
+  }
+}
+
+/** 读取听力精听目录条目 */
+export function loadListeningEntries(): ListeningEntry[] {
+  try {
+    const raw = localStorage.getItem(LISTENING_ENTRIES_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? (arr as ListeningEntry[]) : [];
+  } catch (e) {
+    console.error('读取听力目录失败', e);
+    return [];
+  }
+}
+
+/** 清空听力精听目录条目 */
+export function clearListeningEntries(): void {
+  localStorage.removeItem(LISTENING_ENTRIES_KEY);
+}
+
 /**
  * 清空所有和本应用相关的 localStorage 数据
  */
@@ -98,11 +178,13 @@ export function clearAllStorage(): void {
   clearVocabularyBooks();
   clearReadingPassages();
   clearStarredWords();
+  clearListeningLessons();
+  clearListeningEntries();
 }
 
 // ============================================
 // 以下是「标星单词」模块的存储
-//   标星使用场景：看词说意、听音辨义两个板块可以给单词打星标，
+//   标星使用场景：识别背诵、听音辨义两个板块可以给单词打星标，
 //   支持"只显示标星单词"的筛选模式，方便重点复习。
 // ============================================
 
