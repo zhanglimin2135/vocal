@@ -363,21 +363,19 @@ export default function StudyPage() {
   /**
    * starredWordGroups - 标星（错词）按所属单元分组，用于「导出标星」弹窗分单元展示
    *   分组顺序 = 单词在本次学习列表中首次出现的顺序，保证与上方单元名称一致
+   *   每个词附带 globalIndex：跨单元的全局序号（1,2,3...N），整体顺延、不按单元重置
    */
-  const starredWordGroups = useMemo<{ name: string; words: StudyWord[] }[]>(() => {
+  const starredWordGroups = useMemo<{ name: string; words: (StudyWord & { globalIndex: number })[] }[]>(() => {
+    let idx = 0;
     const order: string[] = [];
-    const map = new Map<string, StudyWord[]>();
+    const map = new Map<string, (StudyWord & { globalIndex: number })[]>();
     for (const w of starredWordItems) {
       const name = w.sheetName || '未命名单元';
       let list = map.get(name);
-      if (!list) {
-        list = [];
-        map.set(name, list);
-        order.push(name);
-      }
-      list.push(w);
+      if (!list) { list = []; map.set(name, list); order.push(name); }
+      list.push({ ...w, globalIndex: ++idx });
     }
-    return order.map((name) => ({ name, words: map.get(name) as StudyWord[] }));
+    return order.map((name) => ({ name, words: map.get(name) as (StudyWord & { globalIndex: number })[] }));
   }, [starredWordItems]);
 
   /**
@@ -1145,12 +1143,9 @@ export default function StudyPage() {
     e.preventDefault();
   }, [selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
 
-  // 导出弹窗打开期间，拦截整页复制事件，保证复制出来的是同行格式的纯文本
-  useEffect(() => {
-    if (!exportModalOpen) return;
-    document.addEventListener('copy', handleCopyStarred);
-    return () => document.removeEventListener('copy', handleCopyStarred);
-  }, [exportModalOpen, handleCopyStarred]);
+  // 注意：不再拦截全局 copy 事件，让浏览器原生复制按用户选中范围工作
+  //   用户选哪些单词行，复制出来就是哪些；选释义、选单元名都行。
+  //   handleCopyStarred 保留作为未来"一键复制全部"按钮的实现，当前不绑定监听。
 
   // =========================
   // 【计时背诵模式】交互回调
@@ -2336,7 +2331,7 @@ export default function StudyPage() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4"
           onClick={() => setExportModalOpen(false)}
         >
-          {/* 弹窗卡片：阻止点击冒泡关闭；复制由全局 copy 监听统一处理 */}
+          {/* 弹窗卡片：阻止点击冒泡关闭；复制由浏览器原生选中驱动，选哪些行复制哪些 */}
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative flex max-h-[85vh] w-full max-w-2xl flex-col rounded-3xl bg-white shadow-2xl"
@@ -2393,13 +2388,16 @@ export default function StudyPage() {
                           {group.name}
                         </h4>
                       )}
-                      {/* 错词：直接列出单词 + 释义，两者各占一列、均左对齐 */}
+                      {/* 错词：序号 + 单词 + 释义，三列整体左对齐；序号跨单元整体顺延 */}
                       <ul className="divide-y divide-slate-100">
                         {group.words.map((w) => (
                           <li
                             key={w.uid}
-                            className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-2 text-left"
+                            className="grid grid-cols-[1.75rem_5.5rem_minmax(0,1fr)] items-baseline gap-x-3 py-2 text-left"
                           >
+                            <span className="w-full text-center text-xs font-medium text-slate-400 tabular-nums">
+                              {w.globalIndex}
+                            </span>
                             <span className="text-left text-sm font-semibold tracking-tight text-slate-800">
                               {w.word}
                             </span>
