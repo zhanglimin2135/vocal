@@ -9,7 +9,16 @@
 
 import type { ListeningCategory, ListeningEntry } from '@/types';
 
-const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/+$/, '');
+/**
+ * 允许把控制台里的「REST endpoint」直接粘进来：
+ *   https://xxx.supabase.co/rest/v1/  →  https://xxx.supabase.co
+ * 否则会拼出 /rest/v1/rest/v1/... 导致全部 404
+ */
+const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined)
+  ?.trim()
+  .replace(/\/+$/, '')
+  .replace(/\/rest\/v1$/i, '')
+  .replace(/\/+$/, '');
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
 /** 数据表名 */
