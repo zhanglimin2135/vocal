@@ -30,6 +30,7 @@ import {
   Send,
   Camera,
   Download,
+  Copy,
   Timer,
   ChevronLeft,
   ChevronRight,
@@ -1122,28 +1123,67 @@ export default function StudyPage() {
   };
 
   /**
-   * handleCopyStarred - 复制「导出标星」弹窗内容时统一输出纯文本
-   *   - 单词与释义用制表符分隔：粘贴到表格时单词落第一列、释义落第二列
-   *   - 不复制最上面的词表名称
-   *   - 单元与单元之间空一行
+   * buildFullCopyText - 构建「一键复制全部」的纯文本
+   *   格式：单元名称 → 错词列表（每行 `序号\t单词\t释义`，序号整体连续）
+   *   多单元时分单元分组列出；单个单元不再重复单元标题
    */
-  const handleCopyStarred = useCallback((e: ClipboardEvent) => {
-    const lines: string[] = [
-      selectedSheetNames.join('、'),
-      `共 ${words.length} 词 · 错 ${starredWordItems.length} · 对 ${words.length - starredWordItems.length} · 准确率 ${starredAccuracy}%`,
-    ];
-    // 多个单元时，每个单元前空一行并带单元名称；单个单元时单元名已在头部列出
+  const buildFullCopyText = useCallback(() => {
+    const lines: string[] = [];
     for (const group of starredWordGroups) {
-      lines.push('');
-      if (starredWordGroups.length > 1) lines.push(group.name);
-      for (const w of group.words) {
-        // 制表符分隔，粘贴到 Excel / 表格时自动分列
-        lines.push(`${w.word}\t${w.meaning}`);
+      // 多单元时每个分组前加单元名称；单个单元时不重复（弹窗头部已有）
+      if (starredWordGroups.length > 1) {
+        lines.push(group.name);
       }
+      for (const w of group.words) {
+        lines.push(`${w.globalIndex}\t${w.word}\t${w.meaning}`);
+      }
+      // 单元之间空一行（最后一个单元后不加）
+      if (starredWordGroups.indexOf(group) < starredWordGroups.length - 1) lines.push('');
     }
-    e.clipboardData?.setData('text/plain', lines.join('\n'));
-    e.preventDefault();
-  }, [selectedSheetNames, words, starredWordItems, starredWordGroups, starredAccuracy]);
+    return lines.join('\n');
+  }, [starredWordGroups]);
+
+  /** 一键复制成功的临时反馈状态（1.5s 后自动消失） */
+  const [copyToast, setCopyToast] = useState(false);
+
+  /**
+   * handleCopyAllStarred - 弹窗底部「一键复制」按钮点击
+   *   优先用 navigator.clipboard.writeText（异步），失败降级到 execCommand('copy')（同步）
+   *   成功后显示 1.5s 反馈
+   */
+  const handleCopyAllStarred = useCallback(async () => {
+    if (starredWordItems.length === 0) return;
+    const text = buildFullCopyText();
+    const doCopy = () => {
+      // 降级方案：创建临时 textarea → select → execCommand('copy')
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch {
+        document.body.removeChild(ta);
+        return false;
+      }
+    };
+    let ok = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch { /* 继续降级 */ }
+    if (!ok) ok = doCopy();
+    if (ok) {
+      setCopyToast(true);
+      window.setTimeout(() => setCopyToast(false), 1500);
+    }
+  }, [starredWordItems.length, buildFullCopyText]);
 
   /**
    * handleCopyStarredFiltered - 导出弹窗内强制 copy 格式化
@@ -2464,13 +2504,26 @@ export default function StudyPage() {
               )}
             </div>
 
-            {/* 底部操作区：下载 + 关闭 */}
-            <div className="flex items-center gap-3 border-t border-slate-100 px-6 py-4">
+            {/* 底部操作区：一键复制 + 下载 + 关闭 */}
+            <div className="relative flex items-center gap-3 border-t border-slate-100 px-6 py-4">
+              {/* 复制成功 Toast：绝对定位居中，1.5s 后自动消失 */}
+              {copyToast && (
+                <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-slate-800/90 px-4 py-2 text-xs font-semibold text-white shadow-lg">
+                  已复制到剪贴板
+                </div>
+              )}
               <button
-                onClick={() => setExportModalOpen(false)}
-                className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+                onClick={handleCopyAllStarred}
+                disabled={starredWordItems.length === 0}
+                className={cn(
+                  'flex flex-1 items-center justify-center gap-2 rounded-2xl py-2.5 text-sm font-bold text-white shadow-lg transition-all',
+                  starredWordItems.length === 0
+                    ? 'cursor-not-allowed bg-slate-300 shadow-none'
+                    : 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 active:translate-y-0.5'
+                )}
               >
-                关闭
+                <Copy className="h-4 w-4" />
+                一键复制
               </button>
               <button
                 onClick={handleExportStarredExcel}
@@ -2484,6 +2537,12 @@ export default function StudyPage() {
               >
                 <Download className="h-4 w-4" />
                 下载 Excel
+              </button>
+              <button
+                onClick={() => setExportModalOpen(false)}
+                className="flex-1 rounded-2xl border-2 border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+              >
+                关闭
               </button>
             </div>
           </div>
