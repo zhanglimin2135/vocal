@@ -35,6 +35,25 @@ import openpyxl
 # 表头检测关键词：若第一行第一格命中，则视为表头行并跳过
 HEADER_WORD_KEYWORDS = {"单词", "word", "英文", "词汇", "term", "english"}
 
+# 表头列名 → 字段名（不同词表的列顺序不一致，优先按表头自动识别列位）
+COLUMN_KEYWORDS = {
+    "word": ("单词", "word", "英文", "词汇", "term", "english"),
+    "phonetic": ("音标", "phonetic", "ipa"),
+    "meaning": ("释义", "词性+释义", "meaning"),
+    "splitParts": ("词根词缀", "拆分"),
+    "etymology": ("词源", "etymology"),
+    "rhyme": ("口诀", "rhyme"),
+    "quick": ("速记", "钩子", "quick"),
+    "family": ("词根扩展", "同组", "family"),
+    "caution": ("易错", "caution"),
+}
+
+# 无表头时的默认列位（9 列助记版）
+DEFAULT_COLUMNS = {
+    "word": 0, "phonetic": 1, "meaning": 2, "splitParts": 3, "etymology": 4,
+    "rhyme": 5, "quick": 6, "family": 7, "caution": 8,
+}
+
 # 词根扩展（同族词）的分隔符
 FAMILY_SPLIT_RE = re.compile(r"[、,，;；\s]+")
 
@@ -53,6 +72,21 @@ def is_header_row(row) -> bool:
     if not row or row[0] is None:
         return False
     return cell_str(row[0]).lower() in HEADER_WORD_KEYWORDS
+
+
+def detect_columns(header_row) -> dict:
+    """按表头文字识别各字段所在列位；缺失的字段不返回（读取时留空）"""
+    cols = {}
+    for i, cell in enumerate(header_row):
+        text = cell_str(cell).lower().replace(" ", "")
+        if not text:
+            continue
+        for field, keywords in COLUMN_KEYWORDS.items():
+            if field in cols:
+                continue  # 同一字段只取第一个命中的列
+            if any(k in text for k in keywords):
+                cols[field] = i
+    return cols
 
 
 def parse_family(v) -> list:
@@ -82,25 +116,39 @@ def main() -> None:
         if not rows:
             continue
 
-        # 首行若为表头则跳过
-        data_start = 1 if is_header_row(rows[0]) else 0
+        # 首行若为表头则跳过，并按表头识别列位；无表头则用默认 9 列布局
+        if is_header_row(rows[0]):
+            data_start = 1
+            cols = detect_columns(rows[0])
+            if "word" not in cols:
+                cols = dict(DEFAULT_COLUMNS)
+        else:
+            data_start = 0
+            cols = dict(DEFAULT_COLUMNS)
+
+        def cell_at(row, field: str) -> str:
+            """按字段名取单元格文本（列位不存在时返回空串）"""
+            idx = cols.get(field)
+            if idx is None or idx >= len(row):
+                return ""
+            return cell_str(row[idx])
 
         words = []
         for row in rows[data_start:]:
             if not row:
                 continue
-            word = cell_str(row[0]) if len(row) > 0 else ""
+            word = cell_at(row, "word")
             if not word:
                 continue
 
-            phonetic = cell_str(row[1]) if len(row) > 1 else ""
-            meaning = cell_str(row[2]) if len(row) > 2 else ""
-            split_parts_raw = cell_str(row[3]) if len(row) > 3 else ""
-            etymology = cell_str(row[4]) if len(row) > 4 else ""
-            rhyme = cell_str(row[5]) if len(row) > 5 else ""
-            quick = cell_str(row[6]) if len(row) > 6 else ""
-            family_raw = cell_str(row[7]) if len(row) > 7 else ""
-            caution = cell_str(row[8]) if len(row) > 8 else ""
+            phonetic = cell_at(row, "phonetic")
+            meaning = cell_at(row, "meaning")
+            split_parts_raw = cell_at(row, "splitParts")
+            etymology = cell_at(row, "etymology")
+            rhyme = cell_at(row, "rhyme")
+            quick = cell_at(row, "quick")
+            family_raw = cell_at(row, "family")
+            caution = cell_at(row, "caution")
 
             item = {"word": word, "meaning": meaning or "（暂无释义）"}
 
