@@ -10,16 +10,18 @@
     --export-name "CET4_EMBEDDED_BOOK" \
     --title "四级词汇"
 
-Excel 每个 sheet 共 9 列（按固定列位映射）：
-  0 单词       -> word
-  1 音标       -> extra.phonetic
-  2 释义       -> meaning
-  3 词根词缀   -> extra.splitParts  （整段文本，存为单元素数组）
-  4 词源       -> extra.etymology
-  5 口诀       -> extra.rhyme
-  6 速记       -> extra.quick
-  7 词根扩展   -> extra.family      （按 、,，;； 等分隔符拆成数组）
-  8 易错       -> extra.caution
+Excel 列位优先按首行表头文字自动识别（见 COLUMN_KEYWORDS），识别不到时回退到 9 列固定布局：
+  单词       -> word
+  音标       -> extra.phonetic
+  词性+释义  -> meaning
+  词根词缀   -> extra.splitParts  （整段文本，存为单元素数组）
+  词源       -> extra.etymology
+  口诀       -> extra.rhyme
+  速记/钩子  -> extra.quick
+  词根扩展/同组 -> extra.family      （按 、,，;； 等分隔符拆成数组）
+  易错       -> extra.caution
+  音标拆分   -> extra.phoneticSplit
+  用法       -> extra.usage
 
 若某个 sheet 的第一行是表头（首格为「单词」等表头文字），自动跳过该行。
 输出结构为 VocabularyBook（参见 src/types/index.ts）。
@@ -41,10 +43,12 @@ COLUMN_KEYWORDS = {
     "phonetic": ("音标", "phonetic", "ipa"),
     "meaning": ("释义", "词性+释义", "meaning"),
     "splitParts": ("词根词缀", "拆分"),
+    "phoneticSplit": ("音标拆分", "音节拆分", "syllables"),
     "etymology": ("词源", "etymology"),
     "rhyme": ("口诀", "rhyme"),
     "quick": ("速记", "钩子", "quick"),
-    "family": ("词根扩展", "同组", "family"),
+    "usage": ("用法", "usage"),
+    "family": ("词根扩展", "同组", "同族", "family"),
     "caution": ("易错", "caution"),
 }
 
@@ -76,16 +80,27 @@ def is_header_row(row) -> bool:
 
 def detect_columns(header_row) -> dict:
     """按表头文字识别各字段所在列位；缺失的字段不返回（读取时留空）"""
+    texts = [cell_str(c).lower().replace(" ", "") for c in header_row]
     cols = {}
-    for i, cell in enumerate(header_row):
-        text = cell_str(cell).lower().replace(" ", "")
-        if not text:
-            continue
-        for field, keywords in COLUMN_KEYWORDS.items():
+    # 第一轮：精确匹配（避免「音标拆分」被「音标」抢走）
+    for field, keywords in COLUMN_KEYWORDS.items():
+        for i, t in enumerate(texts):
             if field in cols:
-                continue  # 同一字段只取第一个命中的列
-            if any(k in text for k in keywords):
+                break
+            if t and t in keywords:
                 cols[field] = i
+    # 第二轮：包含匹配，补上未识别到的字段
+    used = set(cols.values())
+    for field, keywords in COLUMN_KEYWORDS.items():
+        if field in cols:
+            continue
+        for i, t in enumerate(texts):
+            if not t or i in used:
+                continue
+            if any(k in t for k in keywords):
+                cols[field] = i
+                used.add(i)
+                break
     return cols
 
 
@@ -149,6 +164,8 @@ def main() -> None:
             quick = cell_at(row, "quick")
             family_raw = cell_at(row, "family")
             caution = cell_at(row, "caution")
+            phonetic_split = cell_at(row, "phoneticSplit")
+            usage = cell_at(row, "usage")
 
             item = {"word": word, "meaning": meaning or "（暂无释义）"}
 
@@ -170,6 +187,10 @@ def main() -> None:
                 extra["family"] = family
             if caution:
                 extra["caution"] = caution
+            if phonetic_split:
+                extra["phoneticSplit"] = phonetic_split
+            if usage:
+                extra["usage"] = usage
             if extra:
                 item["extra"] = extra
 

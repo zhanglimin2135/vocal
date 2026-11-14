@@ -27,7 +27,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "junior",
               "high"
             ],
-            "caution": "junior 是「较年轻的」，故 junior high 是初中；说「我哥哥」用 elder brother，不用 junior brother"
+            "caution": "junior 是「较年轻的」，故 junior high 是初中；说「我哥哥」用 elder brother，不用 junior brother",
+            "phoneticSplit": "ju · nior",
+            "usage": "junior 反义 senior；junior high school 初中。"
           }
         },
         {
@@ -41,7 +43,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seasoning",
               "off-season"
             ],
-            "caution": "season 是季节，不是季风（monsoon）；四季说 four seasons，季节前用 in"
+            "caution": "season 是季节，不是季风（monsoon）；四季说 four seasons，季节前用 in",
+            "phoneticSplit": "sea · son",
+            "usage": "in season 正当时令；season 还指赛季。"
           }
         },
         {
@@ -59,7 +63,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "indent",
               "dentures"
             ],
-            "caution": "别拼成 densit；-ist 表人，不要写成 -est"
+            "caution": "别拼成 densit；-ist 表人，不要写成 -est",
+            "phoneticSplit": "den · tist",
+            "usage": "go to the dentist 去看牙；dentist 是牙医。"
           }
         },
         {
@@ -75,7 +81,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "worth",
               "it"
             ],
-            "caution": "worth 后接动名词，不说 worth to see；worthy 才接 of"
+            "caution": "worth 后接动名词，不说 worth to see；worthy 才接 of",
+            "usage": "be worth doing 值得做；worth 后接动名词。"
           }
         },
         {
@@ -90,7 +97,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bleeding",
               "nosebleed"
             ],
-            "caution": "过去式 bled，不是 bleeded；blood 是名词，别混着用"
+            "caution": "过去式 bled，不是 bleeded；blood 是名词，别混着用",
+            "usage": "bleed-bled-bled；bleeding 流血不止。"
           }
         },
         {
@@ -105,7 +113,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sight",
               "foresee"
             ],
-            "caution": "过去式 saw、过去分词 seen；see sb do sth 不带 to"
+            "caution": "过去式 saw、过去分词 seen；see sb do sth 不带 to",
+            "usage": "see 强调看见，look 是去看，watch 看动态。"
           }
         },
         {
@@ -120,7 +129,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "area",
               "code"
             ],
-            "caution": "area 指面积、地区，不指人；别与 aria（咏叹调）混"
+            "caution": "area 指面积、地区，不指人；别与 aria（咏叹调）混",
+            "phoneticSplit": "a · rea",
+            "usage": "in the area 在该地区；area 指面积或地区。"
           }
         },
         {
@@ -135,7 +146,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "borrow",
               "loan"
             ],
-            "caution": "lend sb sth 或 lend sth to sb；过去式 lent"
+            "caution": "lend sb sth 或 lend sth to sb；过去式 lent",
+            "usage": "lend sb sth；borrow 是借入，方向相反。"
           }
         },
         {
@@ -154,7 +166,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tour",
               "guide"
             ],
-            "caution": "别写 tourer；tourist 是游客，traveller 泛指旅行者"
+            "caution": "别写 tourer；tourist 是游客，traveller 泛指旅行者",
+            "phoneticSplit": "tou · rist",
+            "usage": "tourist spot 景点；tourist 是游客，traveler 旅行者。"
           }
         },
         {
@@ -168,7 +182,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scientific",
               "scientifically"
             ],
-            "caution": "science 去 ce 再加 tist，容易漏写成 scientis；注意是 sci 不是 si"
+            "caution": "science 去 ce 再加 tist，容易漏写成 scientis；注意是 sci 不是 si",
+            "phoneticSplit": "scien · tist",
+            "usage": "science 科学，scientist 科学家，scientific 科学的。"
           }
         },
         {
@@ -182,7 +198,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mileage",
               "milestone"
             ],
-            "caution": "1 mile 约 1.6 千米；复数写 miles，别用 mile 表复数"
+            "caution": "1 mile 约 1.6 千米；复数写 miles，别用 mile 表复数",
+            "phoneticSplit": "mi · le",
+            "usage": "miles away 好几英里外；复数 miles。"
           }
         },
         {
@@ -197,7 +215,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exemplary",
               "sample"
             ],
-            "caution": "for example 不加冠词；sample 是样品，example 是例子"
+            "caution": "for example 不加冠词；sample 是样品，example 是例子",
+            "phoneticSplit": "ex · am · ple",
+            "usage": "for example 例如；set an example 树立榜样。"
           }
         },
         {
@@ -212,7 +232,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "aim",
               "at"
             ],
-            "caution": "aim at doing 或 aim to do；别写 aim on"
+            "caution": "aim at doing 或 aim to do；别写 aim on",
+            "usage": "aim at 瞄准；aim to do 旨在做。"
           }
         },
         {
@@ -227,7 +248,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blood",
               "type"
             ],
-            "caution": "oo 双写，别写 blod；blood 不可数，不说 a blood"
+            "caution": "oo 双写，别写 blod；blood 不可数，不说 a blood",
+            "usage": "blood 不可数；动词流血是 bleed。"
           }
         },
         {
@@ -241,7 +263,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scary",
               "scares"
             ],
-            "caution": "scared 修饰人，scary 修饰物：I'm scared of the scary dog"
+            "caution": "scared 修饰人，scary 修饰物：I'm scared of the scary dog",
+            "usage": "scare sb away 把…吓跑；be scared of 害怕。"
           }
         },
         {
@@ -256,7 +279,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reply",
               "to"
             ],
-            "caution": "reply to sb/sth，to 不能省；过去式 replied 变 y 为 i"
+            "caution": "reply to sb/sth，to 不能省；过去式 replied 变 y 为 i",
+            "phoneticSplit": "re · ply",
+            "usage": "reply to sb；answer 可及物，reply 要加 to。"
           }
         },
         {
@@ -270,7 +295,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "achievable",
               "achiever"
             ],
-            "caution": "拼写别漏 h：a-chie-ve；名词 achievement 有两个 e"
+            "caution": "拼写别漏 h：a-chie-ve；名词 achievement 有两个 e",
+            "phoneticSplit": "a · chieve",
+            "usage": "achieve a goal 实现目标；achievement 成就。"
           }
         },
         {
@@ -285,7 +312,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dying",
               "died"
             ],
-            "caution": "现在分词 dying（ie 变 y）；die of 指内因，die from 指外因"
+            "caution": "现在分词 dying（ie 变 y）；die of 指内因，die from 指外因",
+            "usage": "die of 死于内因，die from 死于外因。"
           }
         },
         {
@@ -300,7 +328,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "freshen",
               "freshman"
             ],
-            "caution": "fresh 强调「新鲜、新到」；说「新买的」不一定要用 fresh"
+            "caution": "fresh 强调「新鲜、新到」；说「新买的」不一定要用 fresh",
+            "usage": "fresh 反义 stale；freshman 大一新生。"
           }
         },
         {
@@ -318,7 +347,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "top",
               "student"
             ],
-            "caution": "top 作形容词是「最高的」，如 top student；at the top of 别漏 the"
+            "caution": "top 作形容词是「最高的」，如 top student；at the top of 别漏 the",
+            "usage": "at the top of 在…顶端；top 作形容词表最高。"
           }
         }
       ]
@@ -343,7 +373,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anything",
               "everything"
             ],
-            "caution": "nothing 作主语算单数：Nothing is impossible；别拆开写成 no thing"
+            "caution": "nothing 作主语算单数：Nothing is impossible；别拆开写成 no thing",
+            "phoneticSplit": "no · thing",
+            "usage": "nothing 作主语用单数；nothing but 只是。"
           }
         },
         {
@@ -358,7 +390,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boss",
               "around"
             ],
-            "caution": "复数是 bosses；boss 是口语的上司，不指「主人」"
+            "caution": "复数是 bosses；boss 是口语的上司，不指「主人」",
+            "usage": "boss 口语指上司；employer 更正式。"
           }
         },
         {
@@ -378,7 +411,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "independent",
               "pendulum"
             ],
-            "caution": "depend on 的 on 不能省；dependent 是形容词，depend 是动词"
+            "caution": "depend on 的 on 不能省；dependent 是形容词，depend 是动词",
+            "phoneticSplit": "de · pend",
+            "usage": "depend on 依靠；It depends. 看情况。"
           }
         },
         {
@@ -393,7 +428,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "keep",
               "silent"
             ],
-            "caution": "keep silent 用形容词，不用 silently；名词是 silence"
+            "caution": "keep silent 用形容词，不用 silently；名词是 silence",
+            "phoneticSplit": "si · lent",
+            "usage": "keep silent 保持沉默；silence 是名词。"
           }
         },
         {
@@ -409,7 +446,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "honor",
               "of"
             ],
-            "caution": "美式 honor，英式 honour；in honor of 表「为纪念」"
+            "caution": "美式 honor，英式 honour；in honor of 表「为纪念」",
+            "phoneticSplit": "ho · nor",
+            "usage": "in honor of 为纪念；英式拼 honour。"
           }
         },
         {
@@ -424,7 +463,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "overweight",
               "weighty"
             ],
-            "caution": "gh 不发音；lose weight 减体重，别把 weight 拼成 wieght"
+            "caution": "gh 不发音；lose weight 减体重，别把 weight 拼成 wieght",
+            "usage": "put on weight 增重；lose weight 减肥。"
           }
         },
         {
@@ -440,7 +480,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "think",
               "of"
             ],
-            "caution": "过去式 thought；think of 是想到，think about 是考虑"
+            "caution": "过去式 thought；think of 是想到，think about 是考虑",
+            "usage": "think of 想到；think about 考虑。"
           }
         },
         {
@@ -455,7 +496,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "actively",
               "activities"
             ],
-            "caution": "复数 activities 变 y 为 ies；active 是形容词"
+            "caution": "复数 activities 变 y 为 ies；active 是形容词",
+            "phoneticSplit": "ac · ti · vi · ty",
+            "usage": "take part in activities 参加活动。"
           }
         },
         {
@@ -470,7 +513,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brave",
               "enough"
             ],
-            "caution": "名词是 bravery，不用 braveness；brave 后接 to do"
+            "caution": "名词是 bravery，不用 braveness；brave 后接 to do",
+            "usage": "brave 反义 afraid；bravery 是名词。"
           }
         },
         {
@@ -486,7 +530,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "still",
               "waiting"
             ],
-            "caution": "stand still 用形容词 still；still 与 yet 位置不同"
+            "caution": "stand still 用形容词 still；still 与 yet 位置不同",
+            "usage": "still 副词'仍然'，形容词'静止的'。"
           }
         },
         {
@@ -500,7 +545,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hanged",
               "hanging"
             ],
-            "caution": "hang-hung-hung 是悬挂；hang-hanged-hanged 专指绞死"
+            "caution": "hang-hung-hung 是悬挂；hang-hanged-hanged 专指绞死",
+            "usage": "hang-hung-hung 悬挂；hanged 是绞死。"
           }
         },
         {
@@ -515,7 +561,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "perhaps",
               "happiness"
             ],
-            "caution": "happen to sb 表「某人遭遇」；别写 happen on sb"
+            "caution": "happen to sb 表「某人遭遇」；别写 happen on sb",
+            "phoneticSplit": "hap · pen",
+            "usage": "happen to do 碰巧；sth happens to sb。"
           }
         },
         {
@@ -531,7 +579,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "glove",
               "ovenproof"
             ],
-            "caution": "oven 与 seven 形近，别混；microwave oven 才是微波炉"
+            "caution": "oven 与 seven 形近，别混；microwave oven 才是微波炉",
+            "phoneticSplit": "o · ven",
+            "usage": "oven 烤箱，microwave oven 微波炉。"
           }
         },
         {
@@ -546,7 +596,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "judge",
               "by"
             ],
-            "caution": "美式 judgment 少一个 e，英式 judgement；搭配 judge by/from"
+            "caution": "美式 judgment 少一个 e，英式 judgement；搭配 judge by/from",
+            "usage": "judge by/from 根据…判断；judge 也指裁判。"
           }
         },
         {
@@ -560,7 +611,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "emptied",
               "empty-handed"
             ],
-            "caution": "动词变 y 为 i：emptied；empty 指空无一人，vacant 指空位"
+            "caution": "动词变 y 为 i：emptied；empty 指空无一人，vacant 指空位",
+            "phoneticSplit": "emp · ty",
+            "usage": "empty 反义 full；empty of 没有。"
           }
         },
         {
@@ -575,7 +628,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "neither",
               "of"
             ],
-            "caution": "neither 作主语算单数；neither...nor 用就近原则"
+            "caution": "neither 作主语算单数；neither...nor 用就近原则",
+            "phoneticSplit": "nei · ther",
+            "usage": "neither...nor... 既不…也不；谓语用单数。"
           }
         },
         {
@@ -590,7 +645,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sky",
               "blue"
             ],
-            "caution": "复数是 skies；in the sky 要加 the"
+            "caution": "复数是 skies；in the sky 要加 the",
+            "usage": "sky 复数 skies；in the sky 用 in。"
           }
         },
         {
@@ -605,7 +661,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "backward",
               "afterwards"
             ],
-            "caution": "towards 后直接接宾语，不再加 to；美式多用 toward"
+            "caution": "towards 后直接接宾语，不再加 to；美式多用 toward",
+            "phoneticSplit": "to · wards",
+            "usage": "towards 英式，toward 美式；towards evening 将近傍晚。"
           }
         },
         {
@@ -619,7 +677,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "AM",
               "PM"
             ],
-            "caution": "a.m. 不与 o'clock 连用，也不再和 in the morning 叠用"
+            "caution": "a.m. 不与 o'clock 连用，也不再和 in the morning 叠用",
+            "usage": "a.m./p.m. 只跟钟点；in the morning 另一套。"
           }
         },
         {
@@ -637,7 +696,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "paper",
               "newspaperman"
             ],
-            "caution": "news 不可数、作主语用单数；newspaper 是一个词，别分开写"
+            "caution": "news 不可数、作主语用单数；newspaper 是一个词，别分开写",
+            "phoneticSplit": "new · spa · per",
+            "usage": "a newspaper 一份报纸；read a newspaper。"
           }
         }
       ]
@@ -663,7 +724,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "football",
               "basketball"
             ],
-            "caution": "volley 双 l、ball 双 l，中间别少写"
+            "caution": "volley 双 l、ball 双 l，中间别少写",
+            "phoneticSplit": "vol · ley · ball",
+            "usage": "play volleyball 不加 the；球类运动前不用冠词。"
           }
         },
         {
@@ -677,7 +740,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fantasize",
               "fantastically"
             ],
-            "caution": "别拼成 fantasic，漏了 t；口语常单独说 Fantastic"
+            "caution": "别拼成 fantasic，漏了 t；口语常单独说 Fantastic",
+            "phoneticSplit": "fan · ta · stic",
+            "usage": "fantastic 口语'太棒了'；fantasy 是幻想。"
           }
         },
         {
@@ -693,7 +758,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "or",
               "treat"
             ],
-            "caution": "treat sb to sth 是请客；treat...as 是「把…当作」，别用 like 顶替 as"
+            "caution": "treat sb to sth 是请客；treat...as 是「把…当作」，别用 like 顶替 as",
+            "usage": "treat sb to sth 请客；treat 还指治疗。"
           }
         },
         {
@@ -708,7 +774,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ours",
               "let's"
             ],
-            "caution": "us 是宾格，不能作主语；Let's 即 Let us"
+            "caution": "us 是宾格，不能作主语；Let's 即 Let us",
+            "usage": "us 作宾语；Let us go. 让我们走。"
           }
         },
         {
@@ -723,7 +790,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "should",
               "have"
             ],
-            "caution": "should 后接动词原形；should have done 表遗憾，不是「应该已经」"
+            "caution": "should 后接动词原形；should have done 表遗憾，不是「应该已经」",
+            "usage": "should 表建议，比 must 软；should have done 本应。"
           }
         },
         {
@@ -741,7 +809,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "engineering",
               "volunteer"
             ],
-            "caution": "别漏中间的 i：en-gi-neer；engineering 少一个 e"
+            "caution": "别漏中间的 i：en-gi-neer；engineering 少一个 e",
+            "phoneticSplit": "eng · i · neer",
+            "usage": "engineer 工程师；engineering 工程学。"
           }
         },
         {
@@ -760,7 +830,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "connect",
               "to"
             ],
-            "caution": "connect A with/to B 都可；be connected with 表关联"
+            "caution": "connect A with/to B 都可；be connected with 表关联",
+            "phoneticSplit": "con · nect",
+            "usage": "connect A to B 把两者连起来，to 不能省。"
           }
         },
         {
@@ -773,7 +845,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hobbies",
               "hobbyist"
             ],
-            "caution": "复数 hobbies；hobby 是可数名词，别当不可数用"
+            "caution": "复数 hobbies；hobby 是可数名词，别当不可数用",
+            "phoneticSplit": "hob · by",
+            "usage": "one's hobby is doing；复数 hobbies。"
           }
         },
         {
@@ -787,7 +861,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "worn",
               "wearing"
             ],
-            "caution": "wear-wore-worn；表状态不能用 put on 顶替"
+            "caution": "wear-wore-worn；表状态不能用 put on 顶替",
+            "usage": "wear-wore-worn；wear out 穿破。"
           }
         },
         {
@@ -802,7 +877,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clicked",
               "clicking"
             ],
-            "caution": "click on sth 点击某物；别与 clock（钟）混"
+            "caution": "click on sth 点击某物；别与 clock（钟）混",
+            "usage": "click on the link 点击链接；也可作名词。"
           }
         },
         {
@@ -818,7 +894,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scared",
               "of"
             ],
-            "caution": "be scared of / scared to do；scared 修饰人，scary 修饰物"
+            "caution": "be scared of / scared to do；scared 修饰人，scary 修饰物",
+            "usage": "be scared of 害怕；scared 修饰人。"
           }
         },
         {
@@ -836,7 +913,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "comfort",
               "uncomfortably"
             ],
-            "caution": "否定用 un- 不用 in-；比较级说 more uncomfortable"
+            "caution": "否定用 un- 不用 in-；比较级说 more uncomfortable",
+            "phoneticSplit": "un · com · for · ta · ble",
+            "usage": "反义 comfortable；可指身体或心里不自在。"
           }
         },
         {
@@ -851,7 +930,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chew",
               "gum"
             ],
-            "caution": "chew 的宾语是食物；chewing gum 才是口香糖"
+            "caution": "chew 的宾语是食物；chewing gum 才是口香糖",
+            "usage": "chew 咀嚼；chew up 嚼碎。"
           }
         },
         {
@@ -867,7 +947,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rude",
               "to"
             ],
-            "caution": "be rude to sb 用 to；别与 rule 混拼"
+            "caution": "be rude to sb 用 to；别与 rule 混拼",
+            "usage": "be rude to sb 对某人无礼；rudeness 名词。"
           }
         },
         {
@@ -881,7 +962,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "theft",
               "thieve"
             ],
-            "caution": "复数 thieves（f 变 ves）；thief 是人，theft 是行为"
+            "caution": "复数 thieves（f 变 ves）；thief 是人，theft 是行为",
+            "usage": "thief 复数 thieves；theft 是盗窃。"
           }
         },
         {
@@ -897,7 +979,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mail",
               "junkyard"
             ],
-            "caution": "junk 不可数；junk food 不加 s"
+            "caution": "junk 不可数；junk food 不加 s",
+            "usage": "junk food 垃圾食品；junk 不可数。"
           }
         },
         {
@@ -910,7 +993,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "capital",
               "captaincy"
             ],
-            "caution": "拼写是 cap-tain，别写成 captian；复数 captains"
+            "caution": "拼写是 cap-tain，别写成 captian；复数 captains",
+            "phoneticSplit": "cap · tain",
+            "usage": "captain 船长、队长；大写作称呼。"
           }
         },
         {
@@ -923,7 +1008,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pupils",
               "puppy"
             ],
-            "caution": "pupil 指中小学生，大学生用 student；瞳孔也叫 pupil"
+            "caution": "pupil 指中小学生，大学生用 student；瞳孔也叫 pupil",
+            "phoneticSplit": "pu · pil",
+            "usage": "pupil 指中小学生；瞳孔义多见于医学。"
           }
         }
       ]
@@ -945,7 +1032,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "main",
               "dish"
             ],
-            "caution": "复数 dishes 加 es；dish 是一道菜，food 泛指食物"
+            "caution": "复数 dishes 加 es；dish 是一道菜，food 泛指食物",
+            "usage": "do the dishes 洗碗；main dish 主菜。"
           }
         },
         {
@@ -964,7 +1052,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exclude",
               "conclude"
             ],
-            "caution": "including 是介词，后接名词；include 一般不用进行时"
+            "caution": "including 是介词，后接名词；include 一般不用进行时",
+            "phoneticSplit": "in · clude",
+            "usage": "include 直接接宾语；including 是介词。"
           }
         },
         {
@@ -978,7 +1068,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "racer",
               "races"
             ],
-            "caution": "race 可数；the human race 表「人类」，不加 s"
+            "caution": "race 可数；the human race 表「人类」，不加 s",
+            "usage": "race against 与…比赛；human race 人类。"
           }
         },
         {
@@ -992,7 +1083,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tonight's",
               "midnight"
             ],
-            "caution": "tonight 是一个词；直接说 tonight，不加 in"
+            "caution": "tonight 是一个词；直接说 tonight，不加 in",
+            "phoneticSplit": "to · night",
+            "usage": "tonight 前不加介词：see you tonight。"
           }
         },
         {
@@ -1007,7 +1100,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "map",
               "out"
             ],
-            "caution": "动词 mapping 双写 p；说某地的地图用 a map of"
+            "caution": "动词 mapping 双写 p；说某地的地图用 a map of",
+            "usage": "a map of China 中国地图；map 可作动词。"
           }
         },
         {
@@ -1024,7 +1118,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "by",
               "step"
             ],
-            "caution": "step by step 是固定说法；动词 stepping 双写 p"
+            "caution": "step by step 是固定说法；动词 stepping 双写 p",
+            "usage": "step by step 逐步；take steps 采取措施。"
           }
         },
         {
@@ -1042,7 +1137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "refusal",
               "confuse"
             ],
-            "caution": "refuse to do 接不定式；名词是 refusal"
+            "caution": "refuse to do 接不定式；名词是 refusal",
+            "phoneticSplit": "re · fuse",
+            "usage": "refuse to do sth；refuse 后不接 doing。"
           }
         },
         {
@@ -1060,7 +1157,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "differ",
               "differently"
             ],
-            "caution": "difference 可数：differences；形容词 different 别漏 e"
+            "caution": "difference 可数：differences；形容词 different 别漏 e",
+            "phoneticSplit": "dif · fe · rence",
+            "usage": "make a difference 有影响、起作用。"
           }
         },
         {
@@ -1079,7 +1178,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "team",
               "player"
             ],
-            "caution": "teamwork 不可数；team 是可数名词"
+            "caution": "teamwork 不可数；team 是可数名词",
+            "phoneticSplit": "team · work",
+            "usage": "teamwork 不可数；Good teamwork! 配合得好。"
           }
         },
         {
@@ -1093,7 +1194,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uncles",
               "great-uncle"
             ],
-            "caution": "英语 uncle 不分父系母系；女性对应词是 aunt"
+            "caution": "英语 uncle 不分父系母系；女性对应词是 aunt",
+            "phoneticSplit": "un · cle",
+            "usage": "uncle 统称父辈男性亲属；aunt 相对。"
           }
         },
         {
@@ -1108,7 +1211,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "green",
               "tea"
             ],
-            "caution": "green 表「没经验的」：a green hand；greenhouse 是温室"
+            "caution": "green 表「没经验的」：a green hand；greenhouse 是温室",
+            "usage": "green 还指'生的、没经验'；greenhouse 温室。"
           }
         },
         {
@@ -1122,7 +1226,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bikes",
               "biking"
             ],
-            "caution": "骑车说 ride a bike；bike 可数，复数是 bikes"
+            "caution": "骑车说 ride a bike；bike 可数，复数是 bikes",
+            "usage": "by bike 骑车；ride a bike 骑自行车。"
           }
         },
         {
@@ -1142,7 +1247,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "an",
               "effort"
             ],
-            "caution": "make an effort 要加 an；efforts 表多次努力"
+            "caution": "make an effort 要加 an；efforts 表多次努力",
+            "phoneticSplit": "ef · fort",
+            "usage": "make an effort 努力；spare no effort 不遗余力。"
           }
         },
         {
@@ -1156,7 +1263,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "telegram",
               "program"
             ],
-            "caution": "grammar 中间 a、双 m 双 r；作「语法」不可数"
+            "caution": "grammar 中间 a、双 m 双 r；作「语法」不可数",
+            "phoneticSplit": "gram · mar",
+            "usage": "grammar 不可数；grammatical 语法的。"
           }
         },
         {
@@ -1174,7 +1283,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cake",
               "pancakes"
             ],
-            "caution": "pancake 是一个词，别分开写；复数是 pancakes"
+            "caution": "pancake 是一个词，别分开写；复数是 pancakes",
+            "phoneticSplit": "pan · cake",
+            "usage": "pancake 薄煎饼；复数 pancakes。"
           }
         },
         {
@@ -1189,7 +1300,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "go",
               "abroad"
             ],
-            "caution": "abroad 是副词，不说 go to abroad；别与 aboard（上船）混"
+            "caution": "abroad 是副词，不说 go to abroad；别与 aboard（上船）混",
+            "phoneticSplit": "a · broad",
+            "usage": "go abroad 出国，abroad 前不加 to。"
           }
         },
         {
@@ -1205,7 +1318,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "a",
               "cough"
             ],
-            "caution": "have a cough 要加 a；ough 读音特殊，别按拼音读"
+            "caution": "have a cough 要加 a；ough 读音特殊，别按拼音读",
+            "usage": "have a cough 咳嗽；cough 也可作名词。"
           }
         },
         {
@@ -1220,7 +1334,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "alike",
               "dislike"
             ],
-            "caution": "would like to do；介词 like 后接名词，别与动词用法混"
+            "caution": "would like to do；介词 like 后接名词，别与动词用法混",
+            "usage": "would like to do 想要；like 作介词表像。"
           }
         },
         {
@@ -1235,7 +1350,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "join",
               "in"
             ],
-            "caution": "join the army 不加 in；join in 后接活动"
+            "caution": "join the army 不加 in；join in 后接活动",
+            "usage": "join a club 加入社团；join in 参加活动。"
           }
         },
         {
@@ -1250,7 +1366,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "without",
               "doubt"
             ],
-            "caution": "without 后接名词或动名词；后面不再加 to"
+            "caution": "without 后接名词或动名词；后面不再加 to",
+            "phoneticSplit": "wi · thout",
+            "usage": "without 后接名词或 doing；without doubt 无疑。"
           }
         }
       ]
@@ -1275,7 +1393,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nervously",
               "nervousness"
             ],
-            "caution": "be nervous about 用 about；别漏写成 nervos"
+            "caution": "be nervous about 用 about；别漏写成 nervos",
+            "phoneticSplit": "ner · vous",
+            "usage": "be nervous about 对…紧张；nerve 是神经。"
           }
         },
         {
@@ -1291,7 +1411,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "soon",
               "as"
             ],
-            "caution": "how soon 问「多久以后」；as soon as 表「一…就」"
+            "caution": "how soon 问「多久以后」；as soon as 表「一…就」",
+            "usage": "as soon as 一…就；sooner or later 迟早。"
           }
         },
         {
@@ -1307,7 +1428,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "the",
               "only"
             ],
-            "caution": "only 位置不同意思不同；the only 后接名词"
+            "caution": "only 位置不同意思不同；the only 后接名词",
+            "phoneticSplit": "on · ly",
+            "usage": "only 作定语'唯一的'；only to do 结果却。"
           }
         },
         {
@@ -1321,7 +1444,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "restore",
               "restaurants"
             ],
-            "caution": "拼写是 re-stau-rant，中间别写成 restarant"
+            "caution": "拼写是 re-stau-rant，中间别写成 restarant",
+            "phoneticSplit": "re · stau · rant",
+            "usage": "eat at a restaurant 在餐馆吃饭；拼写有 au。"
           }
         },
         {
@@ -1336,7 +1461,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "line",
               "final"
             ],
-            "caution": "finish doing，不用 to do；finish 后不接不定式"
+            "caution": "finish doing，不用 to do；finish 后不接不定式",
+            "phoneticSplit": "fi · nish",
+            "usage": "finish doing sth；finish 后不接 to do。"
           }
         },
         {
@@ -1350,7 +1477,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "depth",
               "deepen"
             ],
-            "caution": "deep 指空间深，deeply 多修饰抽象情感；名词是 depth"
+            "caution": "deep 指空间深，deeply 多修饰抽象情感；名词是 depth",
+            "usage": "deep 形容词，deeply 副词；deep into the night。"
           }
         },
         {
@@ -1364,7 +1492,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elderly",
               "older"
             ],
-            "caution": "elder 不作表语、不接 than；比较级用 older"
+            "caution": "elder 不作表语、不接 than；比较级用 older",
+            "phoneticSplit": "el · der",
+            "usage": "elder 只作定语；older 可作表语。"
           }
         },
         {
@@ -1382,7 +1512,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "photographer",
               "photos"
             ],
-            "caution": "复数 photos 不加 e；说「给某人拍照」用 take a photo of sb"
+            "caution": "复数 photos 不加 e；说「给某人拍照」用 take a photo of sb",
+            "phoneticSplit": "pho · to",
+            "usage": "take a photo of sb 给某人拍照；复数 photos。"
           }
         },
         {
@@ -1400,7 +1532,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "weekend",
               "weekdays"
             ],
-            "caution": "weekday 指工作日，weekend 指周末；复数 weekdays"
+            "caution": "weekday 指工作日，weekend 指周末；复数 weekdays",
+            "phoneticSplit": "week · day",
+            "usage": "weekday 周一到周五；weekend 是周末。"
           }
         },
         {
@@ -1414,7 +1548,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "winding",
               "windmill"
             ],
-            "caution": "名词「风」读 /wɪnd/，动词「缠绕」读 /waɪnd/"
+            "caution": "名词「风」读 /wɪnd/，动词「缠绕」读 /waɪnd/",
+            "usage": "wind 名词风；动词读 /waɪnd/ 表缠绕。"
           }
         },
         {
@@ -1428,7 +1563,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "foxy",
               "foxhole"
             ],
-            "caution": "复数是 foxes；fox 与 box 形近，别混"
+            "caution": "复数是 foxes；fox 与 box 形近，别混",
+            "usage": "fox 狐狸；复数 foxes。"
           }
         },
         {
@@ -1444,7 +1580,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sour",
               "grapes"
             ],
-            "caution": "一串葡萄是 a bunch of grapes，要用复数"
+            "caution": "一串葡萄是 a bunch of grapes，要用复数",
+            "usage": "grape 可数；成串说 a bunch of grapes。"
           }
         },
         {
@@ -1458,7 +1595,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "newcomer",
               "news"
             ],
-            "caution": "new 与 knew 同音不同义；news 不是 new 的复数"
+            "caution": "new 与 knew 同音不同义；news 不是 new 的复数",
+            "usage": "new 反义 old；New Year 新年。"
           }
         },
         {
@@ -1473,7 +1611,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "divide",
               "into"
             ],
-            "caution": "divide...into 用 into；divide by 表「除以」"
+            "caution": "divide...into 用 into；divide by 表「除以」",
+            "phoneticSplit": "di · vide",
+            "usage": "divide A into B 把 A 分成 B；divide by 除以。"
           }
         },
         {
@@ -1491,7 +1631,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accompany",
               "companies"
             ],
-            "caution": "作「公司」可数，作「陪伴」不可数；keep sb company 不加 a"
+            "caution": "作「公司」可数，作「陪伴」不可数；keep sb company 不加 a",
+            "phoneticSplit": "com · pa · ny",
+            "usage": "company 公司可数，陪伴不可数；in company with。"
           }
         },
         {
@@ -1506,7 +1648,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "listen",
               "to"
             ],
-            "caution": "listen to sb 的 to 不能省；t 不发音"
+            "caution": "listen to sb 的 to 不能省；t 不发音",
+            "phoneticSplit": "li · sten",
+            "usage": "listen to sb；hear 是听见，listen 是去听。"
           }
         },
         {
@@ -1521,7 +1665,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "want",
               "to"
             ],
-            "caution": "want to do / want sb to do；不用 want doing"
+            "caution": "want to do / want sb to do；不用 want doing",
+            "usage": "want to do sth；want sb to do sth。"
           }
         },
         {
@@ -1535,7 +1680,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "could",
               "canned"
             ],
-            "caution": "can 后接动词原形；名词复数 cans；否定推测用 can't"
+            "caution": "can 后接动词原形；名词复数 cans；否定推测用 can't",
+            "usage": "can't help doing 禁不住；a can of coke 一罐。"
           }
         },
         {
@@ -1554,7 +1700,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "meter",
               "kilometre"
             ],
-            "caution": "美式 kilometer，英式 kilometre；缩写是 km"
+            "caution": "美式 kilometer，英式 kilometre；缩写是 km",
+            "phoneticSplit": "ki · lo · me · ter",
+            "usage": "kilometer 缩写 km；five kilometers away。"
           }
         },
         {
@@ -1569,7 +1717,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fruit",
               "juice"
             ],
-            "caution": "泛指水果不可数，说 a piece of fruit；fruits 指多种水果"
+            "caution": "泛指水果不可数，说 a piece of fruit；fruits 指多种水果",
+            "usage": "fruit 通常不可数，讲种类时可数。"
           }
         }
       ]
@@ -1597,7 +1746,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "environs",
               "周边地区"
             ],
-            "caution": "拼写 en-viron-ment，中间正是 iron 四个字母，别漏 n 写成 enviroment。"
+            "caution": "拼写 en-viron-ment，中间正是 iron 四个字母，别漏 n 写成 enviroment。",
+            "phoneticSplit": "en · vi · ron · ment",
+            "usage": "protect the environment 保护环境；前面加 the。"
           }
         },
         {
@@ -1616,7 +1767,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "appliance",
               "器具"
             ],
-            "caution": "正式文书里写 application；app 只用于口语和应用软件。"
+            "caution": "正式文书里写 application；app 只用于口语和应用软件。",
+            "usage": "app 读 /æp/；an app，mobile app。"
           }
         },
         {
@@ -1625,7 +1777,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈlɛsən/",
             "quick": "lesson 课上老师教的，也是生活给你的教训。",
-            "caution": "与 lessen（减少）只差一个字母；lesson 既是课时也是教训，别只记「课」。"
+            "caution": "与 lessen（减少）只差一个字母；lesson 既是课时也是教训，别只记「课」。",
+            "phoneticSplit": "les · son",
+            "usage": "learn a lesson from… 从……中吸取教训。"
           }
         },
         {
@@ -1644,7 +1798,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "inattentive",
               "不专心的"
             ],
-            "caution": "不可数，pay attention to 的 to 不能丢；别写成 atention。"
+            "caution": "不可数，pay attention to 的 to 不能丢；别写成 atention。",
+            "phoneticSplit": "at · ten · tion",
+            "usage": "pay attention to 注意……，to 是介词。"
           }
         },
         {
@@ -1663,7 +1819,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "myself",
               "我自己"
             ],
-            "caution": "永远大写；作宾语用 me，不能说 Me and he went。"
+            "caution": "永远大写；作宾语用 me，不能说 Me and he went。",
+            "usage": "主格 I 作主语，宾格用 me，且永远大写。"
           }
         },
         {
@@ -1672,7 +1829,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/wɪˈθɪn/",
             "quick": "词里藏着 in：在范围里面、不出去——在……之内。",
-            "caution": "表「不超过」而非「之后」；写成一个词，别拆成 with in。"
+            "caution": "表「不超过」而非「之后」；写成一个词，别拆成 with in。",
+            "phoneticSplit": "wi · thin",
+            "usage": "within a week 一周之内；也指距离范围。"
           }
         },
         {
@@ -1689,7 +1848,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cloudless",
               "无云的"
             ],
-            "caution": "直接加 y 不双写；cloudy 是「多云」，不等于下雨。"
+            "caution": "直接加 y 不双写；cloudy 是「多云」，不等于下雨。",
+            "phoneticSplit": "clou · dy",
+            "usage": "rainy、sunny、windy 同构：名词加 y 变形容词。"
           }
         },
         {
@@ -1708,7 +1869,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "activate",
               "激活"
             ],
-            "caution": "放句首常表转折「其实」；别写成 actualy。"
+            "caution": "放句首常表转折「其实」；别写成 actualy。",
+            "phoneticSplit": "ac · tual · ly",
+            "usage": "Actually, it's wrong. 常用来纠正或转折。"
           }
         },
         {
@@ -1731,7 +1894,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "remember",
               "记得"
             ],
-            "caution": "复数 memories（y 变 i）；in memory of 是「为纪念」。"
+            "caution": "复数 memories（y 变 i）；in memory of 是「为纪念」。",
+            "phoneticSplit": "me · mo · ry",
+            "usage": "in memory of… 为了纪念……。"
           }
         },
         {
@@ -1748,7 +1913,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "strategically",
               "战略上"
             ],
-            "caution": "结尾是 -egy，别写成 stratagy；strategy 是策略，strategic 是战略的。"
+            "caution": "结尾是 -egy，别写成 stratagy；strategy 是策略，strategic 是战略的。",
+            "phoneticSplit": "stra · te · gy",
+            "usage": "复数 strategies；形容词 strategic 战略的。"
           }
         },
         {
@@ -1765,7 +1932,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "complaining",
               "抱怨的"
             ],
-            "caution": "名词是 complaint；用 complain about / of sth，不接 to do。"
+            "caution": "名词是 complaint；用 complain about / of sth，不接 to do。",
+            "phoneticSplit": "com · plain",
+            "usage": "complain to sb about sth 向某人抱怨某事。"
           }
         },
         {
@@ -1780,7 +1949,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "essays",
               "短文（复数）"
             ],
-            "caution": "开头是 e 不是 a；essay 指短文，长篇论文叫 paper。"
+            "caution": "开头是 e 不是 a；essay 指短文，长篇论文叫 paper。",
+            "phoneticSplit": "es · say",
+            "usage": "essay 偏书面议论文/散文，比 article 更文学。"
           }
         },
         {
@@ -1802,7 +1973,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "posting",
               "帖子"
             ],
-            "caution": "与 postman（邮递员）区分；重音在前，读 /ˈpəʊstə/。"
+            "caution": "与 postman（邮递员）区分；重音在前，读 /ˈpəʊstə/。",
+            "phoneticSplit": "po · ster",
+            "usage": "post 张贴；post a notice 张贴通知。"
           }
         },
         {
@@ -1819,7 +1992,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "destroyer",
               "破坏者"
             ],
-            "caution": "中间是 stroy 不是 story；destroy 直接跟宾语，不加 up。"
+            "caution": "中间是 stroy 不是 story；destroy 直接跟宾语，不加 up。",
+            "phoneticSplit": "de · stroy",
+            "usage": "destroy 强调彻底毁掉，damage 只算损坏。"
           }
         },
         {
@@ -1834,7 +2009,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bushy",
               "茂密的"
             ],
-            "caution": "复数加 es：bushes；别与 brush（刷子）混。"
+            "caution": "复数加 es：bushes；别与 brush（刷子）混。",
+            "usage": "beat around the bush 说话拐弯抹角。"
           }
         },
         {
@@ -1851,7 +2027,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ironware",
               "铁器"
             ],
-            "caution": "作动词是「熨」，不是「打铁」；irons 指镣铐。"
+            "caution": "作动词是「熨」，不是「打铁」；irons 指镣铐。",
+            "phoneticSplit": "i · ron",
+            "usage": "iron the shirt 熨衬衫；铁不可数。"
           }
         },
         {
@@ -1870,7 +2048,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cigarettes",
               "香烟（复数）"
             ],
-            "caution": "一个 g、两个 t，别写成 cigarrete。"
+            "caution": "一个 g、两个 t，别写成 cigarrete。",
+            "phoneticSplit": "ci · ga · rette",
+            "usage": "smoke a cigarette 吸烟；-ette 表「小」。"
           }
         },
         {
@@ -1891,7 +2071,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anybody",
               "任何人"
             ],
-            "caution": "一般连写；只用于否定句和疑问句，肯定句用 still。"
+            "caution": "一般连写；只用于否定句和疑问句，肯定句用 still。",
+            "phoneticSplit": "a · ny · more",
+            "usage": "多用于否定句：not … anymore 不再……。"
           }
         },
         {
@@ -1908,7 +2090,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "daredevil",
               "冒失鬼"
             ],
-            "caution": "情态用法 dare not 后接原形、无 -s；实义用法 dare to do。"
+            "caution": "情态用法 dare not 后接原形、无 -s；实义用法 dare to do。",
+            "usage": "情态用法：Dare he come? 否定 daren't。"
           }
         },
         {
@@ -1929,7 +2112,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "documentaries",
               "纪录片（复数）"
             ],
-            "caution": "重音在 -men-；既是形容词也是名词，别只记「纪录片」。"
+            "caution": "重音在 -men-；既是形容词也是名词，别只记「纪录片」。",
+            "phoneticSplit": "do · cu · men · ta · ry",
+            "usage": "a documentary about… 关于……的纪录片。"
           }
         }
       ]
@@ -1959,7 +2144,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "vivid",
               "生动的"
             ],
-            "caution": "拼写 sur-vive；survive 直接跟宾语（survive the accident），不加 from。"
+            "caution": "拼写 sur-vive；survive 直接跟宾语（survive the accident），不加 from。",
+            "phoneticSplit": "sur · vive",
+            "usage": "survive the disaster 熬过灾难；survivor 幸存者。"
           }
         },
         {
@@ -1976,7 +2163,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shaky",
               "摇晃的"
             ],
-            "caution": "过去式 shook、过去分词 shaken，别写 shaked。"
+            "caution": "过去式 shook、过去分词 shaken，别写 shaked。",
+            "usage": "shake hands 握手；过去式 shook。"
           }
         },
         {
@@ -1999,7 +2187,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rectangle",
               "矩形"
             ],
-            "caution": "形容词兼动词；名词用 correction，别造 correctment。"
+            "caution": "形容词兼动词；名词用 correction，别造 correctment。",
+            "phoneticSplit": "cor · rect",
+            "usage": "correct the mistakes 改错；反义 incorrect。"
           }
         },
         {
@@ -2008,7 +2198,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/nɛkst/",
             "quick": "Next one! 排队轮到的下一个——下一个。",
-            "caution": "next week 前不加 the；the next week 指「接下来那一周」，意思不同。"
+            "caution": "next week 前不加 the；the next week 指「接下来那一周」，意思不同。",
+            "usage": "next to 在……隔壁；the next day 第二天。"
           }
         },
         {
@@ -2026,7 +2217,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bird",
               "早起的人"
             ],
-            "caution": "比较级 earlier（y 变 i）；early 既是形容词也是副词，没有 earlily。"
+            "caution": "比较级 earlier（y 变 i）；early 既是形容词也是副词，没有 earlily。",
+            "phoneticSplit": "ear · ly",
+            "usage": "early bird 早起的人；反义 late。"
           }
         },
         {
@@ -2045,7 +2238,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunshine",
               "阳光"
             ],
-            "caution": "过去式 shone；shiny 是去 e 加 y。"
+            "caution": "过去式 shone；shiny 是去 e 加 y。",
+            "usage": "shine-shone-shone；shine shoes 把鞋擦亮。"
           }
         },
         {
@@ -2064,7 +2258,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "valuation",
               "估价"
             ],
-            "caution": "作动词是「重视、估价」，不是「有价值」；valuable 别写成 valuble。"
+            "caution": "作动词是「重视、估价」，不是「有价值」；valuable 别写成 valuble。",
+            "phoneticSplit": "va · lue",
+            "usage": "valuable 有价值的；value 也可作动词：重视。"
           }
         },
         {
@@ -2087,7 +2283,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reviewer",
               "评论者"
             ],
-            "caution": "作名词重音在 -view；review 不等于 revise（修订）。"
+            "caution": "作名词重音在 -view；review 不等于 revise（修订）。",
+            "phoneticSplit": "re · view",
+            "usage": "preview 预习，review 复习；review notes 复习笔记。"
           }
         },
         {
@@ -2106,7 +2304,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "outsider",
               "局外人"
             ],
-            "caution": "作副词时不加介词：go outside，不说 go to outside。"
+            "caution": "作副词时不加介词：go outside，不说 go to outside。",
+            "phoneticSplit": "out · side",
+            "usage": "反义 inside；outside the window 窗外。"
           }
         },
         {
@@ -2125,7 +2325,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boarding",
               "登机"
             ],
-            "caution": "on board 是「在船/飞机上」；作动词不接 on，直接 board the plane。"
+            "caution": "on board 是「在船/飞机上」；作动词不接 on，直接 board the plane。",
+            "usage": "on board 在船上/机上；boarding pass 登机牌。"
           }
         },
         {
@@ -2140,7 +2341,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sandwiched",
               "夹在中间的"
             ],
-            "caution": "复数 sandwiches 加 es；中间是 sand-wich，没有 t。"
+            "caution": "复数 sandwiches 加 es；中间是 sand-wich，没有 t。",
+            "phoneticSplit": "san · dwich",
+            "usage": "sandwich 也作动词：被夹在中间。"
           }
         },
         {
@@ -2163,7 +2366,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "redesign",
               "重新设计"
             ],
-            "caution": "拼写 de-sign，别写成 desing；作名词重音在 -sign。"
+            "caution": "拼写 de-sign，别写成 desing；作名词重音在 -sign。",
+            "phoneticSplit": "de · sign",
+            "usage": "designer 设计师；design clothes 设计服装。"
           }
         },
         {
@@ -2180,7 +2385,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "worsening",
               "不断恶化的"
             ],
-            "caution": "是 bad / ill 的比较级，不能说 worser；比较用 worse than。"
+            "caution": "是 bad / ill 的比较级，不能说 worser；比较用 worse than。",
+            "usage": "from bad to worse 每况愈下；最高级 worst。"
           }
         },
         {
@@ -2197,7 +2403,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fingerprint",
               "指纹"
             ],
-            "caution": "拼写 fin-ger，别写成 fingure；thumb 习惯上单列。"
+            "caution": "拼写 fin-ger，别写成 fingure；thumb 习惯上单列。",
+            "phoneticSplit": "fing · er",
+            "usage": "index finger 食指；ring finger 无名指。"
           }
         },
         {
@@ -2218,7 +2426,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nowhere",
               "无处"
             ],
-            "caution": "写成一个词；作副词前不加介词，不说 in everywhere。"
+            "caution": "写成一个词；作副词前不加介词，不说 in everywhere。",
+            "phoneticSplit": "e · ve · ry · where",
+            "usage": "somewhere 某处，anywhere 任何地方，一家子。"
           }
         },
         {
@@ -2233,7 +2443,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "daughter-in-law",
               "儿媳"
             ],
-            "caution": "gh 不发音；别写成 doughter。"
+            "caution": "gh 不发音；别写成 doughter。",
+            "phoneticSplit": "daugh · ter",
+            "usage": "daughter-in-law 儿媳；复数 daughters。"
           }
         },
         {
@@ -2254,7 +2466,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "possibility",
               "可能性"
             ],
-            "caution": "是 im- 不是 in-；不能再加 un- 写成 unpossible。"
+            "caution": "是 im- 不是 in-；不能再加 un- 写成 unpossible。",
+            "phoneticSplit": "im · pos · si · ble",
+            "usage": "否定前缀是 im- 不是 un-；nothing is impossible。"
           }
         },
         {
@@ -2275,7 +2489,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "negatively",
               "消极地"
             ],
-            "caution": "反义词 positive；除「否定的」还指「消极的、负的」。"
+            "caution": "反义词 positive；除「否定的」还指「消极的、负的」。",
+            "phoneticSplit": "ne · ga · tive",
+            "usage": "反义 positive；negative attitude 消极态度。"
           }
         },
         {
@@ -2292,7 +2508,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "meats",
               "肉类（复数）"
             ],
-            "caution": "不可数，不说 a meat；与 meet 同音，拼写别混。"
+            "caution": "不可数，不说 a meat；与 meet 同音，拼写别混。",
+            "usage": "meat 指食用肉；肌肉是 muscle。"
           }
         },
         {
@@ -2309,7 +2526,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sizable",
               "相当大的"
             ],
-            "caution": "问尺寸用 What size…?；指尺码时可数。"
+            "caution": "问尺寸用 What size…?；指尺码时可数。",
+            "usage": "What size do you wear? 中号 medium size。"
           }
         }
       ]
@@ -2335,7 +2553,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "childlike",
               "天真的"
             ],
-            "caution": "复数 children，不是 childs；childish 带贬义。"
+            "caution": "复数 children，不是 childs；childish 带贬义。",
+            "usage": "复数 children；childhood 童年。"
           }
         },
         {
@@ -2352,7 +2571,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uniform",
               "制服"
             ],
-            "caution": "结尾 -sity 不是 -city；冠词用 a university（读 /juː/）。"
+            "caution": "结尾 -sity 不是 -city；冠词用 a university（读 /juː/）。",
+            "phoneticSplit": "u · ni · ver · si · ty",
+            "usage": "go to university 上大学；universe 宇宙同源。"
           }
         },
         {
@@ -2365,7 +2586,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "these",
               "这些"
             ],
-            "caution": "复数 these；后接单数名词，别写 this books。"
+            "caution": "复数 these；后接单数名词，别写 this books。",
+            "usage": "this 单数指近处；复数 these。"
           }
         },
         {
@@ -2384,7 +2606,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "viewer",
               "观众"
             ],
-            "caution": "可数：a view of the sea；in my view 不加 s。"
+            "caution": "可数：a view of the sea；in my view 不加 s。",
+            "usage": "in my view 在我看来；point of view 观点。"
           }
         },
         {
@@ -2401,7 +2624,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "parenthood",
               "父母身份"
             ],
-            "caution": "常用复数 parents；不要当成「父亲」专用。"
+            "caution": "常用复数 parents；不要当成「父亲」专用。",
+            "phoneticSplit": "pa · rent",
+            "usage": "a parent 单数指父或母一方；parents 双亲。"
           }
         },
         {
@@ -2418,7 +2643,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sugarcane",
               "甘蔗"
             ],
-            "caution": "不可数；s 读 /ʃ/，别读成 /ˈsʊɡə/。"
+            "caution": "不可数；s 读 /ʃ/，别读成 /ˈsʊɡə/。",
+            "phoneticSplit": "su · gar",
+            "usage": "sugar 不可数；no sugar 无糖。"
           }
         },
         {
@@ -2435,7 +2662,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "walled",
               "有围墙的"
             ],
-            "caution": "与 well（井）只差一字母；在墙上用 on the wall。"
+            "caution": "与 well（井）只差一字母；在墙上用 on the wall。",
+            "usage": "hang it on the wall 挂在墙上；city wall 城墙。"
           }
         },
         {
@@ -2450,7 +2678,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "youths",
               "年轻人（复数）"
             ],
-            "caution": "指「青年时期」时不可数；th 读清音 /θ/。"
+            "caution": "指「青年时期」时不可数；th 读清音 /θ/。",
+            "usage": "in one's youth 在青年时代；young→youth。"
           }
         },
         {
@@ -2467,7 +2696,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "factory",
               "工厂"
             ],
-            "caution": "in fact 是「事实上」；the fact that 是同位语从句，不加 of。"
+            "caution": "in fact 是「事实上」；the fact that 是同位语从句，不加 of。",
+            "usage": "in fact 事实上，常用来强调或纠正。"
           }
         },
         {
@@ -2482,7 +2712,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coursework",
               "课程作业"
             ],
-            "caution": "of course 是两个词；别写成 corse。"
+            "caution": "of course 是两个词；别写成 corse。",
+            "usage": "of course 当然；a course in English 英语课程。"
           }
         },
         {
@@ -2499,7 +2730,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "repeatedly",
               "再三地"
             ],
-            "caution": "拼写 re-peat，别写成 repect；可直接跟 that 从句。"
+            "caution": "拼写 re-peat，别写成 repect；可直接跟 that 从句。",
+            "phoneticSplit": "re · peat",
+            "usage": "repeat after me 跟我读；repetition 重复（名词）。"
           }
         },
         {
@@ -2518,7 +2751,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "toothpaste",
               "牙膏"
             ],
-            "caution": "复数 teeth；同类变化 foot → feet。"
+            "caution": "复数 teeth；同类变化 foot → feet。",
+            "usage": "复数 teeth；toothache 牙疼。"
           }
         },
         {
@@ -2537,7 +2771,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "movable",
               "可移动的"
             ],
-            "caution": "「被感动」是 be moved，不是 be moving；movie 由 moving picture 缩来。"
+            "caution": "「被感动」是 be moved，不是 be moving；movie 由 moving picture 缩来。",
+            "usage": "move house 搬家；moving 令人感动的。"
           }
         },
         {
@@ -2554,7 +2789,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "aside",
               "到一边"
             ],
-            "caution": "beside 表位置，besides 表「除…之外」，考试常混。"
+            "caution": "beside 表位置，besides 表「除…之外」，考试常混。",
+            "phoneticSplit": "be · side",
+            "usage": "beside 在旁边；besides 除此之外还。"
           }
         },
         {
@@ -2575,7 +2812,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "suggestible",
               "易受影响的"
             ],
-            "caution": "不接 suggest sb to do；名词 suggestion 可数。"
+            "caution": "不接 suggest sb to do；名词 suggestion 可数。",
+            "phoneticSplit": "sug · gest",
+            "usage": "suggest doing sth；后接 that 从句用 (should) do。"
           }
         },
         {
@@ -2590,7 +2829,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "itself",
               "它自己"
             ],
-            "caution": "与 it's 严格区分；its 后必接名词。"
+            "caution": "与 it's 严格区分；its 后必接名词。",
+            "usage": "its 它的；it's = it is/it has。"
           }
         },
         {
@@ -2605,7 +2845,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "century",
               "世纪"
             ],
-            "caution": "只往回指，不与将来连用；recently 常与现在完成时搭配。"
+            "caution": "只往回指，不与将来连用；recently 常与现在完成时搭配。",
+            "phoneticSplit": "re · cent",
+            "usage": "in recent years 近年来；recently 更常用。"
           }
         },
         {
@@ -2622,7 +2864,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "push-up",
               "俯卧撑"
             ],
-            "caution": "与 pull 反义，别混；push sb to do 是「逼迫某人做」。"
+            "caution": "与 pull 反义，别混；push sb to do 是「逼迫某人做」。",
+            "usage": "push the door 推门；反义 pull 拉。"
           }
         },
         {
@@ -2639,7 +2882,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seat",
               "座位"
             ],
-            "caution": "过去式 sat，现在分词 sitting 双写 t；坐在椅子上用 sit on a chair。"
+            "caution": "过去式 sat，现在分词 sitting 双写 t；坐在椅子上用 sit on a chair。",
+            "usage": "sit down 坐下；sit on the chair 坐在椅子上。"
           }
         },
         {
@@ -2654,7 +2898,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gain",
               "获得"
             ],
-            "caution": "拼写 a-gain，别写成 agian；again and again 是「一再」。"
+            "caution": "拼写 a-gain，别写成 agian；again and again 是「一再」。",
+            "phoneticSplit": "a · gain",
+            "usage": "again and again 反复地；see you again 再见。"
           }
         }
       ]
@@ -2678,7 +2924,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brighten",
               "使变亮"
             ],
-            "caution": "gh 不发音，读 /braɪt/；除「明亮」还指「聪明、鲜艳」。"
+            "caution": "gh 不发音，读 /braɪt/；除「明亮」还指「聪明、鲜艳」。",
+            "usage": "a bright student 聪明的学生；反义 dark。"
           }
         },
         {
@@ -2693,7 +2940,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pinkish",
               "带粉的"
             ],
-            "caution": "与 pin（别针）只差一个字母；既是形容词也是名词。"
+            "caution": "与 pin（别针）只差一个字母；既是形容词也是名词。",
+            "usage": "pink 粉红色；in the pink 气色红润。"
           }
         },
         {
@@ -2710,7 +2958,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lately",
               "最近"
             ],
-            "caution": "lately 是「最近」不是「迟地」；比较级 later。"
+            "caution": "lately 是「最近」不是「迟地」；比较级 later。",
+            "usage": "be late for 迟到；lately 意思是「近来」。"
           }
         },
         {
@@ -2727,7 +2976,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clocks",
               "钟（复数）"
             ],
-            "caution": "clock 指挂钟、座钟，手表是 watch；o'clock 只用于整点。"
+            "caution": "clock 指挂钟、座钟，手表是 watch；o'clock 只用于整点。",
+            "usage": "clock 挂钟/座钟，watch 手表。"
           }
         },
         {
@@ -2746,7 +2996,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prevent",
               "阻止"
             ],
-            "caution": "拼写 e-vent；日程上的「活动、赛事」也用这个词。"
+            "caution": "拼写 e-vent；日程上的「活动、赛事」也用这个词。",
+            "phoneticSplit": "e · vent",
+            "usage": "in the event of 万一；big event 大事。"
           }
         },
         {
@@ -2763,7 +3015,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "utmost",
               "极度的"
             ],
-            "caution": "最高级前要加 the；most of 后接名词需有限定词。"
+            "caution": "最高级前要加 the；most of 后接名词需有限定词。",
+            "usage": "at most 至多；most of the students 大多数。"
           }
         },
         {
@@ -2780,7 +3033,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "horseman",
               "骑手"
             ],
-            "caution": "与 house（房子）只差一字母；复数读 /ˈhɔːsɪz/。"
+            "caution": "与 house（房子）只差一字母；复数读 /ˈhɔːsɪz/。",
+            "usage": "ride a horse 骑马；sea horse 海马。"
           }
         },
         {
@@ -2795,7 +3049,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "soiled",
               "弄脏的"
             ],
-            "caution": "指土壤时不可数；与 soul（灵魂）形近，别混。"
+            "caution": "指土壤时不可数；与 soul（灵魂）形近，别混。",
+            "usage": "soil 指土壤；oil 是油，形近别混。"
           }
         },
         {
@@ -2808,7 +3063,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blouses",
               "女衬衫（复数）"
             ],
-            "caution": "专指女式；读 /blaʊz/，复数为 /ˈblaʊzɪz/。"
+            "caution": "专指女式；读 /blaʊz/，复数为 /ˈblaʊzɪz/。",
+            "usage": "blouse 女衬衫，shirt 多指男衬衫。"
           }
         },
         {
@@ -2831,7 +3087,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendliness",
               "友好"
             ],
-            "caution": "以 -ly 结尾但是形容词；比较级 friendlier。"
+            "caution": "以 -ly 结尾但是形容词；比较级 friendlier。",
+            "phoneticSplit": "friend · ly",
+            "usage": "be friendly to sb 对某人友好；-ly 结尾却是形容词。"
           }
         },
         {
@@ -2846,7 +3104,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "laptop",
               "笔记本电脑"
             ],
-            "caution": "指坐时的大腿部，不是膝盖（knee）；「一圈」用 lap。"
+            "caution": "指坐时的大腿部，不是膝盖（knee）；「一圈」用 lap。",
+            "usage": "lap 也指跑道一圈；laptop 膝上型电脑。"
           }
         },
         {
@@ -2867,7 +3126,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "western",
               "西方的"
             ],
-            "caution": "拼写 east-ern，别漏 e；大写 Eastern 指「东方的」。"
+            "caution": "拼写 east-ern，别漏 e；大写 Eastern 指「东方的」。",
+            "phoneticSplit": "ea · stern",
+            "usage": "north/south + ern 同构；eastern culture 东方文化。"
           }
         },
         {
@@ -2884,7 +3145,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tutored",
               "受辅导的"
             ],
-            "caution": "tutor 多指个别辅导者；学校任课老师用 teacher。"
+            "caution": "tutor 多指个别辅导者；学校任课老师用 teacher。",
+            "phoneticSplit": "tu · tor",
+            "usage": "tutor 私人教师/导师；tuition 学费同源。"
           }
         },
         {
@@ -2901,7 +3164,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "commentary",
               "解说"
             ],
-            "caution": "可数，make a comment on；评论某事用 comment on sth。"
+            "caution": "可数，make a comment on；评论某事用 comment on sth。",
+            "phoneticSplit": "com · ment",
+            "usage": "comment on… 对……评论；No comment 无可奉告。"
           }
         },
         {
@@ -2916,7 +3181,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "furs",
               "毛皮（复数）"
             ],
-            "caution": "双写 r；别与 fury（愤怒）混。"
+            "caution": "双写 r；别与 fury（愤怒）混。",
+            "phoneticSplit": "fur · ry",
+            "usage": "fur 毛皮不可数；a furry cat 毛茸茸的猫。"
           }
         },
         {
@@ -2931,7 +3198,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "high-heeled",
               "高跟的"
             ],
-            "caution": "与 heal 同音、与 hell 形近；高跟鞋用复数 heels。"
+            "caution": "与 heal 同音、与 hell 形近；高跟鞋用复数 heels。",
+            "usage": "high heels 高跟鞋；Achilles' heel 致命弱点。"
           }
         },
         {
@@ -2948,7 +3216,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slider",
               "滑块"
             ],
-            "caution": "过去式 slid；slide 也指幻灯片、滑梯。"
+            "caution": "过去式 slid；slide 也指幻灯片、滑梯。",
+            "usage": "slide show 幻灯片；slide into 悄悄溜进。"
           }
         },
         {
@@ -2967,7 +3236,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pronouns",
               "代词（复数）"
             ],
-            "caution": "别与 proper noun（专有名词）混；pronoun 是一个词。"
+            "caution": "别与 proper noun（专有名词）混；pronoun 是一个词。",
+            "phoneticSplit": "pro · noun",
+            "usage": "I、you、he 都是 pronoun；pro- 表「代替」。"
           }
         },
         {
@@ -2982,7 +3253,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "topical",
               "话题的"
             ],
-            "caution": "拼写 top-ic，别写成 topick；标题是 title，不是 topic。"
+            "caution": "拼写 top-ic，别写成 topick；标题是 title，不是 topic。",
+            "phoneticSplit": "to · pic",
+            "usage": "topic sentence 主题句；talk about the topic。"
           }
         },
         {
@@ -3005,7 +3278,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "define",
               "限定"
             ],
-            "caution": "拼写 in-fin-itive，别漏 i；符号 to 后接动词原形。"
+            "caution": "拼写 in-fin-itive，别漏 i；符号 to 后接动词原形。",
+            "phoneticSplit": "in · fi · ni · tive",
+            "usage": "to do 是不定式；want 后接 to do。"
           }
         },
         {
@@ -3026,7 +3301,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "teen",
               "青少年"
             ],
-            "caution": "拼写 teen-age-r，不是 teenanger；专指 13–19 岁。"
+            "caution": "拼写 teen-age-r，不是 teenanger；专指 13–19 岁。",
+            "phoneticSplit": "tee · na · ger",
+            "usage": "teen 指 13–19 岁；teenage years 青少年时期。"
           }
         },
         {
@@ -3043,7 +3320,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skinless",
               "无皮的"
             ],
-            "caution": "与 skim（撇去、略读）混；指兽皮时可数。"
+            "caution": "与 skim（撇去、略读）混；指兽皮时可数。",
+            "usage": "skin and bones 皮包骨；be soaked to the skin 淋透。"
           }
         },
         {
@@ -3058,7 +3336,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shampooing",
               "洗头"
             ],
-            "caution": "中间是 oo；既可用作可数也可不可数。"
+            "caution": "中间是 oo；既可用作可数也可不可数。",
+            "phoneticSplit": "sham · poo",
+            "usage": "a bottle of shampoo；不可数名词。"
           }
         }
       ]
@@ -3088,7 +3368,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mirror",
               "镜子"
             ],
-            "caution": "admire sb. for sth.；别把词尾 -e 丢掉写成 admir。"
+            "caution": "admire sb. for sth.；别把词尾 -e 丢掉写成 admir。",
+            "phoneticSplit": "ad · mire",
+            "usage": "admire sb for sth 因某事钦佩某人。"
           }
         },
         {
@@ -3105,7 +3387,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mama",
               "妈妈"
             ],
-            "caution": "英式 mum，美式 mom，同一篇作文里别混用。"
+            "caution": "英式 mum，美式 mom，同一篇作文里别混用。",
+            "usage": "英式 mum，美式 mom；Mother's Day 母亲节。"
           }
         },
         {
@@ -3122,7 +3405,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nonstandard",
               "非标准的"
             ],
-            "caution": "表「行为标准」常用复数 standards；作形容词只作定语。"
+            "caution": "表「行为标准」常用复数 standards；作形容词只作定语。",
+            "phoneticSplit": "stan · dard",
+            "usage": "up to the standard 达标；standard of living 生活水平。"
           }
         },
         {
@@ -3139,7 +3424,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unwise",
               "不明智的"
             ],
-            "caution": "名词是 wisdom；比较级写 wiser，不用 more wise。"
+            "caution": "名词是 wisdom；比较级写 wiser，不用 more wise。",
+            "usage": "wisdom 智慧；smart 机灵，wise 明智。"
           }
         },
         {
@@ -3154,7 +3440,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "widespread",
               "广泛的"
             ],
-            "caution": "过去式、过去分词都是 spread，不加 -ed；「传播消息」用 spread the news。"
+            "caution": "过去式、过去分词都是 spread，不加 -ed；「传播消息」用 spread the news。",
+            "usage": "spread-spread-spread 三态同形；spread like wildfire 传得飞快。"
           }
         },
         {
@@ -3175,7 +3462,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blackberry",
               "黑莓"
             ],
-            "caution": "straw 是「稻草」，别少一个 r 写成 strawbery。"
+            "caution": "straw 是「稻草」，别少一个 r 写成 strawbery。",
+            "phoneticSplit": "straw · ber · ry",
+            "usage": "复数 strawberries；blueberry 蓝莓同族。"
           }
         },
         {
@@ -3192,7 +3481,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stomachache",
               "肚子痛"
             ],
-            "caution": "作构词尾 -ache 时重音在前；单独用时读 /eɪk/。"
+            "caution": "作构词尾 -ache 时重音在前；单独用时读 /eɪk/。",
+            "usage": "headache、stomachache 都带 ache；h 不发音。"
           }
         },
         {
@@ -3211,7 +3501,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "size",
               "大号的"
             ],
-            "caution": "the Queen 大写指在位女王；国际象棋的「后」也叫 queen。"
+            "caution": "the Queen 大写指在位女王；国际象棋的「后」也叫 queen。",
+            "usage": "Q 即 queen；queen bee 蜂后。"
           }
         },
         {
@@ -3226,7 +3517,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "miniskirt",
               "超短裙"
             ],
-            "caution": "连衣裙是 dress，短裙才是 skirt；「穿裙子」wear a skirt。"
+            "caution": "连衣裙是 dress，短裙才是 skirt；「穿裙子」wear a skirt。",
+            "usage": "shirt 衬衫，skirt 裙子，形近易混。"
           }
         },
         {
@@ -3243,7 +3535,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fearsome",
               "吓人的"
             ],
-            "caution": "for fear of、in fear of 都不加冠词；后接 to do 或 of doing。"
+            "caution": "for fear of、in fear of 都不加冠词；后接 to do 或 of doing。",
+            "usage": "for fear of 以免；be in fear of 害怕。"
           }
         },
         {
@@ -3260,7 +3553,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "warily",
               "警惕地"
             ],
-            "caution": "warn sb. of / about sth.；名词是 warning，不写 warnment。"
+            "caution": "warn sb. of / about sth.；名词是 warning，不写 warnment。",
+            "usage": "warn sb of/about sth；warning sign 警告牌。"
           }
         },
         {
@@ -3275,7 +3569,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hurriedly",
               "匆忙地"
             ],
-            "caution": "hurry up 后不接 to；「匆忙地」用 in a hurry，不说 with hurry。"
+            "caution": "hurry up 后不接 to；「匆忙地」用 in a hurry，不说 with hurry。",
+            "phoneticSplit": "hur · ry",
+            "usage": "hurry up 赶快；in a hurry 匆匆忙忙。"
           }
         },
         {
@@ -3294,7 +3590,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "businesslike",
               "公事公办的"
             ],
-            "caution": "读 /ˈbɪznəs/，i 不发音；「出差」on business，不是 for business。"
+            "caution": "读 /ˈbɪznəs/，i 不发音；「出差」on business，不是 for business。",
+            "phoneticSplit": "bu · si · ness",
+            "usage": "on business 出差；businessman 商人。"
           }
         },
         {
@@ -3309,7 +3607,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "soldierly",
               "军人般的"
             ],
-            "caution": "拼写 sol-dier，中间是 die；别写成 solider（那是「更稳的」）。"
+            "caution": "拼写 sol-dier，中间是 die；别写成 solider（那是「更稳的」）。",
+            "phoneticSplit": "sol · dier",
+            "usage": "soldiers in the army 部队里的士兵；officer 军官。"
           }
         },
         {
@@ -3328,7 +3628,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "highway",
               "公路"
             ],
-            "caution": "the way to do sth. 或 the way of doing sth.，不用 the way how。"
+            "caution": "the way to do sth. 或 the way of doing sth.，不用 the way how。",
+            "usage": "on the way 在路上；by the way 顺便说一句。"
           }
         },
         {
@@ -3347,7 +3648,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "industrialist",
               "实业家"
             ],
-            "caution": "industrial（工业的）与 industrious（勤劳的）极易混，看词尾辨。"
+            "caution": "industrial（工业的）与 industrious（勤劳的）极易混，看词尾辨。",
+            "phoneticSplit": "in · du · stry",
+            "usage": "heavy industry 重工业；industrial 工业的。"
           }
         },
         {
@@ -3365,7 +3668,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "line",
               "底线"
             ],
-            "caution": "用 at the bottom of；「最下面的」就是 bottom，不必换成 lowest。"
+            "caution": "用 at the bottom of；「最下面的」就是 bottom，不必换成 lowest。",
+            "phoneticSplit": "bot · tom",
+            "usage": "at the bottom of 在……底部；反义 top。"
           }
         },
         {
@@ -3386,7 +3691,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "along",
               "沿着"
             ],
-            "caution": "alone 是客观「独自」，lonely 是主观「孤独」；leave sb. alone 是别打扰。"
+            "caution": "alone 是客观「独自」，lonely 是主观「孤独」；leave sb. alone 是别打扰。",
+            "phoneticSplit": "a · lone",
+            "usage": "alone 客观独自，lonely 主观孤独。"
           }
         },
         {
@@ -3401,7 +3708,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whaler",
               "捕鲸船"
             ],
-            "caution": "h 不发音，读 /weɪl/；a whale of a… 是「极大的」。"
+            "caution": "h 不发音，读 /weɪl/；a whale of a… 是「极大的」。",
+            "phoneticSplit": "wha · le",
+            "usage": "blue whale 蓝鲸是最大的动物。"
           }
         },
         {
@@ -3418,7 +3727,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cowhide",
               "牛皮"
             ],
-            "caution": "词表释义「母生，奶生」是乱码，应为「母牛，奶牛」；cow 特指母牛。"
+            "caution": "词表释义「母生，奶生」是乱码，应为「母牛，奶牛」；cow 特指母牛。",
+            "usage": "cow 母牛，bull 公牛，calf 小牛。"
           }
         }
       ]
@@ -3442,7 +3752,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "asker",
               "提问者"
             ],
-            "caution": "ask sb. for sth.；ask sb. to do sth.；「问问题」也可说 ask a question。"
+            "caution": "ask sb. for sth.；ask sb. to do sth.；「问问题」也可说 ask a question。",
+            "usage": "ask sb for sth 向人要物；ask sb to do 请人做事。"
           }
         },
         {
@@ -3457,7 +3768,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "suddenness",
               "突然"
             ],
-            "caution": "副词是 suddenly；all of a sudden 是固定说法，不写 all of sudden。"
+            "caution": "副词是 suddenly；all of a sudden 是固定说法，不写 all of sudden。",
+            "phoneticSplit": "sud · den",
+            "usage": "all of a sudden 突然；sudden 比 quick 更意外。"
           }
         },
         {
@@ -3476,7 +3789,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bookmark",
               "书签"
             ],
-            "caution": "分数常用复数 marks，美式多说 grade；作动词及物，marks the spot。"
+            "caution": "分数常用复数 marks，美式多说 grade；作动词及物，marks the spot。",
+            "usage": "full marks 满分；mark the papers 批卷子。"
           }
         },
         {
@@ -3493,7 +3807,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "then",
               "自那以后"
             ],
-            "caution": "引导时间状语从句时主句用现在完成时；表「因为」语气弱于 because。"
+            "caution": "引导时间状语从句时主句用现在完成时；表「因为」语气弱于 because。",
+            "usage": "since 接时间点，for 接一段时间；since 从句用过去时。"
           }
         },
         {
@@ -3508,7 +3823,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "belonging",
               "归属"
             ],
-            "caution": "不用被动、不用进行时；belong to sb.，to 不可省。"
+            "caution": "不用被动、不用进行时；belong to sb.，to 不可省。",
+            "phoneticSplit": "be · long",
+            "usage": "belong to 不用进行时，也不用被动语态。"
           }
         },
         {
@@ -3521,7 +3838,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sharkskin",
               "鲨皮布"
             ],
-            "caution": "拼写 sh-ark，别写成 shrak；「大白鲨」是 great white shark。"
+            "caution": "拼写 sh-ark，别写成 shrak；「大白鲨」是 great white shark。",
+            "usage": "shark 可数；a shark 一条鲨鱼。"
           }
         },
         {
@@ -3540,7 +3858,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "daily",
               "每日的"
             ],
-            "caution": "everyday English 日常英语；I read every day（要分开写）。"
+            "caution": "everyday English 日常英语；I read every day（要分开写）。",
+            "phoneticSplit": "e · ve · ry · day",
+            "usage": "everyday 是形容词；every day 是状语，分开写。"
           }
         },
         {
@@ -3555,7 +3875,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "aboveboard",
               "光明正大的"
             ],
-            "caution": "above 不一定正上方；above all 是「最重要的是」，不表位置。"
+            "caution": "above 不一定正上方；above all 是「最重要的是」，不表位置。",
+            "phoneticSplit": "a · bove",
+            "usage": "above 只表位置高，over 更强调正上方覆盖。"
           }
         },
         {
@@ -3574,7 +3896,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "everyday",
               "日常的"
             ],
-            "caution": "后接单数名词、谓语用单数；every other day 是「每隔一天」。"
+            "caution": "后接单数名词、谓语用单数；every other day 是「每隔一天」。",
+            "phoneticSplit": "e · ve · ry",
+            "usage": "every 后接单数名词，谓语也用单数。"
           }
         },
         {
@@ -3591,7 +3915,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "face-to-face",
               "面对面的"
             ],
-            "caution": "作动词及物：face the problem，不加 with。"
+            "caution": "作动词及物：face the problem，不加 with。",
+            "usage": "face 作动词：face the problem 面对问题。"
           }
         },
         {
@@ -3607,7 +3932,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "kitchen",
               "施汤所"
             ],
-            "caution": "与 soap（肥皂）只差一字母；「喝汤」英语常说 eat soup。"
+            "caution": "与 soap（肥皂）只差一字母；「喝汤」英语常说 eat soup。",
+            "usage": "a bowl of soup 一碗汤；chicken soup 鸡汤。"
           }
         },
         {
@@ -3626,7 +3952,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "duplicate",
               "复制"
             ],
-            "caution": "「两倍」用 twice，double 是「翻倍」或「双的」；双人床 double bed。"
+            "caution": "「两倍」用 twice，double 是「翻倍」或「双的」；双人床 double bed。",
+            "phoneticSplit": "dou · ble",
+            "usage": "double 可作动词：double the price 价格翻倍。"
           }
         },
         {
@@ -3643,7 +3971,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "northeast",
               "东北"
             ],
-            "caution": "方位词小写；the East 大写才指「东方国家」。"
+            "caution": "方位词小写；the East 大写才指「东方国家」。",
+            "usage": "in the east of 在……东部（内部）；eastern 东部的。"
           }
         },
         {
@@ -3660,7 +3989,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prideful",
               "自负的"
             ],
-            "caution": "be proud of sb./sth.；名词用 pride，不写 proudness。"
+            "caution": "be proud of sb./sth.；名词用 pride，不写 proudness。",
+            "usage": "proud 是形容词，pride 是名词；介词用 of。"
           }
         },
         {
@@ -3678,7 +4008,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "away",
               "躲开"
             ],
-            "caution": "比较级 shyer；be shy of doing sth. 是「不好意思做」。"
+            "caution": "比较级 shyer；be shy of doing sth. 是「不好意思做」。",
+            "usage": "比较级 shier；be shy of 怕做某事。"
           }
         },
         {
@@ -3697,7 +4028,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whenever",
               "无论何时"
             ],
-            "caution": "肯定句表「曾经」用 once；hardly ever 是「几乎从不」。"
+            "caution": "肯定句表「曾经」用 once；hardly ever 是「几乎从不」。",
+            "phoneticSplit": "e · ver",
+            "usage": "ever 多用于疑问句和否定句；ever since 自从。"
           }
         },
         {
@@ -3715,7 +4048,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "talk",
               "闲聊"
             ],
-            "caution": "small 指体积小，little 带感情；比较级 smaller。"
+            "caution": "small 指体积小，little 带感情；比较级 smaller。",
+            "usage": "small 指体积小，little 常带感情色彩。"
           }
         },
         {
@@ -3732,7 +4066,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "northwest",
               "西北"
             ],
-            "caution": "词表「[the w-美国西部ad; 西方的」有乱码，形容词应为 adj.；方位词小写。"
+            "caution": "词表「[the w-美国西部ad; 西方的」有乱码，形容词应为 adj.；方位词小写。",
+            "usage": "the West 指西方国家；western 西方的。"
           }
         },
         {
@@ -3749,7 +4084,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spacecraft",
               "宇宙飞船"
             ],
-            "caution": "「太空」是 space，前面不加 the；留空用 leave space。"
+            "caution": "「太空」是 space，前面不加 the；留空用 leave space。",
+            "usage": "in space 在太空不加 the；make space 腾地方。"
           }
         },
         {
@@ -3768,7 +4104,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "keyword",
               "关键词"
             ],
-            "caution": "「……的关键/答案」用 the key to，不用 of；作形容词只作定语。"
+            "caution": "「……的关键/答案」用 the key to，不用 of；作形容词只作定语。",
+            "usage": "the key to the door 用 to，不换成 of。"
           }
         }
       ]
@@ -3792,7 +4129,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "old-fashioned",
               "老式的"
             ],
-            "caution": "问年龄 How old；「十岁」ten years old，years 不能丢。"
+            "caution": "问年龄 How old；「十岁」ten years old，years 不能丢。",
+            "usage": "old 反义 young、new；the old 指老年人。"
           }
         },
         {
@@ -3810,7 +4148,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "game",
               "电子游戏"
             ],
-            "caution": "比赛项目是 game，整场赛事是 match；「玩游戏」play games。"
+            "caution": "比赛项目是 game，整场赛事是 match；「玩游戏」play games。",
+            "usage": "game 可数；sport 多指体育项目。"
           }
         },
         {
@@ -3827,7 +4166,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "harmfully",
               "有害地"
             ],
-            "caution": "多作不可数：do harm to sb.；形容词 harmful。"
+            "caution": "多作不可数：do harm to sb.；形容词 harmful。",
+            "usage": "harm 多指抽象伤害，hurt 多指身体疼痛。"
           }
         },
         {
@@ -3846,7 +4186,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oneself",
               "自己"
             ],
-            "caution": "可作代词泛指「任何人」；复数 ones 只代前文提过的名词。"
+            "caution": "可作代词泛指「任何人」；复数 ones 只代前文提过的名词。",
+            "usage": "one 代替单数可数名词，ones 代替复数。"
           }
         },
         {
@@ -3869,7 +4210,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "joyful",
               "高兴的"
             ],
-            "caution": "enjoy doing sth.，不接不定式；enjoy oneself 是「玩得开心」。"
+            "caution": "enjoy doing sth.，不接不定式；enjoy oneself 是「玩得开心」。",
+            "phoneticSplit": "en · joy",
+            "usage": "enjoy doing，不说 enjoy to do。"
           }
         },
         {
@@ -3886,7 +4229,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "theirs",
               "他们的"
             ],
-            "caution": "名词性物主代词，独立使用；不写 oures。"
+            "caution": "名词性物主代词，独立使用；不写 oures。",
+            "usage": "ours 后面不接名词，our 后面必须接名词。"
           }
         },
         {
@@ -3903,7 +4247,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uglify",
               "使变丑"
             ],
-            "caution": "比较级 uglier；ugly 指外表，bad 指品质。"
+            "caution": "比较级 uglier；ugly 指外表，bad 指品质。",
+            "phoneticSplit": "u · gly",
+            "usage": "比较级 uglier；ugly 也可形容难听的声音。"
           }
         },
         {
@@ -3920,7 +4266,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sheepfold",
               "羊圈"
             ],
-            "caution": "单复数同形，two sheep 不加 s；词表 pl. sheepl 是乱码，应为 sheep。"
+            "caution": "单复数同形，two sheep 不加 s；词表 pl. sheepl 是乱码，应为 sheep。",
+            "usage": "sheep 可数但复数不变；goat 是山羊。"
           }
         },
         {
@@ -3937,7 +4284,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "popular",
               "大众的"
             ],
-            "caution": "本身是复数，谓语用复数；peoples 只指多个民族。"
+            "caution": "本身是复数，谓语用复数；peoples 只指多个民族。",
+            "phoneticSplit": "peo · ple",
+            "usage": "people 复数不加 s；a people 指一个民族。"
           }
         },
         {
@@ -3954,7 +4303,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blackbird",
               "乌鸫"
             ],
-            "caution": "拼写 b-i-r-d；古英语原形才是 brid，别照古形写。"
+            "caution": "拼写 b-i-r-d；古英语原形才是 brid，别照古形写。",
+            "usage": "bird 可数；birds and animals 鸟兽。"
           }
         },
         {
@@ -3972,7 +4322,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eagle-eyed",
               "目光锐利的"
             ],
-            "caution": "拼写 ea-gle，别漏 e 写成 agle。"
+            "caution": "拼写 ea-gle，别漏 e 写成 agle。",
+            "phoneticSplit": "ea · gle",
+            "usage": "eagle 大型鹰，hawk 体型小些。"
           }
         },
         {
@@ -3989,7 +4341,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "constant",
               "不变的"
             ],
-            "caution": "for instance 不说 for an instance；缩写是 e.g.。"
+            "caution": "for instance 不说 for an instance；缩写是 e.g.。",
+            "phoneticSplit": "in · stance",
+            "usage": "for instance 常放句中，后面直接举例。"
           }
         },
         {
@@ -4010,7 +4364,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendly",
               "友好的"
             ],
-            "caution": "写成一个词，不加连字符；英式口语也指普通女性朋友。"
+            "caution": "写成一个词，不加连字符；英式口语也指普通女性朋友。",
+            "phoneticSplit": "girl · friend",
+            "usage": "girlfriend 指女友或女性朋友，对应 boyfriend。"
           }
         },
         {
@@ -4027,7 +4383,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "March",
               "三月"
             ],
-            "caution": "表「三月」必须大写；march against 是「游行反对」。"
+            "caution": "表「三月」必须大写；march against 是「游行反对」。",
+            "usage": "大写 March 才是三月；march 也可指游行。"
           }
         },
         {
@@ -4050,7 +4407,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "refer",
               "提及"
             ],
-            "caution": "指正式大型会议，小型讨论叫 meeting；用 at a conference。"
+            "caution": "指正式大型会议，小型讨论叫 meeting；用 at a conference。",
+            "phoneticSplit": "con · fe · rence",
+            "usage": "conference 正式会议，meeting 更普通。"
           }
         },
         {
@@ -4071,7 +4430,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "present",
               "呈现"
             ],
-            "caution": "及物，不加 for；represent sb. 是「代表某人」。"
+            "caution": "及物，不加 for；represent sb. 是「代表某人」。",
+            "phoneticSplit": "re · pre · sent",
+            "usage": "represent 代表某人某地；representative 是代表（人）。"
           }
         },
         {
@@ -4092,7 +4453,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "impoliteness",
               "无礼"
             ],
-            "caution": "im- 是 in- 在 b/m/p 前的变体，不写 inpolite；反义是 polite。"
+            "caution": "im- 是 in- 在 b/m/p 前的变体，不写 inpolite；反义是 polite。",
+            "phoneticSplit": "im · po · lite",
+            "usage": "It's impolite to do 做某事不礼貌，比 rude 委婉。"
           }
         },
         {
@@ -4113,7 +4476,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "schoolboy",
               "男学生"
             ],
-            "caution": "一个词不加空格；与 homework（家庭作业）常混。"
+            "caution": "一个词不加空格；与 homework（家庭作业）常混。",
+            "phoneticSplit": "school · work",
+            "usage": "schoolwork 不可数；homework 是家庭作业。"
           }
         },
         {
@@ -4130,7 +4495,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "collaborate",
               "合作"
             ],
-            "caution": "英式 labour / 美式 labor；不可数，别加 s。"
+            "caution": "英式 labour / 美式 labor；不可数，别加 s。",
+            "phoneticSplit": "la · bour",
+            "usage": "英式 labour，美式 labor；labour 也可指劳工。"
           }
         },
         {
@@ -4151,7 +4518,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "staircase",
               "楼梯间"
             ],
-            "caution": "副词，go upstairs 不加 to；作定语放名词前：the upstairs room。"
+            "caution": "副词，go upstairs 不加 to；作定语放名词前：the upstairs room。",
+            "phoneticSplit": "up · stairs",
+            "usage": "upstairs 是副词，go upstairs 后面不加 to。"
           }
         }
       ]
@@ -4181,7 +4550,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reverse",
               "反转"
             ],
-            "caution": "the universe 前用 the；拼写 uni-vers-e，别写成 univerce。"
+            "caution": "the universe 前用 the；拼写 uni-vers-e，别写成 univerce。",
+            "phoneticSplit": "u · ni · verse",
+            "usage": "universe 宇宙；universal 普遍的。"
           }
         },
         {
@@ -4198,7 +4569,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "intelligence",
               "智能"
             ],
-            "caution": "词表拼写应为 AI（大写字母 I，不是小写 l）；读音是 A-I 两个字母。"
+            "caution": "词表拼写应为 AI（大写字母 I，不是小写 l）；读音是 A-I 两个字母。",
+            "usage": "AI 读两个字母；写作 artificial intelligence。"
           }
         },
         {
@@ -4215,7 +4587,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "disturb",
               "打扰"
             ],
-            "caution": "表「麻烦」不可数；have trouble (in) doing sth.，in 可省。"
+            "caution": "表「麻烦」不可数；have trouble (in) doing sth.，in 可省。",
+            "phoneticSplit": "trou · ble",
+            "usage": "have trouble doing sth 做某事有困难。"
           }
         },
         {
@@ -4232,7 +4606,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "firefight",
               "交火"
             ],
-            "caution": "过去式 fought；fight against 是对抗，fight for 是为…而战。"
+            "caution": "过去式 fought；fight against 是对抗，fight for 是为…而战。",
+            "usage": "过去式 fought；fight against 对抗。"
           }
         },
         {
@@ -4247,7 +4622,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "duckweed",
               "浮萍"
             ],
-            "caution": "鸭叫 quack；作动词「躲避」及物：duck the ball。"
+            "caution": "鸭叫 quack；作动词「躲避」及物：duck the ball。",
+            "usage": "duck 可数；duckling 是小鸭。"
           }
         },
         {
@@ -4264,7 +4640,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "breakfast",
               "早餐"
             ],
-            "caution": "既是形容词也是副词，run fast 不用 fastly；另有「禁食」义。"
+            "caution": "既是形容词也是副词，run fast 不用 fastly；另有「禁食」义。",
+            "usage": "fast 指速度快，quick 指动作短促。"
           }
         },
         {
@@ -4279,7 +4656,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "themselves",
               "他们自己"
             ],
-            "caution": "名词性物主代词，不接名词；别写成 their's。"
+            "caution": "名词性物主代词，不接名词；别写成 their's。",
+            "usage": "theirs 后面不接名词，their 后面必须接。"
           }
         },
         {
@@ -4300,7 +4678,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pronouncement",
               "声明"
             ],
-            "caution": "名词 pronunciation 少了 o，别写成 pronounciation。"
+            "caution": "名词 pronunciation 少了 o，别写成 pronounciation。",
+            "phoneticSplit": "pro · nounce",
+            "usage": "名词是 pronunciation，中间少一个 o。"
           }
         },
         {
@@ -4319,7 +4699,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "barefoot",
               "赤脚的"
             ],
-            "caution": "复数 feet；「英尺」复数常写 foot（five foot tall）。"
+            "caution": "复数 feet；「英尺」复数常写 foot（five foot tall）。",
+            "usage": "at the foot of 在……脚下；one foot, two feet。"
           }
         },
         {
@@ -4342,7 +4723,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "interact",
               "互动"
             ],
-            "caution": "拼写 inter-nation-al，n 与 n 中间不断开；不写 intrenational。"
+            "caution": "拼写 inter-nation-al，n 与 n 中间不断开；不写 intrenational。",
+            "phoneticSplit": "in · ter · na · tio · nal",
+            "usage": "international 国际的，national 国家的。"
           }
         },
         {
@@ -4359,7 +4742,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "openness",
               "开放"
             ],
-            "caution": "动词是短暂动作，表状态用 be open。"
+            "caution": "动词是短暂动作，表状态用 be open。",
+            "phoneticSplit": "o · pen",
+            "usage": "open 形容词表状态，opened 表被打开的动作。"
           }
         },
         {
@@ -4376,7 +4761,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "secondhand",
               "二手的"
             ],
-            "caution": "词表「ad;.第二的」是乱码，应为 adj.；「秒」可数，a second。"
+            "caution": "词表「ad;.第二的」是乱码，应为 adj.；「秒」可数，a second。",
+            "phoneticSplit": "se · cond",
+            "usage": "序数词前常加 the；a second 是又一个。"
           }
         },
         {
@@ -4398,7 +4785,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cake",
               "生日蛋糕"
             ],
-            "caution": "拼写 bir-th-day，中间是 th；Happy birthday 不加 the。"
+            "caution": "拼写 bir-th-day，中间是 th；Happy birthday 不加 the。",
+            "phoneticSplit": "birth · day",
+            "usage": "Happy birthday to you；on one's birthday 用 on。"
           }
         },
         {
@@ -4415,7 +4804,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "billion",
               "十亿"
             ],
-            "caution": "two million people 不加 s；millions of 才用复数。"
+            "caution": "two million people 不加 s；millions of 才用复数。",
+            "phoneticSplit": "mil · lion",
+            "usage": "millions of 成百万的，这时才加 s。"
           }
         },
         {
@@ -4438,7 +4829,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nobody",
               "没有人"
             ],
-            "caution": "谓语用单数；回指用 they / their。"
+            "caution": "谓语用单数；回指用 they / their。",
+            "phoneticSplit": "e · ve · ry · bo · dy",
+            "usage": "everybody 作主语，谓语用单数。"
           }
         },
         {
@@ -4461,7 +4854,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "situation",
               "处境"
             ],
-            "caution": "「在车站」用 at the station；也可指电台、派出所。"
+            "caution": "「在车站」用 at the station；也可指电台、派出所。",
+            "phoneticSplit": "sta · tion",
+            "usage": "at the station 在车站；station 也可指电台。"
           }
         },
         {
@@ -4478,7 +4873,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nice-looking",
               "好看的"
             ],
-            "caution": "语气偏弱，正式写作多用 kind / pleasant；nice and warm 是「挺暖的」。"
+            "caution": "语气偏弱，正式写作多用 kind / pleasant；nice and warm 是「挺暖的」。",
+            "usage": "nice 指人或物令人愉快，good 更泛。"
           }
         },
         {
@@ -4493,7 +4889,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "treehouse",
               "树屋"
             ],
-            "caution": "拼写 t-r-e-e；「一棵树」a tree，别漏冠词。"
+            "caution": "拼写 t-r-e-e；「一棵树」a tree，别漏冠词。",
+            "usage": "on the tree 长在树上，in the tree 是外来物。"
           }
         },
         {
@@ -4510,7 +4907,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "breathing",
               "呼吸"
             ],
-            "caution": "名词读 /breθ/，动词读 /briːð/；out of breath 是「上气不接下气」。"
+            "caution": "名词读 /breθ/，动词读 /briːð/；out of breath 是「上气不接下气」。",
+            "usage": "take a deep breath 深吸气；out of breath 喘不上气。"
           }
         },
         {
@@ -4533,7 +4931,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cape",
               "海角"
             ],
-            "caution": "「首都」前不用 the；大写字母说 capital letter，别只说 capital。"
+            "caution": "「首都」前不用 the；大写字母说 capital letter，别只说 capital。",
+            "phoneticSplit": "ca · pi · tal",
+            "usage": "capital 首都／大写／资本；大写字母说 capital letter。"
           }
         }
       ]
@@ -4559,7 +4959,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "remake",
               "重制"
             ],
-            "caution": "make sb. do sth. 不带 to；被动时要还原：be made to do。"
+            "caution": "make sb. do sth. 不带 to；被动时要还原：be made to do。",
+            "usage": "make sb do 不带 to；be made of 看得出材料。"
           }
         },
         {
@@ -4582,7 +4983,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "piglet",
               "小猪"
             ],
-            "caution": "packet 是小包，package 是包裹；拼写 pack 加 et，别写成 pacet。"
+            "caution": "packet 是小包，package 是包裹；拼写 pack 加 et，别写成 pacet。",
+            "phoneticSplit": "pack · et",
+            "usage": "a packet of crisps 一包薯片。"
           }
         },
         {
@@ -4598,7 +5001,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seal",
               "象海豹"
             ],
-            "caution": "ph 读 /f/；拼写 ele-ph-ant，别写成 elephent。"
+            "caution": "ph 读 /f/；拼写 ele-ph-ant，别写成 elephent。",
+            "phoneticSplit": "e · le · phant",
+            "usage": "an elephant 用 an；white elephant 华而不实的东西。"
           }
         },
         {
@@ -4615,7 +5020,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "otherwise",
               "否则"
             ],
-            "caution": "否定句并列用 or；「否则」要说 or else。"
+            "caution": "否定句并列用 or；「否则」要说 or else。",
+            "usage": "否定句里并列用 or，不用 and。"
           }
         },
         {
@@ -4632,7 +5038,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blockhead",
               "笨蛋"
             ],
-            "caution": "「堵车」是 traffic jam，不说 traffic block；街区美式用 block。"
+            "caution": "「堵车」是 traffic jam，不说 traffic block；街区美式用 block。",
+            "usage": "block 名词指街区、大楼；blocked 是堵住了。"
           }
         },
         {
@@ -4649,7 +5056,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "letting",
               "出租"
             ],
-            "caution": "let sb. do sth. 不带 to；过去式仍是 let；let's 是 let us 的缩写。"
+            "caution": "let sb. do sth. 不带 to；过去式仍是 let；let's 是 let us 的缩写。",
+            "usage": "let sb do 不带 to；Let's 包括对方。"
           }
         },
         {
@@ -4667,7 +5075,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sterling",
               "英镑"
             ],
-            "caution": "重量单位与货币单位同形；心跳和猛击都用 pound。"
+            "caution": "重量单位与货币单位同形；心跳和猛击都用 pound。",
+            "usage": "符号 £；a pound of 一磅。"
           }
         },
         {
@@ -4686,7 +5095,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "perhaps",
               "也许"
             ],
-            "caution": "maybe 是副词，may be 是情态动词加系动词，别混写。"
+            "caution": "maybe 是副词，may be 是情态动词加系动词，别混写。",
+            "usage": "maybe 是一个词放句首；may be 是两个词作谓语。"
           }
         },
         {
@@ -4705,7 +5115,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "losing",
               "输的"
             ],
-            "caution": "lose（单 o）与 loose（双 o）常混；过去式 lost。"
+            "caution": "lose（单 o）与 loose（双 o）常混；过去式 lost。",
+            "usage": "lose 动词，loss 名词，lost 形容词。"
           }
         },
         {
@@ -4723,7 +5134,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Cup",
               "世界杯"
             ],
-            "caution": "「一杯茶」a cup of tea；奖杯也叫 cup。"
+            "caution": "「一杯茶」a cup of tea；奖杯也叫 cup。",
+            "usage": "cup 有把手，glass 是玻璃杯。"
           }
         },
         {
@@ -4740,7 +5152,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "onward",
               "向前的"
             ],
-            "caution": "具体某天用 on（on Monday），月份年份用 in；on 也有「关于」义。"
+            "caution": "具体某天用 on（on Monday），月份年份用 in；on 也有「关于」义。",
+            "usage": "on Monday、on foot、on time 都用 on。"
           }
         },
         {
@@ -4759,7 +5172,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "enrich",
               "使富裕"
             ],
-            "caution": "the rich 指「富人」整体，谓语用复数；比较级 richer。"
+            "caution": "the rich 指「富人」整体，谓语用复数；比较级 richer。",
+            "usage": "be rich in 富含；the rich 作主语谓语用复数。"
           }
         },
         {
@@ -4776,7 +5190,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chairwoman",
               "女主席"
             ],
-            "caution": "复数 women，不写 womans；man 结尾但复数不是 mans。"
+            "caution": "复数 women，不写 womans；man 结尾但复数不是 mans。",
+            "phoneticSplit": "wo · man",
+            "usage": "woman 单数，women 复数，读音也变。"
           }
         },
         {
@@ -4795,7 +5211,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "underline",
               "下划线"
             ],
-            "caution": "in line 是「排队/一致」，on line 是「在线」；作动词及物。"
+            "caution": "in line 是「排队/一致」，on line 是「在线」；作动词及物。",
+            "usage": "in line 排队；a line of 一排。"
           }
         },
         {
@@ -4813,7 +5230,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exercised",
               "焦虑的"
             ],
-            "caution": "「锻炼」不可数，「习题」可数；take exercise 是「做运动」。"
+            "caution": "「锻炼」不可数，「习题」可数；take exercise 是「做运动」。",
+            "phoneticSplit": "ex · er · cise",
+            "usage": "锻炼不可数，习题可数，靠 s 区分。"
           }
         },
         {
@@ -4830,7 +5249,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "improving",
               "有起色的"
             ],
-            "caution": "及物；improve on 是「在……之上做得更好」；与 prove 无关。"
+            "caution": "及物；improve on 是「在……之上做得更好」；与 prove 无关。",
+            "phoneticSplit": "im · prove",
+            "usage": "improve 直接接宾语；improve in 在某方面进步。"
           }
         },
         {
@@ -4851,7 +5272,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "absent-minded",
               "心不在焉的"
             ],
-            "caution": "be absent from 用 from；反义是 present。"
+            "caution": "be absent from 用 from；反义是 present。",
+            "phoneticSplit": "ab · sent",
+            "usage": "be absent from 缺席，反义 present。"
           }
         },
         {
@@ -4868,7 +5291,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "owned",
               "拥有的"
             ],
-            "caution": "on one's own 是「独自」，of one's own 是「自己的」；不写 owne。"
+            "caution": "on one's own 是「独自」，of one's own 是「自己的」；不写 owne。",
+            "usage": "on one's own 独自；of one's own 自己的。"
           }
         },
         {
@@ -4885,7 +5309,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "PM",
               "下午（大写）"
             ],
-            "caution": "小写带点 p.m.，美式也写 PM；12 p.m. 是中午，不是午夜。"
+            "caution": "小写带点 p.m.，美式也写 PM；12 p.m. 是中午，不是午夜。",
+            "usage": "3 p.m. 下午三点；12 p.m. 是正午。"
           }
         },
         {
@@ -4902,7 +5327,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "expend",
               "花费"
             ],
-            "caution": "主语是人；spend time (in) doing sth.，不用 to do。"
+            "caution": "主语是人；spend time (in) doing sth.，不用 to do。",
+            "usage": "spend time (in) doing；spend money on sth。"
           }
         }
       ]
@@ -4928,7 +5354,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "actress",
               "react"
             ],
-            "caution": "女演员是 actress 不是 acter；actor 泛指演员"
+            "caution": "女演员是 actress 不是 acter；actor 泛指演员",
+            "phoneticSplit": "ac · tor",
+            "usage": "actor 可泛指演员；actress 专指女演员。"
           }
         },
         {
@@ -4947,7 +5375,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "princess",
               "lioness"
             ],
-            "caution": "别写成 actres，ress 是双 s；actor 泛指演员不分性别"
+            "caution": "别写成 actres，ress 是双 s；actor 泛指演员不分性别",
+            "phoneticSplit": "ac · tress",
+            "usage": "复数 actresses；现在也常用 actor 泛指。"
           }
         },
         {
@@ -4966,7 +5396,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nonsense",
               "sentence"
             ],
-            "caution": "make sense 有道理是固定搭配；复数 senses"
+            "caution": "make sense 有道理是固定搭配；复数 senses",
+            "usage": "sense 指感官可数；make sense 讲得通。"
           }
         },
         {
@@ -4978,7 +5409,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "also"
             ],
-            "caution": "so that 引导目的或结果从句；so 后接形容词或副词"
+            "caution": "so that 引导目的或结果从句；so 后接形容词或副词",
+            "usage": "so...that 如此……以致；so that 以便。"
           }
         },
         {
@@ -4992,7 +5424,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lost",
               "loser"
             ],
-            "caution": "loss 双写 s；名词 loss 与动词 lose 别混用"
+            "caution": "loss 双写 s；名词 loss 与动词 lose 别混用",
+            "usage": "a great loss 巨大损失；at a loss 不知所措。"
           }
         },
         {
@@ -5006,7 +5439,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "loss",
               "loser"
             ],
-            "caution": "lose-losing-lost 不规则变化，别写 losed"
+            "caution": "lose-losing-lost 不规则变化，别写 losed",
+            "usage": "be lost 迷路／丢失；lost 也可指逝去的。"
           }
         },
         {
@@ -5021,7 +5455,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cordial",
               "discord"
             ],
-            "caution": "according to 后接观点来源，不说 according to me"
+            "caution": "according to 后接观点来源，不说 according to me",
+            "phoneticSplit": "ac · cor · ding to",
+            "usage": "according to 后接名词，不接 me 这类代词。"
           }
         },
         {
@@ -5040,7 +5476,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "propose",
               "opposite"
             ],
-            "caution": "be supposed to do 中 supposed 不能少 d；suppose 后接从句表猜想"
+            "caution": "be supposed to do 中 supposed 不能少 d；suppose 后接从句表猜想",
+            "phoneticSplit": "sup · pose",
+            "usage": "be supposed to do 应该做；I suppose so。"
           }
         },
         {
@@ -5055,7 +5493,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "when",
               "whether"
             ],
-            "caution": "别与 wear（穿）、were（are 的过去式）混淆"
+            "caution": "别与 wear（穿）、were（are 的过去式）混淆",
+            "usage": "where 引导定语从句，先行词是地点。"
           }
         },
         {
@@ -5074,7 +5513,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "himself",
               "themselves"
             ],
-            "caution": "by oneself 表独自；正式语体指人时按人称替换"
+            "caution": "by oneself 表独自；正式语体指人时按人称替换",
+            "phoneticSplit": "o · ne · self",
+            "usage": "by oneself 独自；enjoy oneself 玩得开心。"
           }
         },
         {
@@ -5089,7 +5530,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slim",
               "slip"
             ],
-            "caution": "a slice of 后常接不可数名词；别与 slide（滑）混淆"
+            "caution": "a slice of 后常接不可数名词；别与 slide（滑）混淆",
+            "usage": "slice 可数；a slice of 后接不可数名词。"
           }
         },
         {
@@ -5103,7 +5545,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mount",
               "paramount"
             ],
-            "caution": "a large amount of 接不可数名词，a number of 接可数名词"
+            "caution": "a large amount of 接不可数名词，a number of 接可数名词",
+            "phoneticSplit": "a · mount",
+            "usage": "amount 修饰不可数名词，number 修饰可数。"
           }
         },
         {
@@ -5117,7 +5561,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sailboat",
               "sailing"
             ],
-            "caution": "sail 与 sale 同音异义；set sail 起航"
+            "caution": "sail 与 sale 同音异义；set sail 起航",
+            "usage": "sail to 某地；set sail 起航。"
           }
         },
         {
@@ -5135,7 +5580,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "guidance",
               "notebook"
             ],
-            "caution": "guidebook 是可数名词；guide 也可作动词"
+            "caution": "guidebook 是可数名词；guide 也可作动词",
+            "phoneticSplit": "gui · de · book",
+            "usage": "guidebook 可数；guide 也可指导游。"
           }
         },
         {
@@ -5152,7 +5599,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "own",
               "ownership"
             ],
-            "caution": "owner 的 w 不能丢；the owner of… ……的所有人"
+            "caution": "owner 的 w 不能丢；the owner of… ……的所有人",
+            "phoneticSplit": "ow · ner",
+            "usage": "the owner of 某物的主人。"
           }
         },
         {
@@ -5171,7 +5620,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "especially",
               "species"
             ],
-            "caution": "specially 表专为某目的，especially 表程度突出，别混用"
+            "caution": "specially 表专为某目的，especially 表程度突出，别混用",
+            "phoneticSplit": "spe · cial · ly",
+            "usage": "specially 专门地，especially 尤其。"
           }
         },
         {
@@ -5180,7 +5631,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kju/",
             "quick": "in the queue 在队伍里——queue 是排队。",
-            "caution": "queue 只有 q 发音，ueue 全不发音；拼写五个字母别漏"
+            "caution": "queue 只有 q 发音，ueue 全不发音；拼写五个字母别漏",
+            "usage": "英式用 queue，美式用 line。"
           }
         },
         {
@@ -5197,7 +5649,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "equip",
               "equipped"
             ],
-            "caution": "equipment 不可数；equip…with… 用……装备……"
+            "caution": "equipment 不可数；equip…with… 用……装备……",
+            "phoneticSplit": "e · quip · ment",
+            "usage": "equipment 不可数，不说 equipments。"
           }
         }
       ]
@@ -5217,7 +5671,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wasteful",
               "wasteland"
             ],
-            "caution": "waste time/money doing sth；waste 亦可作形容词『荒芜的』"
+            "caution": "waste time/money doing sth；waste 亦可作形容词『荒芜的』",
+            "usage": "waste 浪费；作名词也指废物垃圾。"
           }
         },
         {
@@ -5232,7 +5687,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "series",
               "assert"
             ],
-            "caution": "desert 一个 s，dessert 甜点双 s；desert 重音在前"
+            "caution": "desert 一个 s，dessert 甜点双 s；desert 重音在前",
+            "phoneticSplit": "de · sert",
+            "usage": "注意与 dessert 甜点区分：多一个 s 是甜点。"
           }
         },
         {
@@ -5251,7 +5708,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grammar",
               "diagram"
             ],
-            "caution": "英式 programme，美式 program，考试别混拼"
+            "caution": "英式 programme，美式 program，考试别混拼",
+            "phoneticSplit": "pro · gramme",
+            "usage": "英式 programme，美式 program。"
           }
         },
         {
@@ -5265,7 +5724,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "army",
               "alarmist"
             ],
-            "caution": "词表此处释义误植为 fall 的释义，alarm 应为 n. 警报；闹钟 v. 使惊慌"
+            "caution": "词表此处释义误植为 fall 的释义，alarm 应为 n. 警报；闹钟 v. 使惊慌",
+            "phoneticSplit": "a · larm",
+            "usage": "set the alarm 定闹钟；alarmed 惊慌的。"
           }
         },
         {
@@ -5279,7 +5740,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "download",
               "downward"
             ],
-            "caution": "feel down 表情绪低落；down 作副词、介词、形容词皆可"
+            "caution": "feel down 表情绪低落；down 作副词、介词、形容词皆可",
+            "usage": "feel down 情绪低落。"
           }
         },
         {
@@ -5293,7 +5755,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lover",
               "beloved"
             ],
-            "caution": "lovely 是形容词『可爱的』；love 后接 doing 或 to do 均可"
+            "caution": "lovely 是形容词『可爱的』；love 后接 doing 或 to do 均可",
+            "usage": "fall in love 爱上；love doing 喜欢做。"
           }
         },
         {
@@ -5309,7 +5772,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "librarian"
             ],
-            "caution": "别拼成 libraru；管理员是 librarian，多一个 i"
+            "caution": "别拼成 libraru；管理员是 librarian，多一个 i",
+            "phoneticSplit": "li · bra · ry",
+            "usage": "in the library 在图书馆；librarian 馆员。"
           }
         },
         {
@@ -5324,7 +5789,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "second",
               "twenty"
             ],
-            "caution": "twice a week 每周两次；次数用 twice，别写 double times"
+            "caution": "twice a week 每周两次；次数用 twice，别写 double times",
+            "usage": "once or twice 一两次；twice a week 每周两次。"
           }
         },
         {
@@ -5338,7 +5804,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "starlight",
               "stardom"
             ],
-            "caution": "star 作动词：The film stars him. 这部电影由他主演"
+            "caution": "star 作动词：The film stars him. 这部电影由他主演",
+            "usage": "film star 影星；a five-star hotel 五星酒店。"
           }
         },
         {
@@ -5351,7 +5818,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dangerous",
               "endanger"
             ],
-            "caution": "形容词是 dangerous；别拼成 dangour"
+            "caution": "形容词是 dangerous；别拼成 dangour",
+            "phoneticSplit": "dang · er",
+            "usage": "in danger 处于危险中；dangerous 危险的。"
           }
         },
         {
@@ -5366,7 +5835,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "success",
               "successful"
             ],
-            "caution": "succeed in doing sth；名词 success，形容词 successful"
+            "caution": "succeed in doing sth；名词 success，形容词 successful",
+            "phoneticSplit": "suc · ceed",
+            "usage": "succeed in doing 成功做某事；success 名词。"
           }
         },
         {
@@ -5385,7 +5856,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "keyboard",
               "blacksmith"
             ],
-            "caution": "board（板）别与 broad（宽）写反字母顺序"
+            "caution": "board（板）别与 broad（宽）写反字母顺序",
+            "phoneticSplit": "black · board",
+            "usage": "on the blackboard 在黑板上。"
           }
         },
         {
@@ -5399,7 +5872,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "devoid",
               "avoidance"
             ],
-            "caution": "avoid doing sth 不接 to do；别拼成 aviod"
+            "caution": "avoid doing sth 不接 to do；别拼成 aviod",
+            "phoneticSplit": "a · void",
+            "usage": "avoid doing 后接动名词，不接 to do。"
           }
         },
         {
@@ -5418,7 +5893,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "object",
               "injection"
             ],
-            "caution": "be subject to 易遭受；subject 学科别与 speech 混"
+            "caution": "be subject to 易遭受；subject 学科别与 speech 混",
+            "phoneticSplit": "sub · ject",
+            "usage": "the subject of 话题；作学科可数。"
           }
         },
         {
@@ -5430,7 +5907,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tapestry"
             ],
-            "caution": "tape recorder 磁带录音机；tape 可数"
+            "caution": "tape recorder 磁带录音机；tape 可数",
+            "usage": "tape recorder 录音机。"
           }
         },
         {
@@ -5442,7 +5920,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "roundabout"
             ],
-            "caution": "be about to do 表即将，不加具体时间点"
+            "caution": "be about to do 表即将，不加具体时间点",
+            "phoneticSplit": "a · bout",
+            "usage": "What/How about 提建议；about 后接名词。"
           }
         },
         {
@@ -5454,7 +5934,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "narrowly"
             ],
-            "caution": "narrow（窄）与 arrow（箭）差首字母：n 窄 a 箭"
+            "caution": "narrow（窄）与 arrow（箭）差首字母：n 窄 a 箭",
+            "phoneticSplit": "nar · row",
+            "usage": "narrow down 缩小范围；narrowly 勉强地。"
           }
         },
         {
@@ -5468,7 +5950,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "monthly",
               "Monday"
             ],
-            "caution": "别与 mouth（嘴）混淆：month 有 n，mouth 有 u"
+            "caution": "别与 mouth（嘴）混淆：month 有 n，mouth 有 u",
+            "usage": "复数 months；monthly 每月的。"
           }
         },
         {
@@ -5481,7 +5964,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "remainder",
               "remains"
             ],
-            "caution": "remain 作系动词：remain quiet；remains 遗迹常用复数"
+            "caution": "remain 作系动词：remain quiet；remains 遗迹常用复数",
+            "phoneticSplit": "re · main",
+            "usage": "remain + 形容词：remain calm 保持镇静。"
           }
         },
         {
@@ -5494,7 +5979,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wounded",
               "wind"
             ],
-            "caution": "wound 既作名词伤口又是 wind（缠绕）的过去式；动词使受伤 wound-wounded"
+            "caution": "wound 既作名词伤口又是 wind（缠绕）的过去式；动词使受伤 wound-wounded",
+            "usage": "wound 指刀枪造成的外伤；hurt 泛指疼。"
           }
         }
       ]
@@ -5515,7 +6001,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "adviser",
               "device"
             ],
-            "caution": "advice 不可数，一条建议 a piece of advice；动词是 advise"
+            "caution": "advice 不可数，一条建议 a piece of advice；动词是 advise",
+            "phoneticSplit": "ad · vice",
+            "usage": "advice 不可数，不说 an advice。"
           }
         },
         {
@@ -5524,7 +6012,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈræbɪt/",
             "quick": "红眼睛长耳朵，一蹦一蹦——兔子。",
-            "caution": "双写 b；别与 habit（习惯）混淆"
+            "caution": "双写 b；别与 habit（习惯）混淆",
+            "phoneticSplit": "rab · bit",
+            "usage": "a rabbit 一只兔子；复数 rabbits。"
           }
         },
         {
@@ -5539,7 +6029,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unknown",
               "acknowledge"
             ],
-            "caution": "k 不发音；过去式 knew，过去分词 known"
+            "caution": "k 不发音；过去式 knew，过去分词 known",
+            "usage": "know about 了解；known 已知的。"
           }
         },
         {
@@ -5554,7 +6045,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "armor",
               "armed"
             ],
-            "caution": "复数 arms 专指武器；arm…with… 装备"
+            "caution": "复数 arms 专指武器；arm…with… 装备",
+            "usage": "arm in arm 手挽手；armed 武装的。"
           }
         },
         {
@@ -5567,7 +6059,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "quickly",
               "quicken"
             ],
-            "caution": "口语副词可用 quick 或 quickly；quickly 更规范"
+            "caution": "口语副词可用 quick 或 quickly；quickly 更规范",
+            "usage": "quick 形容词，quickly 副词。"
           }
         },
         {
@@ -5581,7 +6074,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "careless",
               "caring"
             ],
-            "caution": "care about 关心在意，care for 照顾喜欢；-ful 只有一个 l"
+            "caution": "care about 关心在意，care for 照顾喜欢；-ful 只有一个 l",
+            "usage": "care for 照顾；care about 关心。"
           }
         },
         {
@@ -5590,7 +6084,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈbəʤɪt/",
             "quick": "on a tight budget：钱包很紧——预算。",
-            "caution": "dge 读 /dʒ/；on a budget 表预算有限"
+            "caution": "dge 读 /dʒ/；on a budget 表预算有限",
+            "phoneticSplit": "bud · get",
+            "usage": "on a budget 省着花钱。"
           }
         },
         {
@@ -5603,7 +6099,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "guestroom",
               "guesthouse"
             ],
-            "caution": "guest 客人与 host 主人相对；别与 guess 混拼"
+            "caution": "guest 客人与 host 主人相对；别与 guess 混拼",
+            "usage": "guest 客人，host 主人。"
           }
         },
         {
@@ -5616,7 +6113,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "doggy",
               "hotdog"
             ],
-            "caution": "dog tired 累极了；复数 dogs"
+            "caution": "dog tired 累极了；复数 dogs",
+            "usage": "walk the dog 遛狗。"
           }
         },
         {
@@ -5629,7 +6127,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "silky",
               "silkworm"
             ],
-            "caution": "silk 不可数；形容词 silky 滑如丝"
+            "caution": "silk 不可数；形容词 silky 滑如丝",
+            "usage": "the Silk Road 丝绸之路。"
           }
         },
         {
@@ -5643,7 +6142,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "husband",
               "bandage"
             ],
-            "caution": "band 乐队可数；bandage 绷带是 band 加 age"
+            "caution": "band 乐队可数；bandage 绷带是 band 加 age",
+            "usage": "a band of 一伙；也指乐队。"
           }
         },
         {
@@ -5662,7 +6162,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "introduce",
               "producer"
             ],
-            "caution": "produce 生产重音在后，农产品 produce 重音在首；product 是产品"
+            "caution": "produce 生产重音在后，农产品 produce 重音在首；product 是产品",
+            "phoneticSplit": "pro · duce",
+            "usage": "作名词重音在前：农产品。"
           }
         },
         {
@@ -5676,7 +6178,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "campus",
               "champagne"
             ],
-            "caution": "champion 冠军，championship 锦标赛；别漏中间 io"
+            "caution": "champion 冠军，championship 锦标赛；别漏中间 io",
+            "phoneticSplit": "cham · pion",
+            "usage": "the champion of ……的冠军。"
           }
         },
         {
@@ -5694,7 +6198,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "allocate",
               "dislocate"
             ],
-            "caution": "the locals 当地人常用复数；local food 本地特产"
+            "caution": "the locals 当地人常用复数；local food 本地特产",
+            "phoneticSplit": "lo · cal",
+            "usage": "the locals 当地人。"
           }
         },
         {
@@ -5709,7 +6215,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "she",
               "he"
             ],
-            "caution": "her 宾格与物主代词同形：I saw her / her book；名词性用 hers"
+            "caution": "her 宾格与物主代词同形：I saw her / her book；名词性用 hers",
+            "usage": "作宾语用 her；her book 她的书。"
           }
         },
         {
@@ -5724,7 +6231,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "probe",
               "prove"
             ],
-            "caution": "probably 别丢中间 a；常放句首或助动词后"
+            "caution": "probably 别丢中间 a；常放句首或助动词后",
+            "phoneticSplit": "pro · ba · bly",
+            "usage": "probably 的可能性比 perhaps 大。"
           }
         },
         {
@@ -5738,7 +6247,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "riverside",
               "derive"
             ],
-            "caution": "on the river 在河上，in the river 在河里；river 可数"
+            "caution": "on the river 在河上，in the river 在河里；river 可数",
+            "phoneticSplit": "ri · ver",
+            "usage": "the River Nile 尼罗河。"
           }
         },
         {
@@ -5747,7 +6258,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/grup/",
             "quick": "几个人站成一堆——组、群。",
-            "caution": "a group of 后接复数名词；group 也可作动词『归类』"
+            "caution": "a group of 后接复数名词；group 也可作动词『归类』",
+            "usage": "a group of 一组。"
           }
         },
         {
@@ -5761,7 +6273,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "upper",
               "upon"
             ],
-            "caution": "get up 起床，wake up 醒来；up 与 down 相反"
+            "caution": "get up 起床，wake up 醒来；up 与 down 相反",
+            "usage": "up to 多达；up and down 上上下下。"
           }
         },
         {
@@ -5773,7 +6286,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "membership"
             ],
-            "caution": "member 有两个 m；a member of 后接单数名词"
+            "caution": "member 有两个 m；a member of 后接单数名词",
+            "phoneticSplit": "mem · ber",
+            "usage": "a member of ……的一员。"
           }
         }
       ]
@@ -5795,7 +6310,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "specially",
               "species"
             ],
-            "caution": "别写成 espacially；especially 常引出想强调的例子"
+            "caution": "别写成 espacially；especially 常引出想强调的例子",
+            "phoneticSplit": "e · spe · cial · ly",
+            "usage": "especially 后接同类中突出的那一个。"
           }
         },
         {
@@ -5809,7 +6326,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "matter",
               "materialism"
             ],
-            "caution": "material 可数；别漏 r 前的 t，m-a-t-e-r-i-a-l"
+            "caution": "material 可数；别漏 r 前的 t，m-a-t-e-r-i-a-l",
+            "phoneticSplit": "ma · te · rial",
+            "usage": "raw material 原材料；也可作形容词。"
           }
         },
         {
@@ -5823,7 +6342,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "speaker",
               "speechless"
             ],
-            "caution": "make a speech 发表演讲；speech 可数"
+            "caution": "make a speech 发表演讲；speech 可数",
+            "usage": "give/make a speech 做演讲。"
           }
         },
         {
@@ -5842,7 +6362,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "classical",
               "first-class"
             ],
-            "caution": "classic 经典的，classical 古典的（指古典艺术时期），别混"
+            "caution": "classic 经典的，classical 古典的（指古典艺术时期），别混",
+            "phoneticSplit": "clas · sic",
+            "usage": "a classic 一部经典；classical 古典的。"
           }
         },
         {
@@ -5857,7 +6379,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "crucial",
               "crux"
             ],
-            "caution": "cross 是动词，across 是介词；cross out 划掉"
+            "caution": "cross 是动词，across 是介词；cross out 划掉",
+            "usage": "cross 是动词，across 是介词。"
           }
         },
         {
@@ -5872,7 +6395,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "think",
               "Thanksgiving"
             ],
-            "caution": "thank sb for sth 因某事谢某人；thanks 用复数"
+            "caution": "thank sb for sth 因某事谢某人；thanks 用复数",
+            "usage": "thank sb for sth 因某事谢某人。"
           }
         },
         {
@@ -5886,7 +6410,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "armed",
               "armchair"
             ],
-            "caution": "an army of 一大群（引申用法）；army 可数"
+            "caution": "an army of 一大群（引申用法）；army 可数",
+            "phoneticSplit": "ar · my",
+            "usage": "join the army 参军。"
           }
         },
         {
@@ -5899,7 +6425,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coastline",
               "coastal"
             ],
-            "caution": "coast 海岸线，beach 海滩；别与 cost 混拼"
+            "caution": "coast 海岸线，beach 海滩；别与 cost 混拼",
+            "usage": "on the coast 在沿海。"
           }
         },
         {
@@ -5912,7 +6439,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "litterbug",
               "litterbin"
             ],
-            "caution": "litter 不可数；litterbug 乱扔垃圾的人"
+            "caution": "litter 不可数；litterbug 乱扔垃圾的人",
+            "phoneticSplit": "lit · ter",
+            "usage": "litter 不可数；drop litter 扔垃圾。"
           }
         },
         {
@@ -5930,7 +6459,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "today",
               "yesteryear"
             ],
-            "caution": "yesterday 作副词不加介词：yesterday morning 不说 in yesterday"
+            "caution": "yesterday 作副词不加介词：yesterday morning 不说 in yesterday",
+            "phoneticSplit": "ye · ster · day",
+            "usage": "the day before yesterday 前天。"
           }
         },
         {
@@ -5939,7 +6470,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/gaɪ/",
             "quick": "you guys 你们这帮家伙——guy。",
-            "caution": "guys 复数可指男女混合群体；单数 guy 家伙"
+            "caution": "guys 复数可指男女混合群体；单数 guy 家伙",
+            "usage": "guys 可指一群人，不分男女。"
           }
         },
         {
@@ -5953,7 +6485,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "flight",
               "fled"
             ],
-            "caution": "过去式 fled 不是 fleed；flee 比 escape 更急迫"
+            "caution": "过去式 fled 不是 fleed；flee 比 escape 更急迫",
+            "usage": "flee from 逃离；过去式 fled。"
           }
         },
         {
@@ -5972,7 +6505,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bathroom",
               "bedroom"
             ],
-            "caution": "restroom 美式洗手间，不是休息室"
+            "caution": "restroom 美式洗手间，不是休息室",
+            "phoneticSplit": "re · stroom",
+            "usage": "美式说法，英式多说 toilet。"
           }
         },
         {
@@ -5985,7 +6520,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sup",
               "soup"
             ],
-            "caution": "supper 双 p 别写单；与 super（超级）只差一个 p"
+            "caution": "supper 双 p 别写单；与 super（超级）只差一个 p",
+            "phoneticSplit": "sup · per",
+            "usage": "have supper 吃晚饭，不加冠词。"
           }
         },
         {
@@ -6003,7 +6540,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "out",
               "understand"
             ],
-            "caution": "outstanding debt 未偿债务（另一义）；常用义为杰出的"
+            "caution": "outstanding debt 未偿债务（另一义）；常用义为杰出的",
+            "phoneticSplit": "out · stan · ding",
+            "usage": "outstanding 也可指未付的款项。"
           }
         },
         {
@@ -6018,7 +6557,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "special",
               "specimen"
             ],
-            "caution": "specific 明确的；specifics 细节常用复数；specify 是动词"
+            "caution": "specific 明确的；specifics 细节常用复数；specify 是动词",
+            "phoneticSplit": "spe · ci · fic",
+            "usage": "specific 强调具体明确，special 强调特别。"
           }
         },
         {
@@ -6033,7 +6574,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stand",
               "instant"
             ],
-            "caution": "别拼成 distence；in the distance 在远处"
+            "caution": "别拼成 distence；in the distance 在远处",
+            "phoneticSplit": "di · stance",
+            "usage": "in the distance 在远处。"
           }
         },
         {
@@ -6052,7 +6595,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "servile",
               "preserve"
             ],
-            "caution": "civil servant 公务员；-ant 表人如 assistant 助手"
+            "caution": "civil servant 公务员；-ant 表人如 assistant 助手",
+            "phoneticSplit": "ser · vant",
+            "usage": "civil servant 公务员。"
           }
         },
         {
@@ -6071,7 +6616,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "immediate",
               "Mediterranean"
             ],
-            "caution": "别写成 immediatly，中间有 e；immediately he arrived 一到就……"
+            "caution": "别写成 immediatly，中间有 e；immediately he arrived 一到就……",
+            "phoneticSplit": "im · me · dia · te · ly",
+            "usage": "immediately 也可作连词：一……就。"
           }
         },
         {
@@ -6084,7 +6631,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "paraphrase",
               "phraseology"
             ],
-            "caution": "ph 读 /f/；phrase 短语与 phase 阶段同音别写混"
+            "caution": "ph 读 /f/；phrase 短语与 phase 阶段同音别写混",
+            "usage": "phrase 短语，sentence 句子。"
           }
         },
         {
@@ -6099,7 +6647,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lately",
               "last"
             ],
-            "caution": "the latest 最新式样；lately 副词近来别混"
+            "caution": "the latest 最新式样；lately 副词近来别混",
+            "phoneticSplit": "la · test",
+            "usage": "the latest news 最新消息。"
           }
         },
         {
@@ -6113,7 +6663,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stress",
               "stringent"
             ],
-            "caution": "a string of 一串/一系列；string 作动词过去式 strung"
+            "caution": "a string of 一串/一系列；string 作动词过去式 strung",
+            "usage": "a string of 一串。"
           }
         },
         {
@@ -6132,7 +6683,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "move",
               "promote"
             ],
-            "caution": "emotion 情感偏内心，feeling 泛指感觉；emotional 情绪化的"
+            "caution": "emotion 情感偏内心，feeling 泛指感觉；emotional 情绪化的",
+            "phoneticSplit": "e · mo · tion",
+            "usage": "emotion 情绪；feelings 更口语。"
           }
         },
         {
@@ -6147,7 +6700,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "extreme",
               "extract"
             ],
-            "caution": "extra charge 额外收费；ex- 开头多与『外』有关"
+            "caution": "extra charge 额外收费；ex- 开头多与『外』有关",
+            "phoneticSplit": "ex · tra",
+            "usage": "extra 也可作副词：work extra hard。"
           }
         }
       ]
@@ -6163,7 +6718,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/wɛt/",
             "quick": "Wet floor 的牌子立在刚拖过的地上——湿的。",
-            "caution": "比较级 wetter、最高级 wettest，双写 t"
+            "caution": "比较级 wetter、最高级 wettest，双写 t",
+            "usage": "比较级 wetter；wet 也可作动词。"
           }
         },
         {
@@ -6176,7 +6732,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "suite",
               "suitcase"
             ],
-            "caution": "suit 既指套装也指'适合'；勿与 sweet（甜）混"
+            "caution": "suit 既指套装也指'适合'；勿与 sweet（甜）混",
+            "usage": "fit 指尺寸合，suit 指合心意。"
           }
         },
         {
@@ -6189,7 +6746,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "banker",
               "embankment"
             ],
-            "caution": "双义勿漏：river bank 是河岸"
+            "caution": "双义勿漏：river bank 是河岸",
+            "usage": "on the bank of 在……岸上。"
           }
         },
         {
@@ -6202,7 +6760,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dine",
               "diner"
             ],
-            "caution": "dinner 泛指正餐，不一定在晚上"
+            "caution": "dinner 泛指正餐，不一定在晚上",
+            "phoneticSplit": "din · ner",
+            "usage": "have dinner 吃晚饭。"
           }
         },
         {
@@ -6216,7 +6776,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "flyer",
               "butterfly"
             ],
-            "caution": "过去式 flew，过去分词 flown"
+            "caution": "过去式 flew，过去分词 flown",
+            "usage": "fly to 飞往；flew、flown。"
           }
         },
         {
@@ -6228,7 +6789,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "traveler"
             ],
-            "caution": "英式 travelling 双写 l，美式 traveling"
+            "caution": "英式 travelling 双写 l，美式 traveling",
+            "phoneticSplit": "tra · vel",
+            "usage": "travel 不可数；trip 是可数的一次。"
           }
         },
         {
@@ -6240,7 +6803,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "blood"
             ],
-            "caution": "首字母勿混：flood 洪水，blood 血"
+            "caution": "首字母勿混：flood 洪水，blood 血",
+            "usage": "flood 也可作动词：被水淹。"
           }
         },
         {
@@ -6253,7 +6817,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cause",
               "excuse"
             ],
-            "caution": "汉语'因为…所以…'成对，英语只用 because，不与 so 连用"
+            "caution": "汉语'因为…所以…'成对，英语只用 because，不与 so 连用",
+            "phoneticSplit": "be · cause",
+            "usage": "because 接句子；because of 接名词。"
           }
         },
         {
@@ -6269,7 +6835,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hind",
               "hinder"
-            ]
+            ],
+            "phoneticSplit": "be · hind",
+            "usage": "fall behind 落后。"
           }
         },
         {
@@ -6278,7 +6846,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kɑm/",
             "quick": "calm down：深呼吸，水面静下来——镇静。",
-            "caution": "l 不发音，读 /kɑːm/"
+            "caution": "l 不发音，读 /kɑːm/",
+            "usage": "calm down 镇静下来。"
           }
         },
         {
@@ -6291,7 +6860,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "youth",
               "youngster"
             ],
-            "caution": "the young 泛指年轻人；比较级 younger"
+            "caution": "the young 泛指年轻人；比较级 younger",
+            "usage": "反义词 old。"
           }
         },
         {
@@ -6300,7 +6870,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/snæk/",
             "quick": "snack bar 里那点小零食——小吃。",
-            "caution": "snack 指零食点心，不是正餐"
+            "caution": "snack 指零食点心，不是正餐",
+            "usage": "have a snack 吃点东西。"
           }
         },
         {
@@ -6318,7 +6889,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendly",
               "membership"
             ],
-            "caution": "-ship 是抽象名词后缀：friendship、membership、scholarship"
+            "caution": "-ship 是抽象名词后缀：friendship、membership、scholarship",
+            "phoneticSplit": "friend · ship",
+            "usage": "a friendship 一段友情，可数。"
           }
         },
         {
@@ -6330,7 +6903,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "couplet"
             ],
-            "caution": "a couple of 指'两三个'，别当成精确数字"
+            "caution": "a couple of 指'两三个'，别当成精确数字",
+            "phoneticSplit": "cou · ple",
+            "usage": "a couple of 几个。"
           }
         },
         {
@@ -6343,7 +6918,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "symbolic",
               "symbolize"
             ],
-            "caution": "勿与 cymbal（铙钹）混淆，只差元音"
+            "caution": "勿与 cymbal（铙钹）混淆，只差元音",
+            "phoneticSplit": "sym · bol",
+            "usage": "a symbol of ……的象征。"
           }
         },
         {
@@ -6360,7 +6937,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "graph",
               "photograph",
               "telegraph"
-            ]
+            ],
+            "phoneticSplit": "pa · ra · graph",
+            "usage": "paragraph 段落，passage 篇章。"
           }
         },
         {
@@ -6378,7 +6957,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "perceive",
               "receipt"
             ],
-            "caution": "拼写 ei：c 后发 /iː/ 用 ei（ceive），不是 ie"
+            "caution": "拼写 ei：c 后发 /iː/ 用 ei（ceive），不是 ie",
+            "phoneticSplit": "re · ceive",
+            "usage": "receive 收到，accept 接受。"
           }
         },
         {
@@ -6390,7 +6971,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "plateau",
               "platform"
-            ]
+            ],
+            "usage": "a plate of 一盘。"
           }
         },
         {
@@ -6402,7 +6984,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "walker",
               "sleepwalk"
-            ]
+            ],
+            "usage": "walk to school 步行上学。"
           }
         }
       ]
@@ -6418,7 +7001,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈziroʊ/",
             "quick": "温度计上那个 0℃ 就是 zero——零。",
-            "caution": "复数 zeros 或 zeroes"
+            "caution": "复数 zeros 或 zeroes",
+            "phoneticSplit": "ze · ro",
+            "usage": "复数 zeros。"
           }
         },
         {
@@ -6430,7 +7015,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "chicken",
               "cock"
-            ]
+            ],
+            "usage": "hen 母鸡，chicken 鸡肉。"
           }
         },
         {
@@ -6443,7 +7029,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hear",
               "heart"
             ],
-            "caution": "hear 听 ≠ here 这里"
+            "caution": "hear 听 ≠ here 这里",
+            "usage": "ear 也可指麦穗。"
           }
         },
         {
@@ -6456,7 +7043,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "machinery",
               "mechanic"
             ],
-            "caution": "ch 读 /ʃ/ 不是 /tʃ/"
+            "caution": "ch 读 /ʃ/ 不是 /tʃ/",
+            "phoneticSplit": "ma · chine",
+            "usage": "machine 可数，machinery 不可数。"
           }
         },
         {
@@ -6468,7 +7057,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "await"
             ],
-            "caution": "等某人某物用 wait for；await 及物可直接"
+            "caution": "等某人某物用 wait for；await 及物可直接",
+            "usage": "wait for 等待；wait to do 等着做。"
           }
         },
         {
@@ -6480,7 +7070,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "laughter"
             ],
-            "caution": "gh 不发音；laugh at 是嘲笑"
+            "caution": "gh 不发音；laugh at 是嘲笑",
+            "usage": "laugh at 嘲笑；a laugh 一阵笑。"
           }
         },
         {
@@ -6492,7 +7083,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "mathematics"
             ],
-            "caution": "英式 maths / 美式 math"
+            "caution": "英式 maths / 美式 math",
+            "usage": "英式 maths，美式 math。"
           }
         },
         {
@@ -6509,7 +7101,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "recognition",
               "recognize"
             ],
-            "caution": "名词 recognition；英式 -ise 勿写成 -ize 串用"
+            "caution": "名词 recognition；英式 -ise 勿写成 -ize 串用",
+            "phoneticSplit": "re · co · gnise",
+            "usage": "英式 recognise，美式 recognize。"
           }
         },
         {
@@ -6518,7 +7112,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/it/",
             "quick": "eat breakfast 那口饭——吃。",
-            "caution": "过去式 ate，过去分词 eaten"
+            "caution": "过去式 ate，过去分词 eaten",
+            "usage": "eat-ate-eaten。"
           }
         },
         {
@@ -6527,7 +7122,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈtoʊfu/",
             "quick": "① tofu 就是汉语“豆腐”的音——豆腐。\n② 「豆腐」——音译词，念起来一模一样。",
-            "caution": "不可数名词"
+            "caution": "不可数名词",
+            "phoneticSplit": "to · fu",
+            "usage": "tofu 不可数。"
           }
         },
         {
@@ -6540,7 +7137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sleep",
               "sleepy"
             ],
-            "caution": "表语形容词：只作 be/fall asleep，不放在名词前"
+            "caution": "表语形容词：只作 be/fall asleep，不放在名词前",
+            "phoneticSplit": "a · sleep",
+            "usage": "fall asleep 入睡；be asleep 睡着。"
           }
         },
         {
@@ -6557,7 +7156,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "privacy",
               "privately"
             ],
-            "caution": "名词'隐私'是 privacy，不是 privateness"
+            "caution": "名词'隐私'是 privacy，不是 privateness",
+            "phoneticSplit": "pri · vate",
+            "usage": "in private 私下；private school 私立。"
           }
         },
         {
@@ -6574,7 +7175,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "translation",
               "translator"
             ],
-            "caution": "此处 late 是词根'携带'，不是'迟到的'"
+            "caution": "此处 late 是词根'携带'，不是'迟到的'",
+            "phoneticSplit": "tran · slate",
+            "usage": "translate A into B 把 A 译成 B。"
           }
         },
         {
@@ -6587,7 +7190,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wife",
               "life"
             ],
-            "caution": "复数 knives；k 不发音"
+            "caution": "复数 knives；k 不发音",
+            "usage": "复数 knives。"
           }
         },
         {
@@ -6595,7 +7199,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "n. 牛奶 v. 挤（奶）",
           "extra": {
             "phonetic": "/mɪlk/",
-            "quick": "早上那杯白的——牛奶。"
+            "quick": "早上那杯白的——牛奶。",
+            "usage": "不可数：a glass of milk。"
           }
         },
         {
@@ -6608,7 +7213,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "feeling",
               "felt"
             ],
-            "caution": "过去式、过去分词 felt"
+            "caution": "过去式、过去分词 felt",
+            "usage": "feel like doing 想做。"
           }
         },
         {
@@ -6621,7 +7227,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "push",
               "brush"
             ],
-            "caution": "rush hour 指上下班高峰"
+            "caution": "rush hour 指上下班高峰",
+            "usage": "in a rush 匆忙；rush hour 高峰期。"
           }
         },
         {
@@ -6637,7 +7244,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "teen",
               "teenager"
-            ]
+            ],
+            "phoneticSplit": "tee · nage",
+            "usage": "teenager 是名词：青少年。"
           }
         },
         {
@@ -6646,7 +7255,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ɪt/",
             "quick": "It's raining. 天气、时间、距离都用 it。",
-            "caution": "作形式主语：It is important to...；指婴儿或性别不详者也可用 it"
+            "caution": "作形式主语：It is important to...；指婴儿或性别不详者也可用 it",
+            "usage": "作形式主语：It is important to...；指天气、时间、距离都用 it。"
           }
         },
         {
@@ -6659,7 +7269,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drip",
               "droplet"
             ],
-            "caution": "a drop of water 一滴水；drop out 退出"
+            "caution": "a drop of water 一滴水；drop out 退出",
+            "usage": "drop by 顺便来访；drop out 退学；a drop of 一滴。"
           }
         }
       ]
@@ -6683,7 +7294,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "family",
               "familiarity"
             ],
-            "caution": "搭配勿混：sb be familiar with sth；sth be familiar to sb"
+            "caution": "搭配勿混：sb be familiar with sth；sth be familiar to sb",
+            "phoneticSplit": "fa · mi · liar",
+            "usage": "be familiar with 熟悉某物；be familiar to 为某人所熟知。"
           }
         },
         {
@@ -6697,7 +7310,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "postage",
               "postman"
             ],
-            "caution": "post 表'职位'时与邮件义无关，按语境取义"
+            "caution": "post 表'职位'时与邮件义无关，按语境取义",
+            "usage": "post sb sth 寄给某人；post 作职位较正式。"
           }
         },
         {
@@ -6710,7 +7324,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skier",
               "skiing"
             ],
-            "caution": "skiing 中 i 保留：ski + ing → skiing"
+            "caution": "skiing 中 i 保留：ski + ing → skiing",
+            "usage": "go skiing 去滑雪；ski 也可作名词“滑雪板”。"
           }
         },
         {
@@ -6722,7 +7337,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "much"
             ],
-            "caution": "such a/an + 单数可数名词；such...that 与 so...that 结构不同"
+            "caution": "such a/an + 单数可数名词；such...that 与 so...that 结构不同",
+            "usage": "such...that 如此…以致；so 后接形容词。"
           }
         },
         {
@@ -6733,7 +7349,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "quick": "早餐桌上煎的那个就是 egg——蛋。",
             "family": [
               "eggplant"
-            ]
+            ],
+            "usage": "an egg 用 an；egg sb on 怂恿某人。"
           }
         },
         {
@@ -6746,7 +7363,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "haircut",
               "shortcut"
             ],
-            "caution": "三态同形 cut-cut-cut；现在分词 cutting 双写 t"
+            "caution": "三态同形 cut-cut-cut；现在分词 cutting 双写 t",
+            "usage": "cut down 砍倒；cut off 切断；三态 cut-cut-cut。"
           }
         },
         {
@@ -6755,7 +7373,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈɔlsoʊ/",
             "quick": "also 里有 so：你 so，我也 so——也。",
-            "caution": "also 一般不放句尾；口语多用 too"
+            "caution": "also 一般不放句尾；口语多用 too",
+            "phoneticSplit": "al · so",
+            "usage": "also 放实义动词前、be 后；too 多在句末。"
           }
         },
         {
@@ -6766,7 +7386,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "quick": "科学课的 the scientific method：一套步骤。",
             "family": [
               "methodology"
-            ]
+            ],
+            "phoneticSplit": "me · thod",
+            "usage": "method of doing sth；way 更口语。"
           }
         },
         {
@@ -6778,7 +7400,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "dream",
               "creamy"
-            ]
+            ],
+            "usage": "face cream 面霜；cream 也可指奶油色。"
           }
         },
         {
@@ -6791,7 +7414,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scenery",
               "scenic"
             ],
-            "caution": "勿与 scent（气味）混淆"
+            "caution": "勿与 scent（气味）混淆",
+            "usage": "scene 指现场或一场戏；scenery 是不可数“风景”。"
           }
         },
         {
@@ -6802,7 +7426,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "quick": "过山车俯冲那一下心提到嗓子——thrill 激动。",
             "family": [
               "thrilling"
-            ]
+            ],
+            "usage": "the thrill of victory 胜利的快感；thrilled 感到激动的。"
           }
         },
         {
@@ -6810,7 +7435,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "n.（热带）丛林，密林",
           "extra": {
             "phonetic": "/ˈʤəŋgəl/",
-            "quick": "热带雨林里猴子荡来荡去——jungle 密林。"
+            "quick": "热带雨林里猴子荡来荡去——jungle 密林。",
+            "phoneticSplit": "jun · gle",
+            "usage": "jungle 特指热带丛林；forest 泛指森林。"
           }
         },
         {
@@ -6827,7 +7454,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mission",
               "admission"
             ],
-            "caution": "miss 在此是词根'送'，与'想念'无关"
+            "caution": "miss 在此是词根'送'，与'想念'无关",
+            "phoneticSplit": "di · smiss",
+            "usage": "dismiss sb from 把某人解雇；dismiss 也指驳回。"
           }
         },
         {
@@ -6840,7 +7469,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "plane",
               "plateau"
             ],
-            "caution": "与 plane（平面/飞机）同音异拼"
+            "caution": "与 plane（平面/飞机）同音异拼",
+            "usage": "the plains 平原；in plain clothes 穿便衣。"
           }
         },
         {
@@ -6858,7 +7488,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pleasant",
               "pleasure"
             ],
-            "caution": "否定前缀用 un-，别写成 inpleasant"
+            "caution": "否定前缀用 un-，别写成 inpleasant",
+            "phoneticSplit": "un · plea · sant",
+            "usage": "unpleasant 多修饰事物；人感到不快说 feel unhappy。"
           }
         },
         {
@@ -6875,7 +7507,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nature",
               "naturally"
             ],
-            "caution": "拼写：nature 去 e 加 -ural → natural"
+            "caution": "拼写：nature 去 e 加 -ural → natural",
+            "phoneticSplit": "na · tu · ral",
+            "usage": "反义 unnatural；naturally 也表“当然”。"
           }
         },
         {
@@ -6892,7 +7526,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "outdoors",
               "indoor"
             ],
-            "caution": "副词 indoors 带 s；形容词 indoor 不带（indoor pool）"
+            "caution": "副词 indoors 带 s；形容词 indoor 不带（indoor pool）",
+            "phoneticSplit": "in · doors",
+            "usage": "indoors 是副词，前面不加 in；反义 outdoors。"
           }
         },
         {
@@ -6904,7 +7540,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "typical",
               "typewriter"
-            ]
+            ],
+            "usage": "a type of 一种；type in 输入。"
           }
         },
         {
@@ -6916,7 +7553,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "teenage",
               "teenager"
-            ]
+            ],
+            "usage": "in one's teens 在十几岁时；teenager 青少年。"
           }
         },
         {
@@ -6928,7 +7566,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "desert"
             ],
-            "caution": "与 desert（沙漠）区分：甜点双 s，沙漠单 s"
+            "caution": "与 desert（沙漠）区分：甜点双 s，沙漠单 s",
+            "phoneticSplit": "des · sert",
+            "usage": "dessert 甜点，desert 沙漠/抛弃，差一个 s。"
           }
         },
         {
@@ -6944,7 +7584,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "easy"
             ],
-            "caution": "变副词时 y 改 i 再加 ly"
+            "caution": "变副词时 y 改 i 再加 ly",
+            "phoneticSplit": "ea · si · ly",
+            "usage": "easily 也可表“很可能”：He could easily win."
           }
         },
         {
@@ -6956,7 +7598,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tell"
             ],
-            "caution": "与 tail（尾巴）形近勿混"
+            "caution": "与 tail（尾巴）形近勿混",
+            "phoneticSplit": "ta · le",
+            "usage": "fairy tale 童话；tale 多指虚构的故事。"
           }
         },
         {
@@ -6964,7 +7608,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "v. 哼唱；发嗡嗡声 n. 嗡嗡声，嘈杂声",
           "extra": {
             "phonetic": "/həm/",
-            "quick": "① 闭着嘴哼歌那声“嗯——”就是 hum。\n② 「哼」——闭嘴哼出的声音就是哼唱。"
+            "quick": "① 闭着嘴哼歌那声“嗯——”就是 hum。\n② 「哼」——闭嘴哼出的声音就是哼唱。",
+            "usage": "hum 也指机器、蜜蜂的嗡嗡声。"
           }
         },
         {
@@ -6972,7 +7617,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "n. 爵士乐",
           "extra": {
             "phonetic": "/ʤæz/",
-            "quick": "① 萨克斯一响就想摇摆——jazz 爵士乐。\n② 「爵士」——就是爵士乐，音译几乎一样。"
+            "quick": "① 萨克斯一响就想摇摆——jazz 爵士乐。\n② 「爵士」——就是爵士乐，音译几乎一样。",
+            "usage": "jazz 不可数；jazz up 使更有活力。"
           }
         },
         {
@@ -6985,7 +7631,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "apply",
               "reply"
             ],
-            "caution": "此处 play 是词根'铺开'（plic 折），不是动词'玩'"
+            "caution": "此处 play 是词根'铺开'（plic 折），不是动词'玩'",
+            "phoneticSplit": "di · splay",
+            "usage": "on display 在展出；display 也指屏幕显示。"
           }
         },
         {
@@ -6997,7 +7645,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "victory",
               "convince"
-            ]
+            ],
+            "phoneticSplit": "pro · vince",
+            "usage": "province 大写指具体省；the provinces 指外地。"
           }
         },
         {
@@ -7009,7 +7659,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "peeler"
             ],
-            "caution": "与 feel（感觉）、heel（脚跟）形近区分"
+            "caution": "与 feel（感觉）、heel（脚跟）形近区分",
+            "usage": "peel off 剥掉；peel 作名词指果皮。"
           }
         }
       ]
@@ -7029,7 +7680,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "empire",
               "imperial"
             ],
-            "caution": "empire 帝国、emperor 皇帝、imperial 帝国的同根"
+            "caution": "empire 帝国、emperor 皇帝、imperial 帝国的同根",
+            "phoneticSplit": "em · pe · ror",
+            "usage": "emperor 男皇帝；empress 女皇、皇后。"
           }
         },
         {
@@ -7043,7 +7696,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "princess",
               "actress"
             ],
-            "caution": "empress 可指女皇，也可指皇后"
+            "caution": "empress 可指女皇，也可指皇后",
+            "phoneticSplit": "em · press",
+            "usage": "-ess 表女性：actress、waitress、empress。"
           }
         },
         {
@@ -7060,7 +7715,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "happen",
               "happy",
               "mishap"
-            ]
+            ],
+            "phoneticSplit": "pe · rhaps",
+            "usage": "perhaps 可置句首句末；maybe 更口语。"
           }
         },
         {
@@ -7072,7 +7729,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hugely"
             ],
-            "caution": "词表此行释义串行：huge 应为 adj. 巨大的，其下所附释义是 fall 的内容"
+            "caution": "词表此行释义串行：huge 应为 adj. 巨大的，其下所附释义是 fall 的内容",
+            "usage": "口语里 huge 也表“极好”；比较级少用。"
           }
         },
         {
@@ -7085,7 +7743,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gradual",
               "graduate"
             ],
-            "caution": "专业学位说 a degree in + 学科"
+            "caution": "专业学位说 a degree in + 学科",
+            "phoneticSplit": "de · gree",
+            "usage": "to some degree 在某种程度上；a degree in 学位。"
           }
         },
         {
@@ -7097,7 +7757,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "lay"
             ],
-            "caution": "躺：lie-lay-lain；说谎：lie-lied-lied；勿混"
+            "caution": "躺：lie-lay-lain；说谎：lie-lied-lied；勿混",
+            "usage": "lie-lay-lain 躺；lie-lied-lied 说谎；lay 是放。"
           }
         },
         {
@@ -7110,7 +7771,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bodily",
               "bodybuilding"
             ],
-            "caution": "复数 bodies"
+            "caution": "复数 bodies",
+            "phoneticSplit": "bo · dy",
+            "usage": "body 也指主体、团体：a body of students。"
           }
         },
         {
@@ -7122,7 +7785,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "should"
             ],
-            "caution": "shoulder to shoulder 并肩"
+            "caution": "shoulder to shoulder 并肩",
+            "phoneticSplit": "shoul · der",
+            "usage": "shoulder the responsibility 担责；shrug 耸肩。"
           }
         },
         {
@@ -7131,7 +7796,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/hɪt/",
             "quick": "hit 一下打上去；打榜的歌也叫 hit。",
-            "caution": "三态同形 hit；现在分词 hitting 双写 t；a hit 风靡一时之作"
+            "caution": "三态同形 hit；现在分词 hitting 双写 t；a hit 风靡一时之作",
+            "usage": "hit-hit-hit；hit 作名词指热门作品。"
           }
         },
         {
@@ -7144,7 +7810,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "handy",
               "handful"
             ],
-            "caution": "hand in 上交；hand out 分发"
+            "caution": "hand in 上交；hand out 分发",
+            "usage": "hand in 上交；hand out 分发；by hand 手工。"
           }
         },
         {
@@ -7157,7 +7824,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cat",
               "rat"
             ],
-            "caution": "双义：蝙蝠与球拍"
+            "caution": "双义：蝙蝠与球拍",
+            "usage": "bat 作动词“击球”；as blind as a bat 极近视。"
           }
         },
         {
@@ -7174,7 +7842,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "organ",
               "organisation"
             ],
-            "caution": "英式 organise / 美式 organize；名词 organisation"
+            "caution": "英式 organise / 美式 organize；名词 organisation",
+            "phoneticSplit": "or · ga · nise",
+            "usage": "英式 organise，美式 organize。"
           }
         },
         {
@@ -7186,7 +7856,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "stand"
             ],
-            "caution": "stay up 熬夜；stay 后接形容词表保持某种状态"
+            "caution": "stay up 熬夜；stay 后接形容词表保持某种状态",
+            "usage": "stay up 熬夜；stay 后接形容词表“保持”。"
           }
         },
         {
@@ -7199,7 +7870,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bro",
               "brotherhood"
             ],
-            "caution": "elder brother 哥哥，younger brother 弟弟"
+            "caution": "elder brother 哥哥，younger brother 弟弟",
+            "phoneticSplit": "bro · ther",
+            "usage": "brother 不分兄弟，用 elder/younger 区分。"
           }
         },
         {
@@ -7212,7 +7885,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lawyer",
               "lawful"
             ],
-            "caution": "与 low（低的）拼写区分"
+            "caution": "与 low（低的）拼写区分",
+            "usage": "law 可数指具体法律；法学/法律体系不可数。"
           }
         },
         {
@@ -7228,7 +7902,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "law"
             ],
-            "caution": "拼写是 law+yer，中间勿丢字母"
+            "caution": "拼写是 law+yer，中间勿丢字母",
+            "phoneticSplit": "law · yer",
+            "usage": "lawyer 律师；attorney 多用于美式文书。"
           }
         },
         {
@@ -7240,7 +7916,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "grandson"
             ],
-            "caution": "与 sun（太阳）同音，拼写勿混"
+            "caution": "与 sun（太阳）同音，拼写勿混",
+            "usage": "son 与 sun 同音不同义，写作别混。"
           }
         },
         {
@@ -7257,7 +7934,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "comfort",
               "effort"
             ],
-            "caution": "口语弱读三音节；搭配 be comfortable with"
+            "caution": "口语弱读三音节；搭配 be comfortable with",
+            "phoneticSplit": "com · for · ta · ble",
+            "usage": "feel comfortable 感到舒服；也指经济宽裕。"
           }
         },
         {
@@ -7270,7 +7949,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hard",
               "hardship"
             ],
-            "caution": "hardly 几乎不 ≠ hard 努力；hardly 置句首需倒装"
+            "caution": "hardly 几乎不 ≠ hard 努力；hardly 置句首需倒装",
+            "phoneticSplit": "hard · ly",
+            "usage": "hardly ever 几乎从不；hardly...when 刚一…就。"
           }
         },
         {
@@ -7283,7 +7964,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stock",
               "storage"
             ],
-            "caution": "双义：商店与贮存；in store 存放着"
+            "caution": "双义：商店与贮存；in store 存放着",
+            "usage": "in store 储备着/即将发生；a store of 大量。"
           }
         }
       ]
@@ -7304,7 +7986,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "noisily",
               "noiseless"
             ],
-            "caution": "noise 是噪音，sound 泛指声音；形容词 noisy 别漏 y"
+            "caution": "noise 是噪音，sound 泛指声音；形容词 noisy 别漏 y",
+            "usage": "make a noise 出声；noisy 是形容词。"
           }
         },
         {
@@ -7319,7 +8002,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fireplace",
               "firefighter"
             ],
-            "caution": "fire 作动词是「射击/解雇」，不是「点火」（点火用 light）"
+            "caution": "fire 作动词是「射击/解雇」，不是「点火」（点火用 light）",
+            "usage": "on fire 着火；fire at 向…射击；fire sb 解雇。"
           }
         },
         {
@@ -7338,7 +8022,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fireplace",
               "firefighter"
             ],
-            "caution": "表示放烟花一般用复数 fireworks"
+            "caution": "表示放烟花一般用复数 fireworks",
+            "phoneticSplit": "fi · re · work",
+            "usage": "fireworks 常用复数；let off fireworks 放烟花。"
           }
         },
         {
@@ -7353,7 +8039,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drove",
               "driven"
             ],
-            "caution": "三态 drive-drove-driven；drive sb mad 使某人发疯"
+            "caution": "三态 drive-drove-driven；drive sb mad 使某人发疯",
+            "usage": "drive-drove-driven；drive sb to do 迫使某人做。"
           }
         },
         {
@@ -7367,7 +8054,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stamped",
               "stamping"
             ],
-            "caution": "stamp 既是「邮票」也是「印章」，还作动词「跺脚」"
+            "caution": "stamp 既是「邮票」也是「印章」，还作动词「跺脚」",
+            "usage": "stamp one's foot 跺脚；stamp 也指印章。"
           }
         },
         {
@@ -7381,7 +8069,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "medallion",
               "metal"
             ],
-            "caution": "medal 奖牌、model 模特、metal 金属，三个形近别混"
+            "caution": "medal 奖牌、model 模特、metal 金属，三个形近别混",
+            "phoneticSplit": "me · dal",
+            "usage": "win a gold medal 得金牌；medal 与 metal 易混。"
           }
         },
         {
@@ -7399,7 +8089,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "neighbouring",
               "neighbourly"
             ],
-            "caution": "英式 neighbour，美式 neighbor；neighbourhood 是「街区」"
+            "caution": "英式 neighbour，美式 neighbor；neighbourhood 是「街区」",
+            "phoneticSplit": "neigh · bour",
+            "usage": "英式 neighbour，美式 neighbor；neighbourhood 街区。"
           }
         },
         {
@@ -7414,7 +8106,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "memorial",
               "reminder"
             ],
-            "caution": "remember to do 记得去做（还没做）；remember doing 记得做过"
+            "caution": "remember to do 记得去做（还没做）；remember doing 记得做过",
+            "phoneticSplit": "re · mem · ber",
+            "usage": "remember to do 记得去做；remember doing 记得做过。"
           }
         },
         {
@@ -7428,7 +8122,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "smartly",
               "smartness"
             ],
-            "caution": "smart 指人「聪明」是口语褒义；smart clothes 是「体面整齐」"
+            "caution": "smart 指人「聪明」是口语褒义；smart clothes 是「体面整齐」",
+            "usage": "smart 也指衣着整洁；比较级 smarter。"
           }
         },
         {
@@ -7442,7 +8137,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "legged",
               "legroom"
             ],
-            "caution": "桌椅上放东西的「腿」也用 leg；hurt one's leg 别加 the"
+            "caution": "桌椅上放东西的「腿」也用 leg；hurt one's leg 别加 the",
+            "usage": "leg 也指裤腿、赛程一段：the first leg。"
           }
         },
         {
@@ -7455,7 +8151,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hallo",
               "hullo"
             ],
-            "caution": "打招呼、打电话都用 hello；写作时别写成 hallo 之外的生造拼法"
+            "caution": "打招呼、打电话都用 hello；写作时别写成 hallo 之外的生造拼法",
+            "phoneticSplit": "hel · lo",
+            "usage": "hello 用于问候，也用于引起注意。"
           }
         },
         {
@@ -7474,7 +8172,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whatever",
               "whenever"
             ],
-            "caution": "forever 连写成一个词；「永远爱你」love you forever，不再加 for"
+            "caution": "forever 连写成一个词；「永远爱你」love you forever，不再加 for",
+            "phoneticSplit": "fo · re · ver",
+            "usage": "英式也写 for ever；forever 不与进行时连用。"
           }
         },
         {
@@ -7488,7 +8188,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "worrying",
               "worrisome"
             ],
-            "caution": "worry about sb/sth；形容词 be worried about，别漏 -ied"
+            "caution": "worry about sb/sth；形容词 be worried about，别漏 -ied",
+            "phoneticSplit": "wor · ry",
+            "usage": "worry about 担心；worried 形容词。"
           }
         },
         {
@@ -7503,7 +8205,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unbearable",
               "born"
             ],
-            "caution": "过去式 bore；表「出生」的过去分词是 born，表「承受」用 borne"
+            "caution": "过去式 bore；表「出生」的过去分词是 born，表「承受」用 borne",
+            "usage": "bear-bore-borne；can't bear doing/to do 受不了。"
           }
         },
         {
@@ -7518,7 +8221,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "joyous",
               "enjoyment"
             ],
-            "caution": "joy 表「欢乐」不可数，表「乐事」可数：the joys of…"
+            "caution": "joy 表「欢乐」不可数，表「乐事」可数：the joys of…",
+            "usage": "to one's joy 令人高兴的是；joy 多不可数。"
           }
         },
         {
@@ -7532,7 +8236,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tonnage",
               "tonne"
             ],
-            "caution": "tons of 表示「大量」；公吨写作 tonne，与美吨 ton 略不同"
+            "caution": "tons of 表示「大量」；公吨写作 tonne，与美吨 ton 略不同",
+            "usage": "tons of 口语表“大量”。"
           }
         },
         {
@@ -7550,7 +8255,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wealthier",
               "commonwealth"
             ],
-            "caution": "wealth 不可数；形容词是 wealthy，别说 very wealth"
+            "caution": "wealth 不可数；形容词是 wealthy，别说 very wealth",
+            "usage": "wealth 不可数；a wealth of 大量。"
           }
         },
         {
@@ -7570,7 +8276,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "correct",
               "rectangle"
             ],
-            "caution": "direct 作动词是「指导/导演」，作形容词才是「直接的」"
+            "caution": "direct 作动词是「指导/导演」，作形容词才是「直接的」",
+            "phoneticSplit": "di · rect",
+            "usage": "direct 作动词指导/导演；directly 也表“立即”。"
           }
         },
         {
@@ -7585,7 +8293,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "classic",
               "classify"
             ],
-            "caution": "「上课」说 have a class；in class 表「在上课」，不加冠词"
+            "caution": "「上课」说 have a class；in class 表「在上课」，不加冠词",
+            "usage": "in class 上课中；class 作“阶级”可数。"
           }
         },
         {
@@ -7599,7 +8308,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "agreeable",
               "disagree"
             ],
-            "caution": "agree with 人、agree to 提议、agree on 事项，三个介词别混"
+            "caution": "agree with 人、agree to 提议、agree on 事项，三个介词别混",
+            "phoneticSplit": "a · gree",
+            "usage": "agree with sb；agree to sth；agree on 达成一致。"
           }
         }
       ]
@@ -7619,7 +8330,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tigers",
               "tigress"
             ],
-            "caution": "tiger 是虎，lion 是狮；「纸老虎」说 paper tiger"
+            "caution": "tiger 是虎，lion 是狮；「纸老虎」说 paper tiger",
+            "phoneticSplit": "ti · ger",
+            "usage": "paper tiger 纸老虎；tiger 可指凶猛的人。"
           }
         },
         {
@@ -7634,7 +8347,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "alive",
               "live"
             ],
-            "caution": "复数 lives 读 /laɪvz/；「一条命」可数，「生命」总称不可数"
+            "caution": "复数 lives 读 /laɪvz/；「一条命」可数，「生命」总称不可数",
+            "usage": "复数 lives；come to life 活起来。"
           }
         },
         {
@@ -7649,7 +8363,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dreamt",
               "daydream"
             ],
-            "caution": "过去式 dreamt 或 dreamed 都行；dream of/about doing"
+            "caution": "过去式 dreamt 或 dreamed 都行；dream of/about doing",
+            "usage": "dream of doing 梦想做；dream 可数。"
           }
         },
         {
@@ -7668,7 +8383,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "amazement",
               "maze"
             ],
-            "caution": "amazing 修饰物「令人惊异」，amazed 修饰人「感到惊异」"
+            "caution": "amazing 修饰物「令人惊异」，amazed 修饰人「感到惊异」",
+            "phoneticSplit": "a · ma · zing",
+            "usage": "amazing 修饰事物；人感到惊奇说 amazed。"
           }
         },
         {
@@ -7683,7 +8400,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunset",
               "setter"
             ],
-            "caution": "set-set-set 三态同形；a set of 一套；set off 出发"
+            "caution": "set-set-set 三态同形；a set of 一套；set off 出发",
+            "usage": "set-set-set；a set of 一套；set off 出发。"
           }
         },
         {
@@ -7702,7 +8420,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "telephone",
               "visible"
             ],
-            "caution": "口语缩为 TV；「看电视」watch TV，不加 the"
+            "caution": "口语缩为 TV；「看电视」watch TV，不加 the",
+            "phoneticSplit": "te · le · vi · sion",
+            "usage": "常缩写为 TV；也可指电视机、电视业。"
           }
         },
         {
@@ -7719,7 +8439,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tents",
               "tentative"
             ],
-            "caution": "tent 是帐篷，tend 是「倾向/照料」，只差一个字母"
+            "caution": "tent 是帐篷，tend 是「倾向/照料」，只差一个字母",
+            "usage": "put up a tent 搭帐篷；tent 可数。"
           }
         },
         {
@@ -7733,7 +8454,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "staffing",
               "staffs"
             ],
-            "caution": "staff 是集合名词，指全体职工；「一名员工」说 a staff member"
+            "caution": "staff 是集合名词，指全体职工；「一名员工」说 a staff member",
+            "usage": "staff 集合名词，谓语可单可复；a staff of 10。"
           }
         },
         {
@@ -7747,7 +8469,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dully",
               "duller"
             ],
-            "caution": "dull 是「乏味/迟钝」，不是「笨到学不会」（那是 stupid）"
+            "caution": "dull 是「乏味/迟钝」，不是「笨到学不会」（那是 stupid）",
+            "usage": "反义 sharp/bright；dull 也指天色阴沉。"
           }
         },
         {
@@ -7761,7 +8484,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "metallurgy",
               "medal"
             ],
-            "caution": "metal、medal、model 三词形近，看清 t、d、o"
+            "caution": "metal、medal、model 三词形近，看清 t、d、o",
+            "phoneticSplit": "me · tal",
+            "usage": "metal 可数/不可数；heavy metal 重金属音乐。"
           }
         },
         {
@@ -7779,7 +8504,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pretended",
               "pretending"
             ],
-            "caution": "pretend to do sth，不说 pretend doing；也可接 that 从句"
+            "caution": "pretend to do sth，不说 pretend doing；也可接 that 从句",
+            "phoneticSplit": "pre · tend",
+            "usage": "pretend to do 假装做；pretend to be 假装是。"
           }
         },
         {
@@ -7793,7 +8520,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tagged",
               "tagging"
             ],
-            "caution": "作动词双写 g：tagged；price tag 是价签"
+            "caution": "作动词双写 g：tagged；price tag 是价签",
+            "usage": "price tag 价签；tag along 跟着走。"
           }
         },
         {
@@ -7812,7 +8540,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "homework",
               "homesick"
             ],
-            "caution": "the homeless 指「无家可归的人」，作复数用"
+            "caution": "the homeless 指「无家可归的人」，作复数用",
+            "phoneticSplit": "ho · me · less",
+            "usage": "the homeless 指无家可归者；-less：careless。"
           }
         },
         {
@@ -7826,7 +8556,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ratter",
               "ratty"
             ],
-            "caution": "rat 比 mouse 大；rat 还可指「叛徒、告密者」"
+            "caution": "rat 比 mouse 大；rat 还可指「叛徒、告密者」",
+            "usage": "smell a rat 觉得可疑；rat 比 mouse 大。"
           }
         },
         {
@@ -7841,7 +8572,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "particle",
               "part"
             ],
-            "caution": "in particular 尤其；be particular about 对…讲究"
+            "caution": "in particular 尤其；be particular about 对…讲究",
+            "phoneticSplit": "par · ti · cu · lar",
+            "usage": "in particular 尤其；be particular about 对…讲究。"
           }
         },
         {
@@ -7860,7 +8593,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rainbow",
               "rainstorm"
             ],
-            "caution": "raincoat 连写一个词，不写 rain coat"
+            "caution": "raincoat 连写一个词，不写 rain coat",
+            "phoneticSplit": "rain · coat",
+            "usage": "raincoat 可数；同构词 rainbow、rainfall。"
           }
         },
         {
@@ -7874,7 +8609,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "edgy",
               "edged"
             ],
-            "caution": "edge 既是「边」也是「刀刃」；on the edge of 在…边上"
+            "caution": "edge 既是「边」也是「刀刃」；on the edge of 在…边上",
+            "usage": "on the edge of 在…边缘；cutting edge 最前沿。"
           }
         },
         {
@@ -7893,7 +8629,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "relationship",
               "related"
             ],
-            "caution": "relation 多指抽象关系；「亲戚」常用 relative；relationship 偏人际"
+            "caution": "relation 多指抽象关系；「亲戚」常用 relative；relationship 偏人际",
+            "phoneticSplit": "re · la · tion",
+            "usage": "relation 指关系/亲属；relationship 多指人际。"
           }
         },
         {
@@ -7905,7 +8643,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "yang"
             ],
-            "caution": "「阴天」是 cloudy，不能说 yin day；yin 只指哲学概念"
+            "caution": "「阴天」是 cloudy，不能说 yin day；yin 只指哲学概念",
+            "usage": "常与 yang 连用：yin and yang。"
           }
         },
         {
@@ -7924,7 +8663,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "authoritative",
               "authorities"
             ],
-            "caution": "the authorities 指「当局」用复数；authority 表「权力」不可数"
+            "caution": "the authorities 指「当局」用复数；authority 表「权力」不可数",
+            "phoneticSplit": "au · tho · ri · ty",
+            "usage": "the authorities 当局；authority 不可数指权限。"
           }
         },
         {
@@ -7938,7 +8679,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "salt",
               "salty"
             ],
-            "caution": "sausage 可数，a sausage；「一根香肠」不说 a piece of sausage"
+            "caution": "sausage 可数，a sausage；「一根香肠」不说 a piece of sausage",
+            "phoneticSplit": "sau · sage",
+            "usage": "sausage 可数；a sausage 一根香肠。"
           }
         }
       ]
@@ -7959,7 +8702,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "humor",
               "humorist"
             ],
-            "caution": "英式 humour、美式 humor；sense of humour 幽默感"
+            "caution": "英式 humour、美式 humor；sense of humour 幽默感",
+            "phoneticSplit": "hu · mour",
+            "usage": "英式 humour，美式 humor。"
           }
         },
         {
@@ -7978,7 +8723,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "helpfully",
               "helper"
             ],
-            "caution": "helpful 是「肯帮忙/有用」；be helpful to sb 对某人有帮助"
+            "caution": "helpful 是「肯帮忙/有用」；be helpful to sb 对某人有帮助",
+            "phoneticSplit": "help · ful",
+            "usage": "be helpful to sb 对某人有帮助；反义 unhelpful。"
           }
         },
         {
@@ -7997,7 +8744,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "generation",
               "genre"
             ],
-            "caution": "in general 总的来说；general 作名词专指「将军」"
+            "caution": "in general 总的来说；general 作名词专指「将军」",
+            "phoneticSplit": "ge · ne · ral",
+            "usage": "in general 总的来说；general 作名词“将军”。"
           }
         },
         {
@@ -8011,7 +8760,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "littlest",
               "belittle"
             ],
-            "caution": "词表此行释义串成了 fall（落下、跌倒）；little 是「小的/少的」，fall 的三态才是 fell-fallen"
+            "caution": "词表此行释义串成了 fall（落下、跌倒）；little 是「小的/少的」，fall 的三态才是 fell-fallen",
+            "phoneticSplit": "litt · le",
+            "usage": "a little 修饰不可数；few/a few 修饰可数。"
           }
         },
         {
@@ -8030,7 +8781,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hospitality",
               "hostel"
             ],
-            "caution": "in hospital 表「住院」，英式不加 the；go to hospital 去看病"
+            "caution": "in hospital 表「住院」，英式不加 the；go to hospital 去看病",
+            "phoneticSplit": "ho · spi · tal",
+            "usage": "in hospital 住院；in the hospital 在医院里。"
           }
         },
         {
@@ -8044,7 +8797,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "throaty",
               "throttle"
             ],
-            "caution": "sore throat 嗓子疼；th 开头容易漏写 h"
+            "caution": "sore throat 嗓子疼；th 开头容易漏写 h",
+            "usage": "have a sore throat 嗓子疼；clear one's throat 清嗓。"
           }
         },
         {
@@ -8058,7 +8812,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pitiless",
               "pitied"
             ],
-            "caution": "It's a pity that…；表「同情」不可数，表「可惜的事」可数"
+            "caution": "It's a pity that…；表「同情」不可数，表「可惜的事」可数",
+            "phoneticSplit": "pi · ty",
+            "usage": "take pity on 怜悯；It's a pity that..."
           }
         },
         {
@@ -8073,7 +8829,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coolness",
               "cooling"
             ],
-            "caution": "cool 作动词是「使变凉」；cool 表「酷」是口语"
+            "caution": "cool 作动词是「使变凉」；cool 表「酷」是口语",
+            "usage": "cool down 冷却/冷静；口语表“很棒”。"
           }
         },
         {
@@ -8087,7 +8844,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "problems",
               "problem-solving"
             ],
-            "caution": "problem 是「难题」，question 是「提问」；回答感谢用 No problem."
+            "caution": "problem 是「难题」，question 是「提问」；回答感谢用 No problem.",
+            "phoneticSplit": "pro · blem",
+            "usage": "solve a problem 解决问题；question 是提问。"
           }
         },
         {
@@ -8106,7 +8865,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "department",
               "apartments"
             ],
-            "caution": "美式 apartment 等于英式 flat；apart 是副词「分开」"
+            "caution": "美式 apartment 等于英式 flat；apart 是副词「分开」",
+            "phoneticSplit": "a · part · ment",
+            "usage": "英式多说 flat；apartment 美式。"
           }
         },
         {
@@ -8121,7 +8882,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "persons",
               "personnel"
             ],
-            "caution": "复数常用 people；persons 多用于法律公文"
+            "caution": "复数常用 people；persons 多用于法律公文",
+            "phoneticSplit": "per · son",
+            "usage": "person 可数，people 是它的复数。"
           }
         },
         {
@@ -8135,7 +8898,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "viral",
               "virology"
             ],
-            "caution": "复数 viruses 加 -es；viral 也表示「网上爆火的」"
+            "caution": "复数 viruses 加 -es；viral 也表示「网上爆火的」",
+            "phoneticSplit": "vi · rus",
+            "usage": "复数 viruses。"
           }
         },
         {
@@ -8153,7 +8918,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "loudly",
               "loudness"
             ],
-            "caution": "aloud 是「出声」（不一定吵），loudly 是「大声地」"
+            "caution": "aloud 是「出声」（不一定吵），loudly 是「大声地」",
+            "phoneticSplit": "a · loud",
+            "usage": "read aloud 朗读；aloud 不修饰形容词。"
           }
         },
         {
@@ -8168,7 +8935,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slept",
               "sleeping"
             ],
-            "caution": "go to sleep 入睡，go to bed 上床；「睡着的」用 asleep"
+            "caution": "go to sleep 入睡，go to bed 上床；「睡着的」用 asleep",
+            "usage": "sleep-slept-slept；sleep late 是睡懒觉。"
           }
         },
         {
@@ -8180,7 +8948,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "dollars"
             ],
-            "caution": "复数 dollars；「两美元」two dollars，不能说 two dollar"
+            "caution": "复数 dollars；「两美元」two dollars，不能说 two dollar",
+            "phoneticSplit": "dol · lar",
+            "usage": "复数 dollars；$5 读 five dollars。"
           }
         },
         {
@@ -8199,7 +8969,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "portable",
               "porter"
             ],
-            "caution": "support sb in doing sth；表「支持」不可数"
+            "caution": "support sb in doing sth；表「支持」不可数",
+            "phoneticSplit": "sup · port",
+            "usage": "support sb to do sth 支持某人做某事。"
           }
         },
         {
@@ -8214,7 +8986,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "midwife",
               "wifely"
             ],
-            "caution": "复数 wives（f 变 ves）；husband and wife 不加冠词"
+            "caution": "复数 wives（f 变 ves）；husband and wife 不加冠词",
+            "usage": "复数 wives。"
           }
         },
         {
@@ -8232,7 +9005,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "characterize",
               "characteristically"
             ],
-            "caution": "be characteristic of sb/sth 是…的特点；character 是「性格/角色」"
+            "caution": "be characteristic of sb/sth 是…的特点；character 是「性格/角色」",
+            "phoneticSplit": "cha · rac · te · ri · stic",
+            "usage": "be characteristic of 是……的特点。"
           }
         },
         {
@@ -8246,7 +9021,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prettily",
               "prettiness"
             ],
-            "caution": "pretty 作副词修饰形容词（pretty good），不能当「漂亮地」用"
+            "caution": "pretty 作副词修饰形容词（pretty good），不能当「漂亮地」用",
+            "phoneticSplit": "pret · ty",
+            "usage": "pretty 作副词＝相当，修饰形容词，不修饰动词。"
           }
         },
         {
@@ -8261,7 +9038,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sickly",
               "seasick"
             ],
-            "caution": "英式 ill 等于美式 sick 表「生病」；be sick of 是「厌烦」"
+            "caution": "英式 ill 等于美式 sick 表「生病」；be sick of 是「厌烦」",
+            "usage": "be sick of 讨厌；ill 只作表语。"
           }
         }
       ]
@@ -8282,7 +9060,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "failed",
               "failing"
             ],
-            "caution": "fail to do sth 是「未能做成」；动词 fail，名词 failure"
+            "caution": "fail to do sth 是「未能做成」；动词 fail，名词 failure",
+            "usage": "fail to do sth 未能做成某事。"
           }
         },
         {
@@ -8297,7 +9076,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lampshade",
               "headlamp"
             ],
-            "caution": "lamp 指台灯、灯具；「开灯」turn on the lamp"
+            "caution": "lamp 指台灯、灯具；「开灯」turn on the lamp",
+            "usage": "lamp 指灯具，light 指光。"
           }
         },
         {
@@ -8311,7 +9091,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "silversmith",
               "silverware"
             ],
-            "caution": "silver 不可数；形容词 silvery 是「银铃般的」"
+            "caution": "silver 不可数；形容词 silvery 是「银铃般的」",
+            "phoneticSplit": "sil · ver",
+            "usage": "silver 作形容词“银色的”。"
           }
         },
         {
@@ -8326,7 +9108,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "woodwork",
               "woodland"
             ],
-            "caution": "wood 表「木材」不可数，表「树林」用 woods；形容词是 wooden"
+            "caution": "wood 表「木材」不可数，表「树林」用 woods；形容词是 wooden",
+            "usage": "wood 木材不可数，woods 指树林。"
           }
         },
         {
@@ -8340,7 +9123,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "costs",
               "costing"
             ],
-            "caution": "主语是物：It cost me 10 yuan；人花钱用 spend"
+            "caution": "主语是物：It cost me 10 yuan；人花钱用 spend",
+            "usage": "cost-cost-cost；主语是物，人花钱用 spend。"
           }
         },
         {
@@ -8354,7 +9138,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "arguable",
               "arguing"
             ],
-            "caution": "argue with sb about/over sth；argument 既是「争论」也是「论点」"
+            "caution": "argue with sb about/over sth；argument 既是「争论」也是「论点」",
+            "phoneticSplit": "ar · gue",
+            "usage": "argue about/over sth 为某事争论。"
           }
         },
         {
@@ -8373,7 +9159,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fluent",
               "fluid"
             ],
-            "caution": "have an influence on sb；作动词直接跟宾语，不加 on"
+            "caution": "have an influence on sb；作动词直接跟宾语，不加 on",
+            "phoneticSplit": "in · fluence",
+            "usage": "have an influence on 对……有影响。"
           }
         },
         {
@@ -8392,7 +9180,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "internal",
               "international"
             ],
-            "caution": "the Internet 首字母大写，前面加 the"
+            "caution": "the Internet 首字母大写，前面加 the",
+            "phoneticSplit": "in · ter · net",
+            "usage": "on the Internet 在网上。"
           }
         },
         {
@@ -8406,7 +9196,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chocolatey",
               "chocoholic"
             ],
-            "caution": "「一块巧克力」a chocolate 可数；指这种物质时不可数"
+            "caution": "「一块巧克力」a chocolate 可数；指这种物质时不可数",
+            "phoneticSplit": "cho · co · late",
+            "usage": "不可数；a bar of chocolate 一块巧克力。"
           }
         },
         {
@@ -8421,7 +9213,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "marketer",
               "marketplace"
             ],
-            "caution": "on the market 是在售；作动词是「营销」，不是「去市场」"
+            "caution": "on the market 是在售；作动词是「营销」，不是「去市场」",
+            "phoneticSplit": "mar · ket",
+            "usage": "on the market 在售；作动词是推销。"
           }
         },
         {
@@ -8435,7 +9229,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "kitchenware",
               "cook"
             ],
-            "caution": "kitchen 厨房，chicken 鸡，两个词别写倒"
+            "caution": "kitchen 厨房，chicken 鸡，两个词别写倒",
+            "phoneticSplit": "kit · chen",
+            "usage": "kitchen 是房间，cook 是人也是动作。"
           }
         },
         {
@@ -8450,7 +9246,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "static",
               "status"
             ],
-            "caution": "state 作「陈述」是及物动词；the United States 里的 State 指「州」"
+            "caution": "state 作「陈述」是及物动词；the United States 里的 State 指「州」",
+            "usage": "作动词是“陈述”，如 state your opinion。"
           }
         },
         {
@@ -8464,7 +9261,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tasked",
               "multitask"
             ],
-            "caution": "task 可数；「做任务」do a task，不说 make a task"
+            "caution": "task 可数；「做任务」do a task，不说 make a task",
+            "usage": "task 指被分配的具体任务，job 偏职业。"
           }
         },
         {
@@ -8479,7 +9277,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cookery",
               "cooked"
             ],
-            "caution": "cook 是厨师，cooker 是锅灶；别说 He is a good cooker"
+            "caution": "cook 是厨师，cooker 是锅灶；别说 He is a good cooker",
+            "usage": "cooker 是锅，不是厨师。"
           }
         },
         {
@@ -8493,7 +9292,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "meanwhile",
               "awhile"
             ],
-            "caution": "while 引导的从句常用进行时；名词用 a while（for a while）"
+            "caution": "while 引导的从句常用进行时；名词用 a while（for a while）",
+            "phoneticSplit": "whi · le",
+            "usage": "while 后多接进行时；表对比时意为“然而”。"
           }
         },
         {
@@ -8512,7 +9313,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accounts",
               "count"
             ],
-            "caution": "account for 解释/占（比例）；on account of 因为；take into account 考虑"
+            "caution": "account for 解释/占（比例）；on account of 因为；take into account 考虑",
+            "phoneticSplit": "ac · count",
+            "usage": "take sth into account 把某事考虑进去。"
           }
         },
         {
@@ -8526,7 +9329,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brings",
               "upbringing"
             ],
-            "caution": "bring-brought-brought；bring up 是「抚养」；带来用 bring，带走用 take"
+            "caution": "bring-brought-brought；bring up 是「抚养」；带来用 bring，带走用 take",
+            "usage": "bring sb sth = bring sth to sb。"
           }
         },
         {
@@ -8541,7 +9345,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nurture",
               "nutrient"
             ],
-            "caution": "nurse 作动词是「护理/哺乳」；nursery 是托儿所，别混"
+            "caution": "nurse 作动词是「护理/哺乳」；nursery 是托儿所，别混",
+            "usage": "作动词是“护理、哺育”。"
           }
         },
         {
@@ -8556,7 +9361,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stoppage",
               "stopover"
             ],
-            "caution": "stop doing 停止做；stop to do 停下来去做；加 -ed 要双写 p"
+            "caution": "stop doing 停止做；stop to do 停下来去做；加 -ed 要双写 p",
+            "usage": "stop doing 停止做；stop to do 停下来去做。"
           }
         },
         {
@@ -8571,7 +9377,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fatherhood",
               "grandfather"
             ],
-            "caution": "泛指父亲时小写；大写 Father 可指神父"
+            "caution": "泛指父亲时小写；大写 Father 可指神父",
+            "phoneticSplit": "fa · ther",
+            "usage": "首字母大写 Father 指神父。"
           }
         }
       ]
@@ -8592,7 +9400,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "verdict",
               "veritable"
             ],
-            "caution": "别与 every（每一个）混淆，every 多个 e。"
+            "caution": "别与 every（每一个）混淆，every 多个 e。",
+            "phoneticSplit": "ve · ry",
+            "usage": "very 修饰形容词/副词，动词前用 very much。"
           }
         },
         {
@@ -8605,7 +9415,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "buyer",
               "buyout"
             ],
-            "caution": "过去式 bought，不是 buyed；词表注「bought-bough」应为 bought-bought。"
+            "caution": "过去式 bought，不是 buyed；词表注「bought-bough」应为 bought-bought。",
+            "usage": "buy-bought-bought；buy sb sth 给某人买。"
           }
         },
         {
@@ -8623,7 +9434,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nothing",
               "everything"
             ],
-            "caution": "修饰语后置：something important，不是 important something。"
+            "caution": "修饰语后置：something important，不是 important something。",
+            "phoneticSplit": "so · me · thing",
+            "usage": "多用于肯定句，疑问句多用 anything。"
           }
         },
         {
@@ -8640,7 +9453,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ready",
               "readily"
             ],
-            "caution": "不要写成 all ready；already 常用于肯定句。"
+            "caution": "不要写成 all ready；already 常用于肯定句。",
+            "phoneticSplit": "al · rea · dy",
+            "usage": "already 用于肯定句，yet 用于否定和疑问。"
           }
         },
         {
@@ -8652,7 +9467,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tomato"
             ],
-            "caution": "复数 potatoes；词表「士豆」应为「土豆」。"
+            "caution": "复数 potatoes；词表「士豆」应为「土豆」。",
+            "phoneticSplit": "po · ta · to",
+            "usage": "复数 potatoes，有 e 才加 es。"
           }
         },
         {
@@ -8664,7 +9481,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "candle"
             ],
-            "caution": "糖果是可数名词：a candy / two candies。"
+            "caution": "糖果是可数名词：a candy / two candies。",
+            "phoneticSplit": "can · dy",
+            "usage": "美式 candy 可数，英式常说 sweets。"
           }
         },
         {
@@ -8678,7 +9497,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "precious",
               "appreciate"
             ],
-            "caution": "别与 prize（奖品）混淆；复数 prices。"
+            "caution": "别与 prize（奖品）混淆；复数 prices。",
+            "usage": "at a low price 以低价。"
           }
         },
         {
@@ -8691,7 +9511,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "river",
               "arrival"
             ],
-            "caution": "arrive at 小地点 / arrive in 大地方，后不加 to；名词是 arrival。"
+            "caution": "arrive at 小地点 / arrive in 大地方，后不加 to；名词是 arrival。",
+            "phoneticSplit": "ar · rive",
+            "usage": "arrive at 小地方，arrive in 大地方，不用 to。"
           }
         },
         {
@@ -8704,7 +9526,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "warfare",
               "wartime"
             ],
-            "caution": "注意 ward（病房；躲避）、warm（温暖）别混。"
+            "caution": "注意 ward（病房；躲避）、warm（温暖）别混。",
+            "usage": "war 指战争整体，battle 是一次战役。"
           }
         },
         {
@@ -8722,7 +9545,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mailbox",
               "e-book"
             ],
-            "caution": "也可写作 e-mail，两种拼法都对。"
+            "caution": "也可写作 e-mail，两种拼法都对。",
+            "phoneticSplit": "e · mail",
+            "usage": "email sb = send an email to sb。"
           }
         },
         {
@@ -8736,7 +9561,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uproot",
               "grassroots"
             ],
-            "caution": "双 o，别拼成 rot（腐烂）。"
+            "caution": "双 o，别拼成 rot（腐烂）。",
+            "usage": "take root 生根；作动词“生根”。"
           }
         },
         {
@@ -8748,7 +9574,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "carrot"
             ],
-            "caution": "双 r，别只写一个 r。"
+            "caution": "双 r，别只写一个 r。",
+            "phoneticSplit": "par · rot",
+            "usage": "作动词是“机械模仿”。"
           }
         },
         {
@@ -8761,7 +9589,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drummer",
               "drumstick"
             ],
-            "caution": "「敲击」义常与 on 连用：drum on the desk。"
+            "caution": "「敲击」义常与 on 连用：drum on the desk。",
+            "usage": "作动词指有节奏地敲。"
           }
         },
         {
@@ -8773,7 +9602,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "pier"
             ],
-            "caution": "别与 piece（一块）混淆，pierce 中间多 r；过去式 pierced。"
+            "caution": "别与 piece（一块）混淆，pierce 中间多 r；过去式 pierced。",
+            "usage": "pierce 偏“刺穿”，penetrate 更正式。"
           }
         },
         {
@@ -8791,7 +9621,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "northern",
               "southern"
             ],
-            "caution": "指西方文化时常大写 Western；小写 western 只表方位。"
+            "caution": "指西方文化时常大写 Western；小写 western 只表方位。",
+            "phoneticSplit": "we · stern",
+            "usage": "Western 指西方国家，west 只指方向。"
           }
         },
         {
@@ -8805,7 +9637,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "offense",
               "offensive"
             ],
-            "caution": "名词是 offense（美）或 offence（英），拼法不同。"
+            "caution": "名词是 offense（美）或 offence（英），拼法不同。",
+            "phoneticSplit": "of · fend",
+            "usage": "be offended by 被……冒犯。"
           }
         },
         {
@@ -8818,7 +9652,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mysterious",
               "history"
             ],
-            "caution": "复数 mysteries（y 变 i 加 es）；形容词 mysterious。"
+            "caution": "复数 mysteries（y 变 i 加 es）；形容词 mysterious。",
+            "phoneticSplit": "my · ste · ry",
+            "usage": "mystery 可数，mysterious 是形容词。"
           }
         },
         {
@@ -8835,7 +9671,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "change",
               "exchangeable"
             ],
-            "caution": "exchange sth with sb / exchange A for B；名词也可指「交易所」。"
+            "caution": "exchange sth with sb / exchange A for B；名词也可指「交易所」。",
+            "phoneticSplit": "ex · change",
+            "usage": "exchange student 交换生；in exchange for 作为交换。"
           }
         },
         {
@@ -8847,7 +9685,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "bear"
             ],
-            "caution": "beard 指下巴胡须，mustache 指唇上胡须；别与 bread（面包）看混。"
+            "caution": "beard 指下巴胡须，mustache 指唇上胡须；别与 bread（面包）看混。",
+            "usage": "beard 可数，指络腮胡。"
           }
         },
         {
@@ -8865,7 +9704,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seasick",
               "seaside"
             ],
-            "caution": "副词和形容词同形：live overseas / overseas market。"
+            "caution": "副词和形容词同形：live overseas / overseas market。",
+            "phoneticSplit": "o · ver · seas",
+            "usage": "overseas students 指在海外的学生。"
           }
         },
         {
@@ -8877,7 +9718,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "yonder"
             ],
-            "caution": "beyond one's expectations 超出预期；别与 before 混。"
+            "caution": "beyond one's expectations 超出预期；别与 before 混。",
+            "phoneticSplit": "be · yond",
+            "usage": "beyond 表超出限度，如 beyond belief。"
           }
         }
       ]
@@ -8902,7 +9745,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "faith",
               "confident"
             ],
-            "caution": "形容词是 confident，别拼成 confience。"
+            "caution": "形容词是 confident，别拼成 confience。",
+            "phoneticSplit": "con · fi · dence",
+            "usage": "have confidence in 对……有信心。"
           }
         },
         {
@@ -8916,7 +9761,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "imagination",
               "imaginative"
             ],
-            "caution": "imaginary（虚构的）与 imaginative（有想象力的）意思不同。"
+            "caution": "imaginary（虚构的）与 imaginative（有想象力的）意思不同。",
+            "phoneticSplit": "i · ma · gine",
+            "usage": "imagine doing sth，不接不定式。"
           }
         },
         {
@@ -8929,7 +9776,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "umbra",
               "penumbra"
             ],
-            "caution": "重音在中段 /ʌmˈbrelə/，别读成「昂布瑞拉」。"
+            "caution": "重音在中段 /ʌmˈbrelə/，别读成「昂布瑞拉」。",
+            "phoneticSplit": "um · brel · la",
+            "usage": "可数；take an umbrella 带把伞。"
           }
         },
         {
@@ -8942,7 +9791,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fell",
               "fallen"
             ],
-            "caution": "过去式 fell、过去分词 fallen；「秋天」是美式用法，英式用 autumn。"
+            "caution": "过去式 fell、过去分词 fallen；「秋天」是美式用法，英式用 autumn。",
+            "usage": "fall-fell-fallen；fall asleep 入睡。"
           }
         },
         {
@@ -8956,7 +9806,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "communication",
               "communist"
             ],
-            "caution": "名词是 communication；communicate with sb 固定搭配。"
+            "caution": "名词是 communication；communicate with sb 固定搭配。",
+            "phoneticSplit": "com · mu · ni · cate",
+            "usage": "communicate with sb 与某人沟通。"
           }
         },
         {
@@ -8970,7 +9822,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "household",
               "mouse"
             ],
-            "caution": "复数 houses 读 /ˈhaʊzɪz/；作动词表「收容，给房子住」。"
+            "caution": "复数 houses 读 /ˈhaʊzɪz/；作动词表「收容，给房子住」。",
+            "usage": "可数；the House 指议院。"
           }
         },
         {
@@ -8984,7 +9837,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "checker",
               "chessboard"
             ],
-            "caution": "play chess 不加 the。"
+            "caution": "play chess 不加 the。",
+            "usage": "play chess 不加冠词。"
           }
         },
         {
@@ -8998,7 +9852,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "salary",
               "salad"
             ],
-            "caution": "形容词 salty；盐不可数。"
+            "caution": "形容词 salty；盐不可数。",
+            "usage": "不可数；take sth with a grain of salt。"
           }
         },
         {
@@ -9012,7 +9867,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "headmaster",
               "heading"
             ],
-            "caution": "复数 heads；head for「前往」是固定搭配。"
+            "caution": "复数 heads；head for「前往」是固定搭配。",
+            "usage": "head for 朝……去；作动词“领导”。"
           }
         },
         {
@@ -9029,7 +9885,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "head",
               "overhead"
             ],
-            "caution": "ahead 是副词；ahead of 后接宾语，ahead of time＝提前。"
+            "caution": "ahead 是副词；ahead of 后接宾语，ahead of time＝提前。",
+            "phoneticSplit": "a · head",
+            "usage": "go ahead 继续、请便；ahead of 在……前面。"
           }
         },
         {
@@ -9043,7 +9901,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "least",
               "fewer"
             ],
-            "caution": "不可数用 less，可数用 fewer：less water / fewer apples。"
+            "caution": "不可数用 less，可数用 fewer：less water / fewer apples。",
+            "usage": "less 修饰不可数名词，fewer 修饰可数。"
           }
         },
         {
@@ -9056,7 +9915,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reward",
               "rewarding"
             ],
-            "caution": "win an award 获奖；别与 reward（酬劳）混用。"
+            "caution": "win an award 获奖；别与 reward（酬劳）混用。",
+            "phoneticSplit": "a · ward",
+            "usage": "award 比 prize 正式，也可指授予行为。"
           }
         },
         {
@@ -9074,7 +9935,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "volunteer",
               "mountaineer"
             ],
-            "caution": "别写成 pionner（双 o 错位），pioneer 只有一个 o。"
+            "caution": "别写成 pionner（双 o 错位），pioneer 只有一个 o。",
+            "phoneticSplit": "pio · neer",
+            "usage": "pioneer 作动词是“开创”。"
           }
         },
         {
@@ -9092,7 +9955,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cartoon",
               "moon"
             ],
-            "caution": "双 l 双 o，别少写一个 l。"
+            "caution": "双 l 双 o，别少写一个 l。",
+            "phoneticSplit": "bal · loon",
+            "usage": "可数；blow up a balloon 吹气球。"
           }
         },
         {
@@ -9104,7 +9969,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "jam"
             ],
-            "caution": "不可数名词：a lot of traffic，不说 a traffic。"
+            "caution": "不可数名词：a lot of traffic，不说 a traffic。",
+            "phoneticSplit": "traf · fic",
+            "usage": "traffic 不可数。"
           }
         },
         {
@@ -9117,7 +9984,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cancellation",
               "cancelled"
             ],
-            "caution": "过去式 cancelled（英）或 canceled（美）均可；名词 cancellation。"
+            "caution": "过去式 cancelled（英）或 canceled（美）均可；名词 cancellation。",
+            "phoneticSplit": "can · cel",
+            "usage": "英式过去式双写 l：cancelled。"
           }
         },
         {
@@ -9135,7 +10004,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "toward",
               "afterward"
             ],
-            "caution": "look forward to 中 to 是介词，后接动名词。"
+            "caution": "look forward to 中 to 是介词，后接动名词。",
+            "phoneticSplit": "for · ward",
+            "usage": "look forward to doing 期待做某事。"
           }
         },
         {
@@ -9149,7 +10020,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boil",
               "oily"
             ],
-            "caution": "形容词 oily（油腻的）；复数 oils 表多种油类。"
+            "caution": "形容词 oily（油腻的）；复数 oils 表多种油类。",
+            "usage": "oil 不可数。"
           }
         },
         {
@@ -9167,7 +10039,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yourself",
               "itself"
             ],
-            "caution": "别写成 themselfs；f 要变 v：selves。"
+            "caution": "别写成 themselfs；f 要变 v：selves。",
+            "phoneticSplit": "them · selves",
+            "usage": "by themselves 他们独自；反身代词。"
           }
         },
         {
@@ -9184,7 +10058,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "villa",
               "villager"
             ],
-            "caution": "villager 是「村民」；in the village 固定搭配。"
+            "caution": "villager 是「村民」；in the village 固定搭配。",
+            "phoneticSplit": "vil · lage",
+            "usage": "可数；villager 是村民。"
           }
         }
       ]
@@ -9200,7 +10076,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈsoʊfə/",
             "quick": "① 中文“沙发”就是照它音译的——sofa\n② 「沙发」——音译词，念起来一模一样。",
-            "caution": "无特殊陷阱。"
+            "caution": "无特殊陷阱。",
+            "phoneticSplit": "so · fa",
+            "usage": "on the sofa 在沙发上。"
           }
         },
         {
@@ -9214,7 +10092,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "speeding",
               "speedy"
             ],
-            "caution": "过去式 sped 或 speeded；speed up 固定搭配。"
+            "caution": "过去式 sped 或 speeded；speed up 固定搭配。",
+            "usage": "at a speed of 以……的速度。"
           }
         },
         {
@@ -9228,7 +10107,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "knife",
               "knee"
             ],
-            "caution": "k 不发音，别读出来；knock on/at the door。"
+            "caution": "k 不发音，别读出来；knock on/at the door。",
+            "usage": "knock into sb 撞上某人。"
           }
         },
         {
@@ -9241,7 +10121,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "core",
               "scorer"
             ],
-            "caution": "score 也表「二十」（古义），常用义是分数和进球。"
+            "caution": "score 也表「二十」（古义），常用义是分数和进球。",
+            "usage": "作动词“得分”；scores of 许多。"
           }
         },
         {
@@ -9255,7 +10136,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "necessarily",
               "access"
             ],
-            "caution": "一个 c 两个 s；名词 necessity。"
+            "caution": "一个 c 两个 s；名词 necessity。",
+            "phoneticSplit": "ne · ces · sa · ry",
+            "usage": "necessary 不修饰人，人用 it 作主语。"
           }
         },
         {
@@ -9268,7 +10151,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skirt",
               "T-shirt"
             ],
-            "caution": "别与 skirt（裙子）混淆。"
+            "caution": "别与 skirt（裙子）混淆。",
+            "usage": "可数；a shirt and tie 衬衫加领带。"
           }
         },
         {
@@ -9281,7 +10165,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "erase",
               "erasable"
             ],
-            "caution": "erase 去 e 再加 er；别漏中间的 a。"
+            "caution": "erase 去 e 再加 er；别漏中间的 a。",
+            "phoneticSplit": "e · ra · ser",
+            "usage": "美式 eraser，英式说 rubber。"
           }
         },
         {
@@ -9295,7 +10181,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "checker",
               "checkpoint"
             ],
-            "caution": "美式 check＝支票，英式拼 cheque；check in/out 固定搭配。"
+            "caution": "美式 check＝支票，英式拼 cheque；check in/out 固定搭配。",
+            "usage": "美式 check 是支票，英式写 cheque。"
           }
         },
         {
@@ -9308,7 +10195,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "vegetarian",
               "vegetation"
             ],
-            "caution": "别拼成 vegitable；vegetarian 是「素食者」。"
+            "caution": "别拼成 vegitable；vegetarian 是「素食者」。",
+            "phoneticSplit": "ve · ge · ta · ble",
+            "usage": "口语缩写 veg；可数。"
           }
         },
         {
@@ -9320,7 +10209,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "particle"
             ],
-            "caution": "「冠词」是语法术语；复数 articles。"
+            "caution": "「冠词」是语法术语；复数 articles。",
+            "phoneticSplit": "ar · ti · cle",
+            "usage": "article 指文章、条款、冠词。"
           }
         },
         {
@@ -9333,7 +10224,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bamboo",
               "shoot"
             ],
-            "caution": "表种类时可数：bamboos；泛指不可数。"
+            "caution": "表种类时可数：bamboos；泛指不可数。",
+            "phoneticSplit": "bam · boo",
+            "usage": "不可数；a bamboo 指一种竹。"
           }
         },
         {
@@ -9348,7 +10241,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hot",
               "dog"
             ],
-            "caution": "比较级 hotter、最高级 hottest 双写 t。"
+            "caution": "比较级 hotter、最高级 hottest 双写 t。",
+            "usage": "比较级 hotter。"
           }
         },
         {
@@ -9363,7 +10257,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hot",
               "pot"
             ],
-            "caution": "teapot 茶壶、flowerpot 花盆都是 pot 的合成词。"
+            "caution": "teapot 茶壶、flowerpot 花盆都是 pot 的合成词。",
+            "usage": "可数；pots and pans 锅碗。"
           }
         },
         {
@@ -9376,7 +10271,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "maybe",
               "might"
             ],
-            "caution": "五月 May 首字母大写；maybe 是副词「也许」。"
+            "caution": "五月 May 首字母大写；maybe 是副词「也许」。",
+            "usage": "may 表可能或允许；五月 May 首字母大写。"
           }
         },
         {
@@ -9389,7 +10285,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exchange",
               "changeable"
             ],
-            "caution": "零钱不可数：small change；复数 changes 表多次变化。"
+            "caution": "零钱不可数：small change；复数 changes 表多次变化。",
+            "usage": "指“变化”可数，指“零钱”不可数。"
           }
         },
         {
@@ -9403,7 +10300,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "million",
               "billion"
             ],
-            "caution": "前面有具体数字不加 s：two thousand；虚指用 thousands of。"
+            "caution": "前面有具体数字不加 s：two thousand；虚指用 thousands of。",
+            "phoneticSplit": "thou · sand",
+            "usage": "前面有具体数字时 thousand 不加 s。"
           }
         },
         {
@@ -9421,7 +10320,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exception",
               "reception"
             ],
-            "caution": "与 accept（接受）只差首字母；except for 表细节上的除外。"
+            "caution": "与 accept（接受）只差首字母；except for 表细节上的除外。",
+            "phoneticSplit": "ex · cept",
+            "usage": "except 后接名词；except for 从整体中排除。"
           }
         },
         {
@@ -9435,7 +10336,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "musician",
               "museum"
             ],
-            "caution": "泛指音乐不可数；musician 是「音乐家」。"
+            "caution": "泛指音乐不可数；musician 是「音乐家」。",
+            "phoneticSplit": "mu · sic",
+            "usage": "不可数；musician 是音乐家。"
           }
         },
         {
@@ -9453,7 +10356,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "somewhere",
               "nowhere"
             ],
-            "caution": "肯定句一般用 somewhere；anywhere 多用于否定和疑问。"
+            "caution": "肯定句一般用 somewhere；anywhere 多用于否定和疑问。",
+            "phoneticSplit": "a · ny · where",
+            "usage": "否定疑问句用 anywhere，肯定句用 somewhere。"
           }
         },
         {
@@ -9466,7 +10371,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rest",
               "rainforest"
             ],
-            "caution": "别漏中间的 re，别拼成 forist。"
+            "caution": "别漏中间的 re，别拼成 forist。",
+            "phoneticSplit": "fo · rest",
+            "usage": "可数；in the forest 在森林里。"
           }
         }
       ]
@@ -9486,7 +10393,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "morn",
               "dawn"
             ],
-            "caution": "别与 mourning（哀悼）混淆——两词同音不同义。"
+            "caution": "别与 mourning（哀悼）混淆——两词同音不同义。",
+            "phoneticSplit": "mor · ning",
+            "usage": "in the morning，具体某天用 on。"
           }
         },
         {
@@ -9504,7 +10413,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beautifully",
               "beautify"
             ],
-            "caution": "中间有 u，别拼成 beutiful。"
+            "caution": "中间有 u，别拼成 beutiful。",
+            "phoneticSplit": "beau · ti · ful",
+            "usage": "beautiful 多修饰物或女性，男性多用 handsome。"
           }
         },
         {
@@ -9522,7 +10433,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "deposit",
               "positive"
             ],
-            "caution": "position 侧重位置和职位，别与 situation（处境）完全等同。"
+            "caution": "position 侧重位置和职位，别与 situation（处境）完全等同。",
+            "phoneticSplit": "po · si · tion",
+            "usage": "in position 在位；也指职位。"
           }
         },
         {
@@ -9535,7 +10448,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "in",
               "onto"
             ],
-            "caution": "动态「进入」用 into，静态「在里面」用 in。"
+            "caution": "动态「进入」用 into，静态「在里面」用 in。",
+            "phoneticSplit": "in · to",
+            "usage": "into 表动作方向，in 表位置。"
           }
         },
         {
@@ -9547,7 +10462,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "reddish"
             ],
-            "caution": "in the red 表「负债」（账面红字），不是「穿红衣」。"
+            "caution": "in the red 表「负债」（账面红字），不是「穿红衣」。",
+            "usage": "in the red 是亏空。"
           }
         },
         {
@@ -9561,7 +10477,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leave",
               "out"
             ],
-            "caution": "leave for 表「前往」；过去式 left 与「左边」left 同形。"
+            "caution": "leave for 表「前往」；过去式 left 与「左边」left 同形。",
+            "usage": "leave-left-left；leave sth at home。"
           }
         },
         {
@@ -9575,7 +10492,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "formation",
               "reform"
             ],
-            "caution": "别把 form 写成 from；fill in a form 填表格。"
+            "caution": "别把 form 写成 from；fill in a form 填表格。",
+            "usage": "作动词是“形成”。"
           }
         },
         {
@@ -9588,7 +10506,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scar",
               "leaf"
             ],
-            "caution": "复数 scarves（f 变 ves）。"
+            "caution": "复数 scarves（f 变 ves）。",
+            "usage": "复数 scarves。"
           }
         },
         {
@@ -9606,7 +10525,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "favorite",
               "favorable"
             ],
-            "caution": "英式 favourite、美式 favorite，别混拼。"
+            "caution": "英式 favourite、美式 favorite，别混拼。",
+            "phoneticSplit": "fa · vou · rite",
+            "usage": "英式 favourite，美式 favorite。"
           }
         },
         {
@@ -9620,7 +10541,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "highway",
               "subway"
             ],
-            "caution": "频率副词：实义动词前、be 动词后。"
+            "caution": "频率副词：实义动词前、be 动词后。",
+            "phoneticSplit": "al · ways",
+            "usage": "always 放实义动词前、be 动词后。"
           }
         },
         {
@@ -9633,7 +10556,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "age",
               "caged"
             ],
-            "caution": "别与 cake（蛋糕）看混，cage 中间是 a。"
+            "caution": "别与 cake（蛋糕）看混，cage 中间是 a。",
+            "usage": "可数：a cage of 一笼。"
           }
         },
         {
@@ -9650,7 +10574,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "familiar",
               "family"
             ],
-            "caution": "be familiar with 与 be familiar to 的主语方向相反，别混。"
+            "caution": "be familiar with 与 be familiar to 的主语方向相反，别混。",
+            "phoneticSplit": "un · fa · mi · liar",
+            "usage": "be unfamiliar to sb 对某人来说陌生。"
           }
         },
         {
@@ -9663,7 +10589,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exam",
               "examination"
             ],
-            "caution": "名词 examination（正式）或 exam（口语）；examine 后直接接宾语。"
+            "caution": "名词 examination（正式）或 exam（口语）；examine 后直接接宾语。",
+            "phoneticSplit": "ex · a · mine",
+            "usage": "既可体检也可考试；exam 是名词。"
           }
         },
         {
@@ -9677,7 +10605,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shellfish",
               "seashell"
             ],
-            "caution": "shellfish（贝类）由 shell+fish 合成。"
+            "caution": "shellfish（贝类）由 shell+fish 合成。",
+            "usage": "也可指炮弹；shell out 掏钱。"
           }
         },
         {
@@ -9690,7 +10619,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pound",
               "pool"
             ],
-            "caution": "别与 pound（英镑；猛击）混淆。"
+            "caution": "别与 pound（英镑；猛击）混淆。",
+            "usage": "比 pool 自然，比 lake 小得多。"
           }
         },
         {
@@ -9702,7 +10632,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "ticket"
             ],
-            "caution": "拼写难点：e-t-i-q-u-e-t-t-e，双 t；重音在首音节 /ˈetɪket/。"
+            "caution": "拼写难点：e-t-i-q-u-e-t-t-e，双 t；重音在首音节 /ˈetɪket/。",
+            "phoneticSplit": "e · ti · quette",
+            "usage": "不可数；business etiquette 商务礼仪。"
           }
         },
         {
@@ -9714,7 +10646,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hamburger"
             ],
-            "caution": "hamburger 词源是城市名 Hamburg，ham 并非其词根，仅作联想。"
+            "caution": "hamburger 词源是城市名 Hamburg，ham 并非其词根，仅作联想。",
+            "usage": "a ham 也可指爱夸张表演的人。"
           }
         },
         {
@@ -9732,7 +10665,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ability",
               "enable"
             ],
-            "caution": "be unable to do 接原形；able 的名词是 ability。"
+            "caution": "be unable to do 接原形；able 的名词是 ability。",
+            "phoneticSplit": "u · na · ble",
+            "usage": "be unable to do sth；反义 able。"
           }
         },
         {
@@ -9746,7 +10681,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "embarrassing",
               "embarrassment"
             ],
-            "caution": "双 r 双 s；词表「尴价」应为「尴尬」。"
+            "caution": "双 r 双 s；词表「尴价」应为「尴尬」。",
+            "phoneticSplit": "em · bar · rassed",
+            "usage": "be embarrassed about sth；embarrassing 令人尴尬。"
           }
         },
         {
@@ -9759,7 +10696,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "both",
               "bothersome"
             ],
-            "caution": "别与 brother（兄弟）混淆，bother 少个 r。"
+            "caution": "别与 brother（兄弟）混淆，bother 少个 r。",
+            "phoneticSplit": "bo · ther",
+            "usage": "don't bother 别费事；bother to do 费心做。"
           }
         },
         {
@@ -9772,7 +10711,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "resort",
               "short"
             ],
-            "caution": "sort of＝有几分，口语常用；sort out＝整理，解决。"
+            "caution": "sort of＝有几分，口语常用；sort out＝整理，解决。",
+            "usage": "sort of 有点儿；all sorts of 各种各样的。"
           }
         }
       ]
@@ -9793,7 +10733,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "attach",
               "attacker"
             ],
-            "caution": "双写 tt 别写成 atack；过去式 attacked 只加 ed。"
+            "caution": "双写 tt 别写成 atack；过去式 attacked 只加 ed。",
+            "phoneticSplit": "at · tack",
+            "usage": "under attack 遭到攻击；an attack on。"
           }
         },
         {
@@ -9810,7 +10752,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "day",
               "tonight",
               "tomorrow"
-            ]
+            ],
+            "phoneticSplit": "to · day",
+            "usage": "today 前不加介词：see you today。"
           }
         },
         {
@@ -9824,7 +10768,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "famous",
               "fame"
             ],
-            "caution": "复数 families：y 变 i 加 es。"
+            "caution": "复数 families：y 变 i 加 es。",
+            "phoneticSplit": "fa · mi · ly",
+            "usage": "指成员时谓语用复数。"
           }
         },
         {
@@ -9837,7 +10783,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brunch",
               "breakfast",
               "dinner"
-            ]
+            ],
+            "usage": "前不加冠词；brunch 是早午餐。"
           }
         },
         {
@@ -9855,7 +10802,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gently",
               "man"
             ],
-            "caution": "复数 gentlemen：man 变 men。"
+            "caution": "复数 gentlemen：man 变 men。",
+            "phoneticSplit": "gent · le · man",
+            "usage": "Ladies and gentlemen 女士们先生们。"
           }
         },
         {
@@ -9873,7 +10822,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yourself",
               "herself",
               "itself"
-            ]
+            ],
+            "phoneticSplit": "him · self",
+            "usage": "by himself 独自；for himself 为自己。"
           }
         },
         {
@@ -9887,7 +10838,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whose",
               "what"
             ],
-            "caution": "作主语用 who，宾语用 whom。"
+            "caution": "作主语用 who，宾语用 whom。",
+            "usage": "who 作主语，whom 作宾语。"
           }
         },
         {
@@ -9900,7 +10852,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sandwich",
               "sandy"
             ],
-            "caution": "复数 sands 多指沙滩、沙地。"
+            "caution": "复数 sands 多指沙滩、沙地。",
+            "usage": "sands 沙滩；sand 不可数。"
           }
         },
         {
@@ -9913,7 +10866,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fitness",
               "outfit"
             ],
-            "caution": "过去式 fit 或 fitted 均可；be fit for 表示适合。"
+            "caution": "过去式 fit 或 fitted 均可；be fit for 表示适合。",
+            "usage": "fit 尺寸合身，suit 款式合适；keep fit 健身。"
           }
         },
         {
@@ -9926,7 +10880,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "characteristic",
               "characterize"
             ],
-            "caution": "别丢中间的 a：charact-，不是 charct。"
+            "caution": "别丢中间的 a：charact-，不是 charct。",
+            "phoneticSplit": "cha · rac · ter",
+            "usage": "Chinese character 汉字；characteristic 特有的。"
           }
         },
         {
@@ -9940,7 +10896,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "studio",
               "studious"
             ],
-            "caution": "过去式 studied：y 变 i 加 ed。"
+            "caution": "过去式 studied：y 变 i 加 ed。",
+            "phoneticSplit": "stu · dy",
+            "usage": "study 偏研究，learn 偏学会。"
           }
         },
         {
@@ -9953,7 +10911,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "return",
               "turning"
             ],
-            "caution": "turn left/right、turn into（变成）都是高频搭配。"
+            "caution": "turn left/right、turn into（变成）都是高频搭配。",
+            "usage": "turn on/off、turn up/down；in turn 依次。"
           }
         },
         {
@@ -9967,7 +10926,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "respect",
               "expectation"
             ],
-            "caution": "expect to do 表预计做，不接 doing。"
+            "caution": "expect to do 表预计做，不接 doing。",
+            "phoneticSplit": "ex · pect",
+            "usage": "expect sb to do sth；后可接 that 从句。"
           }
         },
         {
@@ -9979,7 +10940,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "repair"
             ],
-            "caution": "repair（修理）拼法里含 pair，别在 repair 里找「一对」。"
+            "caution": "repair（修理）拼法里含 pair，别在 repair 里找「一对」。",
+            "usage": "后接复数名词，谓语随 pair 变。"
           }
         },
         {
@@ -9996,7 +10958,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "evident",
               "provide",
               "vision"
-            ]
+            ],
+            "phoneticSplit": "vi · deo",
+            "usage": "a video 一段录像；video game 电子游戏。"
           }
         },
         {
@@ -10010,7 +10974,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "justify",
               "adjust"
             ],
-            "caution": "just 完成时表「刚刚」；just now 只表过去「刚才」。"
+            "caution": "just 完成时表「刚刚」；just now 只表过去「刚才」。",
+            "usage": "I've just eaten 用完成时；just 也指公平的。"
           }
         },
         {
@@ -10027,7 +10992,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "today",
               "tonight"
             ],
-            "caution": "双 r：tomorrow 别写成 tommorow。"
+            "caution": "双 r：tomorrow 别写成 tommorow。",
+            "phoneticSplit": "to · mor · row",
+            "usage": "前不加介词；the day after tomorrow 后天。"
           }
         },
         {
@@ -10041,7 +11008,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boiling",
               "boiler"
             ],
-            "caution": "boiled water 开水；boil the water 烧水。"
+            "caution": "boiled water 开水；boil the water 烧水。",
+            "usage": "boiling water 正在开的水；boiled water 开水。"
           }
         },
         {
@@ -10050,7 +11018,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈnudəl/",
             "quick": "instant noodle 方便面：一碗热面条",
-            "caution": "点面常作复数：eat noodles。"
+            "caution": "点面常作复数：eat noodles。",
+            "phoneticSplit": "nood · le",
+            "usage": "常说复数 noodles。"
           }
         },
         {
@@ -10059,7 +11029,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/bit/",
             "quick": "心脏一下一下 beat——跳动，也指打",
-            "caution": "beat 击败与 win 搭配不同：beat sb，win sth。"
+            "caution": "beat 击败与 win 搭配不同：beat sb，win sth。",
+            "usage": "beat-beat-beaten；beat sb 打败某人。"
           }
         }
       ]
@@ -10079,7 +11050,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leafy",
               "overleaf"
             ],
-            "caution": "复数 leaves：f 变 v 加 es；书刊的张、页也用 leaf。"
+            "caution": "复数 leaves：f 变 v 加 es；书刊的张、页也用 leaf。",
+            "usage": "复数 leaves；turn over a new leaf 改过自新。"
           }
         },
         {
@@ -10094,7 +11066,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bright",
               "fright"
             ],
-            "caution": "right（右边/正确/权利）多义靠搭配：on the right 在右边。"
+            "caution": "right（右边/正确/权利）多义靠搭配：on the right 在右边。",
+            "usage": "right now 立刻；all right 行、没问题。"
           }
         },
         {
@@ -10111,7 +11084,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "excel",
               "excellence"
             ],
-            "caution": "双 l：excellent，中间正是 excel。"
+            "caution": "双 l：excellent，中间正是 excel。",
+            "phoneticSplit": "ex · cel · lent",
+            "usage": "Excellent! 表示赞许，比 very good 正式。"
           }
         },
         {
@@ -10125,7 +11100,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "heated",
               "heating"
             ],
-            "caution": "heat 是名词/动词，形容词用 hot，别混。"
+            "caution": "heat 是名词/动词，形容词用 hot，别混。",
+            "usage": "不可数；heat up 变热。"
           }
         },
         {
@@ -10139,7 +11115,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "associate",
               "socialist"
             ],
-            "caution": "泛指社会不加冠词。"
+            "caution": "泛指社会不加冠词。",
+            "phoneticSplit": "so · cie · ty",
+            "usage": "也可指协会：the Red Cross Society。"
           }
         },
         {
@@ -10153,7 +11131,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "politely",
               "impolite"
             ],
-            "caution": "副词 politely；反义词 impolite。"
+            "caution": "副词 politely；反义词 impolite。",
+            "phoneticSplit": "po · lite",
+            "usage": "be polite to sb；反义 rude、impolite。"
           }
         },
         {
@@ -10167,7 +11147,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shopkeeper",
               "workshop"
             ],
-            "caution": "shopping 双写 p：shop → shopping。"
+            "caution": "shopping 双写 p：shop → shopping。",
+            "usage": "英式 shop，美式 store。"
           }
         },
         {
@@ -10176,7 +11157,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ʧɪp/",
             "quick": "potato chips 薯片、computer chip 芯片——小片",
-            "caution": "复数 chips；英式炸薯条说 chips，美式说 fries。"
+            "caution": "复数 chips；英式炸薯条说 chips，美式说 fries。",
+            "usage": "fish and chips 炸鱼薯条。"
           }
         },
         {
@@ -10185,7 +11167,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈlɛtər/",
             "quick": "26 个 letter 拼成单词，也拼成一封信",
-            "caution": "letter（信/字母）与 litter（垃圾）形近义远，别混。"
+            "caution": "letter（信/字母）与 litter（垃圾）形近义远，别混。",
+            "phoneticSplit": "let · ter",
+            "usage": "to the letter 一字不差。"
           }
         },
         {
@@ -10197,7 +11181,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tofu"
             ],
-            "caution": "搭配用 do：do kung fu，不说 play。"
+            "caution": "搭配用 do：do kung fu，不说 play。",
+            "usage": "不可数；也写作 gongfu。"
           }
         },
         {
@@ -10210,7 +11195,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "restart",
               "startle"
             ],
-            "caution": "startle（吓一跳）多一个 l，是另一个词。"
+            "caution": "startle（吓一跳）多一个 l，是另一个词。",
+            "usage": "start to do / start doing；at the start of。"
           }
         },
         {
@@ -10223,7 +11209,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "update",
               "dated"
             ],
-            "caution": "date 兼指日期与约会，靠语境区分。"
+            "caution": "date 兼指日期与约会，靠语境区分。",
+            "usage": "out of date 过时；up to date 最新。"
           }
         },
         {
@@ -10237,7 +11224,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "through",
               "thought"
             ],
-            "caution": "中文「虽然…但是」，英文只用其一，不说 although…but。"
+            "caution": "中文「虽然…但是」，英文只用其一，不说 although…but。",
+            "phoneticSplit": "al · though",
+            "usage": "although 不能与 but 连用。"
           }
         },
         {
@@ -10249,7 +11238,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "swear"
             ],
-            "caution": "w 不发音：读 /ˈɑːnsə/，别把 w 读出来。"
+            "caution": "w 不发音：读 /ˈɑːnsə/，别把 w 读出来。",
+            "phoneticSplit": "an · swer",
+            "usage": "w 不发音；answer for 对……负责。"
           }
         },
         {
@@ -10263,7 +11254,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "truly",
               "trust"
             ],
-            "caution": "词表作 True 系排版大写，规范拼写 true。"
+            "caution": "词表作 True 系排版大写，规范拼写 true。",
+            "usage": "true 指符合事实，real 指真实存在。"
           }
         },
         {
@@ -10272,7 +11264,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈpɔrəʤ/",
             "quick": "porridge 里 ridge 是山脊：一碗粥堆成小山",
-            "caution": "por-ridge：中间正是 ridge，别拼成 porrage。"
+            "caution": "por-ridge：中间正是 ridge，别拼成 porrage。",
+            "phoneticSplit": "por · ridge",
+            "usage": "不可数；a bowl of porridge 一碗粥。"
           }
         },
         {
@@ -10285,7 +11279,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stylish",
               "lifestyle"
             ],
-            "caution": "合成词连写：hairstyle、lifestyle。"
+            "caution": "合成词连写：hairstyle、lifestyle。",
+            "phoneticSplit": "sty · le",
+            "usage": "in style 流行；与 fashion 近义。"
           }
         },
         {
@@ -10297,7 +11293,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "flatten"
             ],
-            "caution": "美式说 apartment，英式 flat 指公寓。"
+            "caution": "美式说 apartment，英式 flat 指公寓。",
+            "usage": "英式 flat = 美式 apartment。"
           }
         },
         {
@@ -10309,7 +11306,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "rule"
             ],
-            "caution": "ruler 尺与统治者两个意思都常考。"
+            "caution": "ruler 尺与统治者两个意思都常考。",
+            "phoneticSplit": "ru · ler",
+            "usage": "ruler 尺子；the ruler of 统治者。"
           }
         },
         {
@@ -10327,7 +11326,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wherever",
               "whoever",
               "however"
-            ]
+            ],
+            "phoneticSplit": "whe · ne · ver",
+            "usage": "引导让步从句：Whenever I see him…"
           }
         }
       ]
@@ -10343,7 +11344,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkəzən/",
             "quick": "uncle 家的孩子，就是 cousin——堂表兄弟姐妹",
-            "caution": "cousin 统称堂表兄弟姐妹，无需再分男女。"
+            "caution": "cousin 统称堂表兄弟姐妹，无需再分男女。",
+            "phoneticSplit": "cou · sin",
+            "usage": "不分男女、不分堂表。"
           }
         },
         {
@@ -10356,7 +11359,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "duckling",
               "sibling"
             ],
-            "caution": "吃饺子常作复数：eat dumplings。"
+            "caution": "吃饺子常作复数：eat dumplings。",
+            "phoneticSplit": "dum · pling",
+            "usage": "常用复数 dumplings。"
           }
         },
         {
@@ -10370,7 +11375,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lock",
               "dock"
             ],
-            "caution": "短袜 sock，长袜 stocking。"
+            "caution": "短袜 sock，长袜 stocking。",
+            "usage": "常用复数 socks。"
           }
         },
         {
@@ -10388,7 +11394,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tiring",
               "retire"
             ],
-            "caution": "tired（累的）别写成 tiered（分层的）。"
+            "caution": "tired（累的）别写成 tiered（分层的）。",
+            "usage": "be tired of 厌倦；tired out 累坏了。"
           }
         },
         {
@@ -10402,7 +11409,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "manual",
               "manuscript"
             ],
-            "caution": "manage to do 设法做成，不说 manage doing。"
+            "caution": "manage to do 设法做成，不说 manage doing。",
+            "phoneticSplit": "ma · nage",
+            "usage": "manage to do 设法做成；manager 经理。"
           }
         },
         {
@@ -10415,7 +11424,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "when",
               "hen"
             ],
-            "caution": "then（然后）与 than（比较）差一个 e，别混。"
+            "caution": "then（然后）与 than（比较）差一个 e，别混。",
+            "usage": "then 与 than 易混：than 用于比较。"
           }
         },
         {
@@ -10434,7 +11444,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "disable",
               "enable"
             ],
-            "caution": "the disabled 泛指残疾人群体。"
+            "caution": "the disabled 泛指残疾人群体。",
+            "phoneticSplit": "di · sabled",
+            "usage": "the disabled 残疾人（集合名词）。"
           }
         },
         {
@@ -10443,7 +11455,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kin/",
             "quick": "be keen on 足球，眼睛发亮——热情、敏锐",
-            "caution": "搭配 be keen on sth/doing，on 不能省。"
+            "caution": "搭配 be keen on sth/doing，on 不能省。",
+            "usage": "be keen on doing 热衷于；keen eyesight 好眼力。"
           }
         },
         {
@@ -10456,7 +11469,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             ],
             "rhyme": "六个月为一学期。",
             "quick": "se 六 + mester 月：六个月一学期",
-            "caution": "别写成 semaster：中间是 mester。"
+            "caution": "别写成 semaster：中间是 mester。",
+            "phoneticSplit": "se · me · ster",
+            "usage": "fall semester 秋季学期。"
           }
         },
         {
@@ -10465,7 +11480,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/θim/",
             "quick": "theme park 主题公园：theme 就是主题",
-            "caution": "theme 偏作品思想主旨，topic 偏话题。"
+            "caution": "theme 偏作品思想主旨，topic 偏话题。",
+            "usage": "theme park 主题公园；theme song 主题曲。"
           }
         },
         {
@@ -10482,7 +11498,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "style",
               "life"
             ],
-            "caution": "合成词连写 lifestyle，不分开。"
+            "caution": "合成词连写 lifestyle，不分开。",
+            "phoneticSplit": "li · fe · sty · le",
+            "usage": "healthy lifestyle 健康的生活方式。"
           }
         },
         {
@@ -10495,7 +11513,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "popular",
               "popcorn"
             ],
-            "caution": "popcorn（爆米花）= pop + corn。"
+            "caution": "popcorn（爆米花）= pop + corn。",
+            "usage": "美式口语 pop 也指汽水。"
           }
         },
         {
@@ -10513,7 +11532,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "solution",
               "resolve"
             ],
-            "caution": "新年决心常用复数 resolutions。"
+            "caution": "新年决心常用复数 resolutions。",
+            "phoneticSplit": "re · so · lu · tion",
+            "usage": "make a resolution 下决心。"
           }
         },
         {
@@ -10531,7 +11552,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dictate",
               "prediction"
             ],
-            "caution": "predict 常接 that 从句。"
+            "caution": "predict 常接 that 从句。",
+            "phoneticSplit": "pre · dict",
+            "usage": "后可接 that 从句；prediction 预言。"
           }
         },
         {
@@ -10548,7 +11571,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "usual",
               "usually"
             ],
-            "caution": "双 u 连写 un-usual，拼写别多字母。"
+            "caution": "双 u 连写 un-usual，拼写别多字母。",
+            "phoneticSplit": "u · nu · sual",
+            "usage": "比 strange 中性；unusually 异常地。"
           }
         },
         {
@@ -10566,7 +11591,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "attention",
               "tend"
             ],
-            "caution": "attendant 服务员，attendance 出勤，别混。"
+            "caution": "attendant 服务员，attendance 出勤，别混。",
+            "phoneticSplit": "at · ten · dant",
+            "usage": "flight attendant 空乘。"
           }
         },
         {
@@ -10582,7 +11609,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tradition"
             ],
-            "caution": "名词 tradition，形容词 traditional 加 al。"
+            "caution": "名词 tradition，形容词 traditional 加 al。",
+            "phoneticSplit": "tra · di · tio · nal",
+            "usage": "反义 modern；tradition 是名词。"
           }
         },
         {
@@ -10593,7 +11622,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "quick": "① 太极图里那一半：yin 和 yang——阳\n② 「阳」——阴阳的阳，读音一模一样。",
             "family": [
               "yin"
-            ]
+            ],
+            "usage": "常连用：yin and yang。"
           }
         },
         {
@@ -10602,7 +11632,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˌkæŋgərˈu/",
             "quick": "kangaroo 妈妈肚皮口袋装宝宝——袋鼠",
-            "caution": "复数 kangaroos；词尾 roo 别写成 ru。"
+            "caution": "复数 kangaroos；词尾 roo 别写成 ru。",
+            "phoneticSplit": "kang · a · roo",
+            "usage": "复数 kangaroos。"
           }
         }
       ]
@@ -10627,7 +11659,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "publication",
               "publisher"
             ],
-            "caution": "sh 结尾直接加 ed：published。"
+            "caution": "sh 结尾直接加 ed：published。",
+            "phoneticSplit": "pu · blish",
+            "usage": "publish a book；publisher 出版社。"
           }
         },
         {
@@ -10640,7 +11674,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leaf",
               "knife"
             ],
-            "caution": "复数 shelves：f 变 v 加 es。"
+            "caution": "复数 shelves：f 变 v 加 es。",
+            "usage": "复数 shelves；on the shelf 被搁置。"
           }
         },
         {
@@ -10658,7 +11693,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "home",
               "work"
             ],
-            "caution": "不可数：不加 s，不说 a homework。"
+            "caution": "不可数：不加 s，不说 a homework。",
+            "phoneticSplit": "ho · me · work",
+            "usage": "不可数；do homework 不加 the。"
           }
         },
         {
@@ -10670,7 +11707,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "breakfast"
             ],
-            "caution": "不可数：一块面包说 a piece of bread。"
+            "caution": "不可数：一块面包说 a piece of bread。",
+            "usage": "不可数；bread and butter 生计。"
           }
         },
         {
@@ -10683,7 +11721,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sell",
               "salesman"
             ],
-            "caution": "on sale 打折出售，for sale 待售，注意区别。"
+            "caution": "on sale 打折出售，for sale 待售，注意区别。",
+            "phoneticSplit": "sa · le",
+            "usage": "on sale 打折；for sale 待售。"
           }
         },
         {
@@ -10692,7 +11732,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/bəs/",
             "quick": "① by bus、bus stop：天天坐的那趟车——公交\n② 「巴士」——音译词，巴士就是公交。",
-            "caution": "复数 buses：只加 es。"
+            "caution": "复数 buses：只加 es。",
+            "usage": "by bus 乘公交，不加冠词。"
           }
         },
         {
@@ -10708,7 +11749,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "stadium"
             ],
-            "caution": "拼写分三段 mu-se-um，别写成 musume。"
+            "caution": "拼写分三段 mu-se-um，别写成 musume。",
+            "phoneticSplit": "mu · seum",
+            "usage": "the Science Museum 科技馆。"
           }
         },
         {
@@ -10727,7 +11770,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "activity",
               "passive"
             ],
-            "caution": "反义词 passive（被动的）只差开头两个字母。"
+            "caution": "反义词 passive（被动的）只差开头两个字母。",
+            "phoneticSplit": "ac · tive",
+            "usage": "be active in 积极参与；actively 积极地。"
           }
         },
         {
@@ -10736,7 +11781,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈsɪnəmə/",
             "quick": "go to the cinema 看电影，去的是电影院",
-            "caution": "英式 cinema，美式 movie theater / the movies。"
+            "caution": "英式 cinema，美式 movie theater / the movies。",
+            "phoneticSplit": "ci · ne · ma",
+            "usage": "英式 cinema，美式 movie theater。"
           }
         },
         {
@@ -10749,7 +11796,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "viola",
               "violinist"
             ],
-            "caution": "play the violin：the 不能省。"
+            "caution": "play the violin：the 不能省。",
+            "phoneticSplit": "vio · lin",
+            "usage": "乐器前加 the。"
           }
         },
         {
@@ -10761,7 +11810,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "risky"
             ],
-            "caution": "risk doing sth 表冒危险做某事。"
+            "caution": "risk doing sth 表冒危险做某事。",
+            "usage": "risk doing sth 冒险做；at risk 有危险。"
           }
         },
         {
@@ -10778,7 +11828,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "telephone",
               "microphone"
             ],
-            "caution": "on the phone 在通话中。"
+            "caution": "on the phone 在通话中。",
+            "usage": "phone sb 给某人打电话；on the phone。"
           }
         },
         {
@@ -10796,7 +11847,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oppose",
               "pose"
             ],
-            "caution": "作介词直接接名词：opposite the bank，不加 to。"
+            "caution": "作介词直接接名词：opposite the bank，不加 to。",
+            "phoneticSplit": "op · po · site",
+            "usage": "opposite to 在……对面；the opposite 相反。"
           }
         },
         {
@@ -10814,7 +11867,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "worker",
               "driver",
               "singer"
-            ]
+            ],
+            "phoneticSplit": "tea · cher",
+            "usage": "teach sb sth；teach oneself 自学。"
           }
         },
         {
@@ -10823,7 +11878,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/pis/",
             "quick": "a piece of paper 一张纸——片、块",
-            "caution": "同音词 peace（和平）：piece 有 i 是片，peace 是和平。"
+            "caution": "同音词 peace（和平）：piece 有 i 是片，peace 是和平。",
+            "usage": "a piece of 后接不可数名词。"
           }
         },
         {
@@ -10832,7 +11888,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈwɔlət/",
             "quick": "wallet 里有 wall（墙）：一圈皮子围住钱——钱包",
-            "caution": "wallet 多指男式钱包，purse 偏女式小包。"
+            "caution": "wallet 多指男式钱包，purse 偏女式小包。",
+            "phoneticSplit": "wal · let",
+            "usage": "digital wallet 电子钱包。"
           }
         },
         {
@@ -10845,7 +11903,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chairman",
               "armchair"
             ],
-            "caution": "chair 作动词表主持（会议）。"
+            "caution": "chair 作动词表主持（会议）。",
+            "usage": "take the chair 主持会议。"
           }
         },
         {
@@ -10858,7 +11917,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "donkey",
               "key"
             ],
-            "caution": "复数 monkeys：ey 结尾直接加 s，不变 i。"
+            "caution": "复数 monkeys：ey 结尾直接加 s，不变 i。",
+            "phoneticSplit": "monk · ey",
+            "usage": "复数 monkeys。"
           }
         },
         {
@@ -10874,7 +11935,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "prime"
             ],
-            "caution": "primary school 小学；别写成 prilimary。"
+            "caution": "primary school 小学；别写成 prilimary。",
+            "phoneticSplit": "pri · ma · ry",
+            "usage": "primary school 小学；primary 首要的。"
           }
         },
         {
@@ -10883,7 +11946,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkjukəmbər/",
             "quick": "sea cucumber 是海参：海里那条“黄瓜”就是它",
-            "caution": "拼写三段 cu-cum-ber。"
+            "caution": "拼写三段 cu-cum-ber。",
+            "phoneticSplit": "cu · cum · ber",
+            "usage": "可数：a cucumber 一根黄瓜。"
           }
         }
       ]
@@ -10904,7 +11969,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "school",
               "pool"
             ],
-            "caution": "别与 too（也）混拼：tool 双 o 加 l。"
+            "caution": "别与 too（也）混拼：tool 双 o 加 l。",
+            "usage": "可数；复数 tools。"
           }
         },
         {
@@ -10919,7 +11985,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "weekend",
               "trend"
             ],
-            "caution": "in the end 最后；at the end of 在…尽头。"
+            "caution": "in the end 最后；at the end of 在…尽头。",
+            "usage": "in the end 终于；at the end of 在……末尾。"
           }
         },
         {
@@ -10936,7 +12003,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dress",
               "direct"
             ],
-            "caution": "双 d 双 s：ad-dress，别写成 adress。"
+            "caution": "双 d 双 s：ad-dress，别写成 adress。",
+            "phoneticSplit": "ad · dress",
+            "usage": "也指演说；美式重音在首音节。"
           }
         },
         {
@@ -10949,7 +12018,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "will",
               "should"
             ],
-            "caution": "shall 用于第一人称提建议；should 是另一词「应该」。"
+            "caution": "shall 用于第一人称提建议；should 是另一词「应该」。",
+            "usage": "多用于 I/we 征询意见。"
           }
         },
         {
@@ -10963,7 +12033,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clue",
               "true"
             ],
-            "caution": "blue 兼指蓝色与忧郁：feel blue。"
+            "caution": "blue 兼指蓝色与忧郁：feel blue。",
+            "usage": "feel blue 情绪低落；blue 也指忧郁的。"
           }
         },
         {
@@ -10976,7 +12047,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tick",
               "stick"
             ],
-            "caution": "parking ticket 是违章罚单，不只是车票。"
+            "caution": "parking ticket 是违章罚单，不只是车票。",
+            "phoneticSplit": "tick · et",
+            "usage": "用 to 不用 for：a ticket to the show。"
           }
         },
         {
@@ -10991,7 +12064,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fireman",
               "postman"
             ],
-            "caution": "复数 men：a 变 e；woman→women 同规律。"
+            "caution": "复数 men：a 变 e；woman→women 同规律。",
+            "usage": "复数 men；可泛指人。"
           }
         },
         {
@@ -11005,7 +12079,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "now",
               "low"
             ],
-            "caution": "不规则变化 throw-threw-thrown。"
+            "caution": "不规则变化 throw-threw-thrown。",
+            "usage": "throw-threw-thrown；throw away 丢弃。"
           }
         },
         {
@@ -11022,7 +12097,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "presence",
               "absent"
             ],
-            "caution": "重音辨义：名词礼物 PREsent，动词呈现 preSENT。"
+            "caution": "重音辨义：名词礼物 PREsent，动词呈现 preSENT。",
+            "phoneticSplit": "pre · sent",
+            "usage": "at present 目前；present sb with sth。"
           }
         },
         {
@@ -11039,7 +12116,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "under",
               "ground"
             ],
-            "caution": "英式 the underground，美式 subway。"
+            "caution": "英式 the underground，美式 subway。",
+            "phoneticSplit": "un · der · ground",
+            "usage": "英式地铁说 underground 或 tube，美式说 subway。"
           }
         },
         {
@@ -11051,7 +12130,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "rose"
             ],
-            "caution": "runny nose 流鼻涕；别与 rose 拼混。"
+            "caution": "runny nose 流鼻涕；别与 rose 拼混。",
+            "usage": "have a nose for sth 对某事嗅觉敏锐。"
           }
         },
         {
@@ -11060,7 +12140,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kləb/",
             "quick": "join the club 就是加入社团——俱乐部。",
-            "caution": "club 兼指棍棒与扑克梅花。"
+            "caution": "club 兼指棍棒与扑克梅花。",
+            "usage": "club 也指高尔夫球棒；复数 clubs。"
           }
         },
         {
@@ -11072,7 +12153,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "simply",
               "simplify"
-            ]
+            ],
+            "phoneticSplit": "sim · ple",
+            "usage": "反义 complex；simply 只是、简直。"
           }
         },
         {
@@ -11090,7 +12173,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "form",
               "formation"
             ],
-            "caution": "不可数：不加 s；一条信息说 a piece of information。"
+            "caution": "不可数：不加 s；一条信息说 a piece of information。",
+            "phoneticSplit": "in · for · ma · tion",
+            "usage": "不可数：a piece of information，不说 an information。"
           }
         },
         {
@@ -11103,7 +12188,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rise",
               "risen"
             ],
-            "caution": "rose 既指玫瑰，也是 rise 的过去式。"
+            "caution": "rose 既指玫瑰，也是 rise 的过去式。",
+            "usage": "rose 兼作 rise 的过去式；复数 roses。"
           }
         },
         {
@@ -11116,7 +12202,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "door",
               "flour"
             ],
-            "caution": "英式 ground floor 是一层；与 flour 同音异拼。"
+            "caution": "英式 ground floor 是一层；与 flour 同音异拼。",
+            "usage": "英式一楼是 ground floor，二楼 first floor。"
           }
         },
         {
@@ -11129,7 +12216,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "go",
               "before"
             ],
-            "caution": "ago 用于一般过去时，放在时间短语之后。"
+            "caution": "ago 用于一般过去时，放在时间短语之后。",
+            "usage": "ago 跟在时间量之后，句子用过去时。"
           }
         },
         {
@@ -11147,7 +12235,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "literary",
               "literal"
             ],
-            "caution": "不可数：Chinese literature。"
+            "caution": "不可数：Chinese literature。",
+            "phoneticSplit": "li · te · ra · ture",
+            "usage": "不可数；English literature 英国文学。"
           }
         },
         {
@@ -11162,7 +12252,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "windy",
               "funny"
             ],
-            "caution": "双写 n：sunny，别写成 suny。"
+            "caution": "双写 n：sunny，别写成 suny。",
+            "phoneticSplit": "sun · ny",
+            "usage": "也可形容人性格开朗；反义 cloudy。"
           }
         },
         {
@@ -11175,7 +12267,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "campus",
               "campaign"
             ],
-            "caution": "camping 双写 p；campus 是校园（同源）。"
+            "caution": "camping 双写 p；campus 是校园（同源）。",
+            "usage": "go camping 去露营；camp 可数。"
           }
         }
       ]
@@ -11196,7 +12289,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "republic",
               "publicity"
             ],
-            "caution": "in public 固定搭配；the public 指公众整体，谓语单复数均可"
+            "caution": "in public 固定搭配；the public 指公众整体，谓语单复数均可",
+            "phoneticSplit": "pu · blic",
+            "usage": "the public 作主语，谓语可用单数或复数。"
           }
         },
         {
@@ -11210,7 +12305,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "million",
               "billion"
             ],
-            "caution": "hundreds of 表数百；具体数字后不加 s：three hundred"
+            "caution": "hundreds of 表数百；具体数字后不加 s：three hundred",
+            "usage": "two hundred 不加 s；hundreds of 要加 s。"
           }
         },
         {
@@ -11224,7 +12320,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "always",
               "anyway"
             ],
-            "caution": "away 是副词：be away from 表离开某地，不能说 away school"
+            "caution": "away 是副词：be away from 表离开某地，不能说 away school",
+            "phoneticSplit": "a · way",
+            "usage": "away 是副词，不说 go to away。"
           }
         },
         {
@@ -11242,7 +12340,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "geology",
               "biography"
             ],
-            "caution": "拼写：logy 不是 legy；形容词 biological"
+            "caution": "拼写：logy 不是 legy；形容词 biological",
+            "phoneticSplit": "bio · lo · gy",
+            "usage": "biologist 生物学家；geography 是地理。"
           }
         },
         {
@@ -11260,7 +12360,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "import",
               "airline"
             ],
-            "caution": "at the airport 介词用 at"
+            "caution": "at the airport 介词用 at",
+            "phoneticSplit": "air · port",
+            "usage": "at the airport 在机场；port 是港口。"
           }
         },
         {
@@ -11274,7 +12376,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "notify",
               "noticeable"
             ],
-            "caution": "notice sb do sth：注意某人做某事，不定式不带 to"
+            "caution": "notice sb do sth：注意某人做某事，不定式不带 to",
+            "phoneticSplit": "no · tice",
+            "usage": "notice sb do sth；at short notice 临时通知。"
           }
         },
         {
@@ -11288,7 +12392,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chance",
               "advance"
             ],
-            "caution": "go dancing 去跳舞，不说 go dance"
+            "caution": "go dancing 去跳舞，不说 go dance",
+            "usage": "a dance 一支舞；dancer 舞者。"
           }
         },
         {
@@ -11306,7 +12411,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "similarity",
               "simile"
             ],
-            "caution": "be similar to…固定搭配，介词是 to"
+            "caution": "be similar to…固定搭配，介词是 to",
+            "phoneticSplit": "si · mi · lar",
+            "usage": "be similar to，不用 with；similarity 名词。"
           }
         },
         {
@@ -11320,7 +12427,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beehive",
               "beekeeper"
             ],
-            "caution": "as busy as a bee 固定比喻"
+            "caution": "as busy as a bee 固定比喻",
+            "usage": "as busy as a bee 忙得团团转；复数 bees。"
           }
         },
         {
@@ -11334,7 +12442,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "express",
               "impression"
             ],
-            "caution": "press the button 按按钮；the press 特指新闻界"
+            "caution": "press the button 按按钮；the press 特指新闻界",
+            "usage": "the press 新闻界；pressure 是压力。"
           }
         },
         {
@@ -11347,7 +12456,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "illness",
               "sick"
             ],
-            "caution": "ill 作定语多表『不良的』（ill effect），表生病常用 be/fall ill"
+            "caution": "ill 作定语多表『不良的』（ill effect），表生病常用 be/fall ill",
+            "usage": "ill 只作表语，作定语要用 sick。"
           }
         },
         {
@@ -11360,7 +12470,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hateful",
               "hatred"
             ],
-            "caution": "hate 后接 doing 或 to do 均可；hateful 令人讨厌的"
+            "caution": "hate 后接 doing 或 to do 均可；hateful 令人讨厌的",
+            "usage": "hate doing 与 hate to do 都可；反义 love。"
           }
         },
         {
@@ -11373,7 +12484,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "footpath",
               "pathway"
             ],
-            "caution": "复数 paths 直接加 s；与 pass 形近勿混"
+            "caution": "复数 paths 直接加 s；与 pass 形近勿混",
+            "usage": "path 小路，road 大路，way 方向。"
           }
         },
         {
@@ -11391,7 +12503,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "international",
               "nationality"
             ],
-            "caution": "National Day 国庆节首字母大写；别与 natural（自然的）混"
+            "caution": "National Day 国庆节首字母大写；别与 natural（自然的）混",
+            "phoneticSplit": "na · tio · nal",
+            "usage": "National Day 国庆；nationality 国籍。"
           }
         },
         {
@@ -11405,7 +12519,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cruelty",
               "cruelly"
             ],
-            "caution": "拼写易错：c-r-u-e-l，中间是 ruel，不是 rule"
+            "caution": "拼写易错：c-r-u-e-l，中间是 ruel，不是 rule",
+            "usage": "be cruel to sb；名词 cruelty。"
           }
         },
         {
@@ -11419,7 +12534,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mode",
               "modesty"
             ],
-            "caution": "名词是 modesty；modest 也可形容价格、房子『不太大的』"
+            "caution": "名词是 modesty；modest 也可形容价格、房子『不太大的』",
+            "phoneticSplit": "mo · dest",
+            "usage": "反义 proud；名词 modesty。"
           }
         },
         {
@@ -11437,7 +12554,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "autobiography",
               "photograph"
             ],
-            "caution": "autograph 是签名，autobiography 是自传，别混"
+            "caution": "autograph 是签名，autobiography 是自传，别混",
+            "phoneticSplit": "au · to · graph",
+            "usage": "autograph 指名人签名；signature 泛指签字。"
           }
         },
         {
@@ -11455,7 +12574,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "exciting",
               "recite"
             ],
-            "caution": "人作主语用 excited，物作主语用 exciting"
+            "caution": "人作主语用 excited，物作主语用 exciting",
+            "phoneticSplit": "ex · cite",
+            "usage": "be excited about；exciting 令人兴奋的。"
           }
         },
         {
@@ -11473,7 +12594,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "trouble",
               "disturbance"
             ],
-            "caution": "拼写：disturb 不是 desturb；Sorry to disturb you 常用套话"
+            "caution": "拼写：disturb 不是 desturb；Sorry to disturb you 常用套话",
+            "phoneticSplit": "di · sturb",
+            "usage": "Do Not Disturb 请勿打扰。"
           }
         },
         {
@@ -11486,7 +12609,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "comedy",
               "tragic"
             ],
-            "caution": "复数 tragedies（y 变 i 加 es）；形容词 tragic"
+            "caution": "复数 tragedies（y 变 i 加 es）；形容词 tragic",
+            "phoneticSplit": "tra · ge · dy",
+            "usage": "反义 comedy；形容词 tragic。"
           }
         },
         {
@@ -11500,7 +12625,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "import",
               "opportune"
             ],
-            "caution": "seize the opportunity to do sth：接 to do 不接 doing"
+            "caution": "seize the opportunity to do sth：接 to do 不接 doing",
+            "phoneticSplit": "op · por · tu · ni · ty",
+            "usage": "可数：have an opportunity to do sth。"
           }
         },
         {
@@ -11518,7 +12645,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stomachache",
               "ache"
             ],
-            "caution": "have a headache 常加 a；stomachache 与 headache 均为一个词"
+            "caution": "have a headache 常加 a；stomachache 与 headache 均为一个词",
+            "phoneticSplit": "hea · dache",
+            "usage": "have a headache；stomachache 同构。"
           }
         }
       ]
@@ -11543,7 +12672,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "curiosity",
               "curiously"
             ],
-            "caution": "be curious about sth 用 about；名词 curiosity 拼写以 y 结尾"
+            "caution": "be curious about sth 用 about；名词 curiosity 拼写以 y 结尾",
+            "phoneticSplit": "cu · rious",
+            "usage": "be curious about；名词 curiosity。"
           }
         },
         {
@@ -11557,7 +12688,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "width",
               "widely"
             ],
-            "caution": "名词宽度是 width，不是 wideness"
+            "caution": "名词宽度是 width，不是 wideness",
+            "usage": "wide 指开口宽，broad 指幅面广。"
           }
         },
         {
@@ -11571,7 +12703,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "enable",
               "unable"
             ],
-            "caution": "be able to 不与 can 连用，也没有进行时"
+            "caution": "be able to 不与 can 连用，也没有进行时",
+            "phoneticSplit": "a · ble",
+            "usage": "be able to 可替代 can；反义 unable。"
           }
         },
         {
@@ -11585,7 +12719,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "periodic",
               "odometer"
             ],
-            "caution": "a period of time 固定说法；美式英语 period 也指句号"
+            "caution": "a period of time 固定说法；美式英语 period 也指句号",
+            "phoneticSplit": "pe · riod",
+            "usage": "period 也可指一节课、句号（美式）。"
           }
         },
         {
@@ -11597,7 +12733,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "throughout"
             ],
-            "caution": "易混拼写：through / though / thorough；through 内部穿过，across 表面穿过"
+            "caution": "易混拼写：through / though / thorough；through 内部穿过，across 表面穿过",
+            "usage": "through 穿过立体，across 横过表面。"
           }
         },
         {
@@ -11611,7 +12748,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "south",
               "southern"
             ],
-            "caution": "in the north of 表在某范围内部的北部；形容词 northern"
+            "caution": "in the north of 表在某范围内部的北部；形容词 northern",
+            "usage": "North China 华北；northern 北方的。"
           }
         },
         {
@@ -11624,7 +12762,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "proud",
               "proudly"
             ],
-            "caution": "搭配分工：be proud of（形容词）/ take pride in（名词），介词别混"
+            "caution": "搭配分工：be proud of（形容词）/ take pride in（名词），介词别混",
+            "usage": "take pride in = be proud of。"
           }
         },
         {
@@ -11638,7 +12777,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "concentrate",
               "center"
             ],
-            "caution": "英式 centre、美式 center，同一篇文章里别混拼"
+            "caution": "英式 centre、美式 center，同一篇文章里别混拼",
+            "usage": "英式 centre，美式 center。"
           }
         },
         {
@@ -11651,7 +12791,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rocky",
               "rocking"
             ],
-            "caution": "rock 作动词表摇晃；rock music 摇滚乐不大写"
+            "caution": "rock 作动词表摇晃；rock music 摇滚乐不大写",
+            "usage": "岩石、摇滚乐、摇动三义都常见。"
           }
         },
         {
@@ -11663,7 +12804,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "meeting"
             ],
-            "caution": "过去式 met；meet 与 meat 同音异义，拼写差一个 a"
+            "caution": "过去式 met；meet 与 meat 同音异义，拼写差一个 a",
+            "usage": "meet one's needs 满足需要。"
           }
         },
         {
@@ -11677,7 +12819,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mutton",
               "porcupine"
             ],
-            "caution": "pork 不可数，专指肉；活猪是 pig"
+            "caution": "pork 不可数，专指肉；活猪是 pig",
+            "usage": "pork 不可数；pig 是活猪。"
           }
         },
         {
@@ -11691,7 +12834,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bedtime",
               "bedside"
             ],
-            "caution": "go to bed / in bed 习惯不加 the"
+            "caution": "go to bed / in bed 习惯不加 the",
+            "usage": "go to bed 不加 the；make the bed 铺床。"
           }
         },
         {
@@ -11709,7 +12853,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "relaxation",
               "relaxed"
             ],
-            "caution": "relaxed 形容人感受、relaxing 形容事物性质，别用反"
+            "caution": "relaxed 形容人感受、relaxing 形容事物性质，别用反",
+            "phoneticSplit": "re · lax",
+            "usage": "relaxed 感到放松；relaxing 令人放松。"
           }
         },
         {
@@ -11723,7 +12869,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dinner",
               "diner"
             ],
-            "caution": "易错：dining 一个 n，dinner 两个 n，别写混"
+            "caution": "易错：dining 一个 n，dinner 两个 n，别写混",
+            "phoneticSplit": "di · ning",
+            "usage": "dining room 餐厅；dine 是正式“用餐”。"
           }
         },
         {
@@ -11737,7 +12885,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "panda",
               "red",
               "panda"
-            ]
+            ],
+            "phoneticSplit": "pan · da",
+            "usage": "giant panda 大熊猫；复数 pandas。"
           }
         },
         {
@@ -11751,7 +12901,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "my",
               "mine"
             ],
-            "caution": "主语用 I、宾语用 me；口语 Me too / It's me 均成立"
+            "caution": "主语用 I、宾语用 me；口语 Me too / It's me 均成立",
+            "usage": "介词、动词后用 me；主格用 I。"
           }
         },
         {
@@ -11760,7 +12911,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/pɔr/",
             "quick": "① pour the milk 往下倒——倒、倾泻。\n② 「泼」——把水泼出去，正是倒",
-            "caution": "pour /pɔːr/ 与 poor /pʊr/ 读音不同，别混"
+            "caution": "pour /pɔːr/ 与 poor /pʊr/ 读音不同，别混",
+            "usage": "It's pouring 正下大雨。"
           }
         },
         {
@@ -11769,7 +12921,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/məst/",
             "quick": "You must 没得商量——必须。",
-            "caution": "Must I…? 的否定回答用 needn't，不用 mustn't（mustn't 表禁止）"
+            "caution": "Must I…? 的否定回答用 needn't，不用 mustn't（mustn't 表禁止）",
+            "usage": "must 主观必须；have to 客观被迫。"
           }
         },
         {
@@ -11783,7 +12936,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boyfriend",
               "boyhood"
             ],
-            "caution": "boyfriend 男友是合成词；复数 boys"
+            "caution": "boyfriend 男友是合成词；复数 boys",
+            "usage": "boy 也可作招呼：Hey, boy!"
           }
         },
         {
@@ -11795,7 +12949,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "influenza"
             ],
-            "caution": "flu 前常加 the：have the flu；全称 influenza"
+            "caution": "flu 前常加 the：have the flu；全称 influenza",
+            "usage": "have the flu 要加 the；不可数。"
           }
         }
       ]
@@ -11816,7 +12971,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "playground",
               "replay"
             ],
-            "caution": "play basketball 球类不加 the，play the piano 乐器要加 the"
+            "caution": "play basketball 球类不加 the，play the piano 乐器要加 the",
+            "usage": "球类前不加 the，乐器前加 the。"
           }
         },
         {
@@ -11828,7 +12984,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "again"
             ],
-            "caution": "against 是介词：be against the plan，不能单独作谓语动词"
+            "caution": "against 是介词：be against the plan，不能单独作谓语动词",
+            "phoneticSplit": "a · gainst",
+            "usage": "against 是介词，后接名词或动名词。"
           }
         },
         {
@@ -11842,7 +13000,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leap",
               "hop"
             ],
-            "caution": "high jump / long jump 固定搭配；jump 表猛涨常见于新闻"
+            "caution": "high jump / long jump 固定搭配；jump 表猛涨常见于新闻",
+            "usage": "jump over 跳过；price jumps 价格猛涨。"
           }
         },
         {
@@ -11855,7 +13014,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "photocopy",
               "copier"
             ],
-            "caution": "复数 copies（y 变 i 加 es）"
+            "caution": "复数 copies（y 变 i 加 es）",
+            "phoneticSplit": "co · py",
+            "usage": "two copies；copy 也有“模仿”。"
           }
         },
         {
@@ -11864,7 +13025,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈklɛvər/",
             "quick": "clever 是脑子转得快——聪明的、机灵的。",
-            "caution": "be clever at sth 介词用 at；不说 clever in"
+            "caution": "be clever at sth 介词用 at；不说 clever in",
+            "phoneticSplit": "cle · ver",
+            "usage": "be clever at；反义 stupid。"
           }
         },
         {
@@ -11877,7 +13040,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coinage",
               "corn"
             ],
-            "caution": "coin a word 表创造新词；coin 与 corn 形近勿混"
+            "caution": "coin a word 表创造新词；coin 与 corn 形近勿混",
+            "usage": "coin a word 造新词；可数。"
           }
         },
         {
@@ -11891,7 +13055,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "finding",
               "finder"
             ],
-            "caution": "find-found-found 不规则变化，别写成 finded；found 又是 found（建立）的原形"
+            "caution": "find-found-found 不规则变化，别写成 finded；found 又是 found（建立）的原形",
+            "usage": "find out 查明；find it hard to do。"
           }
         },
         {
@@ -11904,7 +13069,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "borrower",
               "loan"
             ],
-            "caution": "borrow sth from sb；borrow 是借入、lend 是借出，方向别反"
+            "caution": "borrow sth from sb；borrow 是借入、lend 是借出，方向别反",
+            "phoneticSplit": "bor · row",
+            "usage": "borrow sth from sb；lend 是借出。"
           }
         },
         {
@@ -11917,7 +13084,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wallet",
               "bracelet"
             ],
-            "caution": "go to the toilet 加 the；toilet water 是淡香水，不是厕所水"
+            "caution": "go to the toilet 加 the；toilet water 是淡香水，不是厕所水",
+            "phoneticSplit": "toi · let",
+            "usage": "go to the toilet 去洗手间。"
           }
         },
         {
@@ -11931,7 +13100,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "simple",
               "single"
             ],
-            "caution": "the same as…固定搭配，介词是 as，不用 than 或 with"
+            "caution": "the same as…固定搭配，介词是 as，不用 than 或 with",
+            "usage": "same 前必加 the；the same as。"
           }
         },
         {
@@ -11945,7 +13115,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "living",
               "lively"
             ],
-            "caution": "alive 作表语或后置定语（the fish alive），前置定语用 living"
+            "caution": "alive 作表语或后置定语（the fish alive），前置定语用 living",
+            "phoneticSplit": "a · live",
+            "usage": "alive 作表语；living 可作定语。"
           }
         },
         {
@@ -11959,7 +13131,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "know",
               "throw"
             ],
-            "caution": "过去式 blew、过去分词 blown，别写成 blowed"
+            "caution": "过去式 blew、过去分词 blown，别写成 blowed",
+            "usage": "blow-blew-blown；blow out 吹灭。"
           }
         },
         {
@@ -11973,7 +13146,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nickname",
               "namely"
             ],
-            "caution": "name sb sth 双宾语结构：They named the boy Tom"
+            "caution": "name sb sth 双宾语结构：They named the boy Tom",
+            "usage": "first name 名，last name 姓。"
           }
         },
         {
@@ -11986,7 +13160,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "who",
               "whom"
             ],
-            "caution": "易混：whose 是「谁的」；who's 是 who is / who has，同音异拼"
+            "caution": "易混：whose 是「谁的」；who's 是 who is / who has，同音异拼",
+            "usage": "whose 问所属；who's = who is。"
           }
         },
         {
@@ -11995,7 +13170,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/fˈjuʧər/",
             "quick": "in the future 还没到的日子——将来。",
-            "caution": "in the future 固定搭配；a bright future 可数"
+            "caution": "in the future 固定搭配；a bright future 可数",
+            "phoneticSplit": "fu · ture",
+            "usage": "in the future 将来；in future 从今以后。"
           }
         },
         {
@@ -12009,7 +13186,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "should",
               "would"
             ],
-            "caution": "委婉问句 Could you…? 回答用 can：Yes, I can"
+            "caution": "委婉问句 Could you…? 回答用 can：Yes, I can",
+            "usage": "Could you...? 比 Can you 委婉。"
           }
         },
         {
@@ -12022,7 +13200,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "golden",
               "goldfish"
             ],
-            "caution": "gold 表材料，golden 多表颜色；gold medal 金牌"
+            "caution": "gold 表材料，golden 多表颜色；gold medal 金牌",
+            "usage": "gold 作定语；golden 是金色的。"
           }
         },
         {
@@ -12036,7 +13215,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "limb",
               "thumb"
             ],
-            "caution": "b 不发音但要写：climb、limb、thumb、comb 同理"
+            "caution": "b 不发音但要写：climb、limb、thumb、comb 同理",
+            "usage": "climb up 爬上；b 不发音。"
           }
         },
         {
@@ -12050,7 +13230,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "catcher",
               "capture"
             ],
-            "caution": "过去式 caught，不是 catched；catch a cold 感冒是固定搭配"
+            "caution": "过去式 caught，不是 catched；catch a cold 感冒是固定搭配",
+            "usage": "catch-caught；catch up with 追上。"
           }
         },
         {
@@ -12063,7 +13244,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chick",
               "hen"
             ],
-            "caution": "chicken 表鸡肉不可数，表活鸡可数（three chickens）；kitchen 厨房形近勿混"
+            "caution": "chicken 表鸡肉不可数，表活鸡可数（three chickens）；kitchen 厨房形近勿混",
+            "phoneticSplit": "chick · en",
+            "usage": "指鸡肉时不可数；hen 母鸡。"
           }
         }
       ]
@@ -12088,7 +13271,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "servant",
               "server"
             ],
-            "caution": "动词是 serve；service 也可作动词表维修保养"
+            "caution": "动词是 serve；service 也可作动词表维修保养",
+            "phoneticSplit": "ser · vice",
+            "usage": "serve 动词；service 名词，也可指维修。"
           }
         },
         {
@@ -12106,7 +13291,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "policewoman",
               "police"
             ],
-            "caution": "复数 policemen（man 变 men）；police 作主语谓语用复数"
+            "caution": "复数 policemen（man 变 men）；police 作主语谓语用复数",
+            "phoneticSplit": "po · li · ce · man",
+            "usage": "复数 policemen；女警 policewoman。"
           }
         },
         {
@@ -12124,7 +13311,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "policeman",
               "police"
             ],
-            "caution": "复数 policewomen（woman 变 women）"
+            "caution": "复数 policewomen（woman 变 women）",
+            "phoneticSplit": "po · li · ce · wo · man",
+            "usage": "复数 policewomen；男警 policeman。"
           }
         },
         {
@@ -12138,7 +13327,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slide",
               "slip"
             ],
-            "caution": "slow down 使减速；副词多用 slowly，slow 作副词仅限 go slow 等固定说法"
+            "caution": "slow down 使减速；副词多用 slowly，slow 作副词仅限 go slow 等固定说法",
+            "usage": "slowly 副词；slow 也可作动词。"
           }
         },
         {
@@ -12152,7 +13342,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "kettle",
               "battle"
             ],
-            "caution": "a bottle of… 量词结构；复数 bottles"
+            "caution": "a bottle of… 量词结构；复数 bottles",
+            "phoneticSplit": "bott · le",
+            "usage": "a bottle of；复数 bottles。"
           }
         },
         {
@@ -12165,7 +13357,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "jogging",
               "jogger"
             ],
-            "caution": "jog → jogging / jogged 双写 g；go jogging 固定说法"
+            "caution": "jog → jogging / jogged 双写 g；go jogging 固定说法",
+            "usage": "jog-jogged-jogging 双写 g。"
           }
         },
         {
@@ -12183,7 +13376,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "point",
               "disappointment"
             ],
-            "caution": "be disappointed at / about / with 均可，口语常用 with"
+            "caution": "be disappointed at / about / with 均可，口语常用 with",
+            "phoneticSplit": "di · sap · point",
+            "usage": "be disappointed at；disappointing 令人失望的。"
           }
         },
         {
@@ -12201,7 +13396,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "electricity",
               "electron"
             ],
-            "caution": "electric 表用电/电动的，electronic 表电子（芯片相关）的，勿混"
+            "caution": "electric 表用电/电动的，electronic 表电子（芯片相关）的，勿混",
+            "phoneticSplit": "e · lec · tro · nic",
+            "usage": "electronic 电子的；electric 用电的。"
           }
         },
         {
@@ -12219,7 +13416,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "myself",
               "themselves"
             ],
-            "caution": "by herself 独自；enjoy oneself 中 oneself 与主语对应（she 用 herself）"
+            "caution": "by herself 独自；enjoy oneself 中 oneself 与主语对应（she 用 herself）",
+            "phoneticSplit": "her · self",
+            "usage": "by herself 独自；she herself 她本人。"
           }
         },
         {
@@ -12233,7 +13432,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "newspaper",
               "newly"
             ],
-            "caution": "news 看似复数实为不可数：The news is… 谓语用单数"
+            "caution": "news 看似复数实为不可数：The news is… 谓语用单数",
+            "usage": "不可数，谓语用单数。"
           }
         },
         {
@@ -12247,7 +13447,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pork",
               "mutton"
             ],
-            "caution": "beef 不可数；beef up 表加强，口语常用"
+            "caution": "beef 不可数；beef up 表加强，口语常用",
+            "usage": "beef 不可数；beeves 罕用。"
           }
         },
         {
@@ -12261,7 +13462,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fix",
               "amend"
             ],
-            "caution": "mend one's ways 表改正行为方式，不指缝补"
+            "caution": "mend one's ways 表改正行为方式，不指缝补",
+            "usage": "mend 多指缝补；repair 修机器。"
           }
         },
         {
@@ -12278,7 +13480,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "casual",
               "casualty"
             ],
-            "caution": "重音在第一音节 /ˈkæʒuəli/；同根名词 casualty 是伤亡者"
+            "caution": "重音在第一音节 /ˈkæʒuəli/；同根名词 casualty 是伤亡者",
+            "phoneticSplit": "ca · sual · ly",
+            "usage": "casually 副词；casual 形容词。"
           }
         },
         {
@@ -12296,7 +13500,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "frustrated",
               "frustrating"
             ],
-            "caution": "人 frustrated、事 frustrating，形容词主被动别混"
+            "caution": "人 frustrated、事 frustrating，形容词主被动别混",
+            "phoneticSplit": "fru · strate",
+            "usage": "be frustrated 感到挫败；frustrating 令人沮丧。"
           }
         },
         {
@@ -12309,7 +13515,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sheep",
               "kid"
             ],
-            "caution": "goat 山羊与 sheep 绵羊是两种动物；复数 goats"
+            "caution": "goat 山羊与 sheep 绵羊是两种动物；复数 goats",
+            "usage": "kid 小山羊；可数。"
           }
         },
         {
@@ -12326,7 +13533,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "handwriting",
               "handmade",
               "handbook"
-            ]
+            ],
+            "phoneticSplit": "hand · bag",
+            "usage": "handbag 女用手提包；backpack 背包。"
           }
         },
         {
@@ -12344,7 +13553,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "professor",
               "amateur"
             ],
-            "caution": "professional 可作名词：a professional 专业人员；反义词 amateur"
+            "caution": "professional 可作名词：a professional 专业人员；反义词 amateur",
+            "phoneticSplit": "pro · fes · sio · nal",
+            "usage": "反义 amateur；名词 profession。"
           }
         },
         {
@@ -12362,7 +13573,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "temptation",
               "tempting"
             ],
-            "caution": "attempt to do sth 比 try to do 正式；tempting 表诱人的"
+            "caution": "attempt to do sth 比 try to do 正式；tempting 表诱人的",
+            "phoneticSplit": "at · tempt",
+            "usage": "attempt to do sth；make an attempt at。"
           }
         },
         {
@@ -12376,7 +13589,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "email",
               "mailman"
             ],
-            "caution": "mail 与 male 同音异义；mail sb sth 等于 mail sth to sb"
+            "caution": "mail 与 male 同音异义；mail sb sth 等于 mail sth to sb",
+            "usage": "美式 mail，英式 post；不可数。"
           }
         },
         {
@@ -12393,7 +13607,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "set",
               "upsetting"
             ],
-            "caution": "三态同形 upset-upset-upset；be upset 表心情需人作主语"
+            "caution": "三态同形 upset-upset-upset；be upset 表心情需人作主语",
+            "phoneticSplit": "u · pset",
+            "usage": "be upset about；upset-upset-upset。"
           }
         }
       ]
@@ -12418,7 +13634,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "astronaut",
               "astronomy"
             ],
-            "caution": "勿与 disease（疾病）形近混淆。"
+            "caution": "勿与 disease（疾病）形近混淆。",
+            "phoneticSplit": "di · sa · ster",
+            "usage": "可数；形容词 disastrous。"
           }
         },
         {
@@ -12433,7 +13651,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "honestly",
               "dishonor"
             ],
-            "caution": "h 不发音；名词 honesty、副词 honestly，勿拼错后缀。"
+            "caution": "h 不发音；名词 honesty、副词 honestly，勿拼错后缀。",
+            "phoneticSplit": "ho · nest",
+            "usage": "an honest boy；to be honest 说实话。"
           }
         },
         {
@@ -12447,7 +13667,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "watcher",
               "watchdog"
             ],
-            "caution": "名词「手表」可数；watch sb do/doing 结构。"
+            "caution": "名词「手表」可数；watch sb do/doing 结构。",
+            "usage": "watch sb do sth；表也说 watch。"
           }
         },
         {
@@ -12462,7 +13683,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hers",
               "herself"
             ],
-            "caution": "主格 she、宾格 her、形容词性物主代词 her，勿混。"
+            "caution": "主格 she、宾格 her、形容词性物主代词 her，勿混。",
+            "usage": "主格 she，宾格 her。"
           }
         },
         {
@@ -12476,7 +13698,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "timetable",
               "tab"
             ],
-            "caution": "「乘法口诀表」用 tables；table tennis 乒乓球。"
+            "caution": "「乘法口诀表」用 tables；table tennis 乒乓球。",
+            "phoneticSplit": "ta · ble",
+            "usage": "on the table 在桌上；table 表格。"
           }
         },
         {
@@ -12490,7 +13714,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unforgettable",
               "forgive"
             ],
-            "caution": "forgot-forgotten；forget to do 忘了去做，forget doing 忘了做过。"
+            "caution": "forgot-forgotten；forget to do 忘了去做，forget doing 忘了做过。",
+            "phoneticSplit": "for · get",
+            "usage": "forget to do 忘记要做；forget doing 忘记做过。"
           }
         },
         {
@@ -12504,7 +13730,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cuter",
               "cutely"
             ],
-            "caution": "勿与 cat 混拼；比较级 cuter、最高级 cutest。"
+            "caution": "勿与 cat 混拼；比较级 cuter、最高级 cutest。",
+            "usage": "cute 小巧可爱；pretty 漂亮。"
           }
         },
         {
@@ -12521,7 +13748,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "desktop",
               "lap",
               "top"
-            ]
+            ],
+            "phoneticSplit": "lap · top",
+            "usage": "laptop 便携，desktop 是台式机。"
           }
         },
         {
@@ -12535,7 +13764,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "vocabulary",
               "advocate"
             ],
-            "caution": "v. 表达：voice one's opinion；in a loud voice 搭配。"
+            "caution": "v. 表达：voice one's opinion；in a loud voice 搭配。",
+            "usage": "in a low voice 低声；voice 也可指意见。"
           }
         },
         {
@@ -12549,7 +13779,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "songbird",
               "singsong"
             ],
-            "caution": "sing a song 搭配；song 指「歌」，music 泛指音乐不可数。"
+            "caution": "sing a song 搭配；song 指「歌」，music 泛指音乐不可数。",
+            "usage": "folk song 民歌；theme song 主题曲。"
           }
         },
         {
@@ -12564,7 +13795,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "approve",
               "proven"
             ],
-            "caution": "名词是 proof 不是 prove；prove to be + adj 结果是。"
+            "caution": "名词是 proof 不是 prove；prove to be + adj 结果是。",
+            "usage": "prove to be 结果是；prove sb wrong 证明某人错。"
           }
         },
         {
@@ -12573,7 +13805,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/fər/",
             "quick": "for you 给你、for three years 持续三年——为了、给",
-            "caution": "for 表「因为」是并列连词；勿与 of（所属）混用。"
+            "caution": "for 表「因为」是并列连词；勿与 of（所属）混用。",
+            "usage": "for 后接时间段，since 后接时间点。"
           }
         },
         {
@@ -12587,7 +13820,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "historian",
               "storey"
             ],
-            "caution": "「楼层」英式 storey、美式 story；tell a story 讲故事。"
+            "caution": "「楼层」英式 storey、美式 story；tell a story 讲故事。",
+            "phoneticSplit": "sto · ry",
+            "usage": "story 美式，storey 英式专指楼层。"
           }
         },
         {
@@ -12601,7 +13836,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lad",
               "lass"
             ],
-            "caution": "复数 ladies；ladies' room 女厕，撇号勿丢。"
+            "caution": "复数 ladies；ladies' room 女厕，撇号勿丢。",
+            "phoneticSplit": "la · dy",
+            "usage": "lady 比 woman 客气；Ladies 常指女厕所。"
           }
         },
         {
@@ -12616,7 +13853,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "folk",
               "song"
             ],
-            "caution": "folks 表「各位」常带称呼语气；folk 作定语表「民间的」。"
+            "caution": "folks 表「各位」常带称呼语气；folk 作定语表「民间的」。",
+            "usage": "folks 口语指父母、各位。"
           }
         },
         {
@@ -12631,7 +13869,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sometimes",
               "somewhere"
             ],
-            "caution": "some 用于肯定句，疑问句多用 any。"
+            "caution": "some 用于肯定句，疑问句多用 any。",
+            "usage": "some 多用于肯定句，疑问否定多用 any。"
           }
         },
         {
@@ -12645,7 +13884,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mainland",
               "remain"
             ],
-            "caution": "副词 mainly；main 不可用于比较级。"
+            "caution": "副词 mainly；main 不可用于比较级。",
+            "usage": "main 只作定语，不作表语。"
           }
         },
         {
@@ -12663,7 +13903,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "resolve",
               "dissolve"
             ],
-            "caution": "solve a problem 固定搭配；名词 solution 拼写含 -tion。"
+            "caution": "solve a problem 固定搭配；名词 solution 拼写含 -tion。",
+            "usage": "solve a problem 解决问题；名词是 solution。"
           }
         },
         {
@@ -12677,7 +13918,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "linguistic",
               "bilingual"
             ],
-            "caution": "拼写 langu 勿漏 u；speak a language 不说 say a language。"
+            "caution": "拼写 langu 勿漏 u；speak a language 不说 say a language。",
+            "phoneticSplit": "lang · uage",
+            "usage": "language 可数：a foreign language。"
           }
         },
         {
@@ -12692,7 +13935,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "talent",
               "show"
             ],
-            "caution": "talent for sth 搭配；talent 不可数表「才能」。"
+            "caution": "talent for sth 搭配；talent 不可数表「才能」。",
+            "phoneticSplit": "ta · lent",
+            "usage": "have a talent for 有……的天赋。"
           }
         }
       ]
@@ -12712,7 +13957,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pen",
               "penicillin"
             ],
-            "caution": "penicillin（青霉素）同源词；a pencil 可数。"
+            "caution": "penicillin（青霉素）同源词；a pencil 可数。",
+            "phoneticSplit": "pen · cil",
+            "usage": "in pencil 用铅笔写；pencil 可数。"
           }
         },
         {
@@ -12726,7 +13973,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "greatness",
               "grand"
             ],
-            "caution": "great 表「好极了」是口语感叹；a great many 后接复数。"
+            "caution": "great 表「好极了」是口语感叹；a great many 后接复数。",
+            "usage": "great 语气比 good 强；a great deal 大量。"
           }
         },
         {
@@ -12740,7 +13988,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hostel",
               "hospitality"
             ],
-            "caution": "stay at a hotel 搭配用 at。"
+            "caution": "stay at a hotel 搭配用 at。",
+            "phoneticSplit": "ho · tel",
+            "usage": "stay at a hotel；hotel 可数。"
           }
         },
         {
@@ -12758,7 +14008,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "abnormal",
               "normalize"
             ],
-            "caution": "normally 副词；normal school 历史上指「师范学院」。"
+            "caution": "normally 副词；normal school 历史上指「师范学院」。",
+            "phoneticSplit": "nor · mal",
+            "usage": "return to normal 恢复正常；反义 abnormal。"
           }
         },
         {
@@ -12772,7 +14024,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "outdoor",
               "floor"
             ],
-            "caution": "out of doors 户外要加 s；indoor 室内的由 door 合成。"
+            "caution": "out of doors 户外要加 s；indoor 室内的由 door 合成。",
+            "usage": "door 指门板，gate 指院门、大门。"
           }
         },
         {
@@ -12790,7 +14043,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "century",
               "centimeter"
             ],
-            "caution": "cent 可数；50 per cent 英式写法，美式 percent。"
+            "caution": "cent 可数；50 per cent 英式写法，美式 percent。",
+            "usage": "per cent 百分之……；符号是 ¢。"
           }
         },
         {
@@ -12803,7 +14057,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "teapot",
               "teahouse"
             ],
-            "caution": "black tea 是红茶；tea 不可数表「茶」，一杯茶 a cup of tea。"
+            "caution": "black tea 是红茶；tea 不可数表「茶」，一杯茶 a cup of tea。",
+            "usage": "tea 不可数；two teas 指两杯茶。"
           }
         },
         {
@@ -12816,7 +14071,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brownish",
               "bread"
             ],
-            "caution": "brown sugar＝红糖；形近词 brows（眉毛）。"
+            "caution": "brown sugar＝红糖；形近词 brows（眉毛）。",
+            "usage": "brown 作动词指煎黄：brown the meat。"
           }
         },
         {
@@ -12830,7 +14086,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "southeast",
               "southwest"
             ],
-            "caution": "形容词加 -ern：southern；South China 专有名词大写。"
+            "caution": "形容词加 -ern：southern；South China 专有名词大写。",
+            "usage": "south of 在……以南；形容词是 southern。"
           }
         },
         {
@@ -12844,7 +14101,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "colouring",
               "color"
             ],
-            "caution": "英式 colour / 美式 color，勿混用；形容词 colourful。"
+            "caution": "英式 colour / 美式 color，勿混用；形容词 colourful。",
+            "phoneticSplit": "co · lour",
+            "usage": "英式 colour，美式 color。"
           }
         },
         {
@@ -12862,7 +14121,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anything",
               "nothing"
             ],
-            "caution": "作单数：谓语动词用第三人称单数；形容词后置 everything important。"
+            "caution": "作单数：谓语动词用第三人称单数；形容词后置 everything important。",
+            "phoneticSplit": "e · ve · ry · thing",
+            "usage": "everything 作主语，谓语用单数。"
           }
         },
         {
@@ -12876,7 +14137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "funnier",
               "funnily"
             ],
-            "caution": "比较级 funnier、最高级 funniest，勿加 more/most。"
+            "caution": "比较级 funnier、最高级 funniest，勿加 more/most。",
+            "phoneticSplit": "fun · ny",
+            "usage": "funny 也可指奇怪的；fun 是有意思。"
           }
         },
         {
@@ -12894,7 +14157,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "quest",
               "questionnaire"
             ],
-            "caution": "ask a question 搭配；v. 表「质疑」；questionnaire 问卷双 n。"
+            "caution": "ask a question 搭配；v. 表「质疑」；questionnaire 问卷双 n。",
+            "phoneticSplit": "ques · tion",
+            "usage": "ask a question；out of the question 不可能。"
           }
         },
         {
@@ -12908,7 +14173,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "income",
               "welcome"
             ],
-            "caution": "came-come 不规则；come from 表「来自」。"
+            "caution": "came-come 不规则；come from 表「来自」。",
+            "usage": "come home / come here 不加 to。"
           }
         },
         {
@@ -12921,7 +14187,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "temper",
               "temperament"
             ],
-            "caution": "have a temperature 表「发烧」；拼写 pera 勿写成 temperiture。"
+            "caution": "have a temperature 表「发烧」；拼写 pera 勿写成 temperiture。",
+            "phoneticSplit": "tem · pe · ra · ture",
+            "usage": "take one's temperature 量体温。"
           }
         },
         {
@@ -12936,7 +14204,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "daylight",
               "birthday"
             ],
-            "caution": "daily 形/副/名三用；one day 某天（过去或将来均可）。"
+            "caution": "daily 形/副/名三用；one day 某天（过去或将来均可）。",
+            "usage": "问星期几用 What day is it?"
           }
         },
         {
@@ -12950,7 +14219,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skillful",
               "ski"
             ],
-            "caution": "sk- 开头；skilled 与 skillful 均表「熟练的」。"
+            "caution": "sk- 开头；skilled 与 skillful 均表「熟练的」。",
+            "usage": "skilled 熟练的；skill 可数。"
           }
         },
         {
@@ -12963,7 +14233,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "planetary",
               "plane"
             ],
-            "caution": "on foot 乘不出行星：go to the planets 非「上飞机」，勿与 plane 混。"
+            "caution": "on foot 乘不出行星：go to the planets 非「上飞机」，勿与 plane 混。",
+            "phoneticSplit": "pla · net",
+            "usage": "on the planet 可强调“世界上”。"
           }
         },
         {
@@ -12981,7 +14253,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "candidate",
               "candlelight"
             ],
-            "caution": "blow out the candles 吹蜡烛（生日场景复数）。"
+            "caution": "blow out the candles 吹蜡烛（生日场景复数）。",
+            "phoneticSplit": "cand · le",
+            "usage": "light a candle 点蜡烛；blow out 吹灭。"
           }
         },
         {
@@ -12994,7 +14268,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "handbag",
               "baggage"
             ],
-            "caution": "baggage 行李（不可数）；in the bag 十拿九稳。"
+            "caution": "baggage 行李（不可数）；in the bag 十拿九稳。",
+            "usage": "pack one's bag 收拾行李。"
           }
         }
       ]
@@ -13019,7 +14294,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "explanation",
               "explicate"
             ],
-            "caution": "名词是 explanation；explain sth to sb 结构，不说 explain sb sth。"
+            "caution": "名词是 explanation；explain sth to sb 结构，不说 explain sb sth。",
+            "phoneticSplit": "ex · plain",
+            "usage": "explain sth to sb，不能说 explain sb sth。"
           }
         },
         {
@@ -13033,7 +14310,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "green",
               "grown-up"
             ],
-            "caution": "grew-grown；grown-up 成年人；growth 名词「增长」。"
+            "caution": "grew-grown；grown-up 成年人；growth 名词「增长」。",
+            "usage": "grow 后接形容词：grow old 变老。"
           }
         },
         {
@@ -13042,7 +14320,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ɪf/",
             "quick": "If it rains, we'll stay 开头那个词——如果",
-            "caution": "条件句主将从现；宾语从句中 if＝whether 表「是否」。"
+            "caution": "条件句主将从现；宾语从句中 if＝whether 表「是否」。",
+            "usage": "if 从句用现在时表将来。"
           }
         },
         {
@@ -13060,7 +14339,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "famously",
               "infamous"
             ],
-            "caution": "famous for/as 区别；infamous 表「臭名昭著」非「不著名」。"
+            "caution": "famous for/as 区别；infamous 表「臭名昭著」非「不著名」。",
+            "phoneticSplit": "fa · mous",
+            "usage": "be famous for 因……出名；as 作为……出名。"
           }
         },
         {
@@ -13078,7 +14359,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "aeronaut",
               "astronautics"
             ],
-            "caution": "重音在第一音节；复数 astronauts。"
+            "caution": "重音在第一音节；复数 astronauts。",
+            "phoneticSplit": "a · stro · naut",
+            "usage": "astronaut 美国说法，cosmonaut 指俄罗斯的。"
           }
         },
         {
@@ -13091,7 +14374,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "summertime",
               "winter"
             ],
-            "caution": "in summer 季节前通常不加冠词。"
+            "caution": "in summer 季节前通常不加冠词。",
+            "phoneticSplit": "sum · mer",
+            "usage": "in summer 不加 the。"
           }
         },
         {
@@ -13104,7 +14389,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yeah",
               "no"
             ],
-            "caution": "反义 no；yes 后常接逗号引出完整句。"
+            "caution": "反义 no；yes 后常接逗号引出完整句。",
+            "usage": "回答反意问句看事实：Yes, I do."
           }
         },
         {
@@ -13117,7 +14403,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pianist",
               "forte"
             ],
-            "caution": "play the piano 必须加 the（乐器前加定冠词）。"
+            "caution": "play the piano 必须加 the（乐器前加定冠词）。",
+            "phoneticSplit": "pia · no",
+            "usage": "play the piano 要加 the。"
           }
         },
         {
@@ -13135,7 +14423,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "verbal",
               "adverbial"
             ],
-            "caution": "副词也可修饰形容词、句子；拼写含 verb 勿漏。"
+            "caution": "副词也可修饰形容词、句子；拼写含 verb 勿漏。",
+            "phoneticSplit": "ad · verb",
+            "usage": "副词常由形容词加 -ly 构成。"
           }
         },
         {
@@ -13153,7 +14443,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unlike",
               "likely"
             ],
-            "caution": "dislike doing 搭配；勿与 unlike（不像）混用。"
+            "caution": "dislike doing 搭配；勿与 unlike（不像）混用。",
+            "phoneticSplit": "di · slike",
+            "usage": "dislike 后接动名词：dislike doing。"
           }
         },
         {
@@ -13166,7 +14458,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "board",
               "borderline"
             ],
-            "caution": "board（板）与 border 词源相关但义不同；border between A and B 搭配。"
+            "caution": "board（板）与 border 词源相关但义不同；border between A and B 搭配。",
+            "phoneticSplit": "bor · der",
+            "usage": "border on 与……接壤。"
           }
         },
         {
@@ -13185,7 +14479,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "introduce",
               "produce"
             ],
-            "caution": "名词 education；be educated at 表「毕业于」。"
+            "caution": "名词 education；be educated at 表「毕业于」。",
+            "phoneticSplit": "e · du · cate",
+            "usage": "educate sb to do；名词是 education。"
           }
         },
         {
@@ -13199,7 +14495,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "comb",
               "thumb"
             ],
-            "caution": "b 不发音；lamb 羔羊肉，成年羊肉是 mutton。"
+            "caution": "b 不发音；lamb 羔羊肉，成年羊肉是 mutton。",
+            "usage": "lamb 里的 b 不发音。"
           }
         },
         {
@@ -13208,7 +14505,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/frɑg/",
             "quick": "池塘边呱呱跳的那个——青蛙",
-            "caution": "复数 frogs；形近 fog（雾）只差一个 r。"
+            "caution": "复数 frogs；形近 fog（雾）只差一个 r。",
+            "usage": "a frog in one's throat 嗓子哑。"
           }
         },
         {
@@ -13221,7 +14519,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drugstore",
               "druggist"
             ],
-            "caution": "drugstore 药店；drug 表「毒品」为贬义语境。"
+            "caution": "drugstore 药店；drug 表「毒品」为贬义语境。",
+            "usage": "take drugs 常指吸毒，吃药说 take medicine。"
           }
         },
         {
@@ -13234,7 +14533,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rental",
               "tenant"
             ],
-            "caution": "rent out 出租、rent from 向…租；for rent＝招租。"
+            "caution": "rent out 出租、rent from 向…租；for rent＝招租。",
+            "usage": "rent sth from sb 租进；rent out 租出。"
           }
         },
         {
@@ -13252,7 +14552,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eastern",
               "western"
             ],
-            "caution": "Northern 专有名词大写：Northern China 中国北方。"
+            "caution": "Northern 专有名词大写：Northern China 中国北方。",
+            "phoneticSplit": "nor · thern",
+            "usage": "northern 泛指北部，north 指正北。"
           }
         },
         {
@@ -13270,7 +14572,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "appointment",
               "disappointed"
             ],
-            "caution": "修饰人用 -ed、修饰物用 -ing；appointment 名词「约会」。"
+            "caution": "修饰人用 -ed、修饰物用 -ing；appointment 名词「约会」。",
+            "phoneticSplit": "di · sap · poin · ting",
+            "usage": "disappointed 指人失望，disappointing 指事。"
           }
         },
         {
@@ -13283,7 +14587,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yes",
               "yea"
             ],
-            "caution": "口语用词，书面正式文体避免；yeah 后接逗号常见。"
+            "caution": "口语用词，书面正式文体避免；yeah 后接逗号常见。",
+            "usage": "yeah 比 yes 随意，多用于口语。"
           }
         },
         {
@@ -13295,7 +14600,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "albino"
             ],
-            "caution": "photo album 相册；复数 albums。"
+            "caution": "photo album 相册；复数 albums。",
+            "phoneticSplit": "al · bum",
+            "usage": "a photo album 一本相册。"
           }
         },
         {
@@ -13304,7 +14611,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/gərɑʒ/",
             "quick": "车开进去停、也在里面修——车库",
-            "caution": "两种重音读音均可；garage 里塞车 a car in the garage。"
+            "caution": "两种重音读音均可；garage 里塞车 a car in the garage。",
+            "phoneticSplit": "ga · rage",
+            "usage": "英式 garage 还指加油站。"
           }
         },
         {
@@ -13322,7 +14631,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "imprison",
               "comprise"
             ],
-            "caution": "go to prison 入狱（不加冠词表状态）；prisoner 囚犯。"
+            "caution": "go to prison 入狱（不加冠词表状态）；prisoner 囚犯。",
+            "phoneticSplit": "pri · son",
+            "usage": "in prison 坐牢，不加 the。"
           }
         }
       ]
@@ -13343,7 +14654,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "foggy",
               "smog"
             ],
-            "caution": "形容词 foggy 双 g；in the fog 搭配。"
+            "caution": "形容词 foggy 双 g；in the fog 搭配。",
+            "usage": "fog 比 mist 浓；heavy fog 大雾。"
           }
         },
         {
@@ -13356,7 +14668,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fewer",
               "fewest"
             ],
-            "caution": "few 带否定意味；a few 与 few 意义相反，勿混。"
+            "caution": "few 带否定意味；a few 与 few 意义相反，勿混。",
+            "usage": "few 表否定，a few 表肯定。"
           }
         },
         {
@@ -13374,7 +14687,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yourself",
               "himself"
             ],
-            "caution": "复数是 themselves；by itself 独自、自动。"
+            "caution": "复数是 themselves；by itself 独自、自动。",
+            "phoneticSplit": "it · self",
+            "usage": "by itself 独自；in itself 本身。"
           }
         },
         {
@@ -13387,7 +14702,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "funny",
               "fan"
             ],
-            "caution": "fun 不可数名词；great fun 而非 a great fun（口语 a lot of fun 常见）。"
+            "caution": "fun 不可数名词；great fun 而非 a great fun（口语 a lot of fun 常见）。",
+            "usage": "fun 不可数；What fun! 真有意思。"
           }
         },
         {
@@ -13401,7 +14717,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "quietness",
               "quite"
             ],
-            "caution": "勿与 quite（相当）混淆拼写；quietly 副词。"
+            "caution": "勿与 quite（相当）混淆拼写；quietly 副词。",
+            "usage": "quiet 与 quite 差一字母，quite 是很。"
           }
         },
         {
@@ -13415,7 +14732,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shortage",
               "shortly"
             ],
-            "caution": "shorts 短裤恒复数；be short of 缺少。"
+            "caution": "shorts 短裤恒复数；be short of 缺少。",
+            "usage": "反义 tall / long；shorts 是短裤。"
           }
         },
         {
@@ -13433,7 +14751,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "truly",
               "truthful"
             ],
-            "caution": "truly 去 e 加 ly；truth 不可数；to tell the truth 固定短语。"
+            "caution": "truly 去 e 加 ly；truth 不可数；to tell the truth 固定短语。",
+            "usage": "tell the truth 说实话。"
           }
         },
         {
@@ -13452,7 +14771,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "transfer",
               "ferry"
             ],
-            "caution": "prefer A to B 不用 than；过去式 preferred 双 r。"
+            "caution": "prefer A to B 不用 than；过去式 preferred 双 r。",
+            "phoneticSplit": "pre · fer",
+            "usage": "prefer A to B；prefer to do rather than do。"
           }
         },
         {
@@ -13464,7 +14785,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "toe"
             ],
-            "caution": "常以复数 shoes 出现；a pair of shoes 固定搭配。"
+            "caution": "常以复数 shoes 出现；a pair of shoes 固定搭配。",
+            "usage": "常成对用：a pair of shoes。"
           }
         },
         {
@@ -13482,7 +14804,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "relation",
               "relationship"
             ],
-            "caution": "relative to 关于；亲戚义近义词 relation 已罕用。"
+            "caution": "relative to 关于；亲戚义近义词 relation 已罕用。",
+            "phoneticSplit": "re · la · tive",
+            "usage": "relative 也可作形容词：相对的。"
           }
         },
         {
@@ -13495,7 +14819,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "show",
               "showery"
             ],
-            "caution": "take/have a shower 洗澡；showers 阵雨复数天气预报常用。"
+            "caution": "take/have a shower 洗澡；showers 阵雨复数天气预报常用。",
+            "phoneticSplit": "sho · wer",
+            "usage": "take a shower 洗淋浴。"
           }
         },
         {
@@ -13507,7 +14833,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "form"
             ],
-            "caution": "勿与 form（形式）混淆；be from 表「来自」。"
+            "caution": "勿与 form（形式）混淆；be from 表「来自」。",
+            "usage": "be from 来自；from...to... 从……到……"
           }
         },
         {
@@ -13521,7 +14848,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coldness",
               "old"
             ],
-            "caution": "副词需 coldly；catch a cold / have a cold 固定搭配。"
+            "caution": "副词需 coldly；catch a cold / have a cold 固定搭配。",
+            "usage": "catch a cold 感冒；cold 指寒冷不可数。"
           }
         },
         {
@@ -13534,7 +14862,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "magic",
               "magnify"
             ],
-            "caution": "拼写 magazine 三段式 ma-ga-zine；复数 magazines。"
+            "caution": "拼写 magazine 三段式 ma-ga-zine；复数 magazines。",
+            "phoneticSplit": "ma · ga · zine",
+            "usage": "a monthly magazine 一本月刊。"
           }
         },
         {
@@ -13547,7 +14877,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stony",
               "one"
             ],
-            "caution": "复数 stones；stony 多石的、冷冰冰的。"
+            "caution": "复数 stones；stony 多石的、冷冰冰的。",
+            "usage": "作定语：a stone bridge 石桥。"
           }
         },
         {
@@ -13560,7 +14891,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wind",
               "windy"
             ],
-            "caution": "词中真藏 wind，勿拼成 windwo；Windows 操作系统同名。"
+            "caution": "词中真藏 wind，勿拼成 windwo；Windows 操作系统同名。",
+            "phoneticSplit": "win · dow",
+            "usage": "window 也指电脑的窗口。"
           }
         },
         {
@@ -13574,7 +14907,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mail",
               "sail"
             ],
-            "caution": "v. 尾随：tail sb；tail light 尾灯两词分写。"
+            "caution": "v. 尾随：tail sb；tail light 尾灯两词分写。",
+            "usage": "at the tail of 在……末尾；tail sb 尾随。"
           }
         },
         {
@@ -13588,7 +14922,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "development",
               "developing"
             ],
-            "caution": "名词 development；developing country 发展中国家、developed country 发达国家。"
+            "caution": "名词 development；developing country 发展中国家、developed country 发达国家。",
+            "phoneticSplit": "de · ve · lop",
+            "usage": "也指冲洗照片；developing 发展中的。"
           }
         },
         {
@@ -13602,7 +14938,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "angrily",
               "angrier"
             ],
-            "caution": "be angry with/at sb；副词 angrily；形近 hunger（饥饿）。"
+            "caution": "be angry with/at sb；副词 angrily；形近 hunger（饥饿）。",
+            "phoneticSplit": "an · gry",
+            "usage": "be angry with sb / at sth。"
           }
         },
         {
@@ -13617,7 +14955,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pleasant",
               "unpleasant"
             ],
-            "caution": "pleased 修饰人、pleasant 修饰物；pleasure 不可数名词。"
+            "caution": "pleased 修饰人、pleasant 修饰物；pleasure 不可数名词。",
+            "usage": "pleased 是感到高兴，pleasant 是令人愉快。"
           }
         }
       ]
@@ -13638,7 +14977,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "conclude",
               "disclose"
             ],
-            "caution": "形近 clothes（衣服），读音也不同"
+            "caution": "形近 clothes（衣服），读音也不同",
+            "usage": "形容词读 /kləʊs/，动词读 /kləʊz/。"
           }
         },
         {
@@ -13651,7 +14991,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "plantation",
               "transplant",
               "replant"
-            ]
+            ],
+            "usage": "plant 还指工厂：a car plant。"
           }
         },
         {
@@ -13663,7 +15004,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "paginate",
               "pagination"
-            ]
+            ],
+            "usage": "on page 5 在第 5 页，不加 the。"
           }
         },
         {
@@ -13672,7 +15014,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/friz/",
             "quick": "freezer 冷冻柜里那样——结冰、冻住",
-            "caution": "过去式 froze，过去分词 frozen"
+            "caution": "过去式 froze，过去分词 frozen",
+            "usage": "三态：freeze-froze-frozen。"
           }
         },
         {
@@ -13685,7 +15028,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "raid",
               "affray"
             ],
-            "caution": "只作表语：不说 an afraid man；of doing 与 to do 接法不同"
+            "caution": "只作表语：不说 an afraid man；of doing 与 to do 接法不同",
+            "phoneticSplit": "a · fraid",
+            "usage": "be afraid of / to do / that 从句。"
           }
         },
         {
@@ -13699,7 +15044,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "helpful",
               "helpless"
             ],
-            "caution": "can't help doing 忍不住做某事"
+            "caution": "can't help doing 忍不住做某事",
+            "usage": "can't help doing 忍不住。"
           }
         },
         {
@@ -13716,7 +15062,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "volunteer",
               "voluntarily"
             ],
-            "caution": "副词 voluntarily：y 变 i 再加 ly"
+            "caution": "副词 voluntarily：y 变 i 再加 ly",
+            "phoneticSplit": "vo · lun · ta · ry",
+            "usage": "voluntary work 志愿工作；volunteer 志愿者。"
           }
         },
         {
@@ -13728,7 +15076,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "neither"
             ],
-            "caution": "either...or 后谓语就近一致"
+            "caution": "either...or 后谓语就近一致",
+            "phoneticSplit": "ei · ther",
+            "usage": "either 用于两者，三者以上用 any。"
           }
         },
         {
@@ -13742,7 +15092,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "outdoor",
               "outside",
               "outlet"
-            ]
+            ],
+            "usage": "out of 在……之外；反义 in。"
           }
         },
         {
@@ -13757,7 +15108,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "metric",
               "diameter"
             ],
-            "caution": "美式拼写 meter"
+            "caution": "美式拼写 meter",
+            "usage": "英式 metre，美式 meter。"
           }
         },
         {
@@ -13770,7 +15122,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boxing",
               "mailbox"
             ],
-            "caution": "复数 boxes"
+            "caution": "复数 boxes",
+            "usage": "box 作动词还指拳击。"
           }
         },
         {
@@ -13784,7 +15137,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fulfil",
               "filling"
             ],
-            "caution": "fill in 与 fill out 都可指填表"
+            "caution": "fill in 与 fill out 都可指填表",
+            "usage": "be filled with = be full of。"
           }
         },
         {
@@ -13798,7 +15152,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "placement",
               "displace"
             ],
-            "caution": "take place 无被动语态"
+            "caution": "take place 无被动语态",
+            "usage": "take place 无被动；take the place of 取代。"
           }
         },
         {
@@ -13807,7 +15162,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/frɪʤ/",
             "quick": "refrigerator 太长，口语就喊 fridge——冰箱",
-            "caution": "refrigerator 中无 d，缩略 fridge 才有 d"
+            "caution": "refrigerator 中无 d，缩略 fridge 才有 d",
+            "usage": "in the fridge 在冰箱里。"
           }
         },
         {
@@ -13820,7 +15176,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chatter",
               "chatroom"
             ],
-            "caution": "过去式 chatted，双写 t"
+            "caution": "过去式 chatted，双写 t",
+            "usage": "chat with sb about sth；过去式 chatted。"
           }
         },
         {
@@ -13829,7 +15186,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈrəbɪʃ/",
             "quick": "扔垃圾时嘴里说的那个词——垃圾、废物",
-            "caution": "英式常用，美式多用 garbage/trash"
+            "caution": "英式常用，美式多用 garbage/trash",
+            "phoneticSplit": "rub · bish",
+            "usage": "rubbish 不可数；口语也指“胡说”。"
           }
         },
         {
@@ -13843,7 +15202,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "plan",
               "explain"
             ],
-            "caution": "形近 plan（计划）；全称 airplane/aeroplane"
+            "caution": "形近 plan（计划）；全称 airplane/aeroplane",
+            "usage": "by plane 不加 the；是 airplane 的缩略。"
           }
         },
         {
@@ -13857,7 +15217,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pinpoint",
               "viewpoint"
             ],
-            "caution": "point at 与 point to 的宾语侧重不同"
+            "caution": "point at 与 point to 的宾语侧重不同",
+            "usage": "point out 指出；to the point 切题。"
           }
         },
         {
@@ -13876,7 +15237,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "postman",
               "postcode"
             ],
-            "caution": "复数 postcards"
+            "caution": "复数 postcards",
+            "phoneticSplit": "post · card",
+            "usage": "send sb a postcard 给某人寄明信片。"
           }
         },
         {
@@ -13889,7 +15252,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gaseous",
               "gasoline"
             ],
-            "caution": "美式 gas 兼指汽油"
+            "caution": "美式 gas 兼指汽油",
+            "usage": "美式 gas 指汽油，英式用 petrol。"
           }
         }
       ]
@@ -13905,7 +15269,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/trək/",
             "quick": "后面挂着一长节货厢跑高速——卡车",
-            "caution": "英式口语也说 lorry"
+            "caution": "英式口语也说 lorry",
+            "usage": "truck 美式，lorry 英式。"
           }
         },
         {
@@ -13918,7 +15283,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "joker",
               "jocular"
             ],
-            "caution": "play jokes on 或 play a joke on 均可"
+            "caution": "play jokes on 或 play a joke on 均可",
+            "usage": "play a joke on sb 开某人玩笑。"
           }
         },
         {
@@ -13931,7 +15297,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spoonful",
               "teaspoon"
             ],
-            "caution": "a spoonful of 一勺"
+            "caution": "a spoonful of 一勺",
+            "usage": "a spoon of sugar 一勺糖。"
           }
         },
         {
@@ -13945,7 +15312,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "manuscript",
               "manufacture"
             ],
-            "caution": "manners 复数形式才指礼貌、规矩"
+            "caution": "manners 复数形式才指礼貌、规矩",
+            "phoneticSplit": "man · ner",
+            "usage": "in a...manner 以……方式；manners 礼貌。"
           }
         },
         {
@@ -13960,7 +15329,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "graduation",
               "upgrade"
             ],
-            "caution": "graduate from 毕业于"
+            "caution": "graduate from 毕业于",
+            "phoneticSplit": "gra · duate",
+            "usage": "graduate from 从……毕业。"
           }
         },
         {
@@ -13978,7 +15349,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pleasant",
               "displeasure"
             ],
-            "caution": "with pleasure 乐意效劳，回应请求"
+            "caution": "with pleasure 乐意效劳，回应请求",
+            "phoneticSplit": "plea · sure",
+            "usage": "with pleasure 乐意效劳；It's a pleasure 是我的荣幸。"
           }
         },
         {
@@ -13995,7 +15368,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "succeed",
               "successful"
             ],
-            "caution": "拼写双 c 双 s：suc-cess；succeed in doing"
+            "caution": "拼写双 c 双 s：suc-cess；succeed in doing",
+            "phoneticSplit": "suc · cess",
+            "usage": "success 名词，succeed 动词，successful 形容词。"
           }
         },
         {
@@ -14003,7 +15378,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "n. 田地，田野；场地，领域",
           "extra": {
             "phonetic": "/fild/",
-            "quick": "football field 足球场，也是田地和领域。"
+            "quick": "football field 足球场，也是田地和领域。",
+            "usage": "in the field of 在……领域；field 也可指赛场。"
           }
         },
         {
@@ -14016,7 +15392,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grandmother",
               "grandson",
               "grandparent"
-            ]
+            ],
+            "phoneticSplit": "grand · fa · ther",
+            "usage": "口语叫 grandpa；grandparents 指祖父母。"
           }
         },
         {
@@ -14029,7 +15407,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grandfather",
               "grandma",
               "grandparent"
-            ]
+            ],
+            "phoneticSplit": "grand · mo · ther",
+            "usage": "口语叫 grandma；grandparents 指祖父母。"
           }
         },
         {
@@ -14037,7 +15417,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "prep. 在；以；处于",
           "extra": {
             "phonetic": "/æt/",
-            "quick": "at school、look at——都指一个点。"
+            "quick": "at school、look at——都指一个点。",
+            "usage": "at 接小地点和时刻；in 接大地点，on 接具体某天。"
           }
         },
         {
@@ -14046,7 +15427,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/jɪr/",
             "quick": "Happy New Year 里的 year——一年。",
-            "caution": "复数 years"
+            "caution": "复数 years",
+            "usage": "复数 years；a ten-year-old boy 十岁男孩。"
           }
         },
         {
@@ -14055,7 +15437,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈtərtəl/",
             "quick": "sea turtle 海龟，走路慢吞吞——龟。",
-            "caution": "t 不发音，读 /ˈtɜːtl/"
+            "caution": "t 不发音，读 /ˈtɜːtl/",
+            "phoneticSplit": "turt · le",
+            "usage": "turtle 多指海龟，tortoise 指陆龟。"
           }
         },
         {
@@ -14072,7 +15456,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "humor",
               "humorist"
             ],
-            "caution": "拼写 humor + ous，勿写成 humouros 或 humourous"
+            "caution": "拼写 humor + ous，勿写成 humouros 或 humourous",
+            "phoneticSplit": "hu · mo · rous",
+            "usage": "humor 名词，humorous 形容词；英式也拼 humour。"
           }
         },
         {
@@ -14086,7 +15472,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "possibility",
               "impossible"
             ],
-            "caution": "名词 possibility"
+            "caution": "名词 possibility",
+            "phoneticSplit": "pos · si · bly",
+            "usage": "possibly 比 probably 更不确定。"
           }
         },
         {
@@ -14099,7 +15487,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ash",
               "ashtray"
             ],
-            "caution": "美式常用，trash can 垃圾桶"
+            "caution": "美式常用，trash can 垃圾桶",
+            "usage": "美式 trash，英式说 rubbish。"
           }
         },
         {
@@ -14117,7 +15506,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lighten",
               "lightning"
             ],
-            "caution": "形近 lightning（闪电），中间有 e"
+            "caution": "形近 lightning（闪电），中间有 e",
+            "phoneticSplit": "ligh · ting",
+            "usage": "lighting 照明，lightning 闪电，差一个 n。"
           }
         },
         {
@@ -14130,7 +15521,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "indoors",
               "doorway"
             ],
-            "caution": "副词形式 outdoors"
+            "caution": "副词形式 outdoors",
+            "phoneticSplit": "out · door",
+            "usage": "outdoor 是形容词，outdoors 是副词：play outdoors。"
           }
         },
         {
@@ -14148,7 +15541,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "centre",
               "eccentric"
             ],
-            "caution": "concentrate on doing 专注于做"
+            "caution": "concentrate on doing 专注于做",
+            "phoneticSplit": "con · cen · trate",
+            "usage": "concentrate on 专注于；也可指把液体浓缩。"
           }
         },
         {
@@ -14161,7 +15556,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bubble",
               "gum"
             ],
-            "caution": "牙龈与口香糖两个常用义"
+            "caution": "牙龈与口香糖两个常用义",
+            "usage": "chewing gum 口香糖；gums 指牙龈。"
           }
         },
         {
@@ -14179,7 +15575,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "part",
               "apartment",
               "departure"
-            ]
+            ],
+            "phoneticSplit": "de · part · ment",
+            "usage": "department store 百货商场。"
           }
         },
         {
@@ -14197,7 +15595,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clothes",
               "clothe"
             ],
-            "caution": "clothing 不可数无复数；clothes 永远复数无单数"
+            "caution": "clothing 不可数无复数；clothes 永远复数无单数",
+            "phoneticSplit": "clo · thing",
+            "usage": "clothing 是不可数总称，clothes 指衣服（复数）。"
           }
         }
       ]
@@ -14221,7 +15621,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "energy",
               "energize"
             ],
-            "caution": "energy→energetic 拼写 y 变 etic"
+            "caution": "energy→energetic 拼写 y 变 etic",
+            "phoneticSplit": "e · ner · ge · tic",
+            "usage": "energy 不可数名词，energetic 形容词。"
           }
         },
         {
@@ -14239,7 +15641,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "effective",
               "perfect"
             ],
-            "caution": "affect 多作动词，effect 多作名词；have an effect on"
+            "caution": "affect 多作动词，effect 多作名词；have an effect on",
+            "phoneticSplit": "ef · fect",
+            "usage": "affect 是动词（影响），effect 是名词（效果）。"
           }
         },
         {
@@ -14252,7 +15656,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "backward",
               "backup",
               "background"
-            ]
+            ],
+            "usage": "back sb. up 支持某人；back 作动词是支持。"
           }
         },
         {
@@ -14265,7 +15670,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "strength",
               "strengthen"
             ],
-            "caution": "形容词 strong，名词 strength"
+            "caution": "形容词 strong，名词 strength",
+            "usage": "stronger，strongest；be strong in 擅长。"
           }
         },
         {
@@ -14283,7 +15689,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "collect",
               "select"
             ],
-            "caution": "go to college 表泛指上大学，不加 the"
+            "caution": "go to college 表泛指上大学，不加 the",
+            "phoneticSplit": "col · lege",
+            "usage": "college 学院/大学；colleague 是同事，差一个 a。"
           }
         },
         {
@@ -14291,7 +15699,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "adj. 白色的 n. 白色",
           "extra": {
             "phonetic": "/waɪt/",
-            "quick": "Snow White 白雪公主——white 就是白。"
+            "quick": "Snow White 白雪公主——white 就是白。",
+            "usage": "white 还可指蛋清、空白处。"
           }
         },
         {
@@ -14305,7 +15714,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "knife",
               "kneel"
             ],
-            "caution": "k 不发音；动词下跪是 kneel"
+            "caution": "k 不发音；动词下跪是 kneel",
+            "usage": "k 不发音：know、knife、knock 同理。"
           }
         },
         {
@@ -14320,7 +15730,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "participate",
               "partner"
             ],
-            "caution": "take part in 表参加某活动"
+            "caution": "take part in 表参加某活动",
+            "usage": "take part in 参加；play a part 起作用。"
           }
         },
         {
@@ -14334,7 +15745,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anybody",
               "everybody"
             ],
-            "caution": "作主语时谓语用单数"
+            "caution": "作主语时谓语用单数",
+            "phoneticSplit": "no · bo · dy",
+            "usage": "nobody 作主语用单数：Nobody knows。"
           }
         },
         {
@@ -14343,7 +15756,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kɪs/",
             "quick": "kiss goodbye 吻别——kiss 就是亲一下。",
-            "caution": "复数 kisses"
+            "caution": "复数 kisses",
+            "usage": "give sb. a kiss 亲某人一下。"
           }
         },
         {
@@ -14357,7 +15771,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "on",
               "upper"
             ],
-            "caution": "意义同 on，多用于书面语与固定短语"
+            "caution": "意义同 on，多用于书面语与固定短语",
+            "phoneticSplit": "u · pon",
+            "usage": "多用于固定搭配：once upon a time、depend upon。"
           }
         },
         {
@@ -14366,7 +15782,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/wik/",
             "quick": "week 走七天：Monday 到 Sunday 一圈。",
-            "caution": "形近同音词 weak（弱），拼写只差位置"
+            "caution": "形近同音词 weak（弱），拼写只差位置",
+            "usage": "this week 本周；weekend 周末。"
           }
         },
         {
@@ -14384,7 +15801,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "society",
               "socialist",
               "capitalism"
-            ]
+            ],
+            "phoneticSplit": "so · cia · lism",
+            "usage": "socialism 名词，socialist 指社会主义者。"
           }
         },
         {
@@ -14397,7 +15816,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "foolish",
               "folly"
             ],
-            "caution": "make a fool of sb 愚弄某人；形容词 foolish"
+            "caution": "make a fool of sb 愚弄某人；形容词 foolish",
+            "usage": "make a fool of sb. 捉弄某人。"
           }
         },
         {
@@ -14410,7 +15830,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rational",
               "reasonable"
             ],
-            "caution": "reason 既指理由也指理性"
+            "caution": "reason 既指理由也指理性",
+            "phoneticSplit": "rea · son",
+            "usage": "reason for sth.；the reason why 引导从句。"
           }
         },
         {
@@ -14427,7 +15849,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "depict",
               "pictorial"
             ],
-            "caution": "复数 pictures"
+            "caution": "复数 pictures",
+            "phoneticSplit": "pic · ture",
+            "usage": "take a picture of sb. 给某人拍照。"
           }
         },
         {
@@ -14439,7 +15863,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "then"
             ],
-            "caution": "形近 then（然后），别混"
+            "caution": "形近 then（然后），别混",
+            "usage": "than 后接宾格：than me / than I am。"
           }
         },
         {
@@ -14448,7 +15873,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈoʊˈkeɪ/",
             "quick": "别人问 Are you OK? 答一声 OK——可以、没事。",
-            "caution": "也作 okay"
+            "caution": "也作 okay",
+            "usage": "OK 也可写作 okay。"
           }
         },
         {
@@ -14462,7 +15888,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "himself",
               "themselves"
             ],
-            "caution": "复数 yourselves"
+            "caution": "复数 yourselves",
+            "phoneticSplit": "your · self",
+            "usage": "Help yourself 随便吃；by yourself 独自。"
           }
         },
         {
@@ -14476,7 +15904,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gift",
               "forgive"
             ],
-            "caution": "过去式 gave，过去分词 given"
+            "caution": "过去式 gave，过去分词 given",
+            "usage": "give-gave-given；give up 放弃。"
           }
         }
       ]
@@ -14497,7 +15926,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "loudly",
               "aloud"
             ],
-            "caution": "复数 clouds"
+            "caution": "复数 clouds",
+            "usage": "cloudy 多云的；cloud 也指云端存储。"
           }
         },
         {
@@ -14510,7 +15940,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sender",
               "sent"
             ],
-            "caution": "过去式与过去分词 sent"
+            "caution": "过去式与过去分词 sent",
+            "usage": "send-sent-sent；send for 派人去请。"
           }
         },
         {
@@ -14528,7 +15959,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "structure",
               "instrument"
             ],
-            "caution": "instructions 复数常指说明书；instruct 是动词"
+            "caution": "instructions 复数常指说明书；instruct 是动词",
+            "phoneticSplit": "in · struc · tion",
+            "usage": "instructions 常用复数，指用法说明、说明书。"
           }
         },
         {
@@ -14541,7 +15974,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "undress",
               "dresser"
             ],
-            "caution": "dress sb 给某人穿衣，put on 强调穿的动作"
+            "caution": "dress sb 给某人穿衣，put on 强调穿的动作",
+            "usage": "dress up 盛装打扮；wear 表状态，put on 表动作。"
           }
         },
         {
@@ -14559,7 +15993,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "separation",
               "prepare"
             ],
-            "caution": "动词读 /ˈsepəreɪt/，形容词读 /ˈseprət/"
+            "caution": "动词读 /ˈsepəreɪt/，形容词读 /ˈseprət/",
+            "phoneticSplit": "se · pa · rate",
+            "usage": "separate A from B 把 A 和 B 分开；形容词重音在前。"
           }
         },
         {
@@ -14572,7 +16008,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "know",
               "nowadays"
             ],
-            "caution": "right now 立刻；just now 刚才"
+            "caution": "right now 立刻；just now 刚才",
+            "usage": "now that 既然；now and then 偶尔。"
           }
         },
         {
@@ -14585,7 +16022,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             ],
             "rhyme": "希腊语“观看之处”，专供看戏的地方。",
             "quick": "thea 是看：看戏的地方——剧场。",
-            "caution": "英式 theatre，美式 theater"
+            "caution": "英式 theatre，美式 theater",
+            "usage": "英式拼 theatre，美式拼 theater。"
           }
         },
         {
@@ -14599,7 +16037,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mineral",
               "my"
             ],
-            "caution": "物主代词 mine 独立使用不接名词"
+            "caution": "物主代词 mine 独立使用不接名词",
+            "usage": "mine 是名词性物主代词，后面不接名词。"
           }
         },
         {
@@ -14611,7 +16050,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "worldwide"
             ],
-            "caution": "in the world 表世界上"
+            "caution": "in the world 表世界上",
+            "usage": "in the world 世界上，world 前常加 the。"
           }
         },
         {
@@ -14623,7 +16063,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "earring"
             ],
-            "caution": "不规则变化 rang-rung"
+            "caution": "不规则变化 rang-rung",
+            "usage": "ring-rang-rung；give sb. a ring 打电话给某人。"
           }
         },
         {
@@ -14637,7 +16078,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "learner",
               "learned"
             ],
-            "caution": "过去式 learnt 或 learned；learn 与 teach 方向相反"
+            "caution": "过去式 learnt 或 learned；learn 与 teach 方向相反",
+            "usage": "learn-learned/learnt；learn from 向……学习。"
           }
         },
         {
@@ -14650,7 +16092,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "charm",
               "charitable"
             ],
-            "caution": "复数 charities"
+            "caution": "复数 charities",
+            "phoneticSplit": "cha · ri · ty",
+            "usage": "charity 可数：a charity 一家慈善机构。"
           }
         },
         {
@@ -14658,7 +16102,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "adj. 紫色的 n. 紫色",
           "extra": {
             "phonetic": "/ˈpərpəl/",
-            "quick": "茄子、紫罗兰的那种颜色——紫色。"
+            "quick": "茄子、紫罗兰的那种颜色——紫色。",
+            "phoneticSplit": "pur · ple",
+            "usage": "purple 也可作名词：a dark purple。"
           }
         },
         {
@@ -14672,7 +16118,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "schooling",
               "schedule"
             ],
-            "caution": "go to school 表学业，不加 the"
+            "caution": "go to school 表学业，不加 the",
+            "usage": "go to school 不加 the；at school 在校。"
           }
         },
         {
@@ -14690,7 +16137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "diary",
               "everyday"
             ],
-            "caution": "day→daily 拼写 ay 变 ai"
+            "caution": "day→daily 拼写 ay 变 ai",
+            "phoneticSplit": "dai · ly",
+            "usage": "daily 形容词/副词；everyday 只作形容词。"
           }
         },
         {
@@ -14707,7 +16156,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "celebration",
               "celebrated"
             ],
-            "caution": "celebrate sth 不加 for"
+            "caution": "celebrate sth 不加 for",
+            "phoneticSplit": "ce · le · brate",
+            "usage": "celebrate 后直接接宾语：celebrate New Year。"
           }
         },
         {
@@ -14722,7 +16173,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "context",
               "textbook"
             ],
-            "caution": "作动词指发短信"
+            "caution": "作动词指发短信",
+            "usage": "text sb. 给某人发短信（动词）。"
           }
         },
         {
@@ -14735,7 +16187,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "property",
               "properly",
               "appropriate"
-            ]
+            ],
+            "phoneticSplit": "pro · per",
+            "usage": "properly 是副词：do it properly。"
           }
         },
         {
@@ -14749,7 +16203,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "healthy",
               "unhealthy"
             ],
-            "caution": "形容词 healthy"
+            "caution": "形容词 healthy",
+            "usage": "health 不可数名词；healthy 是形容词。"
           }
         },
         {
@@ -14763,7 +16218,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "moving",
               "movement"
             ],
-            "caution": "美式 movie，英式 film；go to the movies"
+            "caution": "美式 movie，英式 film；go to the movies",
+            "phoneticSplit": "mo · vie",
+            "usage": "the movies 也指电影院（美式）。"
           }
         }
       ]
@@ -14781,7 +16238,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "quick": "① good + bye：走时说句好——再见。\n② 「拜拜」——goodbye 就是挥手拜拜。",
             "family": [
               "bye"
-            ]
+            ],
+            "usage": "goodbye 比 bye 正式。"
           }
         },
         {
@@ -14794,7 +16252,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eel",
               "wheelchair"
             ],
-            "caution": "复数 wheels；wheel 也可作动词转动"
+            "caution": "复数 wheels；wheel 也可作动词转动",
+            "usage": "wheel 作动词：wheel around 转身。"
           }
         },
         {
@@ -14807,7 +16266,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ball",
               "tall"
             ],
-            "caution": "读 /mɔːl/，与 male 不同音"
+            "caution": "读 /mɔːl/，与 male 不同音",
+            "usage": "mall 指室内购物中心。"
           }
         },
         {
@@ -14819,7 +16279,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "fixture",
               "fixed"
-            ]
+            ],
+            "usage": "fix up 修理/安排；过去式 fixed。"
           }
         },
         {
@@ -14833,7 +16294,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "poetry",
               "poetic"
             ],
-            "caution": "poem 可数一首首，poetry 不可数总称"
+            "caution": "poem 可数一首首，poetry 不可数总称",
+            "usage": "poem 可数，poetry 不可数。"
           }
         },
         {
@@ -14850,7 +16312,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sentiment",
               "consent"
             ],
-            "caution": "判刑义 be sentenced to"
+            "caution": "判刑义 be sentenced to",
+            "phoneticSplit": "sen · tence",
+            "usage": "sentence sb. to 判某人……刑。"
           }
         },
         {
@@ -14868,7 +16332,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "century",
               "centigrade"
             ],
-            "caution": "数字 + percent 单复数同形"
+            "caution": "数字 + percent 单复数同形",
+            "phoneticSplit": "per · cent",
+            "usage": "percent 单复数同形：50 percent of students。"
           }
         },
         {
@@ -14886,7 +16352,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pressure",
               "impression"
             ],
-            "caution": "名词 impression"
+            "caution": "名词 impression",
+            "phoneticSplit": "im · press",
+            "usage": "be impressed by/with 对……印象深刻。"
           }
         },
         {
@@ -14899,7 +16367,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chopstick",
               "chopper"
             ],
-            "caution": "筷子常用复数 chopsticks；pork chop 猪排"
+            "caution": "筷子常用复数 chopsticks；pork chop 猪排",
+            "usage": "chop up 剁碎；pork chop 猪排。"
           }
         },
         {
@@ -14911,7 +16380,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "license"
             ],
-            "caution": "英式名词 licence、动词 license；美式均 license"
+            "caution": "英式名词 licence、动词 license；美式均 license",
+            "phoneticSplit": "li · cence",
+            "usage": "英式 licence 名词/license 动词；美式都用 license。"
           }
         },
         {
@@ -14924,7 +16395,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "habit",
               "inhabit",
               "inhabitant"
-            ]
+            ],
+            "phoneticSplit": "ha · bi · tat",
+            "usage": "指动植物长期生活的栖息地。"
           }
         },
         {
@@ -14937,7 +16410,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "alias",
               "alibi",
               "alienate"
-            ]
+            ],
+            "phoneticSplit": "a · lien",
+            "usage": "be alien to 与……格格不入。"
           }
         },
         {
@@ -14954,7 +16429,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pop",
               "corn"
             ],
-            "caution": "通常不可数，说 a bag of popcorn"
+            "caution": "通常不可数，说 a bag of popcorn",
+            "phoneticSplit": "pop · corn",
+            "usage": "popcorn 不可数。"
           }
         },
         {
@@ -14962,7 +16439,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "adj. 酸的；馊的 v. （使）变酸，酸腐",
           "extra": {
             "phonetic": "/saʊər/",
-            "quick": "① 柠檬就是 sour 的——酸的。\n② 「馊」——sour 就是饭馊了那股酸。"
+            "quick": "① 柠檬就是 sour 的——酸的。\n② 「馊」——sour 就是饭馊了那股酸。",
+            "usage": "sour 可指牛奶变酸、馊掉。"
           }
         },
         {
@@ -14980,7 +16458,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "airport",
               "airliner"
             ],
-            "caution": "复数 airlines 常指航空公司"
+            "caution": "复数 airlines 常指航空公司",
+            "phoneticSplit": "air · line",
+            "usage": "airline 指航空公司，airplane 是飞机。"
           }
         },
         {
@@ -14988,7 +16468,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "meaning": "int. 嘿（引起注意或表示兴趣、惊讶、生气）",
           "extra": {
             "phonetic": "/heɪ/",
-            "quick": "Hey! 喊一声让人回头——嘿。"
+            "quick": "Hey! 喊一声让人回头——嘿。",
+            "usage": "用于打招呼，或表示惊讶、不满。"
           }
         },
         {
@@ -15005,7 +16486,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "case",
               "briefcase",
               "bookcase"
-            ]
+            ],
+            "phoneticSplit": "suit · case",
+            "usage": "可数：two suitcases。"
           }
         }
       ]
@@ -15026,7 +16509,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hiking",
               "hitchhike"
             ],
-            "caution": "过去式直接加 d：hiked；go hiking 去远足。"
+            "caution": "过去式直接加 d：hiked；go hiking 去远足。",
+            "usage": "go hiking 去远足；hike 也可指涨价。"
           }
         },
         {
@@ -15044,7 +16528,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "graduate",
               "gradual"
             ],
-            "caution": "Grade 8 表八年级；作动词「评分」直接带宾语。"
+            "caution": "Grade 8 表八年级；作动词「评分」直接带宾语。",
+            "usage": "grade 指年级/分数；class 指班级。"
           }
         },
         {
@@ -15053,7 +16538,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈlæntərn/",
             "quick": "Lantern Festival 元宵节提的灯——灯笼。",
-            "caution": "Lantern Festival 指元宵节，首字母大写。"
+            "caution": "Lantern Festival 指元宵节，首字母大写。",
+            "phoneticSplit": "lan · tern",
+            "usage": "Lantern Festival 是元宵节。"
           }
         },
         {
@@ -15065,7 +16552,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "roadside"
             ],
-            "caution": "别拼成 raod；in the road 指在路面中间。"
+            "caution": "别拼成 raod；in the road 指在路面中间。",
+            "usage": "road 常指连接两地的路，比 street 宽。"
           }
         },
         {
@@ -15083,7 +16571,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "consult",
               "assault"
             ],
-            "caution": "result from（起因于）与 result in（导致）方向别搞反。"
+            "caution": "result from（起因于）与 result in（导致）方向别搞反。",
+            "phoneticSplit": "re · sult",
+            "usage": "result in 导致；result from 起因于。"
           }
         },
         {
@@ -15097,7 +16587,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "baseball",
               "volleyball"
             ],
-            "caution": "美式 football 指橄榄球；足球是 soccer。"
+            "caution": "美式 football 指橄榄球；足球是 soccer。",
+            "phoneticSplit": "foot · ball",
+            "usage": "英式指足球，美式指橄榄球。"
           }
         },
         {
@@ -15111,7 +16603,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anyone",
               "anywhere"
             ],
-            "caution": "否定句用 not any；anyone 是代词，any one 强调「任何一个」。"
+            "caution": "否定句用 not any；anyone 是代词，any one 强调「任何一个」。",
+            "usage": "any 多用于疑问句、否定句；肯定句用 some。"
           }
         },
         {
@@ -15125,7 +16618,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bathroom",
               "classroom"
             ],
-            "caution": "room 表「空间」不可数；a room 才指一个房间。"
+            "caution": "room 表「空间」不可数；a room 才指一个房间。",
+            "usage": "表空间时不可数：much room。"
           }
         },
         {
@@ -15139,7 +16633,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accuse",
               "excuse"
             ],
-            "caution": "cause 表「事业」是褒义；cause trouble 是闯祸。"
+            "caution": "cause 表「事业」是褒义；cause trouble 是闯祸。",
+            "usage": "cause sb. to do 使某人做某事。"
           }
         },
         {
@@ -15151,7 +16646,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "badly"
             ],
-            "caution": "比较级 worse、最高级 worst，不能说 badder / baddest。"
+            "caution": "比较级 worse、最高级 worst，不能说 badder / baddest。",
+            "usage": "bad-worse-worst；be bad at 不擅长。"
           }
         },
         {
@@ -15168,7 +16664,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "holy",
               "holidaymaker"
             ],
-            "caution": "on holiday（在度假）要加 on；美式多用 vacation。"
+            "caution": "on holiday（在度假）要加 on；美式多用 vacation。",
+            "phoneticSplit": "ho · li · day",
+            "usage": "英式 holiday，美式 vacation；on holiday 在度假。"
           }
         },
         {
@@ -15182,7 +16680,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drawing",
               "withdraw"
             ],
-            "caution": "过去式 drew、过去分词 drawn；drawer 是「抽屉」，别看混。"
+            "caution": "过去式 drew、过去分词 drawn；drawer 是「抽屉」，别看混。",
+            "usage": "draw-drew-drawn；draw 也指拉、抽签。"
           }
         },
         {
@@ -15200,7 +16699,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "creation",
               "creature"
             ],
-            "caution": "create 是及物动词直接带宾语；强调「从无到有」，与 discover（发现已有）不同。"
+            "caution": "create 是及物动词直接带宾语；强调「从无到有」，与 discover（发现已有）不同。",
+            "usage": "creative 有创造力的，creature 生物。"
           }
         },
         {
@@ -15212,7 +16712,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "wishful"
             ],
-            "caution": "wish 后从句用虚拟语气（I wish I were）；wish sb sth 表祝愿。"
+            "caution": "wish 后从句用虚拟语气（I wish I were）；wish sb sth 表祝愿。",
+            "usage": "wish sb. to do；wish 后从句用虚拟语气。"
           }
         },
         {
@@ -15224,7 +16725,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "examination"
             ],
-            "caution": "全称 examination 较正式；take an exam 表参加考试。"
+            "caution": "全称 examination 较正式；take an exam 表参加考试。",
+            "phoneticSplit": "ex · am",
+            "usage": "take/pass/fail an exam 参加/通过/考砸。"
           }
         },
         {
@@ -15237,7 +16740,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "artist",
               "artistic"
             ],
-            "caution": "复数 arts 可指人文科学（文科）。"
+            "caution": "复数 arts 可指人文科学（文科）。",
+            "usage": "art 指美术/艺术；the arts 指人文艺术。"
           }
         },
         {
@@ -15251,7 +16755,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sweetly",
               "sweetheart"
             ],
-            "caution": "别与 sweat（汗水）混淆，sweet 中间是 ee。"
+            "caution": "别与 sweat（汗水）混淆，sweet 中间是 ee。",
+            "usage": "英式 sweets 指糖果；sweet 也可作名词。"
           }
         },
         {
@@ -15269,7 +16774,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "donor",
               "pardon"
             ],
-            "caution": "搭配 donate sth to sb/toward，介词用 to。"
+            "caution": "搭配 donate sth to sb/toward，介词用 to。",
+            "phoneticSplit": "do · nate",
+            "usage": "donate sth. to sb. 把某物捐给某人。"
           }
         },
         {
@@ -15278,7 +16785,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/tu/",
             "quick": "Me too 是“也”，too big 是“太”——两个意思。",
-            "caution": "too much 修饰不可数名词，too many 修饰可数名词。"
+            "caution": "too much 修饰不可数名词，too many 修饰可数名词。",
+            "usage": "too…to 太……而不能；句末 too 表“也”。"
           }
         },
         {
@@ -15291,7 +16799,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "them",
               "whom"
             ],
-            "caution": "he 是主格作主语，him 是宾格作宾语，别混。"
+            "caution": "he 是主格作主语，him 是宾格作宾语，别混。",
+            "usage": "him 是宾格，his 是所有格。"
           }
         }
       ]
@@ -15312,7 +16821,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "regulate",
               "regular"
             ],
-            "caution": "作动词「统治」直接接宾语；follow the rules 遵守规则。"
+            "caution": "作动词「统治」直接接宾语；follow the rules 遵守规则。",
+            "phoneticSplit": "ru · le",
+            "usage": "as a rule 通常；rule 可数。"
           }
         },
         {
@@ -15324,7 +16835,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "autumnal"
             ],
-            "caution": "末尾 mn 中 n 不发音；美式口语常用 fall。"
+            "caution": "末尾 mn 中 n 不发音；美式口语常用 fall。",
+            "phoneticSplit": "au · tumn",
+            "usage": "英式 autumn，美式 fall。"
           }
         },
         {
@@ -15338,7 +16851,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "those",
               "that"
             ],
-            "caution": "these 后接复数名词；与 those（那些）远近相对。"
+            "caution": "these 后接复数名词；与 those（那些）远近相对。",
+            "usage": "these 配 are，this 配 is。"
           }
         },
         {
@@ -15356,7 +16870,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ad",
               "vertical"
             ],
-            "caution": "缩写是 ad；动词 advertise 别漏 i。"
+            "caution": "缩写是 ad；动词 advertise 别漏 i。",
+            "phoneticSplit": "ad · ver · ti · se · ment",
+            "usage": "口语常缩写成 ad。"
           }
         },
         {
@@ -15370,7 +16886,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "him",
               "them"
             ],
-            "caution": "口语常用 who 代替 whom，但紧跟介词后必须 whom。"
+            "caution": "口语常用 who 代替 whom，但紧跟介词后必须 whom。",
+            "usage": "介词后必用 whom：with whom。"
           }
         },
         {
@@ -15383,7 +16900,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "arise",
               "raise"
             ],
-            "caution": "过去式 rose、过去分词 risen；不及物动词不能接宾语。"
+            "caution": "过去式 rose、过去分词 risen；不及物动词不能接宾语。",
+            "usage": "rise-rose-risen；rise 不及物，raise 及物。"
           }
         },
         {
@@ -15397,7 +16915,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "terminate",
               "determine"
             ],
-            "caution": "in terms of 就…而言；表「条款」常用复数 terms。"
+            "caution": "in terms of 就…而言；表「条款」常用复数 terms。",
+            "usage": "in the long term 长远看；in terms of 就……而言。"
           }
         },
         {
@@ -15409,7 +16928,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "till"
             ],
-            "caution": "not…until 表「直到…才」；till 与 until 同义，句首多用 until。"
+            "caution": "not…until 表「直到…才」；till 与 until 同义，句首多用 until。",
+            "phoneticSplit": "un · til",
+            "usage": "not...until 直到……才；until 后接时间点。"
           }
         },
         {
@@ -15422,7 +16943,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pencil",
               "penfriend"
             ],
-            "caution": "pen 与 pencil 开头都是 p，拼写别混。"
+            "caution": "pen 与 pencil 开头都是 p，拼写别混。",
+            "usage": "pen 可数；复数 pens。"
           }
         },
         {
@@ -15436,7 +16958,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tourism",
               "return"
             ],
-            "caution": "名词动词同形；go on a tour 参团出游。"
+            "caution": "名词动词同形；go on a tour 参团出游。",
+            "usage": "tour 指周游一圈；trip 指一趟。"
           }
         },
         {
@@ -15445,7 +16968,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈmɛni/",
             "quick": "many books、many people——后面跟可数复数。",
-            "caution": "many 修饰可数复数名词，much 修饰不可数名词。"
+            "caution": "many 修饰可数复数名词，much 修饰不可数名词。",
+            "phoneticSplit": "ma · ny",
+            "usage": "many 修饰可数，much 修饰不可数。"
           }
         },
         {
@@ -15458,7 +16983,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "him",
               "whom"
             ],
-            "caution": "they 是主格，them 是宾格，别写混。"
+            "caution": "they 是主格，them 是宾格，别写混。",
+            "usage": "them 宾格，主格 they，所有格 their。"
           }
         },
         {
@@ -15470,7 +16996,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "singly"
             ],
-            "caution": "单程票英式口语也直接说 a single。"
+            "caution": "单程票英式口语也直接说 a single。",
+            "phoneticSplit": "sin · gle",
+            "usage": "single 反义 married；single room 单人间。"
           }
         },
         {
@@ -15483,7 +17011,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "inhabit",
               "habitat"
             ],
-            "caution": "固定搭配 get into / fall into the habit of doing。"
+            "caution": "固定搭配 get into / fall into the habit of doing。",
+            "phoneticSplit": "ha · bit",
+            "usage": "good/bad habit；out of habit 出于习惯。"
           }
         },
         {
@@ -15492,7 +17022,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkæləndər/",
             "quick": "手机桌面上看日子的那个图标——日历。",
-            "caution": "别拼成 calender；注意是 cal-end-ar，中间 dar 不是 der。"
+            "caution": "别拼成 calender；注意是 cal-end-ar，中间 dar 不是 der。",
+            "phoneticSplit": "ca · len · dar",
+            "usage": "calendar 中间是 -end-，别漏那个 e。"
           }
         },
         {
@@ -15506,7 +17038,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "household",
               "uphold"
             ],
-            "caution": "过去式、过去分词是 held，不是 holded。"
+            "caution": "过去式、过去分词是 held，不是 holded。",
+            "usage": "hold-held-held；hold on 别挂电话。"
           }
         },
         {
@@ -15522,7 +17055,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "quake"
             ],
-            "caution": "复数 earthquakes；quake 可单独作名词。"
+            "caution": "复数 earthquakes；quake 可单独作名词。",
+            "phoneticSplit": "earth · quake",
+            "usage": "quake 也可单指地震；quake with fear 吓得发抖。"
           }
         },
         {
@@ -15540,7 +17075,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elect",
               "select"
             ],
-            "caution": "collect sb 表「来接某人」；名词形式 collection。"
+            "caution": "collect sb 表「来接某人」；名词形式 collection。",
+            "phoneticSplit": "col · lect",
+            "usage": "collect stamps 集邮；collection 收藏品。"
           }
         },
         {
@@ -15552,7 +17089,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "cashier"
             ],
-            "caution": "in cash 用现金；cashier 是收银员。"
+            "caution": "in cash 用现金；cashier 是收银员。",
+            "usage": "cash 不可数；pay in cash 或 by card。"
           }
         },
         {
@@ -15565,7 +17103,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "poverty",
               "poorly"
             ],
-            "caution": "the poor 表穷人这一类人；poorly 口语指「身体不适」。"
+            "caution": "the poor 表穷人这一类人；poorly 口语指「身体不适」。",
+            "usage": "the poor 指穷人；比较级 poorer。"
           }
         }
       ]
@@ -15590,7 +17129,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "governor",
               "governance"
             ],
-            "caution": "中间是 n（govern + ment），别漏写成 goverment。"
+            "caution": "中间是 n（govern + ment），别漏写成 goverment。",
+            "phoneticSplit": "go · vern · ment",
+            "usage": "government 可缩写 gov.；作主语可单可复。"
           }
         },
         {
@@ -15608,7 +17149,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "offer",
               "refer"
             ],
-            "caution": "及物直接接坏事（suffer losses），接病痛用 suffer from。"
+            "caution": "及物直接接坏事（suffer losses），接病痛用 suffer from。",
+            "phoneticSplit": "suf · fer",
+            "usage": "suffer from 患病、受……之苦。"
           }
         },
         {
@@ -15620,7 +17163,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "dearly"
             ],
-            "caution": "dear 与 deer（鹿）同音；Oh dear! 表惊讶。"
+            "caution": "dear 与 deer（鹿）同音；Oh dear! 表惊讶。",
+            "usage": "dear 指贵偏英式；Dear Sir 用于正式书信。"
           }
         },
         {
@@ -15634,7 +17178,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "overtake",
               "takeoff"
             ],
-            "caution": "过去式 took、过去分词 taken；句型 It takes sb time to do。"
+            "caution": "过去式 took、过去分词 taken；句型 It takes sb time to do。",
+            "usage": "take-took-taken；It takes time 花时间。"
           }
         },
         {
@@ -15652,7 +17197,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "admire",
               "miracle"
             ],
-            "caution": "中间是双 r（-rr-），漏一个就错。"
+            "caution": "中间是双 r（-rr-），漏一个就错。",
+            "phoneticSplit": "mir · ror",
+            "usage": "look in the mirror 照镜子；作动词是反映。"
           }
         },
         {
@@ -15669,7 +17216,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "center",
               "concentrate"
             ],
-            "caution": "center 美式 / centre 英式；central 是形容词。"
+            "caution": "center 美式 / centre 英式；central 是形容词。",
+            "phoneticSplit": "cen · tral",
+            "usage": "central 形容词；centre 是名词。"
           }
         },
         {
@@ -15678,7 +17227,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈjɛloʊ/",
             "quick": "香蕉和柠檬那个颜色——yellow 黄色。",
-            "caution": "双写 l（yellow），别写成 yelow。"
+            "caution": "双写 l（yellow），别写成 yelow。",
+            "phoneticSplit": "yel · low",
+            "usage": "yellow 也可作动词：leaves yellow 叶子变黄。"
           }
         },
         {
@@ -15695,7 +17246,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "know",
               "acknowledge"
             ],
-            "caution": "开头 k 不发音；knowledge 不可数，无复数。"
+            "caution": "开头 k 不发音；knowledge 不可数，无复数。",
+            "phoneticSplit": "know · ledge",
+            "usage": "knowledge 不可数；to my knowledge 据我所知。"
           }
         },
         {
@@ -15713,7 +17266,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "victorious",
               "convict"
             ],
-            "caution": "复数 victories，y 变 i 加 es。"
+            "caution": "复数 victories，y 变 i 加 es。",
+            "phoneticSplit": "vic · to · ry",
+            "usage": "win a victory over 战胜；victory 可数。"
           }
         },
         {
@@ -15722,7 +17277,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/wɪŋ/",
             "quick": "鸟靠 wings 飞，飞机两侧那两片也叫 wing。",
-            "caution": "复数 wings；别与 swing（摇摆）混看。"
+            "caution": "复数 wings；别与 swing（摇摆）混看。",
+            "usage": "on the wing 在飞行中；left wing 左翼。"
           }
         },
         {
@@ -15739,7 +17295,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sweat",
               "sweaty"
             ],
-            "caution": "中间是 sweat 的 ea，别写成 sweet。"
+            "caution": "中间是 sweat 的 ea，别写成 sweet。",
+            "phoneticSplit": "swea · ter",
+            "usage": "sweater 可数；put on a sweater 穿上毛衣。"
           }
         },
         {
@@ -15752,7 +17310,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "taste",
               "tasteful"
             ],
-            "caution": "taste 去 e 加 y；tasteful 指「有品位的」，tasty 才是「好吃的」。"
+            "caution": "taste 去 e 加 y；tasteful 指「有品位的」，tasty 才是「好吃的」。",
+            "phoneticSplit": "ta · sty",
+            "usage": "tasty 偏口语；delicious 语气更强。"
           }
         },
         {
@@ -15769,7 +17329,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "marry",
               "married"
             ],
-            "caution": "marry 是及物动词：marry sb；不说 marry with sb。"
+            "caution": "marry 是及物动词：marry sb；不说 marry with sb。",
+            "phoneticSplit": "mar · riage",
+            "usage": "marriage 可数；by marriage 因婚姻关系。"
           }
         },
         {
@@ -15787,7 +17349,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "health",
               "unhappy"
             ],
-            "caution": "health 是名词，healthy 才是形容词，再加 un-。"
+            "caution": "health 是名词，healthy 才是形容词，再加 un-。",
+            "phoneticSplit": "un · heal · thy",
+            "usage": "unhealthy diet 不健康饮食；反义 healthy。"
           }
         },
         {
@@ -15805,7 +17369,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "operator",
               "cooperate"
             ],
-            "caution": "have an operation 接受手术；operate on sb 才是给某人动手术。"
+            "caution": "have an operation 接受手术；operate on sb 才是给某人动手术。",
+            "phoneticSplit": "o · pe · ra · tion",
+            "usage": "have an operation on 做手术；in operation 在运转。"
           }
         },
         {
@@ -15817,7 +17383,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "charcoal"
             ],
-            "caution": "不可数名词；别与 goal（目标/球门）拼混。"
+            "caution": "不可数名词；别与 goal（目标/球门）拼混。",
+            "usage": "coal 不可数；a piece of coal 一块煤。"
           }
         },
         {
@@ -15835,7 +17402,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "regulate",
               "irregular"
             ],
-            "caution": "反义词 irregular（加 ir-），不是 unregular。"
+            "caution": "反义词 irregular（加 ir-），不是 unregular。",
+            "phoneticSplit": "re · gu · lar",
+            "usage": "regular customer 老顾客；反义 irregular。"
           }
         },
         {
@@ -15852,7 +17421,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pole",
               "polarity"
             ],
-            "caution": "名词是 pole（极/杆），polar 是形容词。"
+            "caution": "名词是 pole（极/杆），polar 是形容词。",
+            "phoneticSplit": "po · lar",
+            "usage": "polar bear 北极熊；polar opposite 完全相反。"
           }
         },
         {
@@ -15861,7 +17432,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ʧərʧ/",
             "quick": "周日去做礼拜的那座尖顶房子——教堂。",
-            "caution": "go to church 表「做礼拜」不加冠词；复数 churches 加 es。"
+            "caution": "go to church 表「做礼拜」不加冠词；复数 churches 加 es。",
+            "usage": "go to church 做礼拜，中间不加 the。"
           }
         },
         {
@@ -15877,7 +17449,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "submarine"
             ],
-            "caution": "美式 subway；英式叫 underground / tube。"
+            "caution": "美式 subway；英式叫 underground / tube。",
+            "phoneticSplit": "sub · way",
+            "usage": "美式 subway，英式 underground 或 tube。"
           }
         },
         {
@@ -15889,7 +17463,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "professional"
             ],
-            "caution": "复数 pros；pros and cons 中 pro 表赞成。"
+            "caution": "复数 pros；pros and cons 中 pro 表赞成。",
+            "usage": "pro and con 赞成与反对；作介词表赞成。"
           }
         },
         {
@@ -15905,7 +17480,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hairstyle"
             ],
-            "caution": "haircut 连写一个词；have a haircut 固定说法。"
+            "caution": "haircut 连写一个词；have a haircut 固定说法。",
+            "phoneticSplit": "hair · cut",
+            "usage": "have a haircut 理发；get a haircut 去剪头。"
           }
         },
         {
@@ -15917,7 +17494,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "routine"
             ],
-            "caution": "美式读 /raʊt/，英式读 /ruːt/；别与 rout（击溃）混。"
+            "caution": "美式读 /raʊt/，英式读 /ruːt/；别与 rout（击溃）混。",
+            "usage": "route 指固定线路；way 更泛。"
           }
         }
       ]
@@ -15941,7 +17519,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cityscape",
               "seascape"
             ],
-            "caution": "landscape 指陆上风景；scape 不是独立单词。"
+            "caution": "landscape 指陆上风景；scape 不是独立单词。",
+            "phoneticSplit": "land · scape",
+            "usage": "landscape 也可指风景画；seascape 是海景。"
           }
         },
         {
@@ -15954,7 +17534,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "citizen",
               "civic"
             ],
-            "caution": "复数 cities，y 变 i 加 es。"
+            "caution": "复数 cities，y 变 i 加 es。",
+            "phoneticSplit": "ci · ty",
+            "usage": "city 复数 cities；the city 指市中心。"
           }
         },
         {
@@ -15966,7 +17548,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "reshape"
             ],
-            "caution": "in good shape 状态好；shape 也可作动词「塑造」。"
+            "caution": "in good shape 状态好；shape 也可作动词「塑造」。",
+            "usage": "in shape 状态好；out of shape 变形、走样。"
           }
         },
         {
@@ -15980,7 +17563,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "death",
               "dying"
             ],
-            "caution": "die 是动词，dead 是形容词，death 是名词，别混用。"
+            "caution": "die 是动词，dead 是形容词，death 是名词，别混用。",
+            "usage": "dead 形容词，die 动词，death 名词。"
           }
         },
         {
@@ -15997,7 +17581,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "most",
               "mostly"
             ],
-            "caution": "词表释义「美不多」应为「差不多」；almost 后可直接接 no、nothing、never。"
+            "caution": "词表释义「美不多」应为「差不多」；almost 后可直接接 no、nothing、never。",
+            "phoneticSplit": "al · most",
+            "usage": "almost 不直接修饰名词；almost no 几乎没。"
           }
         },
         {
@@ -16009,7 +17595,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "thunderstorm"
             ],
-            "caution": "th 发咬舌音；thunderstorm 雷暴雨。"
+            "caution": "th 发咬舌音；thunderstorm 雷暴雨。",
+            "phoneticSplit": "thun · der",
+            "usage": "thunder 不可数；thunder and lightning 雷电。"
           }
         },
         {
@@ -16021,7 +17609,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "chancy"
             ],
-            "caution": "by chance 偶然；与 change（改变）拼写只差 g。"
+            "caution": "by chance 偶然；与 change（改变）拼写只差 g。",
+            "usage": "by chance 偶然；take a chance 冒险一试。"
           }
         },
         {
@@ -16034,7 +17623,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "doubtful",
               "undoubtedly"
             ],
-            "caution": "b 不发音；without doubt 毫无疑问。"
+            "caution": "b 不发音；without doubt 毫无疑问。",
+            "usage": "doubt 里的 b 不发音；no doubt 无疑。"
           }
         },
         {
@@ -16048,7 +17638,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mister",
               "mistress"
             ],
-            "caution": "master 既可作名词「大师」，也可作动词「掌握」。"
+            "caution": "master 既可作名词「大师」，也可作动词「掌握」。",
+            "phoneticSplit": "ma · ster",
+            "usage": "Master 硕士；master a skill 掌握一门技能。"
           }
         },
         {
@@ -16061,7 +17653,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cheerful",
               "cheers"
             ],
-            "caution": "cheer up 使振作；cheerful 形容词快乐的。"
+            "caution": "cheer up 使振作；cheerful 形容词快乐的。",
+            "usage": "cheer up 振作；cheer for 为……加油。"
           }
         },
         {
@@ -16078,7 +17671,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cross",
               "crossing"
             ],
-            "caution": "across 表表面穿过，through 表内部穿过，别混。"
+            "caution": "across 表表面穿过，through 表内部穿过，别混。",
+            "phoneticSplit": "a · cross",
+            "usage": "across from 在……对面；go across 穿过。"
           }
         },
         {
@@ -16091,7 +17686,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pancake",
               "cheesecake"
             ],
-            "caution": "复数 cakes；make a cake 固定搭配。"
+            "caution": "复数 cakes；make a cake 固定搭配。",
+            "usage": "a piece of cake 也指小菜一碟。"
           }
         },
         {
@@ -16103,7 +17699,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "yoghurt"
             ],
-            "caution": "美式 yogurt / 英式 yoghurt，两种拼写都存在。"
+            "caution": "美式 yogurt / 英式 yoghurt，两种拼写都存在。",
+            "phoneticSplit": "yo · gurt",
+            "usage": "yogurt 不可数；a cup of yogurt。"
           }
         },
         {
@@ -16116,7 +17714,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tasty",
               "tasteless"
             ],
-            "caution": "系动词用法：It tastes good，不接副词。"
+            "caution": "系动词用法：It tastes good，不接副词。",
+            "usage": "taste 作系动词后接形容词：It tastes good。"
           }
         },
         {
@@ -16134,7 +17733,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "circuit",
               "semicircle"
             ],
-            "caution": "动词 circle 意为「圈出、盘旋」；复数 circles。"
+            "caution": "动词 circle 意为「圈出、盘旋」；复数 circles。",
+            "phoneticSplit": "cir · cle",
+            "usage": "in a circle 围成一圈；作动词是圈出。"
           }
         },
         {
@@ -16151,7 +17752,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "media",
               "middle"
             ],
-            "caution": "复数是 media；medium 可指「中号」或「媒介」。"
+            "caution": "复数是 media；medium 可指「中号」或「媒介」。",
+            "phoneticSplit": "me · dium",
+            "usage": "medium 复数 media；medium size 中号。"
           }
         },
         {
@@ -16163,7 +17766,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "greeting"
             ],
-            "caution": "greet sb 及物直接带人；问候语常用复数 greetings。"
+            "caution": "greet sb 及物直接带人；问候语常用复数 greetings。",
+            "usage": "greet sb with a smile 笑着迎接某人。"
           }
         },
         {
@@ -16180,7 +17784,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "danger",
               "dangerously"
             ],
-            "caution": "in danger 处于危险（用名词 danger）；dangerous 才是形容词。"
+            "caution": "in danger 处于危险（用名词 danger）；dangerous 才是形容词。",
+            "phoneticSplit": "dang · e · rous",
+            "usage": "dangerous 修饰事物；反义 safe。"
           }
         },
         {
@@ -16198,7 +17804,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "perfectly",
               "effect"
             ],
-            "caution": "重音区分词性：/ˈpɜːfɪkt/ 形容词，/pəˈfekt/ 动词。"
+            "caution": "重音区分词性：/ˈpɜːfɪkt/ 形容词，/pəˈfekt/ 动词。",
+            "phoneticSplit": "per · fect",
+            "usage": "perfect 无比较级；Practice makes perfect。"
           }
         },
         {
@@ -16210,7 +17818,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "lioness"
             ],
-            "caution": "复数 lions；lioness 母狮。"
+            "caution": "复数 lions；lioness 母狮。",
+            "usage": "母狮 lioness；a pride of lions 一群狮子。"
           }
         }
       ]
@@ -16229,7 +17838,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "café"
             ],
-            "caution": "双写 f：c-o-f-f-e-e，勿写成 cofe"
+            "caution": "双写 f：c-o-f-f-e-e，勿写成 cofe",
+            "phoneticSplit": "cof · fee",
+            "usage": "不可数：a cup of coffee 一杯咖啡。"
           }
         },
         {
@@ -16242,7 +17853,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "everything",
               "nothing",
               "anything"
-            ]
+            ],
+            "usage": "复数 things 也指情况、随身物品。"
           }
         },
         {
@@ -16254,7 +17866,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "undergo"
             ],
-            "caution": "不规则变化 went-gone，勿写 goed"
+            "caution": "不规则变化 went-gone，勿写 goed",
+            "usage": "go doing 去做某事：go swimming 去游泳。"
           }
         },
         {
@@ -16272,7 +17885,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "expert",
               "experimental"
             ],
-            "caution": "表『经历』可数，表『经验』不可数"
+            "caution": "表『经历』可数，表『经验』不可数",
+            "phoneticSplit": "ex · pe · rience",
+            "usage": "经验不可数，一次经历可数：an experience。"
           }
         },
         {
@@ -16289,7 +17904,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "service",
               "servant",
               "deserve"
-            ]
+            ],
+            "usage": "serve sb with sth；serve as 充当。"
           }
         },
         {
@@ -16302,7 +17918,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "weakness",
               "weakly"
             ],
-            "caution": "与 week 同音异形，勿混拼"
+            "caution": "与 week 同音异形，勿混拼",
+            "usage": "weak 反义 strong；weak point 弱点。"
           }
         },
         {
@@ -16315,7 +17932,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fishing",
               "fisherman"
             ],
-            "caution": "同类鱼复数仍 fish，多种鱼类用 fishes"
+            "caution": "同类鱼复数仍 fish，多种鱼类用 fishes",
+            "usage": "two fish 两条鱼；fishes 指多种鱼。"
           }
         },
         {
@@ -16327,7 +17945,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "rapidly",
               "rapids"
-            ]
+            ],
+            "phoneticSplit": "ra · pid",
+            "usage": "rapid 多修饰变化，比 fast 正式。"
           }
         },
         {
@@ -16340,7 +17960,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rider",
               "ridden"
             ],
-            "caution": "rode-ridden 不规则，勿写 rided"
+            "caution": "rode-ridden 不规则，勿写 rided",
+            "usage": "ride-rode-ridden；give sb a ride 捎一程。"
           }
         },
         {
@@ -16357,7 +17978,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mean",
               "meant",
               "meaningful"
-            ]
+            ],
+            "phoneticSplit": "mea · ning",
+            "usage": "meaning 可数；meaningful 有意义的。"
           }
         },
         {
@@ -16375,7 +17998,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "everything",
               "anyone"
             ],
-            "caution": "作主语谓语用单数：Everyone is here"
+            "caution": "作主语谓语用单数：Everyone is here",
+            "phoneticSplit": "e · ver · yone",
+            "usage": "everyone 作主语用单数；every one 指物。"
           }
         },
         {
@@ -16387,7 +18012,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "dustbin"
             ],
-            "caution": "dustbin 垃圾箱即 bin 加 dust"
+            "caution": "dustbin 垃圾箱即 bin 加 dust",
+            "usage": "bin 可数；put it in the bin 扔进桶里。"
           }
         },
         {
@@ -16401,7 +18027,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "momentary",
               "movement"
             ],
-            "caution": "at the moment 固定搭配『此刻』"
+            "caution": "at the moment 固定搭配『此刻』",
+            "phoneticSplit": "mo · ment",
+            "usage": "at the moment 此刻；in a moment 马上。"
           }
         },
         {
@@ -16415,7 +18043,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bathroom",
               "bathrobe"
             ],
-            "caution": "名词 bath，动词 bathe，勿混"
+            "caution": "名词 bath，动词 bathe，勿混",
+            "usage": "英式说 have a bath；bath 名词，bathe 动词。"
           }
         },
         {
@@ -16434,7 +18063,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "living",
               "room"
             ],
-            "caution": "词表释义『盟洗室』应为『盥洗室』"
+            "caution": "词表释义『盟洗室』应为『盥洗室』",
+            "phoneticSplit": "ba · throom",
+            "usage": "美式 bathroom 也常指厕所。"
           }
         },
         {
@@ -16452,7 +18083,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ancestor",
               "ancestry"
             ],
-            "caution": "重音在第二音节 /ˈeɪnʃənt/"
+            "caution": "重音在第二音节 /ˈeɪnʃənt/",
+            "phoneticSplit": "an · cient",
+            "usage": "ancient 反义 modern；ancient China 古代中国。"
           }
         },
         {
@@ -16466,7 +18099,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "car",
               "park"
             ],
-            "caution": "美式停车场常说 parking lot"
+            "caution": "美式停车场常说 parking lot",
+            "usage": "作动词：park the car 把车停下。"
           }
         },
         {
@@ -16480,7 +18114,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nearby",
               "nearness"
             ],
-            "caution": "nearly 常义为『几乎』，不只『近地』"
+            "caution": "nearly 常义为『几乎』，不只『近地』",
+            "usage": "near 后不加 to；nearer、nearest。"
           }
         },
         {
@@ -16497,7 +18132,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "expense",
               "spend",
               "dispense"
-            ]
+            ],
+            "phoneticSplit": "ex · pen · sive",
+            "usage": "说 high price，不说 expensive price。"
           }
         },
         {
@@ -16514,7 +18151,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "journal",
               "journalist"
             ],
-            "caution": "拼写 j-o-u-r-n-e-y，中间无 l"
+            "caution": "拼写 j-o-u-r-n-e-y，中间无 l",
+            "phoneticSplit": "jour · ney",
+            "usage": "journey 多指长途；trip 指短途一趟。"
           }
         },
         {
@@ -16531,7 +18170,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "geology",
               "photograph",
               "autograph"
-            ]
+            ],
+            "phoneticSplit": "geo · gra · phy",
+            "usage": "geography 不可数；形容词 geographical。"
           }
         },
         {
@@ -16545,7 +18186,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skateboard",
               "skating"
             ],
-            "caution": "go skating 固定搭配"
+            "caution": "go skating 固定搭配",
+            "usage": "go skating 去滑冰；skate 也指冰鞋。"
           }
         },
         {
@@ -16559,7 +18201,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "surely",
               "assure"
             ],
-            "caution": "make sure / be sure to do 固定搭配"
+            "caution": "make sure / be sure to do 固定搭配",
+            "usage": "be sure of/about；make sure 确保。"
           }
         }
       ]
@@ -16583,7 +18226,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "geology",
               "photograph",
               "autograph"
-            ]
+            ],
+            "phoneticSplit": "geo · gra · phy",
+            "usage": "geography 不可数；geography class 地理课。"
           }
         },
         {
@@ -16597,7 +18242,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "skateboard",
               "skating"
             ],
-            "caution": "go skating 固定搭配"
+            "caution": "go skating 固定搭配",
+            "usage": "skate 名词指冰鞋；skating rink 溜冰场。"
           }
         },
         {
@@ -16611,7 +18257,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "surely",
               "assure"
             ],
-            "caution": "make sure / be sure to do 固定搭配"
+            "caution": "make sure / be sure to do 固定搭配",
+            "usage": "口语答 Yes 也可说 Sure；be sure to do 一定做。"
           }
         },
         {
@@ -16628,7 +18275,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "emerge",
               "merge",
               "emergent"
-            ]
+            ],
+            "phoneticSplit": "e · mer · gen · cy",
+            "usage": "in an emergency 在紧急情况下；emergency exit 安全出口。"
           }
         },
         {
@@ -16641,7 +18290,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "crying",
               "cries"
             ],
-            "caution": "y 结尾：第三人称与复数 cry → cries"
+            "caution": "y 结尾：第三人称与复数 cry → cries",
+            "usage": "cry-cried；cry for help 大声呼救。"
           }
         },
         {
@@ -16655,7 +18305,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "foresee",
               "forehead"
             ],
-            "caution": "at first 先、first of all 首先两个短语分清"
+            "caution": "at first 先、first of all 首先两个短语分清",
+            "usage": "at first 起初；first 也可作副词。"
           }
         },
         {
@@ -16668,7 +18319,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mingle",
               "mixture"
             ],
-            "caution": "三者及以上才用 among"
+            "caution": "三者及以上才用 among",
+            "phoneticSplit": "a · mong",
+            "usage": "among 用于三者以上，between 用于两者。"
           }
         },
         {
@@ -16686,7 +18339,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cargo",
               "carriage"
             ],
-            "caution": "carry on 继续、carry out 执行两个短语常考"
+            "caution": "carry on 继续、carry out 执行两个短语常考",
+            "phoneticSplit": "car · ry",
+            "usage": "carry out 执行；carry on 继续。"
           }
         },
         {
@@ -16703,7 +18358,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "officer",
               "official"
             ],
-            "caution": "in the office 固定用 in"
+            "caution": "in the office 固定用 in",
+            "phoneticSplit": "of · fice",
+            "usage": "office 也指政府机关；in office 在任。"
           }
         },
         {
@@ -16717,7 +18374,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Miss",
               "Ms"
             ],
-            "caution": "美式常带点写作 Mrs."
+            "caution": "美式常带点写作 Mrs.",
+            "usage": "Mrs 后接丈夫姓；Miss 未婚，Ms 不明。"
           }
         },
         {
@@ -16734,7 +18392,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stupidity",
               "stupefy",
               "stupor"
-            ]
+            ],
+            "phoneticSplit": "stu · pid",
+            "usage": "stupid 带贬义；正式场合用 foolish。"
           }
         },
         {
@@ -16747,7 +18407,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "winery",
               "vineyard"
             ],
-            "caution": "wine 泛指葡萄酒，liquor 才是烈酒"
+            "caution": "wine 泛指葡萄酒，liquor 才是烈酒",
+            "usage": "不可数；a glass of wine 一杯葡萄酒。"
           }
         },
         {
@@ -16760,7 +18421,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "guilt",
               "guiltily"
             ],
-            "caution": "be guilty of + 罪行；开头 gu 勿拼成 gi"
+            "caution": "be guilty of + 罪行；开头 gu 勿拼成 gi",
+            "phoneticSplit": "guil · ty",
+            "usage": "be guilty of 犯……罪；a guilty look 心虚的样子。"
           }
         },
         {
@@ -16773,7 +18436,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "obedient",
               "obedience"
             ],
-            "caution": "过去式 obeyed 不双写 b"
+            "caution": "过去式 obeyed 不双写 b",
+            "phoneticSplit": "o · bey",
+            "usage": "obey 直接跟宾语，后面不加 to。"
           }
         },
         {
@@ -16791,7 +18456,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "microscope",
               "wavelength"
             ],
-            "caution": "全称 microwave oven"
+            "caution": "全称 microwave oven",
+            "phoneticSplit": "mi · cro · wave",
+            "usage": "可作动词：microwave the soup 热汤。"
           }
         },
         {
@@ -16804,7 +18471,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oaken",
               "oak",
               "tree"
-            ]
+            ],
+            "usage": "橡树果实叫 acorn；oak 木质硬。"
           }
         },
         {
@@ -16817,7 +18485,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spotless",
               "spotlight"
             ],
-            "caution": "on the spot 固定『当场』"
+            "caution": "on the spot 固定『当场』",
+            "usage": "spot sb doing 发现某人做某事。"
           }
         },
         {
@@ -16831,7 +18500,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "frying",
               "fryer"
             ],
-            "caution": "过去式 fried，勿双写 i"
+            "caution": "过去式 fried，勿双写 i",
+            "usage": "fry-fried；fried rice 炒饭。"
           }
         },
         {
@@ -16849,7 +18519,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "portable",
               "export"
             ],
-            "caution": "美式常说 transportation，英式多省作 transport"
+            "caution": "美式常说 transportation，英式多省作 transport",
+            "phoneticSplit": "tran · spor · ta · tion",
+            "usage": "美式 transportation，英式 transport。"
           }
         }
       ]
@@ -16874,7 +18546,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "novelty",
               "innovation"
             ],
-            "caution": "作形容词指『新颖的』，与『小说』义靠语境区分"
+            "caution": "作形容词指『新颖的』，与『小说』义靠语境区分",
+            "phoneticSplit": "no · vel",
+            "usage": "novel 可数；science fiction 科幻小说。"
           }
         },
         {
@@ -16888,7 +18562,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "distress",
               "stressful"
             ],
-            "caution": "under stress 固定『承受压力』"
+            "caution": "under stress 固定『承受压力』",
+            "usage": "under stress 在压力下；lay stress on 强调"
           }
         },
         {
@@ -16901,7 +18576,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "feverish",
               "feverishly"
             ],
-            "caution": "have a fever 固定搭配"
+            "caution": "have a fever 固定搭配",
+            "phoneticSplit": "fe · ver",
+            "usage": "have a fever 发烧（用 have，不用 get）"
           }
         },
         {
@@ -16914,7 +18591,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "isle",
               "peninsula"
             ],
-            "caution": "s 不发音 /ˈaɪlənd/，勿读成 isl-"
+            "caution": "s 不发音 /ˈaɪlənd/，勿读成 isl-",
+            "phoneticSplit": "i · sland",
+            "usage": "island 的 s 不发音，别漏写也别读出来"
           }
         },
         {
@@ -16932,7 +18611,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "provider",
               "provided"
             ],
-            "caution": "provide sb with sth 或 provide sth for sb"
+            "caution": "provide sb with sth 或 provide sth for sb",
+            "phoneticSplit": "pro · vide",
+            "usage": "provide sb with sth；provide sth for sb"
           }
         },
         {
@@ -16950,7 +18631,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "energize",
               "erg"
             ],
-            "caution": "形容词 energetic，勿多写一个 e"
+            "caution": "形容词 energetic，勿多写一个 e",
+            "phoneticSplit": "e · ner · gy",
+            "usage": "full of energy 精力充沛；clean energy 清洁能源"
           }
         },
         {
@@ -16968,7 +18651,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "themselves",
               "myself"
             ],
-            "caution": "by ourselves 固定『靠我们自己』"
+            "caution": "by ourselves 固定『靠我们自己』",
+            "phoneticSplit": "our · selves",
+            "usage": "by ourselves 我们独自；help ourselves 自己动手"
           }
         },
         {
@@ -16981,7 +18666,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "owl",
               "bowls"
             ],
-            "caution": "a bowl of rice 固定量词搭配"
+            "caution": "a bowl of rice 固定量词搭配",
+            "usage": "可数：a bowl of noodles 一碗面"
           }
         },
         {
@@ -16993,7 +18679,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "parrot"
             ],
-            "caution": "与 parrot 只差首字母，勿混"
+            "caution": "与 parrot 只差首字母，勿混",
+            "phoneticSplit": "car · rot",
+            "usage": "可数：a carrot / two carrots"
           }
         },
         {
@@ -17006,7 +18694,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "each",
               "reachable"
             ],
-            "caution": "reach 及物动词，不说 reach to"
+            "caution": "reach 及物动词，不说 reach to",
+            "usage": "reach 直接接地点，不加 to；reach for 伸手去拿"
           }
         },
         {
@@ -17020,7 +18709,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "partnership",
               "partial"
             ],
-            "caution": "亦可作动词『做……的搭档』"
+            "caution": "亦可作动词『做……的搭档』",
+            "phoneticSplit": "part · ner",
+            "usage": "business partner 生意伙伴；partner 可指配偶"
           }
         },
         {
@@ -17034,7 +18725,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "strictly",
               "strictness"
             ],
-            "caution": "be strict with sb 固定搭配"
+            "caution": "be strict with sb 固定搭配",
+            "usage": "be strict with sb；be strict about sth"
           }
         },
         {
@@ -17048,7 +18740,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "readily",
               "readiness"
             ],
-            "caution": "be ready to do / get ready for 固定"
+            "caution": "be ready to do / get ready for 固定",
+            "phoneticSplit": "rea · dy",
+            "usage": "be ready to do；get ready for"
           }
         },
         {
@@ -17061,7 +18755,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "walk",
               "talk"
             ],
-            "caution": "a piece of chalk 固定量词"
+            "caution": "a piece of chalk 固定量词",
+            "usage": "不可数：a piece of chalk"
           }
         },
         {
@@ -17075,7 +18770,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "desk",
               "lamp"
             ],
-            "caution": "sit at the desk 固定，不说 sit on"
+            "caution": "sit at the desk 固定，不说 sit on",
+            "usage": "at the desk 在桌前；指课桌、办公桌"
           }
         },
         {
@@ -17089,7 +18785,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "retell",
               "teller"
             ],
-            "caution": "过去式、分词均为 told，不规则勿加 -ed"
+            "caution": "过去式、分词均为 told，不规则勿加 -ed",
+            "usage": "tell sb sth；tell A from B 分辨"
           }
         },
         {
@@ -17103,7 +18800,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "printer",
               "impression"
             ],
-            "caution": "in print 固定『已出版』"
+            "caution": "in print 固定『已出版』",
+            "usage": "print out 打印出来；in print 已出版"
           }
         },
         {
@@ -17117,7 +18815,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sporty",
               "esports"
             ],
-            "caution": "运动会说 sports meeting，sport 常用复数表多项"
+            "caution": "运动会说 sports meeting，sport 常用复数表多项",
+            "usage": "作定语用复数：sports shoes 运动鞋"
           }
         },
         {
@@ -17130,7 +18829,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spelling",
               "speller"
             ],
-            "caution": "过去式 spelt 或 spelled 皆可"
+            "caution": "过去式 spelt 或 spelled 皆可",
+            "usage": "spell-spelt/spelled；spelling 拼写"
           }
         },
         {
@@ -17144,7 +18844,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "queen",
               "kinship"
             ],
-            "caution": "专有名词时 King 首字母大写"
+            "caution": "专有名词时 King 首字母大写",
+            "usage": "the king of 常喻指‘……大王’"
           }
         }
       ]
@@ -17165,7 +18866,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "orange",
               "juice"
             ],
-            "caution": "形容词 juicy 多汁"
+            "caution": "形容词 juicy 多汁",
+            "usage": "不可数：a glass of juice"
           }
         },
         {
@@ -17178,7 +18880,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "note",
               "textbook",
               "bookmark"
-            ]
+            ],
+            "phoneticSplit": "no · te · book",
+            "usage": "也指笔记本电脑"
           }
         },
         {
@@ -17192,7 +18896,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "forehead",
               "forever"
             ],
-            "caution": "I have seen it before：before 常配完成时"
+            "caution": "I have seen it before：before 常配完成时",
+            "phoneticSplit": "be · fore",
+            "usage": "before 后可接从句；ago 只跟时间段"
           }
         },
         {
@@ -17206,7 +18912,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "test",
               "paper"
             ],
-            "caution": "have / take a test 固定"
+            "caution": "have / take a test 固定",
+            "usage": "take/have a test；作动词=检验"
           }
         },
         {
@@ -17220,7 +18927,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "passage",
               "passport"
             ],
-            "caution": "pass the exam 通过考试；passport 护照同根"
+            "caution": "pass the exam 通过考试；passport 护照同根",
+            "usage": "pass sb sth = pass sth to sb"
           }
         },
         {
@@ -17234,7 +18942,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unbalanced",
               "imbalance"
             ],
-            "caution": "keep one's balance 固定『保持平衡』"
+            "caution": "keep one's balance 固定『保持平衡』",
+            "phoneticSplit": "ba · lance",
+            "usage": "keep/lose one's balance 保持/失去平衡"
           }
         },
         {
@@ -17246,7 +18956,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "robotic",
               "robotics"
-            ]
+            ],
+            "phoneticSplit": "ro · bot",
+            "usage": "可数；robot 可作定语：robot arm"
           }
         },
         {
@@ -17258,7 +18970,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "seating"
             ],
-            "caution": "take a seat / take one's seat 固定"
+            "caution": "take a seat / take one's seat 固定",
+            "usage": "take a seat 请坐；be seated 坐着"
           }
         },
         {
@@ -17276,7 +18989,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "creation",
               "creativity"
             ],
-            "caution": "名词是 creativity，勿拼 creativety"
+            "caution": "名词是 creativity，勿拼 creativety",
+            "phoneticSplit": "crea · tive",
+            "usage": "creative thinking 创造性思维"
           }
         },
         {
@@ -17290,7 +19005,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "timetable",
               "sometimes"
             ],
-            "caution": "表『倍』用 times：three times；『时代』也用复数 times"
+            "caution": "表『倍』用 times：three times；『时代』也用复数 times",
+            "usage": "three times 三次；in time 及时 / on time 准时"
           }
         },
         {
@@ -17304,7 +19020,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tennis",
               "ping-pong",
               "table"
-            ]
+            ],
+            "usage": "ping-pong = table tennis"
           }
         },
         {
@@ -17318,7 +19035,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "glory",
               "gladly"
             ],
-            "caution": "be glad to do 固定搭配"
+            "caution": "be glad to do 固定搭配",
+            "usage": "glad/happy/pleased 中 glad 最口语"
           }
         },
         {
@@ -17332,7 +19050,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "crack",
               "crazily"
             ],
-            "caution": "be crazy about doing sth 固定搭配"
+            "caution": "be crazy about doing sth 固定搭配",
+            "phoneticSplit": "cra · zy",
+            "usage": "be crazy about sth 对……着迷"
           }
         },
         {
@@ -17350,7 +19070,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "review",
               "viewer"
             ],
-            "caution": "have an interview 固定搭配"
+            "caution": "have an interview 固定搭配",
+            "phoneticSplit": "in · ter · view",
+            "usage": "job interview 求职面试；interview sb 采访某人"
           }
         },
         {
@@ -17368,7 +19090,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "parallel",
               "comparable"
             ],
-            "caution": "compare A with B 比较；compare A to B 把 A 比作 B"
+            "caution": "compare A with B 比较；compare A to B 把 A 比作 B",
+            "phoneticSplit": "com · pare",
+            "usage": "compare A with B 比较；compare to 比作"
           }
         },
         {
@@ -17382,7 +19106,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seagull",
               "seal"
             ],
-            "caution": "at sea 固定『在海上』"
+            "caution": "at sea 固定『在海上』",
+            "usage": "at sea 在海上；sea 大于 lake"
           }
         },
         {
@@ -17396,7 +19121,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "used",
               "usage"
             ],
-            "caution": "名词 /juːs/、动词 /juːz/，同形不同读"
+            "caution": "名词 /juːs/、动词 /juːz/，同形不同读",
+            "usage": "used to do 过去常做；be used to doing 习惯于"
           }
         },
         {
@@ -17410,7 +19136,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "side",
               "insider"
             ],
-            "caution": "inside out 固定『里外翻转』"
+            "caution": "inside out 固定『里外翻转』",
+            "phoneticSplit": "in · side",
+            "usage": "可作介词、副词、形容词：inside the box"
           }
         },
         {
@@ -17424,7 +19152,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "athletics",
               "triathlon"
             ],
-            "caution": "两音节 /ˈæθliːt/，勿读成三音节"
+            "caution": "两音节 /ˈæθliːt/，勿读成三音节",
+            "phoneticSplit": "ath · lete",
+            "usage": "athlete 指田径等项目选手；player 指球类"
           }
         },
         {
@@ -17437,7 +19167,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wholly",
               "wholeness"
             ],
-            "caution": "与 hole 同音，w 不发音勿拼漏"
+            "caution": "与 hole 同音，w 不发音勿拼漏",
+            "phoneticSplit": "who · le",
+            "usage": "the whole day 一整天；on the whole 总的来说"
           }
         }
       ]
@@ -17458,7 +19190,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "thickness",
               "thin"
             ],
-            "caution": "与 thin 反义对照记"
+            "caution": "与 thin 反义对照记",
+            "usage": "反义 thin；thick fog 浓雾"
           }
         },
         {
@@ -17472,7 +19205,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shareholder",
               "shared"
             ],
-            "caution": "share sth with sb 固定搭配"
+            "caution": "share sth with sb 固定搭配",
+            "usage": "share sth with sb；作名词=一份、股份"
           }
         },
         {
@@ -17487,7 +19221,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "online",
               "shopping"
             ],
-            "caution": "常合写一词 online，勿写 on line"
+            "caution": "常合写一词 online，勿写 on line",
+            "phoneticSplit": "on · line",
+            "usage": "online shopping 网购；go online 上网"
           }
         },
         {
@@ -17500,7 +19236,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bigger",
               "biggest"
             ],
-            "caution": "比较级、最高级双写 g：bigger / biggest"
+            "caution": "比较级、最高级双写 g：bigger / biggest",
+            "usage": "big 多指体积；great 多指程度、伟大"
           }
         },
         {
@@ -17514,7 +19251,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nobody",
               "anybody"
             ],
-            "caution": "作 n. 重要人物：be somebody 成个人物"
+            "caution": "作 n. 重要人物：be somebody 成个人物",
+            "phoneticSplit": "so · me · bo · dy",
+            "usage": "肯定句用 somebody；疑问否定用 anybody"
           }
         },
         {
@@ -17527,7 +19266,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "south",
               "mouthful"
             ],
-            "caution": "复数 mouths 读 /maʊðz/，th 清浊变化"
+            "caution": "复数 mouths 读 /maʊðz/，th 清浊变化",
+            "usage": "by word of mouth 口头相传"
           }
         },
         {
@@ -17540,7 +19280,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "afternoon",
               "noonday"
             ],
-            "caution": "at noon 固定，不加 in"
+            "caution": "at noon 固定，不加 in",
+            "usage": "at noon 不加 the"
           }
         },
         {
@@ -17558,7 +19299,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "important",
               "importantly"
             ],
-            "caution": "be of importance 相当于 important 作表语"
+            "caution": "be of importance 相当于 important 作表语",
+            "phoneticSplit": "im · por · tance",
+            "usage": "the importance of doing sth 做……的重要性"
           }
         },
         {
@@ -17573,7 +19316,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fence",
               "off"
             ],
-            "caution": "词表释义『篱』应为『篱笆』"
+            "caution": "词表释义『篱』应为『篱笆』",
+            "usage": "sit on the fence 骑墙观望"
           }
         },
         {
@@ -17591,7 +19335,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "entertainer",
               "entertaining"
             ],
-            "caution": "拼写长，en-ter-tain-ment 分段背"
+            "caution": "拼写长，en-ter-tain-ment 分段背",
+            "phoneticSplit": "en · ter · tain · ment",
+            "usage": "for entertainment 为了消遣"
           }
         },
         {
@@ -17604,7 +19350,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "altitude",
               "aptitude"
             ],
-            "caution": "与 altitude（海拔）只差一字母，勿混"
+            "caution": "与 altitude（海拔）只差一字母，勿混",
+            "phoneticSplit": "at · ti · tude",
+            "usage": "attitude to/towards sth 对……的态度"
           }
         },
         {
@@ -17618,7 +19366,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "crowded",
               "crowdedness"
             ],
-            "caution": "a crowd of 固定；形容词 crowded 拥挤的"
+            "caution": "a crowd of 固定；形容词 crowded 拥挤的",
+            "usage": "a crowd of 一群；crowded 拥挤的"
           }
         },
         {
@@ -17632,7 +19381,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "football",
               "rugby"
             ],
-            "caution": "英式说 football，美式 soccer 才是足球"
+            "caution": "英式说 football，美式 soccer 才是足球",
+            "phoneticSplit": "soc · cer",
+            "usage": "美式说 soccer；football 在美指橄榄球"
           }
         },
         {
@@ -17645,7 +19396,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "monitor",
               "monstrous",
               "demonstrate"
-            ]
+            ],
+            "phoneticSplit": "mon · ster",
+            "usage": "可作定语：a monster wave 巨浪"
           }
         },
         {
@@ -17659,7 +19412,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "light",
               "highlight"
             ],
-            "caution": "in the spotlight 固定『受瞩目』"
+            "caution": "in the spotlight 固定『受瞩目』",
+            "phoneticSplit": "spot · light",
+            "usage": "in the spotlight 处于公众关注中"
           }
         }
       ]
@@ -17679,7 +19434,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "raincoat",
               "overcoat"
             ],
-            "caution": "复数 coats；动词义“涂上”常配 coat...with..."
+            "caution": "复数 coats；动词义“涂上”常配 coat...with...",
+            "usage": "作动词=涂一层：coated with sugar"
           }
         },
         {
@@ -17693,7 +19449,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "entry",
               "enterprise"
             ],
-            "caution": "不双写 r；enter for 报名参加"
+            "caution": "不双写 r；enter for 报名参加",
+            "phoneticSplit": "en · ter",
+            "usage": "enter 后直接接宾语，不加 into"
           }
         },
         {
@@ -17706,7 +19464,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chemist",
               "chemical"
             ],
-            "caution": "别漏中间 ist；chemist 还可指药剂师"
+            "caution": "别漏中间 ist；chemist 还可指药剂师",
+            "phoneticSplit": "che · mi · stry",
+            "usage": "也指‘默契’：the chemistry between them"
           }
         },
         {
@@ -17720,7 +19480,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "snowstorm",
               "rainstorm"
             ],
-            "caution": "复数 storms；形容词 stormy"
+            "caution": "复数 storms；形容词 stormy",
+            "usage": "a storm of 一阵（掌声、批评）"
           }
         },
         {
@@ -17737,7 +19498,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "interesting",
               "interested"
             ],
-            "caution": "interested 后接 in；interest 还有“利息”义"
+            "caution": "interested 后接 in；interest 还有“利息”义",
+            "phoneticSplit": "in · te · rest",
+            "usage": "show interest in；places of interest 名胜"
           }
         },
         {
@@ -17749,7 +19512,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "challenger"
             ],
-            "caution": "双写 l；challenge sb to sth 向某人挑战"
+            "caution": "双写 l；challenge sb to sth 向某人挑战",
+            "phoneticSplit": "chal · lenge",
+            "usage": "face/meet a challenge；challenge sb to do"
           }
         },
         {
@@ -17763,7 +19528,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "output",
               "computer"
             ],
-            "caution": "现在分词 putting 双写 t；过去式与原形同形"
+            "caution": "现在分词 putting 双写 t；过去式与原形同形",
+            "usage": "put off 推迟；put up 举起、张贴"
           }
         },
         {
@@ -17777,7 +19543,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "showcase",
               "showy"
             ],
-            "caution": "不规则变化 showed-shown"
+            "caution": "不规则变化 showed-shown",
+            "usage": "show sb sth；on show 在展出"
           }
         },
         {
@@ -17790,7 +19557,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "treasurer",
               "treasury"
             ],
-            "caution": "sure 部分读 /ʒ/ 不是 /ʃ/；复数 treasures"
+            "caution": "sure 部分读 /ʒ/ 不是 /ʃ/；复数 treasures",
+            "phoneticSplit": "trea · sure",
+            "usage": "作动词=珍视：treasure the moment"
           }
         },
         {
@@ -17802,7 +19571,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "basketball"
             ],
-            "caution": "复数 baskets；basketball 合成词连写"
+            "caution": "复数 baskets；basketball 合成词连写",
+            "phoneticSplit": "ba · sket",
+            "usage": "加 ball 就是 basketball"
           }
         },
         {
@@ -17815,7 +19586,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "height",
               "highly"
             ],
-            "caution": "名词是 height 不是 highth；highly 表程度“高度地”"
+            "caution": "名词是 height 不是 highth；highly 表程度“高度地”",
+            "usage": "high 指高度；tall 指人、树的身高"
           }
         },
         {
@@ -17828,7 +19600,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dealer",
               "dealing"
             ],
-            "caution": "过去式 dealt；a great deal of 只接不可数名词"
+            "caution": "过去式 dealt；a great deal of 只接不可数名词",
+            "usage": "deal with 处理；a great deal of 大量"
           }
         },
         {
@@ -17842,7 +19615,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "when",
               "where"
             ],
-            "caution": "回答用 because；why not do sth 表建议"
+            "caution": "回答用 because；why not do sth 表建议",
+            "usage": "Why not do...? 提建议；That's why 所以"
           }
         },
         {
@@ -17854,7 +19628,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "pineapple"
             ],
-            "caution": "可数名词；元音开头用 an apple"
+            "caution": "可数名词；元音开头用 an apple",
+            "phoneticSplit": "ap · ple",
+            "usage": "可数；the Big Apple 指纽约"
           }
         },
         {
@@ -17866,7 +19642,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "sometime"
             ],
-            "caution": "与 sometime（某时）区分；句中不与频率词连用"
+            "caution": "与 sometime（某时）区分；句中不与频率词连用",
+            "phoneticSplit": "so · me · times",
+            "usage": "sometimes 有时；sometime 某时；some time 一段时间"
           }
         },
         {
@@ -17879,7 +19657,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "darkness",
               "darken"
             ],
-            "caution": "dark blue 深蓝色；名词 darkness"
+            "caution": "dark blue 深蓝色；名词 darkness",
+            "usage": "in the dark 在暗处、蒙在鼓里"
           }
         },
         {
@@ -17893,7 +19672,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunshine",
               "sunlight"
             ],
-            "caution": "形容词 sunny 双写 n；in the sun 在阳光下"
+            "caution": "形容词 sunny 双写 n；in the sun 在阳光下",
+            "usage": "前加 the；sunny 晴朗的"
           }
         },
         {
@@ -17910,7 +19690,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "congratulate",
               "grateful"
             ],
-            "caution": "常用复数 Congratulations；动词是 congratulate"
+            "caution": "常用复数 Congratulations；动词是 congratulate",
+            "phoneticSplit": "con · gra · tu · la · tion",
+            "usage": "Congratulations! 用复数；congratulate sb on sth"
           }
         },
         {
@@ -17922,7 +19704,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "mousy"
             ],
-            "caution": "复数 mice 不规则，别写成 mouses"
+            "caution": "复数 mice 不规则，别写成 mouses",
+            "usage": "复数 mice；鼠标义复数 mouses"
           }
         },
         {
@@ -17939,7 +19722,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accuse",
               "excusable"
             ],
-            "caution": "名词读 /ɪkˈskjuːs/，动词读 /ɪkˈskjuːz/"
+            "caution": "名词读 /ɪkˈskjuːs/，动词读 /ɪkˈskjuːz/",
+            "phoneticSplit": "ex · cuse",
+            "usage": "Excuse me 打扰一下；make an excuse 找借口"
           }
         }
       ]
@@ -17958,7 +19743,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "choice"
             ],
-            "caution": "过去式 chose，过去分词 chosen；现在分词 choosing 去 e"
+            "caution": "过去式 chose，过去分词 chosen；现在分词 choosing 去 e",
+            "usage": "choose-chose-chosen；choose to do"
           }
         },
         {
@@ -17975,7 +19761,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "secretary",
               "secrete"
             ],
-            "caution": "keep a secret 固定搭配；in secret 秘密地"
+            "caution": "keep a secret 固定搭配；in secret 秘密地",
+            "phoneticSplit": "se · cret",
+            "usage": "keep a secret 保守秘密；in secret 秘密地"
           }
         },
         {
@@ -17987,7 +19775,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "jobless"
             ],
-            "caution": "可数名词；job 与 work 的可数性区别常考"
+            "caution": "可数名词；job 与 work 的可数性区别常考",
+            "usage": "job 可数；work 不可数"
           }
         },
         {
@@ -18001,7 +19790,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leadership",
               "leading"
             ],
-            "caution": "过去式 led；lead to 导致；作“铅”解读 /led/"
+            "caution": "过去式 led；lead to 导致；作“铅”解读 /led/",
+            "usage": "lead to 导致；lead-led-led"
           }
         },
         {
@@ -18014,7 +19804,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "one",
               "twice"
             ],
-            "caution": "at once 立刻，all at once 突然，两个短语别混"
+            "caution": "at once 立刻，all at once 突然，两个短语别混",
+            "usage": "at once 立刻；once 引导从句=一旦"
           }
         },
         {
@@ -18027,7 +19818,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nearby",
               "bye"
             ],
-            "caution": "被动句施动者用 by；by 与 until 表截止时间的区别"
+            "caution": "被动句施动者用 by；by 与 until 表截止时间的区别",
+            "usage": "by + 交通工具不加冠词；by the way 顺便"
           }
         },
         {
@@ -18039,7 +19831,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "eve"
             ],
-            "caution": "in the evening 固定搭配；Good evening 用于晚间问候"
+            "caution": "in the evening 固定搭配；Good evening 用于晚间问候",
+            "phoneticSplit": "e · ve · ning",
+            "usage": "in the evening；指傍晚到睡前"
           }
         },
         {
@@ -18052,7 +19846,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gifted",
               "give"
             ],
-            "caution": "have a gift for doing sth 固定搭配"
+            "caution": "have a gift for doing sth 固定搭配",
+            "usage": "a gift for music 音乐天赋"
           }
         },
         {
@@ -18065,7 +19860,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "addition",
               "additional"
             ],
-            "caution": "双写 d；add...to... 把…加到…上"
+            "caution": "双写 d；add...to... 把…加到…上",
+            "usage": "add to 增添；add up 加起来"
           }
         },
         {
@@ -18079,7 +19875,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "luckily",
               "unlucky"
             ],
-            "caution": "lucky 不双写 c；good luck 后不接不定式"
+            "caution": "lucky 不双写 c；good luck 后不接不定式",
+            "usage": "good luck 祝好运；lucky 幸运的"
           }
         },
         {
@@ -18094,7 +19891,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "active",
               "activity"
             ],
-            "caution": "act as 担任；action 是名词“行动”"
+            "caution": "act as 担任；action 是名词“行动”",
+            "usage": "act as 充当；take action 采取行动"
           }
         },
         {
@@ -18107,7 +19905,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "talkative",
               "walk"
             ],
-            "caution": "talk to sb 与 talk with sb 均可；have a talk 谈一谈"
+            "caution": "talk to sb 与 talk with sb 均可；have a talk 谈一谈",
+            "usage": "talk to/with sb；talk about sth"
           }
         },
         {
@@ -18121,7 +19920,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "counter",
               "discount"
             ],
-            "caution": "count on 依靠；count from 1 to 100 从一数到一百"
+            "caution": "count on 依靠；count from 1 to 100 从一数到一百",
+            "usage": "count on 依靠；count 也指‘有分量’"
           }
         },
         {
@@ -18130,7 +19930,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/roʊp/",
             "quick": "pull the rope 拔河那根——绳子",
-            "caution": "jump rope 与 skip rope 均指跳绳"
+            "caution": "jump rope 与 skip rope 均指跳绳",
+            "usage": "a rope 一根绳；jump rope 跳绳"
           }
         },
         {
@@ -18142,7 +19943,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "honeymoon"
             ],
-            "caution": "不可数名词；作爱称时 Honey 首字母可大写"
+            "caution": "不可数名词；作爱称时 Honey 首字母可大写",
+            "phoneticSplit": "ho · ney",
+            "usage": "不可数；也作称呼语‘亲爱的’"
           }
         },
         {
@@ -18159,7 +19962,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accidental",
               "accidentally"
             ],
-            "caution": "by accident 固定搭配表“偶然”"
+            "caution": "by accident 固定搭配表“偶然”",
+            "phoneticSplit": "ac · ci · dent",
+            "usage": "by accident 偶然；traffic accident 交通事故"
           }
         },
         {
@@ -18171,7 +19976,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "kidnap"
             ],
-            "caution": "复数 kids；Are you kidding 高频口语"
+            "caution": "复数 kids；Are you kidding 高频口语",
+            "usage": "口语指孩子；kid sb 逗某人"
           }
         },
         {
@@ -18187,7 +19993,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "decrease"
             ],
-            "caution": "名词读 /ˈɪŋkriːs/，动词读 /ɪnˈkriːs/，重音有别"
+            "caution": "名词读 /ˈɪŋkriːs/，动词读 /ɪnˈkriːs/，重音有别",
+            "phoneticSplit": "in · crease",
+            "usage": "increase by 增长了；increase to 增到"
           }
         },
         {
@@ -18201,7 +20009,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "town",
               "homeland"
             ],
-            "caution": "合成词必须连写 hometown"
+            "caution": "合成词必须连写 hometown",
+            "phoneticSplit": "ho · me · town",
+            "usage": "前用 my，不加 the"
           }
         },
         {
@@ -18214,7 +20024,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "price",
               "appreciate"
             ],
-            "caution": "win the first prize 获一等奖固定说法，prize 前用 the"
+            "caution": "win the first prize 获一等奖固定说法，prize 前用 the",
+            "usage": "prize 与 price 差一字母：奖 vs 价"
           }
         }
       ]
@@ -18234,7 +20045,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "best",
               "good"
             ],
-            "caution": "had better 后接动词原形；not...but better? no—比较级不与 more 连用"
+            "caution": "had better 后接动词原形；not...but better? no—比较级不与 more 连用",
+            "phoneticSplit": "bet · ter",
+            "usage": "had better do 最好做；反义 worse"
           }
         },
         {
@@ -18243,7 +20056,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/bət/",
             "quick": "but 一拐弯——但是",
-            "caution": "but 前常加逗号；与 however（更书面）辨析"
+            "caution": "but 前常加逗号；与 however（更书面）辨析",
+            "usage": "nothing but 只有；作介词=除……外"
           }
         },
         {
@@ -18256,7 +20070,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "follower",
               "following"
             ],
-            "caution": "as follows 固定搭配，follows 带 s 不变"
+            "caution": "as follows 固定搭配，follows 带 s 不变",
+            "phoneticSplit": "fol · low",
+            "usage": "也指听懂：I can't follow you"
           }
         },
         {
@@ -18265,7 +20081,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ɛls/",
             "quick": "Anything else? 店员那句——还有别的",
-            "caution": "所有格加在 else 后：someone else's bag"
+            "caution": "所有格加在 else 后：someone else's bag",
+            "usage": "放疑问词后：what else、who else"
           }
         },
         {
@@ -18279,7 +20096,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gardening",
               "yard"
             ],
-            "caution": "in the garden 固定搭配"
+            "caution": "in the garden 固定搭配",
+            "phoneticSplit": "gar · den",
+            "usage": "in the garden；gardening 园艺"
           }
         },
         {
@@ -18292,7 +20111,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "piglet",
               "piggy"
             ],
-            "caution": "复数 pigs"
+            "caution": "复数 pigs",
+            "usage": "可数；猪肉是 pork"
           }
         },
         {
@@ -18309,7 +20129,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "country",
               "side"
             ],
-            "caution": "通常与 the 连用：in the countryside"
+            "caution": "通常与 the 连用：in the countryside",
+            "phoneticSplit": "coun · try · side",
+            "usage": "in the countryside 在乡下；比 village 范围大。"
           }
         },
         {
@@ -18321,7 +20143,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "ray"
             ],
-            "caution": "X 大写，中间有连字符；an X-ray"
+            "caution": "X 大写，中间有连字符；an X-ray",
+            "usage": "take an X-ray 拍一张 X 光片。"
           }
         },
         {
@@ -18330,7 +20153,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkoʊlə/",
             "quick": "① Coca-Cola 的后半截——可乐。\n② 「可乐」——音译词，就是可乐饮料。",
-            "caution": "不可数；量词用 a can of cola"
+            "caution": "不可数；量词用 a can of cola",
+            "phoneticSplit": "co · la",
+            "usage": "a can of cola 一罐可乐。"
           }
         },
         {
@@ -18347,7 +20172,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gold",
               "goldfish"
             ],
-            "caution": "材质用 gold（a gold ring），颜色比喻用 golden"
+            "caution": "材质用 gold（a gold ring），颜色比喻用 golden",
+            "phoneticSplit": "gol · den",
+            "usage": "golden age 黄金时代；实金说 gold。"
           }
         },
         {
@@ -18360,7 +20187,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "internet",
               "network"
             ],
-            "caution": "net weight 净重；surf the net 上网"
+            "caution": "net weight 净重；surf the net 上网",
+            "usage": "net weight 净重；the Net 互联网。"
           }
         },
         {
@@ -18376,7 +20204,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "say"
             ],
-            "caution": "as the saying goes 固定搭配，goes 用三单"
+            "caution": "as the saying goes 固定搭配，goes 用三单",
+            "phoneticSplit": "sa · ying",
+            "usage": "as the saying goes 常言道。"
           }
         },
         {
@@ -18390,7 +20220,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "confirm",
               "affirm"
             ],
-            "caution": "firmly 副词；confirm、affirm 同含 firm 根"
+            "caution": "firmly 副词；confirm、affirm 同含 firm 根",
+            "usage": "a firm handshake 有力的握手；a law firm 律所。"
           }
         },
         {
@@ -18407,7 +20238,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "suit",
               "suited"
             ],
-            "caution": "be suitable for sb/sth 固定搭配"
+            "caution": "be suitable for sb/sth 固定搭配",
+            "phoneticSplit": "sui · ta · ble",
+            "usage": "be suitable for 适合于。"
           }
         },
         {
@@ -18420,7 +20253,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beautiful",
               "beautify"
             ],
-            "caution": "复数 beauties；beautiful 形容词双写 l 前加 ful? no—beauti+ful"
+            "caution": "复数 beauties；beautiful 形容词双写 l 前加 ful? no—beauti+ful",
+            "phoneticSplit": "beau · ty",
+            "usage": "beauty 指美或美人；形容词是 beautiful。"
           }
         },
         {
@@ -18429,7 +20264,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/bəlb/",
             "quick": "拧下来那颗圆灯泡，像颗洋葱头——灯泡。",
-            "caution": "复数 bulbs；light bulb 固定说法"
+            "caution": "复数 bulbs；light bulb 固定说法",
+            "usage": "a light bulb 灯泡。"
           }
         },
         {
@@ -18438,7 +20274,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/klæp/",
             "quick": "clap your hands 拍手——鼓掌。",
-            "caution": "现在分词 clapping 双写 p"
+            "caution": "现在分词 clapping 双写 p",
+            "usage": "clap hands 拍手；也指雷声轰鸣。"
           }
         },
         {
@@ -18456,7 +20293,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mission",
               "admission"
             ],
-            "caution": "ask for permission；with one's permission 经某人允许"
+            "caution": "ask for permission；with one's permission 经某人允许",
+            "phoneticSplit": "per · mis · sion",
+            "usage": "ask for permission 请求许可。"
           }
         },
         {
@@ -18468,7 +20307,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "heavenly"
             ],
-            "caution": "Good heavens 感叹语；heavens 复数可指天空"
+            "caution": "Good heavens 感叹语；heavens 复数可指天空",
+            "phoneticSplit": "hea · ven",
+            "usage": "in heaven 在天堂；Heaven knows 天晓得。"
           }
         },
         {
@@ -18486,7 +20327,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "special",
               "species"
             ],
-            "caution": "specific + ally 直接构副词，别写成 speciallly"
+            "caution": "specific + ally 直接构副词，别写成 speciallly",
+            "phoneticSplit": "spe · ci · fi · cal · ly",
+            "usage": "常置句首强调“具体说来”。"
           }
         },
         {
@@ -18500,7 +20343,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scared",
               "scar"
             ],
-            "caution": "scared 修饰人，scary 修饰事物，方向别搞反"
+            "caution": "scared 修饰人，scary 修饰事物，方向别搞反",
+            "phoneticSplit": "sca · ry",
+            "usage": "scary 形容事物吓人；scared 指人害怕。"
           }
         }
       ]
@@ -18520,7 +20365,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "devote",
               "voter"
             ],
-            "caution": "vote for 赞成，vote against 反对，介词别混"
+            "caution": "vote for 赞成，vote against 反对，介词别混",
+            "usage": "vote for/against 投票支持或反对。"
           }
         },
         {
@@ -18532,7 +20378,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "plaster"
             ],
-            "caution": "常用复数 plastics 指塑料制品"
+            "caution": "常用复数 plastics 指塑料制品",
+            "phoneticSplit": "pla · stic",
+            "usage": "形容词还指“可塑的、不自然的”。"
           }
         },
         {
@@ -18544,7 +20392,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "brother"
             ],
-            "caution": "elder sister 姐姐，younger sister 妹妹"
+            "caution": "elder sister 姐姐，younger sister 妹妹",
+            "phoneticSplit": "si · ster",
+            "usage": "elder/younger sister 姐姐/妹妹。"
           }
         },
         {
@@ -18562,7 +20412,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "accord",
               "recorder"
             ],
-            "caution": "set a record 创纪录；重音位置区分动名词"
+            "caution": "set a record 创纪录；重音位置区分动名词",
+            "phoneticSplit": "re · cord",
+            "usage": "名词重音在前、动词在后；break a record 破纪录。"
           }
         },
         {
@@ -18574,7 +20426,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "butterfly"
             ],
-            "caution": "不可数名词"
+            "caution": "不可数名词",
+            "phoneticSplit": "but · ter",
+            "usage": "bread and butter 涂黄油的面包；生计。"
           }
         },
         {
@@ -18588,7 +20442,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "harden",
               "hardness"
             ],
-            "caution": "hardly 表“几乎不”不表“努力”；study hard 努力学习"
+            "caution": "hardly 表“几乎不”不表“努力”；study hard 努力学习",
+            "usage": "work hard 努力；hardly 却是“几乎不”。"
           }
         },
         {
@@ -18597,7 +20452,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ɔf/",
             "quick": "turn off 关掉、take off 起飞——离开。",
-            "caution": "turn off / get off / take off 三大高频短语"
+            "caution": "turn off / get off / take off 三大高频短语",
+            "usage": "off 与 of 差一个 f：off 离开，of 的。"
           }
         },
         {
@@ -18610,7 +20466,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "breakable",
               "breakfast"
             ],
-            "caution": "过去式 broke、过去分词 broken；breakfast 是 break + fast 合成"
+            "caution": "过去式 broke、过去分词 broken；breakfast 是 break + fast 合成",
+            "usage": "break down 出故障；break into 闯入。"
           }
         },
         {
@@ -18619,7 +20476,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkɔtən/",
             "quick": "cotton shirt 棉衬衫——棉花做的。",
-            "caution": "不可数名词；a cotton T-shirt 中 cotton 作定语"
+            "caution": "不可数名词；a cotton T-shirt 中 cotton 作定语",
+            "phoneticSplit": "cot · ton",
+            "usage": "cotton 不可数；a cotton pad 一片棉。"
           }
         },
         {
@@ -18636,7 +20495,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "art",
               "artistic"
             ],
-            "caution": "art + ist 直接相加，art 结尾无 e"
+            "caution": "art + ist 直接相加，art 结尾无 e",
+            "phoneticSplit": "ar · tist",
+            "usage": "artist 画家/艺术家；artisan 是手艺人。"
           }
         },
         {
@@ -18648,7 +20509,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "gluey"
             ],
-            "caution": "glue...to... 把…黏到…上"
+            "caution": "glue...to... 把…黏到…上",
+            "usage": "glue A to B 把 A 粘到 B 上。"
           }
         },
         {
@@ -18662,7 +20524,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shooter",
               "shooting"
             ],
-            "caution": "过去式 shot 不规则；shoot a film 拍电影"
+            "caution": "过去式 shot 不规则；shoot a film 拍电影",
+            "usage": "shoot at 向…射击；过去式 shot。"
           }
         },
         {
@@ -18676,7 +20539,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "document",
               "doctrine"
             ],
-            "caution": "see a doctor 固定搭配；Dr. 后接姓氏"
+            "caution": "see a doctor 固定搭配；Dr. 后接姓氏",
+            "phoneticSplit": "doc · tor",
+            "usage": "see a doctor 看医生。"
           }
         },
         {
@@ -18694,7 +20559,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "intervene",
               "avenue"
             ],
-            "caution": "不说 sb is convenient，要说 It is convenient for sb"
+            "caution": "不说 sb is convenient，要说 It is convenient for sb",
+            "phoneticSplit": "con · ve · nient",
+            "usage": "It's convenient for sb to do sth，主语不用人。"
           }
         },
         {
@@ -18711,7 +20578,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "terrify",
               "terrific"
             ],
-            "caution": "terrify 动词“使惊恐”；terribly 表程度不表可怕"
+            "caution": "terrify 动词“使惊恐”；terribly 表程度不表可怕",
+            "phoneticSplit": "ter · ri · ble",
+            "usage": "terribly 常是“非常”，不一定是“可怕地”。"
           }
         },
         {
@@ -18720,7 +20589,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/əv/",
             "quick": "a cup of tea 一杯茶——of 表所属、材料。",
-            "caution": "of 与 off 形近义异，别多写一个 f"
+            "caution": "of 与 off 形近义异，别多写一个 f",
+            "usage": "of 与 off 别混：of 的，off 离开。"
           }
         },
         {
@@ -18733,7 +20603,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "glassy",
               "sunglasses"
             ],
-            "caution": "glass 玻璃不可数、玻璃杯可数；glasses 眼镜必用复数"
+            "caution": "glass 玻璃不可数、玻璃杯可数；glasses 眼镜必用复数",
+            "usage": "glasses 眼镜；a glass of 一杯。"
           }
         },
         {
@@ -18751,7 +20622,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "careless",
               "carefully"
             ],
-            "caution": "carefully 副词直接加 ly；be careful with/of 当心"
+            "caution": "carefully 副词直接加 ly；be careful with/of 当心",
+            "phoneticSplit": "ca · re · ful",
+            "usage": "be careful with 小心…；反义 careless。"
           }
         },
         {
@@ -18765,7 +20638,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "many",
               "much"
             ],
-            "caution": "比较级不叠加：more better 错误，直接用 better"
+            "caution": "比较级不叠加：more better 错误，直接用 better",
+            "usage": "more 是 many/much 的比较级。"
           }
         },
         {
@@ -18779,7 +20653,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "underground",
               "underline"
             ],
-            "caution": "词表拼写应为 under；under 与 over 反义搭配"
+            "caution": "词表拼写应为 under；under 与 over 反义搭配",
+            "phoneticSplit": "un · der",
+            "usage": "under 与 below 都表“下”，under 更强调正下方。"
           }
         }
       ]
@@ -18798,7 +20674,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "daily"
             ],
-            "caution": "勿与 dairy（乳制品）混淆，中间差一个字母"
+            "caution": "勿与 dairy（乳制品）混淆，中间差一个字母",
+            "phoneticSplit": "dia · ry",
+            "usage": "keep a diary 记日记，diary 用单数。"
           }
         },
         {
@@ -18811,7 +20689,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "out",
               "outside"
             ],
-            "caution": "shout at sb 带贬义，对着人吼"
+            "caution": "shout at sb 带贬义，对着人吼",
+            "usage": "shout at 带火气；shout to 只是喊给…听。"
           }
         },
         {
@@ -18820,7 +20699,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/hənt/",
             "quick": "hunt for a job 找工作——搜寻；打猎也用它。",
-            "caution": "hunt for sth 表搜寻；过去式规则变化 hunted"
+            "caution": "hunt for sth 表搜寻；过去式规则变化 hunted",
+            "usage": "hunt for 搜寻；go hunting 去打猎。"
           }
         },
         {
@@ -18834,7 +20714,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fact",
               "factory"
             ],
-            "caution": "勿与 fascination（迷恋）形近混拼"
+            "caution": "勿与 fascination（迷恋）形近混拼",
+            "phoneticSplit": "fa · shion",
+            "usage": "in fashion 流行；out of fashion 过时。"
           }
         },
         {
@@ -18847,7 +20729,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "punishment",
               "punitive"
             ],
-            "caution": "名词必须加 -ment：punishment"
+            "caution": "名词必须加 -ment：punishment",
+            "phoneticSplit": "pu · nish",
+            "usage": "punish sb for doing sth 因…惩罚某人。"
           }
         },
         {
@@ -18856,7 +20740,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/brɪʤ/",
             "quick": "bridge 架在水两岸——桥，也能弥合分歧。",
-            "caution": "结尾是 -dge"
+            "caution": "结尾是 -dge",
+            "usage": "cross the bridge 过桥；bridge the gap 弥合差距。"
           }
         },
         {
@@ -18870,7 +20755,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "radiation",
               "radius"
             ],
-            "caution": "复数 radios 直接加 -s，不变 es"
+            "caution": "复数 radios 直接加 -s，不变 es",
+            "phoneticSplit": "ra · dio",
+            "usage": "listen to the radio 听广播。"
           }
         },
         {
@@ -18888,7 +20775,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "everywhere",
               "nowhere"
             ],
-            "caution": "后接形容词要后置：somewhere warm"
+            "caution": "后接形容词要后置：somewhere warm",
+            "phoneticSplit": "so · me · where",
+            "usage": "somewhere 多用于肯定句；anywhere 用于否定疑问。"
           }
         },
         {
@@ -18906,7 +20795,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "production",
               "introduce"
             ],
-            "caution": "product 产品（可数）；produce 作名词指农产品"
+            "caution": "product 产品（可数）；produce 作名词指农产品",
+            "phoneticSplit": "pro · duct",
+            "usage": "produce 生产；production 产量。"
           }
         },
         {
@@ -18920,7 +20811,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "every",
               "however"
             ],
-            "caution": "never 本身是否定词，句中不再加 not"
+            "caution": "never 本身是否定词，句中不再加 not",
+            "phoneticSplit": "ne · ver",
+            "usage": "never 已含否定，别再叠 not。"
           }
         },
         {
@@ -18933,7 +20826,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sever",
               "separate"
             ],
-            "caution": "修饰可数名词复数；勿与 seven 混淆或拼成 severl"
+            "caution": "修饰可数名词复数；勿与 seven 混淆或拼成 severl",
+            "phoneticSplit": "se · ve · ral",
+            "usage": "后接可数名词复数。"
           }
         },
         {
@@ -18951,7 +20846,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dissect",
               "segment"
             ],
-            "caution": "中间是 se 不是 sea；蜘蛛不算昆虫"
+            "caution": "中间是 se 不是 sea；蜘蛛不算昆虫",
+            "phoneticSplit": "in · sect",
+            "usage": "insect 六条腿；spider 不算 insect。"
           }
         },
         {
@@ -18960,7 +20857,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/bəˈnænə/",
             "quick": "a bunch of bananas 一串——香蕉。",
-            "caution": "是 na-na 双写，不是 nana 一个"
+            "caution": "是 na-na 双写，不是 nana 一个",
+            "phoneticSplit": "ba · na · na",
+            "usage": "可数：two bananas。"
           }
         },
         {
@@ -18973,7 +20872,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pioneer",
               "engineer"
             ],
-            "caution": "动词接不定式：volunteer to do sth"
+            "caution": "动词接不定式：volunteer to do sth",
+            "phoneticSplit": "vo · lun · teer",
+            "usage": "volunteer to do sth 自愿做某事。"
           }
         },
         {
@@ -18986,7 +20887,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "overall",
               "altogether"
             ],
-            "caution": "all 与 not 连用是部分否定：Not all…＝并非都"
+            "caution": "all 与 not 连用是部分否定：Not all…＝并非都",
+            "usage": "all the students，the 放 all 后。"
           }
         },
         {
@@ -18998,7 +20900,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "mile"
             ],
-            "caution": "smile at sb 对某人微笑"
+            "caution": "smile at sb 对某人微笑",
+            "phoneticSplit": "smi · le",
+            "usage": "smile at 对…微笑；laugh 是出声笑。"
           }
         },
         {
@@ -19007,7 +20911,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈrəðər/",
             "quick": "rather cold 挺冷的；would rather 宁愿。",
-            "caution": "would rather 后接动词原形，不加 to"
+            "caution": "would rather 后接动词原形，不加 to",
+            "phoneticSplit": "ra · ther",
+            "usage": "would rather do sth 宁愿做某事。"
           }
         },
         {
@@ -19016,7 +20922,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkæmərə/",
             "quick": "Say cheese！对着 camera——照相机。",
-            "caution": "复数 cameras 直接加 s"
+            "caution": "复数 cameras 直接加 s",
+            "phoneticSplit": "ca · me · ra",
+            "usage": "digital camera 数码相机。"
           }
         },
         {
@@ -19028,7 +20936,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "ideal"
             ],
-            "caution": "勿与 ideal（理想的）混淆，差一个 l"
+            "caution": "勿与 ideal（理想的）混淆，差一个 l",
+            "phoneticSplit": "i · dea",
+            "usage": "have no idea 不知道。"
           }
         },
         {
@@ -19042,7 +20952,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "advance",
               "disadvantage"
             ],
-            "caution": "勿与 adventure（冒险）形近混淆"
+            "caution": "勿与 adventure（冒险）形近混淆",
+            "phoneticSplit": "ad · van · tage",
+            "usage": "take advantage of 利用；反义 disadvantage。"
           }
         }
       ]
@@ -19062,7 +20974,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hilltop",
               "hillside"
             ],
-            "caution": "hill 小山，mountain 大山，程度不同"
+            "caution": "hill 小山，mountain 大山，程度不同",
+            "usage": "hill 比 mountain 矮小。"
           }
         },
         {
@@ -19076,7 +20989,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clothing",
               "clothe"
             ],
-            "caution": "clothes 无单数，作主语时动词用复数"
+            "caution": "clothes 无单数，作主语时动词用复数",
+            "phoneticSplit": "clo · thes",
+            "usage": "clothes 永远复数；一件用 a piece of clothing。"
           }
         },
         {
@@ -19094,7 +21009,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "everything",
               "nothing"
             ],
-            "caution": "anything 修饰形容词需后置，不说 anything interesting 的错序"
+            "caution": "anything 修饰形容词需后置，不说 anything interesting 的错序",
+            "phoneticSplit": "a · ny · thing",
+            "usage": "否定疑问用 anything，肯定用 something。"
           }
         },
         {
@@ -19108,7 +21025,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "compose",
               "expose"
             ],
-            "caution": "on purpose（故意）介词用 on，不用 in"
+            "caution": "on purpose（故意）介词用 on，不用 in",
+            "phoneticSplit": "pur · pose",
+            "usage": "on purpose 故意；for the purpose of 为了…。"
           }
         },
         {
@@ -19121,7 +21040,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "goat",
               "coat"
             ],
-            "caution": "by boat 乘船，介词短语不加冠词"
+            "caution": "by boat 乘船，介词短语不加冠词",
+            "usage": "boat 小，ship 大。"
           }
         },
         {
@@ -19134,7 +21054,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "too",
               "two"
             ],
-            "caution": "介词 to 后接动名词：look forward to doing"
+            "caution": "介词 to 后接动名词：look forward to doing",
+            "usage": "to 后接动词原形可表目的。"
           }
         },
         {
@@ -19151,7 +21072,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "alone",
               "lone"
             ],
-            "caution": "lonely 可形容感受或地方偏僻；alone 只表客观独处"
+            "caution": "lonely 可形容感受或地方偏僻；alone 只表客观独处",
+            "phoneticSplit": "lo · ne · ly",
+            "usage": "lonely 指心情孤独；alone 指独自一人。"
           }
         },
         {
@@ -19169,7 +21092,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "introduce",
               "conductor"
             ],
-            "caution": "勿拼成 eduction；形容词 educated 受过教育的"
+            "caution": "勿拼成 eduction；形容词 educated 受过教育的",
+            "phoneticSplit": "e · du · ca · tion",
+            "usage": "educate 动词；educational 教育的。"
           }
         },
         {
@@ -19182,7 +21107,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ordinary",
               "disorder"
             ],
-            "caution": "in order to 后接动词原形"
+            "caution": "in order to 后接动词原形",
+            "phoneticSplit": "or · der",
+            "usage": "in order to 为了；order sb to do 命令某人做。"
           }
         },
         {
@@ -19200,7 +21127,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "background",
               "underground"
             ],
-            "caution": "复数 playgrounds"
+            "caution": "复数 playgrounds",
+            "phoneticSplit": "play · ground",
+            "usage": "on the playground 在操场上。"
           }
         },
         {
@@ -19218,7 +21147,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "government",
               "movement"
             ],
-            "caution": "state 多义：州／状态／陈述，按语境分"
+            "caution": "state 多义：州／状态／陈述，按语境分",
+            "phoneticSplit": "sta · te · ment",
+            "usage": "make a statement 发表声明。"
           }
         },
         {
@@ -19230,7 +21161,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "sea"
             ],
-            "caution": "seal 既指海豹又指封条、印章，勿只记一个义"
+            "caution": "seal 既指海豹又指封条、印章，勿只记一个义",
+            "usage": "seal 密封；a seal 印章/海豹。"
           }
         },
         {
@@ -19243,7 +21175,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "altogether",
               "always"
             ],
-            "caution": "正式书面推荐 all right；alright 常视为非正式拼写"
+            "caution": "正式书面推荐 all right；alright 常视为非正式拼写",
+            "phoneticSplit": "al · right",
+            "usage": "口语常用，正式写作写 all right。"
           }
         },
         {
@@ -19261,7 +21195,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reply",
               "comply"
             ],
-            "caution": "supply sb with sth ＝ supply sth to sb"
+            "caution": "supply sb with sth ＝ supply sth to sb",
+            "phoneticSplit": "sup · ply",
+            "usage": "supply sb with sth 向某人提供某物。"
           }
         },
         {
@@ -19274,7 +21210,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "strict",
               "restrict"
             ],
-            "caution": "勿与 strict（严格的）混义，勿与 street 混拼"
+            "caution": "勿与 strict（严格的）混义，勿与 street 混拼",
+            "phoneticSplit": "di · strict",
+            "usage": "school district 学区；比 area 正式。"
           }
         },
         {
@@ -19286,7 +21224,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "veil"
             ],
-            "caution": "拼写是 veal，勿写成 veil（少一个 i）"
+            "caution": "拼写是 veal，勿写成 veil（少一个 i）",
+            "phoneticSplit": "re · veal",
+            "usage": "reveal 揭露秘密；show 更中性。"
           }
         },
         {
@@ -19295,7 +21235,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈmɛrəˌθɑn/",
             "quick": "① 跑完 42 公里那个故事——马拉松。\n② 「马拉松」——音译词，就是马拉松长跑。",
-            "caution": "勿拼成 marathan（丢 o）"
+            "caution": "勿拼成 marathan（丢 o）",
+            "phoneticSplit": "ma · ra · thon",
+            "usage": "run a marathon 跑马拉松。"
           }
         },
         {
@@ -19308,7 +21250,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pink",
               "link"
             ],
-            "caution": "ink 不可数；a bottle of ink"
+            "caution": "ink 不可数；a bottle of ink",
+            "usage": "in ink 用墨水写。"
           }
         },
         {
@@ -19326,7 +21269,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uncover",
               "discover"
             ],
-            "caution": "复数 discoveries，变 y 为 ies"
+            "caution": "复数 discoveries，变 y 为 ies",
+            "phoneticSplit": "di · sco · ve · ry",
+            "usage": "make a discovery 有所发现；动词 discover。"
           }
         },
         {
@@ -19344,7 +21289,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "society",
               "sociable"
             ],
-            "caution": "缩写形式 Assoc. 可用于机构名"
+            "caution": "缩写形式 Assoc. 可用于机构名",
+            "phoneticSplit": "as · so · cia · tion",
+            "usage": "association 协会；associate 关联、结交。"
           }
         },
         {
@@ -19362,7 +21309,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eastern",
               "western"
             ],
-            "caution": "south 加 ern 即 southern，勿丢 th"
+            "caution": "south 加 ern 即 southern，勿丢 th",
+            "phoneticSplit": "sou · thern",
+            "usage": "读 /ˈsʌðən/，th 浊化。"
           }
         }
       ]
@@ -19387,7 +21336,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "introduce",
               "deduce"
             ],
-            "caution": "reduce…to…把…减到…；名词 reduction"
+            "caution": "reduce…to…把…减到…；名词 reduction",
+            "phoneticSplit": "re · duce",
+            "usage": "reduce 及物；reduce to 减少到。"
           }
         },
         {
@@ -19401,7 +21352,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sweep",
               "sheep"
             ],
-            "caution": "keep doing sth 持续做；keep sb from doing 阻止"
+            "caution": "keep doing sth 持续做；keep sb from doing 阻止",
+            "usage": "keep doing 一直做；keep sb waiting 让人干等。"
           }
         },
         {
@@ -19414,7 +21366,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "what",
               "where"
             ],
-            "caution": "when 引导从句表时间；what 问内容，勿混"
+            "caution": "when 引导从句表时间；what 问内容，勿混",
+            "usage": "when 引导时间状语从句。"
           }
         },
         {
@@ -19427,7 +21380,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "totally",
               "totality"
             ],
-            "caution": "in total 固定搭配，介词用 in"
+            "caution": "in total 固定搭配，介词用 in",
+            "phoneticSplit": "to · tal",
+            "usage": "a total of 总共；totally 完全地。"
           }
         },
         {
@@ -19440,7 +21395,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mental",
               "comment"
             ],
-            "caution": "mention 后接动名词：mention doing sth"
+            "caution": "mention 后接动名词：mention doing sth",
+            "phoneticSplit": "men · tion",
+            "usage": "mention doing sth，不接不定式。"
           }
         },
         {
@@ -19453,7 +21410,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fork",
               "pork"
             ],
-            "caution": "work 不可数；works 可指著作、工厂"
+            "caution": "work 不可数；works 可指著作、工厂",
+            "usage": "work out 算出/锻炼；at work 在上班。"
           }
         },
         {
@@ -19462,7 +21420,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkæbɪʤ/",
             "quick": "一层层包成个球——卷心菜。",
-            "caution": "作菜肴时不可数"
+            "caution": "作菜肴时不可数",
+            "phoneticSplit": "cab · bage",
+            "usage": "a head of cabbage 一棵卷心菜。"
           }
         },
         {
@@ -19475,7 +21435,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beware",
               "wary"
             ],
-            "caution": "只作表语：be aware of，不前置修饰名词"
+            "caution": "只作表语：be aware of，不前置修饰名词",
+            "phoneticSplit": "a · ware",
+            "usage": "be aware of / that 意识到。"
           }
         },
         {
@@ -19488,7 +21450,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "England",
               "Spanish"
             ],
-            "caution": "首字母大写；in English 用英语（不加 the）"
+            "caution": "首字母大写；in English 用英语（不加 the）",
+            "phoneticSplit": "en · glish",
+            "usage": "in English 用英语；the English 英国人。"
           }
         },
         {
@@ -19506,7 +21470,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "diameter",
               "diagram"
             ],
-            "caution": "美式可拼 dialog；勿与 diary（日记）形近混淆"
+            "caution": "美式可拼 dialog；勿与 diary（日记）形近混淆",
+            "phoneticSplit": "dia · lo · gue",
+            "usage": "dialogue 对话；monologue 独白。"
           }
         },
         {
@@ -19519,7 +21485,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pen",
               "pencil"
             ],
-            "caution": "结尾是 -guin，勿写成 quin 或 guen"
+            "caution": "结尾是 -guin，勿写成 quin 或 guen",
+            "phoneticSplit": "peng · uin",
+            "usage": "emperor penguin 帝企鹅。"
           }
         },
         {
@@ -19533,7 +21501,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "isn't",
               "cannot"
             ],
-            "caution": "not 与 all、both 连用是部分否定"
+            "caution": "not 与 all、both 连用是部分否定",
+            "usage": "not 修饰形容词动词；no 修饰名词。"
           }
         },
         {
@@ -19546,7 +21515,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ear",
               "hearing"
             ],
-            "caution": "过去式 heard；hear of/about 听说"
+            "caution": "过去式 heard；hear of/about 听说",
+            "usage": "hear 无意听见；listen 有意去听。"
           }
         },
         {
@@ -19559,7 +21529,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "painful",
               "punish"
             ],
-            "caution": "复数 pains 表辛苦（take pains）；painful 疼痛的"
+            "caution": "复数 pains 表辛苦（take pains）；painful 疼痛的",
+            "usage": "in pain 在疼痛中；painkiller 止痛药。"
           }
         },
         {
@@ -19572,7 +21543,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ill",
               "pill"
             ],
-            "caution": "bill 多义：账单／议案／钞票；勿与 pill（药丸）形近"
+            "caution": "bill 多义：账单／议案／钞票；勿与 pill（药丸）形近",
+            "usage": "the bill 账单；Bill 也是人名比尔。"
           }
         },
         {
@@ -19589,7 +21561,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "position",
               "negative"
             ],
-            "caution": "positive attitude 积极态度；positive number 正数"
+            "caution": "positive attitude 积极态度；positive number 正数",
+            "phoneticSplit": "po · si · tive",
+            "usage": "反义 negative；be positive about 对…有信心。"
           }
         },
         {
@@ -19601,7 +21575,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "gray"
             ],
-            "caution": "英式 grey / 美式 gray，一篇文里勿混用"
+            "caution": "英式 grey / 美式 gray，一篇文里勿混用",
+            "usage": "英式 grey，美式 gray。"
           }
         },
         {
@@ -19614,7 +21589,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ear",
               "pair"
             ],
-            "caution": "pear 与 pair 同音，靠语境区分"
+            "caution": "pear 与 pair 同音，靠语境区分",
+            "usage": "peel a pear 削梨皮。"
           }
         },
         {
@@ -19627,7 +21603,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "flower",
               "power"
             ],
-            "caution": "勿与 towel（毛巾）、power（力量）形近混"
+            "caution": "勿与 towel（毛巾）、power（力量）形近混",
+            "phoneticSplit": "to · wer",
+            "usage": "tower over 高过…、胜过…。"
           }
         },
         {
@@ -19640,7 +21618,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pig",
               "big"
             ],
-            "caution": "过去式 dug；现在分词 digging 双写 g"
+            "caution": "过去式 dug；现在分词 digging 双写 g",
+            "usage": "dig-dug-dug；dig into 钻研。"
           }
         }
       ]
@@ -19656,7 +21635,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈpitsə/",
             "quick": "① 切一块还能拉出丝的——比萨饼。\n② 「比萨」——音译词，就是比萨饼。",
-            "caution": "双写 zz 是特征，勿写成 piza"
+            "caution": "双写 zz 是特征，勿写成 piza",
+            "phoneticSplit": "piz · za",
+            "usage": "a slice of pizza 一块比萨。"
           }
         },
         {
@@ -19670,7 +21651,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dead",
               "dying"
             ],
-            "caution": "die 变 death 时 i 变 ea 加 th；dead 与 death 勿混用"
+            "caution": "die 变 death 时 i 变 ea 加 th；dead 与 death 勿混用",
+            "usage": "动词 die、形容词 dead、名词 death。"
           }
         },
         {
@@ -19683,7 +21665,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "save",
               "safety"
             ],
-            "caution": "safely 副词；safety 名词以 y 结尾"
+            "caution": "safely 副词；safety 名词以 y 结尾",
+            "usage": "反义 dangerous；名词 safety。"
           }
         },
         {
@@ -19696,7 +21679,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "teenage",
               "teenager"
             ],
-            "caution": "at the age of 后接数字；aged（…岁的）作形容词"
+            "caution": "at the age of 后接数字；aged（…岁的）作形容词",
+            "usage": "the aged 老年人；middle age 中年。"
           }
         },
         {
@@ -19710,7 +21694,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "night",
               "right"
             ],
-            "caution": "拼写 strai- 勿写成 staright；straight away 立刻"
+            "caution": "拼写 strai- 勿写成 staright；straight away 立刻",
+            "usage": "straight away 立刻；a straight line 直线。"
           }
         },
         {
@@ -19722,7 +21707,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "union"
             ],
-            "caution": "是 onion 不是 onoin；切洋葱 make sb cry"
+            "caution": "是 onion 不是 onoin；切洋葱 make sb cry",
+            "phoneticSplit": "o · nion",
+            "usage": "an onion 一个洋葱；cut onions 切洋葱。"
           }
         },
         {
@@ -19731,7 +21718,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/əˈfɔrd/",
             "quick": "can't afford it 买不起——负担得起",
-            "caution": "常与 can/could 连用；afford to do sth"
+            "caution": "常与 can/could 连用；afford to do sth",
+            "phoneticSplit": "af · ford",
+            "usage": "can't afford to do sth 负担不起做某事。"
           }
         },
         {
@@ -19745,7 +21734,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "round",
               "background"
             ],
-            "caution": "ground 地面／场地；grounds（复数）表理由"
+            "caution": "ground 地面／场地；grounds（复数）表理由",
+            "usage": "on the grounds of 以……为理由（复数）。"
           }
         },
         {
@@ -19758,7 +21748,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "capital",
               "captain"
             ],
-            "caution": "勿与 cup（杯子）形近混淆"
+            "caution": "勿与 cup（杯子）形近混淆",
+            "usage": "cap 鸭舌帽；hat 泛指帽子。"
           }
         },
         {
@@ -19775,7 +21766,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "animate",
               "unanimous"
             ],
-            "caution": "复数 animals 直接加 s"
+            "caution": "复数 animals 直接加 s",
+            "phoneticSplit": "a · ni · mal",
+            "usage": "animal 可数；作定语时指“动物的”。"
           }
         },
         {
@@ -19788,7 +21781,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "postcard",
               "cardboard"
             ],
-            "caution": "复数 cards"
+            "caution": "复数 cards",
+            "usage": "a card 一张卡；cards 纸牌。"
           }
         },
         {
@@ -19800,7 +21794,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hear"
             ],
-            "caution": "hear 与 heart 差一个 t；learn by heart 用心记"
+            "caution": "hear 与 heart 差一个 t；learn by heart 用心记",
+            "usage": "by heart 背熟；lose heart 灰心。"
           }
         },
         {
@@ -19817,7 +21812,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "break",
               "fast"
             ],
-            "caution": "fast 两义：快／禁食；breakfast 不可数"
+            "caution": "fast 两义：快／禁食；breakfast 不可数",
+            "phoneticSplit": "break · fast",
+            "usage": "have breakfast 吃早饭，前面不加冠词。"
           }
         },
         {
@@ -19830,7 +21827,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "idea",
               "guidance"
             ],
-            "caution": "名词 guidance 由 guide 去 e 加 ance；勿拼成 gide"
+            "caution": "名词 guidance 由 guide 去 e 加 ance；勿拼成 gide",
+            "usage": "guide sb around 带某人参观；a guide to……指南。"
           }
         },
         {
@@ -19848,7 +21846,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "end",
               "weekly"
             ],
-            "caution": "at weekends / on the weekend 两种搭配并存"
+            "caution": "at weekends / on the weekend 两种搭配并存",
+            "phoneticSplit": "wee · kend",
+            "usage": "at/on the weekend 在周末；weekends 每周末。"
           }
         },
         {
@@ -19861,7 +21861,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "practical",
               "practise"
             ],
-            "caution": "英式：动词 practise／名词 practice；practice doing sth"
+            "caution": "英式：动词 practise／名词 practice；practice doing sth",
+            "phoneticSplit": "prac · tice",
+            "usage": "practice doing sth；英式动词拼作 practise。"
           }
         },
         {
@@ -19876,7 +21878,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "an",
               "apple"
             ],
-            "caution": "看读音不看拼写：an hour 但 a university"
+            "caution": "看读音不看拼写：an hour 但 a university",
+            "usage": "不定冠词，泛指“一个”；元音音素前用 an。"
           }
         },
         {
@@ -19894,7 +21897,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bag",
               "schoolwork"
             ],
-            "caution": "复数 schoolbags"
+            "caution": "复数 schoolbags",
+            "phoneticSplit": "school · bag",
+            "usage": "复数 schoolbags。"
           }
         },
         {
@@ -19911,7 +21916,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "kilogram",
               "kilometer"
             ],
-            "caution": "复数 kilos"
+            "caution": "复数 kilos",
+            "phoneticSplit": "ki · lo",
+            "usage": "two kilos of apples 两公斤苹果。"
           }
         },
         {
@@ -19923,7 +21930,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "another"
             ],
-            "caution": "the other 指两者中另一个；another 泛指另一个（an + other）"
+            "caution": "the other 指两者中另一个；another 泛指另一个（an + other）",
+            "phoneticSplit": "o · ther",
+            "usage": "other 后接复数；another 后接单数；others 泛指。"
           }
         }
       ]
@@ -19942,7 +21951,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "material"
             ],
-            "caution": "作动词多用于否定、疑问句"
+            "caution": "作动词多用于否定、疑问句",
+            "phoneticSplit": "mat · ter",
+            "usage": "It doesn't matter 没关系；a matter of fact 事实上。"
           }
         },
         {
@@ -19955,7 +21966,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fill",
               "pull"
             ],
-            "caution": "be full of 固定搭配；勿与 fall、feel 形近"
+            "caution": "be full of 固定搭配；勿与 fall、feel 形近",
+            "usage": "be full of = be filled with；full-time 全职。"
           }
         },
         {
@@ -19973,7 +21985,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "impress",
               "express"
             ],
-            "caution": "双写 ss 勿丢；under pressure 固定搭配"
+            "caution": "双写 ss 勿丢；under pressure 固定搭配",
+            "phoneticSplit": "pres · sure",
+            "usage": "under pressure 在压力下；put pressure on sb 施压。"
           }
         },
         {
@@ -19985,7 +21999,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "die"
             ],
-            "caution": "on a diet 固定搭配，介词用 on"
+            "caution": "on a diet 固定搭配，介词用 on",
+            "usage": "be on a diet 在节食；diet 指日常饮食。"
           }
         },
         {
@@ -19997,7 +22012,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "hunt"
             ],
-            "caution": "三态同形 hurt-hurt-hurt；可指伤感情"
+            "caution": "三态同形 hurt-hurt-hurt；可指伤感情",
+            "usage": "hurt-hurt-hurt，及物不及物都可。"
           }
         },
         {
@@ -20015,7 +22031,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "inject",
               "object"
             ],
-            "caution": "名词重音在前，动词重音在后"
+            "caution": "名词重音在前，动词重音在后",
+            "phoneticSplit": "pro · ject",
+            "usage": "do a project on 做关于……的课题。"
           }
         },
         {
@@ -20028,7 +22046,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "amateur",
               "amicable"
             ],
-            "caution": "复数 enemies，变 y 为 ies"
+            "caution": "复数 enemies，变 y 为 ies",
+            "phoneticSplit": "e · ne · my",
+            "usage": "make enemies 树敌；enemy 可数。"
           }
         },
         {
@@ -20046,7 +22066,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "superman",
               "superb"
             ],
-            "caution": "复数 supermarkets"
+            "caution": "复数 supermarkets",
+            "phoneticSplit": "su · per · mar · ket",
+            "usage": "at the supermarket 在超市。"
           }
         },
         {
@@ -20064,7 +22086,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "native",
               "nation"
             ],
-            "caution": "形容词 natural；by nature 天性使然"
+            "caution": "形容词 natural；by nature 天性使然",
+            "phoneticSplit": "na · ture",
+            "usage": "in nature 本质上；by nature 天生。"
           }
         },
         {
@@ -20076,7 +22100,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "artist"
             ],
-            "caution": "make a list of 固定搭配；勿与 last 拼混"
+            "caution": "make a list of 固定搭配；勿与 last 拼混",
+            "usage": "make a list of 列清单；list 可数。"
           }
         },
         {
@@ -20088,7 +22113,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "already"
             ],
-            "caution": "常与完成时连用；本身有否定意味，不再加 not"
+            "caution": "常与完成时连用；本身有否定意味，不再加 not",
+            "usage": "yet 多用于否定疑问句；already 用于肯定句。"
           }
         },
         {
@@ -20102,7 +22128,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "actor",
               "visitor"
             ],
-            "caution": "也可作动词：authored（写了）；与 authority 形近区分"
+            "caution": "也可作动词：authored（写了）；与 authority 形近区分",
+            "phoneticSplit": "au · thor",
+            "usage": "author 指书的作者；writer 泛指写作者。"
           }
         },
         {
@@ -20114,7 +22142,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "Jewish"
             ],
-            "caution": "形容词 Jewish；Jew 指人时注意使用场合"
+            "caution": "形容词 Jewish；Jew 指人时注意使用场合",
+            "usage": "Jew 是名词，Jewish 是形容词，首字母大写。"
           }
         },
         {
@@ -20126,7 +22155,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "global"
             ],
-            "caution": "around the globe ＝ all over the world；global 形容词"
+            "caution": "around the globe ＝ all over the world；global 形容词",
+            "usage": "around the globe 全球；globe 尤指地球仪。"
           }
         },
         {
@@ -20144,7 +22174,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "highway",
               "subway"
             ],
-            "caution": "复数 hallways"
+            "caution": "复数 hallways",
+            "phoneticSplit": "hall · way",
+            "usage": "in the hallway 在走廊里。"
           }
         },
         {
@@ -20156,7 +22188,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "soup"
             ],
-            "caution": "不可数名词；勿与 soup（汤）形近"
+            "caution": "不可数名词；勿与 soup（汤）形近",
+            "usage": "soap 不可数；a piece of soap 一块肥皂。"
           }
         },
         {
@@ -20173,7 +22206,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nonfiction",
               "figure"
             ],
-            "caution": "不可数名词，表「小说」这一类，不指单本"
+            "caution": "不可数名词，表「小说」这一类，不指单本",
+            "phoneticSplit": "fic · tion",
+            "usage": "science fiction 科幻小说；fiction 不可数。"
           }
         }
       ]
@@ -20198,7 +22233,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "digitize",
               "digitally"
             ],
-            "caution": "digit 兼有『手指』义，别只记数字"
+            "caution": "digit 兼有『手指』义，别只记数字",
+            "phoneticSplit": "di · gi · tal",
+            "usage": "digital camera 数码相机；digital age 数字时代。"
           }
         },
         {
@@ -20210,7 +22247,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "zoology",
               "zoologist"
-            ]
+            ],
+            "usage": "zoological garden 的简称；复数 zoos。"
           }
         },
         {
@@ -20224,7 +22262,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hidden",
               "hide-and-seek"
             ],
-            "caution": "分词是 hidden 不是 hided；hide sth from sb 隐瞒"
+            "caution": "分词是 hidden 不是 hided；hide sth from sb 隐瞒",
+            "usage": "hide-hid-hidden；hide sth from sb 瞒着某人。"
           }
         },
         {
@@ -20242,7 +22281,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "quantity",
               "qualification"
             ],
-            "caution": "别与 quantity（数量）混淆：qual- 看质，quant- 看量"
+            "caution": "别与 quantity（数量）混淆：qual- 看质，quant- 看量",
+            "phoneticSplit": "qua · li · ty",
+            "usage": "high quality 高质量；表“品德”时可数。"
           }
         },
         {
@@ -20256,7 +22297,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grassy",
               "grassland"
             ],
-            "caution": "与 glass（玻璃）只差一个字母，注意区分"
+            "caution": "与 glass（玻璃）只差一个字母，注意区分",
+            "usage": "grass 不可数；grasses 指各种草。"
           }
         },
         {
@@ -20275,7 +22317,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "diverse",
               "version"
             ],
-            "caution": "名词是 conversation 不是 convertion；动词 converse 交谈"
+            "caution": "名词是 conversation 不是 convertion；动词 converse 交谈",
+            "phoneticSplit": "con · ver · sa · tion",
+            "usage": "have a conversation with sb 与某人交谈。"
           }
         },
         {
@@ -20289,7 +22333,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "flowery",
               "flowerbed"
             ],
-            "caution": "flour（面粉）与 flower 同源，只差一个 w"
+            "caution": "flour（面粉）与 flower 同源，只差一个 w",
+            "phoneticSplit": "flo · wer",
+            "usage": "flower 可数；be in flower 正开花。"
           }
         },
         {
@@ -20303,7 +22349,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "obtain",
               "maintain"
             ],
-            "caution": "去 e 加 ing：continuing；名词 continuation"
+            "caution": "去 e 加 ing：continuing；名词 continuation",
+            "phoneticSplit": "con · ti · nue",
+            "usage": "continue to do / doing sth；continue with sth。"
           }
         },
         {
@@ -20317,7 +22365,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mass",
               "Christian"
             ],
-            "caution": "大写 C；缩写 Xmas 属非正式写法"
+            "caution": "大写 C；缩写 Xmas 属非正式写法",
+            "phoneticSplit": "christ · mas",
+            "usage": "at Christmas 圣诞期间；on Christmas Day 当天。"
           }
         },
         {
@@ -20331,7 +22381,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "snowman",
               "snowball"
             ],
-            "caution": "形容词 snowy；雪人 snowman 合成词"
+            "caution": "形容词 snowy；雪人 snowman 合成词",
+            "usage": "snow 不可数；作动词时用 it 作主语。"
           }
         },
         {
@@ -20346,7 +22397,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "miss",
               "out"
             ],
-            "caution": "miss out 错过机会；大写 Miss 是小姐（同形词）"
+            "caution": "miss out 错过机会；大写 Miss 是小姐（同形词）",
+            "usage": "miss doing sth 错过做某事；Miss 小姐。"
           }
         },
         {
@@ -20359,7 +22411,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tap",
               "water"
             ],
-            "caution": "与 top（顶部）形近易混"
+            "caution": "与 top（顶部）形近易混",
+            "usage": "turn on/off the tap；tap 还指轻敲。"
           }
         },
         {
@@ -20378,7 +22431,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reject",
               "subject"
             ],
-            "caution": "重音分词性：名词 OBject 物体，动词 obJECT 反对"
+            "caution": "重音分词性：名词 OBject 物体，动词 obJECT 反对",
+            "phoneticSplit": "ob · ject",
+            "usage": "object to doing sth 反对做某事；名词重音在前。"
           }
         },
         {
@@ -20392,7 +22447,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Olympian",
               "Olympia"
             ],
-            "caution": "the Olympic Games 奥林匹克运动会，Olympic 大写"
+            "caution": "the Olympic Games 奥林匹克运动会，Olympic 大写",
+            "phoneticSplit": "o · lym · pic",
+            "usage": "the Olympic Games 作复数；Olympic 首字母大写。"
           }
         },
         {
@@ -20405,7 +22462,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "invitation",
               "inviting"
             ],
-            "caution": "名词 invitation 双写 t；invite sb to do sth"
+            "caution": "名词 invitation 双写 t；invite sb to do sth",
+            "phoneticSplit": "in · vite",
+            "usage": "invite sb to do sth；名词 invitation。"
           }
         },
         {
@@ -20419,7 +22478,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mindful",
               "open-minded"
             ],
-            "caution": "Do you mind if…? 回答 Mind 的话 No 表不介意，别答反"
+            "caution": "Do you mind if…? 回答 Mind 的话 No 表不介意，别答反",
+            "usage": "mind doing sth 介意做某事；change one's mind 改变主意。"
           }
         },
         {
@@ -20433,7 +22493,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "won",
               "winning"
             ],
-            "caution": "过去式 won 不是 winned；winning 双写 n"
+            "caution": "过去式 won 不是 winned；winning 双写 n",
+            "usage": "win 后接比赛、奖品；beat 后接对手。"
           }
         },
         {
@@ -20442,7 +22503,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/gləv/",
             "quick": "a pair of gloves 一双手套——戴在手上",
-            "caution": "与 globe（地球；球体）只差一个字母"
+            "caution": "与 globe（地球；球体）只差一个字母",
+            "usage": "glove 分指手套；mitten 连指手套。"
           }
         },
         {
@@ -20460,7 +22522,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "resident",
               "residence"
             ],
-            "caution": "resident 居民与 president 形近：前者没 pre"
+            "caution": "resident 居民与 president 形近：前者没 pre",
+            "phoneticSplit": "pre · si · dent",
+            "usage": "作头衔时首字母大写：the president of the company。"
           }
         },
         {
@@ -20474,7 +22538,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "door",
               "bell"
             ],
-            "caution": "门铃是合成词 doorbell"
+            "caution": "门铃是合成词 doorbell",
+            "usage": "ring the bell 按铃；bell 可数。"
           }
         }
       ]
@@ -20490,7 +22555,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/pɪl/",
             "quick": "take a pill 吃一片药——药丸、药片",
-            "caution": "与 hill（小山）、bill（账单）形近区分"
+            "caution": "与 hill（小山）、bill（账单）形近区分",
+            "usage": "a sleeping pill 一片安眠药。"
           }
         },
         {
@@ -20504,7 +22570,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "medication",
               "remedy"
             ],
-            "caution": "拼写 medicine 结尾 cine；take medicine 不说 eat medicine"
+            "caution": "拼写 medicine 结尾 cine；take medicine 不说 eat medicine",
+            "phoneticSplit": "me · di · cine",
+            "usage": "medicine 不可数；take one's medicine 服药。"
           }
         },
         {
@@ -20518,7 +22586,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "through",
               "thought"
             ],
-            "caution": "gh 不发音；although 与 though 不能同时连用"
+            "caution": "gh 不发音；although 与 though 不能同时连用",
+            "usage": "though 可放句末表“不过”；as though 仿佛。"
           }
         },
         {
@@ -20530,7 +22599,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "elevator"
             ],
-            "caution": "英美差异：电梯英 lift 美 elevator；lift up 举起"
+            "caution": "英美差异：电梯英 lift 美 elevator；lift up 举起",
+            "usage": "lift 英式电梯，美式 elevator；give sb a lift 捎一程。"
           }
         },
         {
@@ -20543,7 +22613,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "messenger",
               "massage"
             ],
-            "caution": "别与 massage（按摩）混淆：massage 中间是 a，message 是 e"
+            "caution": "别与 massage（按摩）混淆：massage 中间是 a，message 是 e",
+            "phoneticSplit": "mes · sage",
+            "usage": "leave a message 留言；send a message 发消息。"
           }
         },
         {
@@ -20556,7 +22628,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prepare",
               "pair"
             ],
-            "caution": "in good repair 保养良好；repair 多与机器、道路搭配"
+            "caution": "in good repair 保养良好；repair 多与机器、道路搭配",
+            "phoneticSplit": "re · pair",
+            "usage": "repair 比 fix 正式；in good repair 完好。"
           }
         },
         {
@@ -20569,7 +22643,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "goddess",
               "God"
             ],
-            "caution": "[G-] 大写 God 特指上帝；good（好的）多一个 o"
+            "caution": "[G-] 大写 God 特指上帝；good（好的）多一个 o",
+            "usage": "指上帝时大写 God；goddess 女神。"
           }
         },
         {
@@ -20583,7 +22658,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "running",
               "ran"
             ],
-            "caution": "running 双写 n；run out of 用完，run out 用光了"
+            "caution": "running 双写 n；run out of 用完，run out 用光了",
+            "usage": "run-ran-run；run out of 用完。"
           }
         },
         {
@@ -20598,7 +22674,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "these",
               "those"
             ],
-            "caution": "特指加 the；演奏乐器、方位词前也加 the"
+            "caution": "特指加 the；演奏乐器、方位词前也加 the",
+            "usage": "the 用于特指、独一无二、最高级前。"
           }
         },
         {
@@ -20612,7 +22689,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shipping",
               "shipwreck"
             ],
-            "caution": "by ship/by sea 坐船；-ship 后缀表身份（friendship）与本词无关"
+            "caution": "by ship/by sea 坐船；-ship 后缀表身份（friendship）与本词无关",
+            "usage": "by ship 不加冠词；shipping 运输。"
           }
         },
         {
@@ -20631,7 +22709,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "invention",
               "inventor"
             ],
-            "caution": "名词 invention 发明，inventor 发明家，别混"
+            "caution": "名词 invention 发明，inventor 发明家，别混",
+            "phoneticSplit": "in · vent",
+            "usage": "invent 发明新东西；discover 发现已有事物。"
           }
         },
         {
@@ -20650,7 +22730,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "specialist",
               "specialize"
             ],
-            "caution": "副词是 especially；specialty 特色、专长"
+            "caution": "副词是 especially；specialty 特色、专长",
+            "phoneticSplit": "spe · cial",
+            "usage": "special 反义 ordinary；especially 尤其。"
           }
         },
         {
@@ -20667,7 +22749,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "popular",
               "populous"
             ],
-            "caution": "population 不可数；问人口用 What's the population of…? 不用 How many"
+            "caution": "population 不可数；问人口用 What's the population of…? 不用 How many",
+            "phoneticSplit": "po · pu · la · tion",
+            "usage": "作主语谓语用单数；large/small population。"
           }
         },
         {
@@ -20685,7 +22769,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "predict",
               "conditional"
             ],
-            "caution": "in good condition 状况良好；复数 conditions 表环境、形势"
+            "caution": "in good condition 状况良好；复数 conditions 表环境、形势",
+            "phoneticSplit": "con · di · tion",
+            "usage": "in good condition 状况良好；on condition that 条件是。"
           }
         },
         {
@@ -20699,7 +22785,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seller",
               "bestseller"
             ],
-            "caution": "过去式 sold 不是 selled；sell sb sth 双宾语"
+            "caution": "过去式 sold 不是 selled；sell sb sth 双宾语",
+            "usage": "sell-sold-sold；sell well 畅销。"
           }
         },
         {
@@ -20713,7 +22800,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unusual",
               "usage"
             ],
-            "caution": "usually 副词位置在实义动词前；unusual 加 un 反义"
+            "caution": "usually 副词位置在实义动词前；unusual 加 un 反义",
+            "phoneticSplit": "u · sual",
+            "usage": "than usual 比平常；usually 通常。"
           }
         },
         {
@@ -20726,7 +22815,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wolves",
               "werewolf"
             ],
-            "caution": "复数 wolves：f 变 v 加 es，同 half→halves"
+            "caution": "复数 wolves：f 变 v 加 es，同 half→halves",
+            "usage": "复数 wolves；cry wolf 谎报。"
           }
         },
         {
@@ -20741,7 +22831,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "transfer",
               "reference"
             ],
-            "caution": "offer sb sth = offer sth to sb；offer to do 表示主动提出做"
+            "caution": "offer sb sth = offer sth to sb；offer to do 表示主动提出做",
+            "phoneticSplit": "of · fer",
+            "usage": "offer to do sth 主动提出做；作名词可数。"
           }
         },
         {
@@ -20754,7 +22846,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "round",
               "surround"
             ],
-            "caution": "别拼成 arround（多一个 r）；around 表约数可换 about"
+            "caution": "别拼成 arround（多一个 r）；around 表约数可换 about",
+            "phoneticSplit": "a · round",
+            "usage": "around = about 大约；look around 环顾。"
           }
         },
         {
@@ -20769,7 +22863,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "waterproof",
               "watermelon"
             ],
-            "caution": "water 作动词给……浇水；不可数名词"
+            "caution": "water 作动词给……浇水；不可数名词",
+            "phoneticSplit": "wa · ter",
+            "usage": "water 不可数；waters 指水域。"
           }
         }
       ]
@@ -20794,7 +22890,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "concept",
               "intercept"
             ],
-            "caution": "与 except（除……之外）形近易混；accept 及物直接接宾语"
+            "caution": "与 except（除……之外）形近易混；accept 及物直接接宾语",
+            "phoneticSplit": "ac · cept",
+            "usage": "accept 主动接受；receive 收到（被动）。"
           }
         },
         {
@@ -20811,7 +22909,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "steady",
               "steadily"
             ],
-            "caution": "instead of 后接名词或 doing；单独 instead 常在句首或句尾"
+            "caution": "instead of 后接名词或 doing；单独 instead 常在句首或句尾",
+            "phoneticSplit": "in · stead",
+            "usage": "instead 单独作副词；instead of 后接名词或 doing。"
           }
         },
         {
@@ -20823,7 +22923,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "rich"
             ],
-            "caution": "不可数名词：不说 three rices，说 three bowls of rice"
+            "caution": "不可数名词：不说 three rices，说 three bowls of rice",
+            "usage": "rice 不可数；rices 指各种稻米。"
           }
         },
         {
@@ -20836,7 +22937,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "there",
               "where"
             ],
-            "caution": "here 与 there 对比记；here you are 给你"
+            "caution": "here 与 there 对比记；here you are 给你",
+            "usage": "句首用 here 时倒装：Here comes the bus。"
           }
         },
         {
@@ -20850,7 +22952,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rainbow",
               "raincoat"
             ],
-            "caution": "train（火车）与 rain 形近；形容词 rainy"
+            "caution": "train（火车）与 rain 形近；形容词 rainy",
+            "usage": "rain 不可数；heavy rain 大雨。"
           }
         },
         {
@@ -20859,7 +22962,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/pɪk/",
             "quick": "pick apples 摘苹果，pick up 捡起、接人",
-            "caution": "过去式 picked；pick up 顺路接人也常用"
+            "caution": "过去式 picked；pick up 顺路接人也常用",
+            "usage": "pick up 接人、学会；pick out 挑出。"
           }
         },
         {
@@ -20877,7 +22981,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nobody",
               "everybody"
             ],
-            "caution": "用于疑问、否定句；作主语谓语用单数：Is anybody here?"
+            "caution": "用于疑问、否定句；作主语谓语用单数：Is anybody here?",
+            "phoneticSplit": "a · ny · bo · dy",
+            "usage": "anybody 用于疑问否定；somebody 用于肯定。"
           }
         },
         {
@@ -20891,7 +22997,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "teaching",
               "taught"
             ],
-            "caution": "过去式 taught 不是 teached；teach sb sth 双宾语"
+            "caution": "过去式 taught 不是 teached；teach sb sth 双宾语",
+            "usage": "teach-taught-taught；teach sb to do sth。"
           }
         },
         {
@@ -20905,7 +23012,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "further",
               "faraway"
             ],
-            "caution": "比较级 farther/further；as far as I know 据我所知"
+            "caution": "比较级 farther/further；as far as I know 据我所知",
+            "usage": "far-farther-farthest；多用于疑问否定句。"
           }
         },
         {
@@ -20919,7 +23027,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hopeless",
               "hopefully"
             ],
-            "caution": "不说 hope sb to do，要表此意用 wish；hopeful 有希望的"
+            "caution": "不说 hope sb to do，要表此意用 wish；hopeful 有希望的",
+            "usage": "hope to do 或 hope that；不接 sb to do。"
           }
         },
         {
@@ -20934,7 +23043,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "historic",
               "historian"
             ],
-            "caution": "historical 历史上的、historic 有历史意义的，两形容词有别"
+            "caution": "historical 历史上的、historic 有历史意义的，两形容词有别",
+            "phoneticSplit": "hi · sto · ry",
+            "usage": "a history of……的历史；historic 有历史意义的。"
           }
         },
         {
@@ -20943,7 +23054,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈkɑmə/",
             "quick": "comma 逗号——句子里那个小尾巴",
-            "caution": "与 coma（昏迷）只差一个 m：双 m 才是逗号"
+            "caution": "与 coma（昏迷）只差一个 m：双 m 才是逗号",
+            "phoneticSplit": "com · ma",
+            "usage": "comma 逗号；period 句号。"
           }
         },
         {
@@ -20955,7 +23068,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "furnish"
             ],
-            "caution": "不可数名词，没有 furnitures；一件用 a piece of furniture"
+            "caution": "不可数名词，没有 furnitures；一件用 a piece of furniture",
+            "phoneticSplit": "fur · ni · ture",
+            "usage": "furniture 不可数，不能说 a furniture。"
           }
         },
         {
@@ -20969,7 +23084,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "comedian",
               "tragedy"
             ],
-            "caution": "反义词 tragedy 悲剧；comedian 喜剧演员"
+            "caution": "反义词 tragedy 悲剧；comedian 喜剧演员",
+            "phoneticSplit": "co · me · dy",
+            "usage": "a comedy 一部喜剧；comedian 喜剧演员。"
           }
         }
       ]
@@ -20994,7 +23111,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "expertise",
               "experiment"
             ],
-            "caution": "expert 专家与 experiment 实验形近别混"
+            "caution": "expert 专家与 experiment 实验形近别混",
+            "phoneticSplit": "ex · pert",
+            "usage": "an expert at/in/on sth 某方面的专家。"
           }
         },
         {
@@ -21008,7 +23127,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hour",
               "ourselves"
             ],
-            "caution": "hour（小时）比 our 多个 h；ours 名词性可独立用"
+            "caution": "hour（小时）比 our 多个 h；ours 名词性可独立用",
+            "usage": "our 是形容词性物主代词；ours 是名词性。"
           }
         },
         {
@@ -21021,7 +23141,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "due",
               "dutiful"
             ],
-            "caution": "on/off duty 固定搭配；customs duty 关税"
+            "caution": "on/off duty 固定搭配；customs duty 关税",
+            "phoneticSplit": "du · ty",
+            "usage": "on/off duty 值班/下班；duty-free 免税。"
           }
         },
         {
@@ -21039,7 +23161,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "builder",
               "rebuild"
             ],
-            "caution": "build 过去式 built；building 表建筑物可数"
+            "caution": "build 过去式 built；building 表建筑物可数",
+            "phoneticSplit": "buil · ding",
+            "usage": "build-built-built；building 可数。"
           }
         },
         {
@@ -21058,7 +23182,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "importance",
               "portable"
             ],
-            "caution": "名词 importance；importantly 更重要的是常放句首"
+            "caution": "名词 importance；importantly 更重要的是常放句首",
+            "phoneticSplit": "im · por · tant",
+            "usage": "It's important to do sth；名词 importance。"
           }
         },
         {
@@ -21072,7 +23198,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "modern",
               "modify"
             ],
-            "caution": "常见误拼 modle，注意 d 在 l 前；model on/after 仿效"
+            "caution": "常见误拼 modle，注意 d 在 l 前；model on/after 仿效",
+            "phoneticSplit": "mo · del",
+            "usage": "model 作“模范”即 role model；model after 仿照。"
           }
         },
         {
@@ -21091,7 +23219,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "misunderstand",
               "mislead"
             ],
-            "caution": "过去式 mistook、分词 mistaken；by mistake 不是 with mistake"
+            "caution": "过去式 mistook、分词 mistaken；by mistake 不是 with mistake",
+            "phoneticSplit": "mi · stake",
+            "usage": "by mistake 错误地；mistake A for B 误认。"
           }
         },
         {
@@ -21106,7 +23236,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "theirs",
               "themselves"
             ],
-            "caution": "宾格 them、形容词性 their、名词性 theirs 各司其职"
+            "caution": "宾格 them、形容词性 their、名词性 theirs 各司其职",
+            "usage": "they 主格；them 宾格；their 物主代词。"
           }
         },
         {
@@ -21124,7 +23255,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "construct",
               "instruction"
             ],
-            "caution": "instruction 说明与 instrument 形近：后者多 instrument 乐器义"
+            "caution": "instruction 说明与 instrument 形近：后者多 instrument 乐器义",
+            "phoneticSplit": "in · stru · ment",
+            "usage": "play an instrument 演奏乐器。"
           }
         },
         {
@@ -21133,7 +23266,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/koʊʧ/",
             "quick": "coach 教练，也指长途大巴——带你练的人",
-            "caution": "复数 coaches；coach 作动词表训练、辅导"
+            "caution": "复数 coaches；coach 作动词表训练、辅导",
+            "usage": "coach 教练/长途车；trainer 训练员。"
           }
         },
         {
@@ -21146,7 +23280,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "recall",
               "caller"
             ],
-            "caution": "call on + 人、call at + 地点，别混；过去式 called"
+            "caution": "call on + 人、call at + 地点，别混；过去式 called",
+            "usage": "call at 拜访某地；call on 拜访某人。"
           }
         },
         {
@@ -21164,7 +23299,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fire",
               "fisherman"
             ],
-            "caution": "复数 firemen 不是 firemans；fisherman 渔夫同构合成"
+            "caution": "复数 firemen 不是 firemans；fisherman 渔夫同构合成",
+            "phoneticSplit": "fi · re · man",
+            "usage": "复数 firemen；firefighter 更常用。"
           }
         },
         {
@@ -21182,7 +23319,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rain",
               "elbow"
             ],
-            "caution": "bow 弓 /bəʊ/ 与鞠躬 /baʊ/ 读音不同；rainbow 可数"
+            "caution": "bow 弓 /bəʊ/ 与鞠躬 /baʊ/ 读音不同；rainbow 可数",
+            "phoneticSplit": "rain · bow",
+            "usage": "a rainbow 一道彩虹；rainbow-colored 彩色的。"
           }
         },
         {
@@ -21196,7 +23335,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "notebook",
               "notable"
             ],
-            "caution": "take notes 用复数；notebook 笔记本合成词"
+            "caution": "take notes 用复数；notebook 笔记本合成词",
+            "usage": "take notes 记笔记；note that 注意。"
           }
         },
         {
@@ -21205,7 +23345,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/dɑl/",
             "quick": "Barbie doll 芭比娃娃——doll 是玩偶。",
-            "caution": "双写 l；doll up 盛装打扮"
+            "caution": "双写 l；doll up 盛装打扮",
+            "usage": "doll 可数；rag doll 布娃娃。"
           }
         },
         {
@@ -21219,7 +23360,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lower",
               "above"
             ],
-            "caution": "反义词 above；see below 见下文，副词用法后置"
+            "caution": "反义词 above；see below 见下文，副词用法后置",
+            "phoneticSplit": "be · low",
+            "usage": "below 表低于；under 表正下方。"
           }
         },
         {
@@ -21231,7 +23374,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "killer"
             ],
-            "caution": "kill time 是消磨时间不是直译；skill 技能多一个 s"
+            "caution": "kill time 是消磨时间不是直译；skill 技能多一个 s",
+            "usage": "kill time 消磨时间；kill 后直接接宾语。"
           }
         },
         {
@@ -21248,7 +23392,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "discussion",
               "percussion"
             ],
-            "caution": "及物动词：discuss the question，不加 about"
+            "caution": "及物动词：discuss the question，不加 about",
+            "phoneticSplit": "di · scuss",
+            "usage": "discuss sth. with sb.；名词是 discussion。"
           }
         },
         {
@@ -21262,7 +23408,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pacific",
               "peacemaker"
             ],
-            "caution": "与 piece（一块）同音异义；形容词 peaceful"
+            "caution": "与 piece（一块）同音异义；形容词 peaceful",
+            "usage": "at peace 处于和平；peaceful 平静的。"
           }
         },
         {
@@ -21277,7 +23424,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "goodness",
               "goodbye"
             ],
-            "caution": "比较级 better 不是 gooder；be good at doing sth"
+            "caution": "比较级 better 不是 gooder；be good at doing sth",
+            "usage": "good at 擅长；good for 有益；比较级 better。"
           }
         }
       ]
@@ -21296,7 +23444,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "boy"
             ],
-            "caution": "复数 toys 直接加 s，因 y 前是元音 o"
+            "caution": "复数 toys 直接加 s，因 y 前是元音 o",
+            "usage": "toy 可数；toy shop 玩具店。"
           }
         },
         {
@@ -21314,7 +23463,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "finally",
               "infinite"
             ],
-            "caution": "决赛常用复数 the finals；finally = at last"
+            "caution": "决赛常用复数 the finals；finally = at last",
+            "phoneticSplit": "fi · nal",
+            "usage": "final 作名词指决赛、期末考；finally 最后。"
           }
         },
         {
@@ -21327,7 +23478,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "one",
               "nobody"
             ],
-            "caution": "no one 分开写指人，none 可指人也可指物；none of + 复数名词谓语可单可复"
+            "caution": "no one 分开写指人，none 可指人也可指物；none of + 复数名词谓语可单可复",
+            "usage": "none of + 复数；回答 How many 用 none。"
           }
         },
         {
@@ -21339,7 +23491,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "evenly"
             ],
-            "caution": "evening（晚上）与本词无关；even if 与 even though 同义"
+            "caution": "evening（晚上）与本词无关；even if 与 even though 同义",
+            "phoneticSplit": "e · ven",
+            "usage": "even 修饰比较级：even better；even if 即使。"
           }
         },
         {
@@ -21351,7 +23505,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "win"
             ],
-            "caution": "in winter 泛指冬季一般不加冠词"
+            "caution": "in winter 泛指冬季一般不加冠词",
+            "phoneticSplit": "win · ter",
+            "usage": "in winter 在冬天；winter coat 棉衣。"
           }
         },
         {
@@ -21365,7 +23521,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "partial",
               "participate"
             ],
-            "caution": "复数 parties：辅音 + y 变 ies"
+            "caution": "复数 parties：辅音 + y 变 ies",
+            "phoneticSplit": "par · ty",
+            "usage": "at the party 在聚会上；大写指政党。"
           }
         },
         {
@@ -21374,7 +23532,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/əˈpɪnjən/",
             "quick": "in my opinion 依我看——意见。",
-            "caution": "in one's opinion 固定搭配；可数名词"
+            "caution": "in one's opinion 固定搭配；可数名词",
+            "phoneticSplit": "o · pi · nion",
+            "usage": "in one's opinion 依某人看；opinion 可数。"
           }
         },
         {
@@ -21387,7 +23547,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "guide",
               "guest"
             ],
-            "caution": "复数 guesses；I guess 常作插入语"
+            "caution": "复数 guesses；I guess 常作插入语",
+            "usage": "guess 后可接从句；I guess 我认为。"
           }
         },
         {
@@ -21401,7 +23562,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tool",
               "fool"
             ],
-            "caution": "与 pull（拉）只差一个字母"
+            "caution": "与 pull（拉）只差一个字母",
+            "usage": "pool 也指一摊：a pool of blood。"
           }
         },
         {
@@ -21419,7 +23581,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "explorer",
               "exploration"
             ],
-            "caution": "别与 explode（爆炸）混淆；explorer 探险家"
+            "caution": "别与 explode（爆炸）混淆；explorer 探险家",
+            "phoneticSplit": "ex · plore",
+            "usage": "explore 后直接接地点；explorer 探险家。"
           }
         },
         {
@@ -21431,7 +23595,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "monkey"
             ],
-            "caution": "不可数：much money；别拼成 mony 或 monney"
+            "caution": "不可数：much money；别拼成 mony 或 monney",
+            "phoneticSplit": "mo · ney",
+            "usage": "money 不可数：much money；make money 赚钱。"
           }
         },
         {
@@ -21446,7 +23612,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "doing",
               "undo"
             ],
-            "caution": "助动词 do 构成疑问否定；过去分词 done 不是 doed"
+            "caution": "助动词 do 构成疑问否定；过去分词 done 不是 doed",
+            "usage": "do 作助动词构成疑问否定；did-done。"
           }
         },
         {
@@ -21463,7 +23630,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "melon",
               "water"
             ],
-            "caution": "melon 瓜类总称；watermelon 可数 a watermelon"
+            "caution": "melon 瓜类总称；watermelon 可数 a watermelon",
+            "phoneticSplit": "wa · ter · me · lon",
+            "usage": "melon 泛指瓜；watermelon 可数。"
           }
         },
         {
@@ -21477,7 +23646,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "had",
               "having"
             ],
-            "caution": "三单 has；否定 don't have to 不是 mustn't；hasn't 缩写"
+            "caution": "三单 has；否定 don't have to 不是 mustn't；hasn't 缩写",
+            "usage": "have to 不得不；has-had-had。"
           }
         },
         {
@@ -21495,7 +23665,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "protection",
               "protective"
             ],
-            "caution": "protect…from/against…固定搭配；名词 protection"
+            "caution": "protect…from/against…固定搭配；名词 protection",
+            "phoneticSplit": "pro · tect",
+            "usage": "protect sb. from sth.；名词 protection。"
           }
         },
         {
@@ -21510,7 +23682,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "builder",
               "rebuild"
             ],
-            "caution": "过去式、分词 built；名词 building 建筑物"
+            "caution": "过去式、分词 built；名词 building 建筑物",
+            "usage": "build-built-built；build up 增强。"
           }
         },
         {
@@ -21525,7 +23698,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bear",
               "born"
             ],
-            "caution": "give birth to 固定；与 earth 形近别混"
+            "caution": "give birth to 固定；与 earth 形近别混",
+            "usage": "give birth to 生下；birth 多为不可数。"
           }
         },
         {
@@ -21540,7 +23714,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "swam",
               "swum"
             ],
-            "caution": "swimming 双写 m；过去分词 swum 不是 swam"
+            "caution": "swimming 双写 m；过去分词 swum 不是 swam",
+            "usage": "swim-swam-swum；swimming pool 游泳池。"
           }
         },
         {
@@ -21554,7 +23729,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "raise",
               "appraise"
             ],
-            "caution": "price 价格与 praise 形近；praise sb for sth 因某事表扬"
+            "caution": "price 价格与 praise 形近；praise sb for sth 因某事表扬",
+            "usage": "praise 不可数；in praise of 赞扬。"
           }
         },
         {
@@ -21567,7 +23743,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wife",
               "band"
             ],
-            "caution": "与 wife 相对；house（房子）多一个 o 与 hus 同源"
+            "caution": "与 wife 相对；house（房子）多一个 o 与 hus 同源",
+            "phoneticSplit": "hus · band",
+            "usage": "对应 wife；husband and wife 夫妻。"
           }
         }
       ]
@@ -21589,7 +23767,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "farmland",
               "firm"
             ],
-            "caution": "既可作名词也可作动词（to farm 务农）；别与 firm（公司、稳固）混。"
+            "caution": "既可作名词也可作动词（to farm 务农）；别与 firm（公司、稳固）混。",
+            "usage": "on the farm 在农场；farm 作动词务农。"
           }
         },
         {
@@ -21604,7 +23783,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "well-known",
               "welfare"
             ],
-            "caution": "比较级是 better、最高级是 best，没有 weller；作形容词只表「身体好」。"
+            "caution": "比较级是 better、最高级是 best，没有 weller；作形容词只表「身体好」。",
+            "usage": "well 修饰动词，good 修饰名词；as well 也。"
           }
         },
         {
@@ -21618,7 +23798,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "thirstily",
               "thirstiness"
             ],
-            "caution": "拼写 th-ir-st-y；「渴望」用 be thirsty for sth。"
+            "caution": "拼写 th-ir-st-y；「渴望」用 be thirsty for sth。",
+            "phoneticSplit": "thir · sty",
+            "usage": "be thirsty for 渴望；thirsty 口渴的。"
           }
         },
         {
@@ -21632,7 +23814,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "messes",
               "messily"
             ],
-            "caution": "in a mess 是「乱七八糟」；动词常用 mess up。"
+            "caution": "in a mess 是「乱七八糟」；动词常用 mess up。",
+            "usage": "in a mess 一团糟；make a mess 弄乱。"
           }
         },
         {
@@ -21651,7 +23834,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "agriculture",
               "culturally"
             ],
-            "caution": "泛指「文化」不可数，指某一种文化才说 a culture。"
+            "caution": "泛指「文化」不可数，指某一种文化才说 a culture。",
+            "phoneticSplit": "cul · ture",
+            "usage": "culture 多不可数；cultural 文化的。"
           }
         },
         {
@@ -21665,7 +23850,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oatmeal",
               "meals"
             ],
-            "caution": "与 mail（邮件）只差一字母；「一餐」说 a meal，不说 a food。"
+            "caution": "与 mail（邮件）只差一字母；「一餐」说 a meal，不说 a food。",
+            "usage": "meal 可数；at meals 吃饭时。"
           }
         },
         {
@@ -21680,7 +23866,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "silliest",
               "sill"
             ],
-            "caution": "比较级 sillier、最高级 silliest，y 变 i。"
+            "caution": "比较级 sillier、最高级 silliest，y 变 i。",
+            "phoneticSplit": "sil · ly",
+            "usage": "silly 傻得可爱；stupid 贬义更重。"
           }
         },
         {
@@ -21699,7 +23887,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grandchild",
               "grandson"
             ],
-            "caution": "口语常用 grandpa，正式为 grandfather；grand- 不表示「大」。"
+            "caution": "口语常用 grandpa，正式为 grandfather；grand- 不表示「大」。",
+            "phoneticSplit": "grand · pa",
+            "usage": "口语 grandpa；书面用 grandfather。"
           }
         },
         {
@@ -21713,7 +23903,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blindness",
               "blinds"
             ],
-            "caution": "the blind 表「盲人」整体，作主语用复数。"
+            "caution": "the blind 表「盲人」整体，作主语用复数。",
+            "usage": "the blind 表复数；turn a blind eye 视而不见。"
           }
         },
         {
@@ -21731,7 +23922,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elements",
               "elemental"
             ],
-            "caution": "拼写是 element + ary，中间不双写 t。"
+            "caution": "拼写是 element + ary，中间不双写 t。",
+            "phoneticSplit": "e · le · men · ta · ry",
+            "usage": "elementary school 小学（美式）。"
           }
         },
         {
@@ -21749,7 +23942,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "talents",
               "talentless"
             ],
-            "caution": "形容词是 talented，别直接拿名词 talent 修饰名词。"
+            "caution": "形容词是 talented，别直接拿名词 talent 修饰名词。",
+            "phoneticSplit": "ta · len · ted",
+            "usage": "be talented at/in 擅长；talent 天才。"
           }
         },
         {
@@ -21767,7 +23962,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mixed",
               "mixer"
             ],
-            "caution": "拼写是 mix + ture，不是 -cher；指种类时可数。"
+            "caution": "拼写是 mix + ture，不是 -cher；指种类时可数。",
+            "phoneticSplit": "mix · ture",
+            "usage": "a mixture of ……的混合。"
           }
         },
         {
@@ -21782,7 +23979,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "streams",
               "streamer"
             ],
-            "caution": "「一连串」用 a stream of；小溪是 a stream，不说 a stream water。"
+            "caution": "「一连串」用 a stream of；小溪是 a stream，不说 a stream water。",
+            "usage": "stream 也指数据流；作动词是流出。"
           }
         },
         {
@@ -21797,7 +23995,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "folding",
               "twofold"
             ],
-            "caution": "folder 是文件夹，不是折东西的人；fold sth in half 表「对折」。"
+            "caution": "folder 是文件夹，不是折东西的人；fold sth in half 表「对折」。",
+            "usage": "fold up 折叠起来；unfold 展开。"
           }
         },
         {
@@ -21816,7 +24015,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "persist",
               "resist"
             ],
-            "caution": "搭配 insist on doing 或 insist that，不接 insist to do。"
+            "caution": "搭配 insist on doing 或 insist that，不接 insist to do。",
+            "phoneticSplit": "in · sist",
+            "usage": "insist on doing 坚持做。"
           }
         },
         {
@@ -21835,7 +24036,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grandma",
               "grandson"
             ],
-            "caution": "复数是 grandchildren；不分孙子和外孙。"
+            "caution": "复数是 grandchildren；不分孙子和外孙。",
+            "phoneticSplit": "grand · child",
+            "usage": "复数是 grandchildren。"
           }
         },
         {
@@ -21850,7 +24053,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "solidarity",
               "solids"
             ],
-            "caution": "作名词「固体」可数；solid 也可修饰理由，表「站得住的」。"
+            "caution": "作名词「固体」可数；solid 也可修饰理由，表「站得住的」。",
+            "phoneticSplit": "so · lid",
+            "usage": "solid food 固体食物；也指结实的。"
           }
         },
         {
@@ -21864,7 +24069,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "martial",
               "Martian"
             ],
-            "caution": "指行星必须大写首字母；火星人是 Martian。"
+            "caution": "指行星必须大写首字母；火星人是 Martian。",
+            "usage": "Mars 首字母大写；on Mars 在火星上。"
           }
         },
         {
@@ -21883,7 +24089,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "structural",
               "restructure"
             ],
-            "caution": "拼写 struct + ure；作动词时重音移到前面。"
+            "caution": "拼写 struct + ure；作动词时重音移到前面。",
+            "phoneticSplit": "struc · ture",
+            "usage": "structure 可数；structural 结构的。"
           }
         },
         {
@@ -21902,7 +24110,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "homeless",
               "homework"
             ],
-            "caution": "与 hometown（家乡小镇）不同，homeland 多指祖国。"
+            "caution": "与 hometown（家乡小镇）不同，homeland 多指祖国。",
+            "phoneticSplit": "ho · me · land",
+            "usage": "homeland 范围比 hometown 大。"
           }
         },
         {
@@ -21921,7 +24131,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pleasure",
               "pleasantly"
             ],
-            "caution": "pleasant 多修饰事物，pleased 修饰人；别写成 pleassant。"
+            "caution": "pleasant 多修饰事物，pleased 修饰人；别写成 pleassant。",
+            "phoneticSplit": "plea · sant",
+            "usage": "pleasant 形容事物；pleased 形容人。"
           }
         },
         {
@@ -21940,7 +24152,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "secrecy",
               "secretarial"
             ],
-            "caution": "拼写 secre-tary，中间是 e 不是 a（不是 secratary）。"
+            "caution": "拼写 secre-tary，中间是 e 不是 a（不是 secratary）。",
+            "phoneticSplit": "se · cre · ta · ry",
+            "usage": "Secretary 大写可指部长。"
           }
         }
       ]
@@ -21962,7 +24176,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "principle",
               "principality"
             ],
-            "caution": "prince 男、princess 女；别与 principle（原则）混。"
+            "caution": "prince 男、princess 女；别与 principle（原则）混。",
+            "usage": "Prince 大写作头衔；也可指亲王。"
           }
         },
         {
@@ -21981,7 +24196,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "waitress",
               "hostess"
             ],
-            "caution": "结尾双 s；王妃也称 princess。"
+            "caution": "结尾双 s；王妃也称 princess。",
+            "phoneticSplit": "prin · cess",
+            "usage": "Princess 大写用于称呼。"
           }
         },
         {
@@ -21999,7 +24216,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "duration",
               "endure"
             ],
-            "caution": "during 是介词，后接名词，不能接句子。"
+            "caution": "during 是介词，后接名词，不能接句子。",
+            "phoneticSplit": "du · ring",
+            "usage": "during 后接名词，不接句子。"
           }
         },
         {
@@ -22014,7 +24233,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "trying",
               "tried"
             ],
-            "caution": "try to do 与 try doing 意思不同；名词复数 tries。"
+            "caution": "try to do 与 try doing 意思不同；名词复数 tries。",
+            "usage": "try to do 努力做；try doing 试着做。"
           }
         },
         {
@@ -22029,7 +24249,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gotten",
               "forget"
             ],
-            "caution": "get sb to do 与 get sth done 结构不同；过去分词英式 got、美式 gotten。"
+            "caution": "get sb to do 与 get sth done 结构不同；过去分词英式 got、美式 gotten。",
+            "usage": "get-got-got；get sb. to do 让某人做。"
           }
         },
         {
@@ -22044,7 +24265,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "written",
               "rewrite"
             ],
-            "caution": "过去式 wrote、过去分词 written；w 不发音。"
+            "caution": "过去式 wrote、过去分词 written；w 不发音。",
+            "usage": "write to sb. 给某人写信。"
           }
         },
         {
@@ -22059,7 +24281,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "town",
               "hall"
             ],
-            "caution": "「走廊」英式也常用 corridor；别与 hole（洞）混。"
+            "caution": "「走廊」英式也常用 corridor；别与 hole（洞）混。",
+            "usage": "hall 指门厅、礼堂；hallway 走廊。"
           }
         },
         {
@@ -22073,7 +24296,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "guarded",
               "safeguard"
             ],
-            "caution": "on guard 是「在岗」，不加 the；u 不发音但必须写。"
+            "caution": "on guard 是「在岗」，不加 the；u 不发音但必须写。",
+            "usage": "guard against 提防；lifeguard 救生员。"
           }
         },
         {
@@ -22088,7 +24312,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "finally",
               "finance"
             ],
-            "caution": "作名词是「罚款」，作动词是「罚款」；I am fine 是「我很好」。"
+            "caution": "作名词是「罚款」，作动词是「罚款」；I am fine 是「我很好」。",
+            "usage": "fine 作名词指罚款；也指天气晴朗。"
           }
         },
         {
@@ -22107,7 +24332,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spirited",
               "respiration"
             ],
-            "caution": "表「情绪」常用复数 spirits，high spirits 是兴高采烈。"
+            "caution": "表「情绪」常用复数 spirits，high spirits 是兴高采烈。",
+            "phoneticSplit": "spi · rit",
+            "usage": "in high spirits 情绪高涨。"
           }
         },
         {
@@ -22122,7 +24349,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "frontier",
               "front-line"
             ],
-            "caution": "in front of 与 in the front of 含义不同，考试常考。"
+            "caution": "in front of 与 in the front of 含义不同，考试常考。",
+            "usage": "in front of 在外部前方；in the front of 内部前部。"
           }
         },
         {
@@ -22136,7 +24364,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "soundproof",
               "ultrasound"
             ],
-            "caution": "safe and sound 中的 sound 是形容词；作系动词「听起来」后接形容词。"
+            "caution": "safe and sound 中的 sound 是形容词；作系动词「听起来」后接形容词。",
+            "usage": "sound 作系动词：sound good 听起来不错。"
           }
         },
         {
@@ -22150,7 +24379,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wildly",
               "wilderness"
             ],
-            "caution": "wildlife 是一个词；副词 wildly 表「极度地」。"
+            "caution": "wildlife 是一个词；副词 wildly 表「极度地」。",
+            "usage": "in the wild 在野外；be wild about 热衷。"
           }
         },
         {
@@ -22164,7 +24394,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "snaky",
               "snakebite"
             ],
-            "caution": "动词「蜿蜒」常与 along、through 连用；snack（零食）别混。"
+            "caution": "动词「蜿蜒」常与 along、through 连用；snack（零食）别混。",
+            "usage": "作动词指蜿蜒；snakes and ladders 蛇梯棋。"
           }
         },
         {
@@ -22179,7 +24410,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "considerate",
               "reconsider"
             ],
-            "caution": "consider doing，不接 consider to do。"
+            "caution": "consider doing，不接 consider to do。",
+            "phoneticSplit": "con · si · der",
+            "usage": "consider doing；consider sb. as 视为。"
           }
         },
         {
@@ -22194,7 +24427,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "foreign",
               "exchange"
             ],
-            "caution": "g 不发音，别拼成 foriegner；「外国人」是 foreigner。"
+            "caution": "g 不发音，别拼成 foriegner；「外国人」是 foreigner。",
+            "phoneticSplit": "fo · reign",
+            "usage": "be foreign to 对……来说陌生。"
           }
         },
         {
@@ -22213,7 +24448,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ourselves",
               "self"
             ],
-            "caution": "复数 ourselves；by myself 是「独自」，不是「被我自己」。"
+            "caution": "复数 ourselves；by myself 是「独自」，不是「被我自己」。",
+            "phoneticSplit": "my · self",
+            "usage": "by myself 独自；反身代词 myself/yourself。"
           }
         },
         {
@@ -22232,7 +24469,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "passing",
               "passer-by"
             ],
-            "caution": "拼写 pas-sen-ger，中间是 e，不是 passanger。"
+            "caution": "拼写 pas-sen-ger，中间是 e，不是 passanger。",
+            "phoneticSplit": "pas · seng · er",
+            "usage": "passenger 可数；passenger plane 客机。"
           }
         },
         {
@@ -22247,7 +24486,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cleanliness",
               "cleanly"
             ],
-            "caution": "cleaner 是清洁工或清洁剂；cleaning 是打扫这件事。"
+            "caution": "cleaner 是清洁工或清洁剂；cleaning 是打扫这件事。",
+            "usage": "作动词是打扫；cleaner 清洁工。"
           }
         },
         {
@@ -22266,7 +24506,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "situated",
               "situational"
             ],
-            "caution": "拼写 situ + ation；「形势」可数，说 a difficult situation。"
+            "caution": "拼写 situ + ation；「形势」可数，说 a difficult situation。",
+            "phoneticSplit": "si · tua · tion",
+            "usage": "in a difficult situation 处境困难。"
           }
         }
       ]
@@ -22288,7 +24530,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lookout",
               "looks"
             ],
-            "caution": "look 作系动词接形容词（look happy），不接 happily。"
+            "caution": "look 作系动词接形容词（look happy），不接 happily。",
+            "usage": "look 不及物，接宾语要加 at。"
           }
         },
         {
@@ -22307,7 +24550,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "basketball",
               "football"
             ],
-            "caution": "写成一个词；棒球帽是 baseball cap。"
+            "caution": "写成一个词；棒球帽是 baseball cap。",
+            "phoneticSplit": "ba · se · ball",
+            "usage": "指运动时不可数；a baseball 一个球。"
           }
         },
         {
@@ -22322,7 +24567,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "overlook",
               "overseas"
             ],
-            "caution": "表「结束」时是副词（Class is over），后面不加名词。"
+            "caution": "表「结束」时是副词（Class is over），后面不加名词。",
+            "phoneticSplit": "o · ver",
+            "usage": "over 表正上方；above 只表高于；over 也指超过。"
           }
         },
         {
@@ -22340,7 +24587,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "became",
               "becomes"
             ],
-            "caution": "过去式 became、过去分词 become；后接名词或形容词作表语。"
+            "caution": "过去式 became、过去分词 become；后接名词或形容词作表语。",
+            "phoneticSplit": "be · come",
+            "usage": "become-became-become；后接名词或形容词。"
           }
         },
         {
@@ -22359,7 +24608,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "superficial",
               "surfaces"
             ],
-            "caution": "拼写 sur + face；动词「浮现」常与 on 连用。"
+            "caution": "拼写 sur + face；动词「浮现」常与 on 连用。",
+            "phoneticSplit": "sur · face",
+            "usage": "on the surface 表面上。"
           }
         },
         {
@@ -22374,7 +24625,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mountaineer",
               "amount"
             ],
-            "caution": "拼写 moun-tain，中间是 ou；「爬山」说 climb a mountain。"
+            "caution": "拼写 moun-tain，中间是 ou；「爬山」说 climb a mountain。",
+            "phoneticSplit": "moun · tain",
+            "usage": "mountain 可数；mountainous 多山的。"
           }
         },
         {
@@ -22389,7 +24642,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blackmail",
               "blackness"
             ],
-            "caution": "小写 black 指颜色；大写 Black 指黑人，现多用 African American。"
+            "caution": "小写 black 指颜色；大写 Black 指黑人，现多用 African American。",
+            "usage": "作名词指黑色；black coffee 不加奶的咖啡。"
           }
         },
         {
@@ -22403,7 +24657,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hours",
               "hourglass"
             ],
-            "caution": "h 不发音，前面用 an；hours 也表「工作时间」。"
+            "caution": "h 不发音，前面用 an；hours 也表「工作时间」。",
+            "usage": "hour 前用 an；rush hour 高峰时间。"
           }
         },
         {
@@ -22418,7 +24673,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "founding",
               "fund"
             ],
-            "caution": "与 find 的过去式同形，靠上下文区分；创始人 founder。"
+            "caution": "与 find 的过去式同形，靠上下文区分；创始人 founder。",
+            "usage": "found-founded（创立）；find-found（找到）。"
           }
         },
         {
@@ -22432,7 +24688,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oftentimes",
               "often"
             ],
-            "caution": "t 常不发音；位置在实义动词前、be 动词后。"
+            "caution": "t 常不发音；位置在实义动词前、be 动词后。",
+            "phoneticSplit": "of · ten",
+            "usage": "often 放实义动词前、be 动词后。"
           }
         },
         {
@@ -22447,7 +24705,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "distrust",
               "trustee"
             ],
-            "caution": "trust sb 或 trust in sb；作名词不可数。"
+            "caution": "trust sb 或 trust in sb；作名词不可数。",
+            "usage": "trust in 信赖；trust sb. to do 放心让某人做。"
           }
         },
         {
@@ -22462,7 +24721,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "passing",
               "pastime"
             ],
-            "caution": "past 不能作动词；half past six 是「六点半」。"
+            "caution": "past 不能作动词；half past six 是「六点半」。",
+            "usage": "past 作介词指过了（时间）；passed 是动词。"
           }
         },
         {
@@ -22476,7 +24736,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seafood",
               "foodstuff"
             ],
-            "caution": "一般不可数，别说 a food；指种类时才用 foods。"
+            "caution": "一般不可数，别说 a food；指种类时才用 foods。",
+            "usage": "food 一般不可数，foods 指多种食品。"
           }
         },
         {
@@ -22491,7 +24752,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "coverage",
               "uncover"
             ],
-            "caution": "be covered with 表状态；cover 作名词指盖子、封面。"
+            "caution": "be covered with 表状态；cover 作名词指盖子、封面。",
+            "phoneticSplit": "co · ver",
+            "usage": "be covered with 被……覆盖。"
           }
         },
         {
@@ -22506,7 +24769,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "square",
               "root"
             ],
-            "caution": "「平方」也用 square；广场是 square，不是 place。"
+            "caution": "「平方」也用 square；广场是 square，不是 place。",
+            "usage": "square 指广场、平方；square meter 平方米。"
           }
         },
         {
@@ -22521,7 +24785,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "girlfriend",
               "schoolgirl"
             ],
-            "caution": "别与 grill（烧烤）混；girlfriend 写成一个词。"
+            "caution": "别与 grill（烧烤）混；girlfriend 写成一个词。",
+            "usage": "口语里 girl 也可指女儿。"
           }
         },
         {
@@ -22536,7 +24801,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "badly",
               "worst-case"
             ],
-            "caution": "是 bad、ill 的最高级，没有 worser；at worst 是「充其量」。"
+            "caution": "是 bad、ill 的最高级，没有 worser；at worst 是「充其量」。",
+            "usage": "worst 是 bad 的最高级；at worst 最坏也不过。"
           }
         },
         {
@@ -22555,7 +24821,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "somewhere",
               "anyone"
             ],
-            "caution": "作主语按单数（someone is）；否定疑问句多用 anyone。"
+            "caution": "作主语按单数（someone is）；否定疑问句多用 anyone。",
+            "phoneticSplit": "so · meone",
+            "usage": "someone 多用于肯定句；anyone 用于疑问否定。"
           }
         },
         {
@@ -22570,7 +24838,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "enforce",
               "reinforce"
             ],
-            "caution": "「军队」用复数 forces；搭配 force sb to do sth。"
+            "caution": "「军队」用复数 forces；搭配 force sb to do sth。",
+            "usage": "force sb. to do；by force 用武力。"
           }
         },
         {
@@ -22585,7 +24854,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "weather",
               "forecast"
             ],
-            "caution": "不可数；与 whether（是否）同音不同义。"
+            "caution": "不可数；与 whether（是否）同音不同义。",
+            "phoneticSplit": "wea · ther",
+            "usage": "weather 不可数；与 whether 音近，别混。"
           }
         }
       ]
@@ -22608,7 +24879,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "police",
               "officer"
             ],
-            "caution": "集合名词，作主语用复数（The police are…）；不说 a police。"
+            "caution": "集合名词，作主语用复数（The police are…）；不说 a police。",
+            "phoneticSplit": "po · lice",
+            "usage": "police 作复数：The police are coming。"
           }
         },
         {
@@ -22623,7 +24896,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mankind",
               "kinds"
             ],
-            "caution": "「对某人好」用 be kind to；kind of 后常直接接名词。"
+            "caution": "「对某人好」用 be kind to；kind of 后常直接接名词。",
+            "usage": "kind of 有点；kind 指种类时可数。"
           }
         },
         {
@@ -22638,7 +24912,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "feedback",
               "feeder"
             ],
-            "caution": "feed on 是「以…为食」；过去式是 fed，不是 feeded。"
+            "caution": "feed on 是「以…为食」；过去式是 fed，不是 feeded。",
+            "usage": "feed-fed-fed；fed up 受够了。"
           }
         },
         {
@@ -22657,7 +24932,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "highway",
               "subway"
             ],
-            "caution": "英式 railway，美式 railroad；写成一个词。"
+            "caution": "英式 railway，美式 railroad；写成一个词。",
+            "phoneticSplit": "rail · way",
+            "usage": "英式 railway，美式 railroad。"
           }
         },
         {
@@ -22676,7 +24953,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "differently",
               "differentiate"
             ],
-            "caution": "be different from 是固定搭配；拼写 diff-e-rent，中间是 e。"
+            "caution": "be different from 是固定搭配；拼写 diff-e-rent，中间是 e。",
+            "phoneticSplit": "dif · fe · rent",
+            "usage": "be different from 与……不同。"
           }
         },
         {
@@ -22692,7 +24971,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "health",
               "care"
             ],
-            "caution": "副词 healthily，不是 healthyly；healthy 多修饰人或生活方式。"
+            "caution": "副词 healthily，不是 healthyly；healthy 多修饰人或生活方式。",
+            "phoneticSplit": "heal · thy",
+            "usage": "healthy 形容词；health 名词；unhealthy 不健康。"
           }
         },
         {
@@ -22706,7 +24987,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "winds",
               "windless"
             ],
-            "caution": "拼写是 wind + y，不双写 n；注意 wind 作动词「蜿蜒」读另一音。"
+            "caution": "拼写是 wind + y，不双写 n；注意 wind 作动词「蜿蜒」读另一音。",
+            "phoneticSplit": "win · dy",
+            "usage": "windy 多风的；wind 名词读 /wɪnd/。"
           }
         },
         {
@@ -22721,7 +25004,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shorten",
               "short-sighted"
             ],
-            "caution": "只用复数，一条是 a pair of shorts。"
+            "caution": "只用复数，一条是 a pair of shorts。",
+            "usage": "只用复数；a pair of shorts 一条短裤。"
           }
         },
         {
@@ -22740,7 +25024,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cooperation",
               "cooperative"
             ],
-            "caution": "搭配 cooperate with sb；拼写 co + operate，别漏 o。"
+            "caution": "搭配 cooperate with sb；拼写 co + operate，别漏 o。",
+            "phoneticSplit": "coo · pe · rate",
+            "usage": "cooperate with sb. 与某人合作。"
           }
         },
         {
@@ -22755,7 +25041,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "should",
               "wouldn't"
             ],
-            "caution": "would like to do；would rather do；别写成 would of。"
+            "caution": "would like to do；would rather do；别写成 would of。",
+            "usage": "would rather 宁愿；would like to do 想做。"
           }
         },
         {
@@ -22774,7 +25061,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "loving",
               "loveliness"
             ],
-            "caution": "-ly 例外：lovely、friendly、lonely 都是形容词。"
+            "caution": "-ly 例外：lovely、friendly、lonely 都是形容词。",
+            "phoneticSplit": "lo · ve · ly",
+            "usage": "lovely 是形容词，不是副词。"
           }
         },
         {
@@ -22789,7 +25078,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "costumed",
               "costumes"
             ],
-            "caution": "别与 custom（习俗）混；泳装是 swimsuit，不说 swim costume。"
+            "caution": "别与 custom（习俗）混；泳装是 swimsuit，不说 swim costume。",
+            "phoneticSplit": "co · stume",
+            "usage": "costume 指戏服或民族服装；日常衣服用 clothes。"
           }
         },
         {
@@ -22807,7 +25098,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "minor",
               "majors"
             ],
-            "caution": "「主修」用 major in；军衔「少校」也是 major。"
+            "caution": "「主修」用 major in；军衔「少校」也是 major。",
+            "phoneticSplit": "ma · jor",
+            "usage": "反义 minor；major in 主修某专业。"
           }
         },
         {
@@ -22824,7 +25117,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "legendary",
               "legends"
             ],
-            "caution": "拼写 leg-end，不是 legand；形容词是 legendary。"
+            "caution": "拼写 leg-end，不是 legand；形容词是 legendary。",
+            "phoneticSplit": "le · gend",
+            "usage": "legend 传说；legendary 传奇的。"
           }
         },
         {
@@ -22842,7 +25137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "agenda",
               "agents"
             ],
-            "caution": "agent 是人，agency 是机构；travel agent 指旅行社职员。"
+            "caution": "agent 是人，agency 是机构；travel agent 指旅行社职员。",
+            "phoneticSplit": "a · gent",
+            "usage": "travel agent 旅行社；secret agent 特工。"
           }
         },
         {
@@ -22856,7 +25153,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "art",
               "gallery"
             ],
-            "caution": "复数是 galleries（y 变 ies）。"
+            "caution": "复数是 galleries（y 变 ies）。",
+            "phoneticSplit": "gal · le · ry",
+            "usage": "art gallery 美术馆；play to the gallery 讨好观众。"
           }
         },
         {
@@ -22875,7 +25174,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "disregard",
               "regards"
             ],
-            "caution": "regard … as …；复数 regards 表「问候」。"
+            "caution": "regard … as …；复数 regards 表「问候」。",
+            "phoneticSplit": "re · gard",
+            "usage": "regard A as B 把 A 看作 B；best regards 问候。"
           }
         },
         {
@@ -22894,7 +25195,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "confide",
               "confidently"
             ],
-            "caution": "confident 是自信的，confidential 是机密的；搭配 be confident of。"
+            "caution": "confident 是自信的，confidential 是机密的；搭配 be confident of。",
+            "phoneticSplit": "con · fi · dent",
+            "usage": "be confident of/about 对……有信心；confidence 名词。"
           }
         },
         {
@@ -22913,7 +25216,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nationwide",
               "widely"
             ],
-            "caution": "写成一个词，不加连字符；形容词、副词同形。"
+            "caution": "写成一个词，不加连字符；形容词、副词同形。",
+            "phoneticSplit": "worl · dwide",
+            "usage": "worldwide 可作形容词和副词，前面不加 the。"
           }
         }
       ]
@@ -22938,7 +25243,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "citizenry",
               "citizenship"
             ],
-            "caution": "别写 citisen，词尾是 -izen"
+            "caution": "别写 citisen，词尾是 -izen",
+            "phoneticSplit": "ci · ti · zen",
+            "usage": "citizen 公民；citizenship 公民身份。"
           }
         },
         {
@@ -22952,7 +25259,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "researcher",
               "searching"
             ],
-            "caution": "search for sth. 才是找某物；search sb. 是搜身"
+            "caution": "search for sth. 才是找某物；search sb. 是搜身",
+            "usage": "search for 寻找；search sb 搜身；in search of 寻找。"
           }
         },
         {
@@ -22971,7 +25279,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sticky",
               "chopstick"
             ],
-            "caution": "常用复数；一根是 a chopstick"
+            "caution": "常用复数；一根是 a chopstick",
+            "phoneticSplit": "chop · sticks",
+            "usage": "一根是 chopstick，常用复数 chopsticks。"
           }
         },
         {
@@ -22986,7 +25296,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ours",
               "ourselves"
             ],
-            "caution": "we 只作主语，宾格用 us"
+            "caution": "we 只作主语，宾格用 us",
+            "usage": "we 作主语；us 作宾语；our 后接名词。"
           }
         },
         {
@@ -23001,7 +25312,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pork",
               "veal"
             ],
-            "caution": "不可数，不说 a mutton；双写 t"
+            "caution": "不可数，不说 a mutton；双写 t",
+            "phoneticSplit": "mut · ton",
+            "usage": "mutton 羊肉；lamb 羔羊肉；sheep 活羊。"
           }
         },
         {
@@ -23016,7 +25329,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unmarried",
               "remarry"
             ],
-            "caution": "marry sb. 不加 with；已婚说 be married to"
+            "caution": "marry sb. 不加 with；已婚说 be married to",
+            "phoneticSplit": "mar · ry",
+            "usage": "marry sb；get married to sb；be married 已婚。"
           }
         },
         {
@@ -23030,7 +25345,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shutdown",
               "shutting"
             ],
-            "caution": "过去式仍是 shut，不加 -ted"
+            "caution": "过去式仍是 shut，不加 -ted",
+            "usage": "三态同形 shut-shut-shut；shut down 关停。"
           }
         },
         {
@@ -23044,7 +25360,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "picnicking",
               "picnicked"
             ],
-            "caution": "现在分词 picnicking，要加 k"
+            "caution": "现在分词 picnicking，要加 k",
+            "phoneticSplit": "pic · nic",
+            "usage": "go on a picnic；picnicking 要先加 k。"
           }
         },
         {
@@ -23058,7 +25376,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "her",
               "herself"
             ],
-            "caution": "hers 后不接名词；没有 her's 这种写法"
+            "caution": "hers 后不接名词；没有 her's 这种写法",
+            "usage": "hers 后不接名词；her 后必须接名词。"
           }
         },
         {
@@ -23073,7 +25392,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "withdraw",
               "withstand"
             ],
-            "caution": "介词后接宾格：with me，不是 with I"
+            "caution": "介词后接宾格：with me，不是 with I",
+            "usage": "with 表伴随或工具；用语言说用 in。"
           }
         },
         {
@@ -23091,7 +25411,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "benefactor",
               "benevolent"
             ],
-            "caution": "benefit from 得益于；过去式 benefited（单 t）"
+            "caution": "benefit from 得益于；过去式 benefited（单 t）",
+            "phoneticSplit": "be · ne · fit",
+            "usage": "benefit from 从……受益；be of benefit to 有益于。"
           }
         },
         {
@@ -23106,7 +25428,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "singing",
               "sang"
             ],
-            "caution": "过去式 sang、过去分词 sung；singing 不双写 g"
+            "caution": "过去式 sang、过去分词 sung；singing 不双写 g",
+            "usage": "sing-sang-sung；singer 歌手。"
           }
         },
         {
@@ -23121,7 +25444,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mixer",
               "mix-up"
             ],
-            "caution": "名词用 mixture；mix 别写成 mixe"
+            "caution": "名词用 mixture；mix 别写成 mixe",
+            "usage": "mix up 混淆；mixture 混合物。"
           }
         },
         {
@@ -23140,7 +25464,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "postbox",
               "postmen"
             ],
-            "caution": "复数 postmen，不是 postmans"
+            "caution": "复数 postmen，不是 postmans",
+            "phoneticSplit": "post · man",
+            "usage": "复数 postmen；post office 邮局。"
           }
         },
         {
@@ -23155,7 +25481,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "smelled",
               "smelling"
             ],
-            "caution": "系动词用法 It smells good；过去式 smelt/smelled"
+            "caution": "系动词用法 It smells good；过去式 smelt/smelled",
+            "usage": "smell-smelt/smelled；后接形容词作表语。"
           }
         },
         {
@@ -23170,7 +25497,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "living",
               "lively"
             ],
-            "caution": "「现场的」读 /laɪv/；表居住要接 in"
+            "caution": "「现场的」读 /laɪv/；表居住要接 in",
+            "usage": "live in 住在；live 直播的；lively 活泼的。"
           }
         },
         {
@@ -23189,7 +25517,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "likelihood",
               "alike"
             ],
-            "caution": "比较级 more likely；likely 是形容词，不是副词"
+            "caution": "比较级 more likely；likely 是形容词，不是副词",
+            "phoneticSplit": "li · ke · ly",
+            "usage": "be likely to do sth；It is likely that…"
           }
         },
         {
@@ -23203,7 +25533,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "deafness",
               "deafening"
             ],
-            "caution": "读 /def/，别拼成 deff；the deaf 指聋人群体"
+            "caution": "读 /def/，别拼成 deff；the deaf 指聋人群体",
+            "usage": "the deaf 聋人；fall on deaf ears 不被理睬。"
           }
         },
         {
@@ -23218,7 +25549,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "thoughtful",
               "thoughtless"
             ],
-            "caution": "gh 不发音；它同时是 think 的过去式"
+            "caution": "gh 不发音；它同时是 think 的过去式",
+            "usage": "thought 也是 think 的过去式；thoughtful 体贴的。"
           }
         },
         {
@@ -23230,7 +25562,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "sire"
             ],
-            "caution": "爵士头衔 Sir 必须大写并接姓名"
+            "caution": "爵士头衔 Sir 必须大写并接姓名",
+            "usage": "Sir 大写作称呼；小写用于爵士名前。"
           }
         }
       ]
@@ -23251,7 +25584,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "these",
               "this"
             ],
-            "caution": "those 是 that 的复数；别写 thats"
+            "caution": "those 是 that 的复数；别写 thats",
+            "usage": "those 后接复数名词；these 指近处。"
           }
         },
         {
@@ -23265,7 +25599,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drying",
               "dryness"
             ],
-            "caution": "变 dries/dried 要 y 改 i；词表「干(燥)」是「干」的误印"
+            "caution": "变 dries/dried 要 y 改 i；词表「干(燥)」是「干」的误印",
+            "usage": "dry-dried；dryer 烘干机。"
           }
         },
         {
@@ -23280,7 +25615,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "saving",
               "savior"
             ],
-            "caution": "save sb. from 危险；别与 safe 混"
+            "caution": "save sb. from 危险；别与 safe 混",
+            "usage": "save sb from 救出；save up 攒钱。"
           }
         },
         {
@@ -23295,7 +25631,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "babyish",
               "babysit"
             ],
-            "caution": "复数 babies；babysit 只有一个 t"
+            "caution": "复数 babies；babysit 只有一个 t",
+            "phoneticSplit": "ba · by",
+            "usage": "复数 babies；baby-sit 看孩子。"
           }
         },
         {
@@ -23314,7 +25652,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "responsibility",
               "irresponsible"
             ],
-            "caution": "be responsible for，不是 of"
+            "caution": "be responsible for，不是 of",
+            "phoneticSplit": "re · spon · si · ble",
+            "usage": "be responsible for 对……负责；responsibility 责任。"
           }
         },
         {
@@ -23328,7 +25668,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "those",
               "these"
             ],
-            "caution": "定语从句用 that 不用 what；口语中常省略"
+            "caution": "定语从句用 that 不用 what；口语中常省略",
+            "usage": "that 可指代前文整句；this 指下文。"
           }
         },
         {
@@ -23347,7 +25688,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "national",
               "international"
             ],
-            "caution": "nation 偏民族、国家，country 偏地理"
+            "caution": "nation 偏民族、国家，country 偏地理",
+            "phoneticSplit": "na · tion",
+            "usage": "nation 民族/国家；national 国家的。"
           }
         },
         {
@@ -23365,7 +25708,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "surprising",
               "surprisingly"
             ],
-            "caution": "to one's surprise 令某人惊讶；surprised 修饰人"
+            "caution": "to one's surprise 令某人惊讶；surprised 修饰人",
+            "phoneticSplit": "sur · prise",
+            "usage": "to one's surprise 令某人惊讶；be surprised at。"
           }
         },
         {
@@ -23380,7 +25725,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "motherly",
               "grandmother"
             ],
-            "caution": "作称呼时首字母大写；stepmother 是继母"
+            "caution": "作称呼时首字母大写；stepmother 是继母",
+            "phoneticSplit": "mo · ther",
+            "usage": "mother 母亲；口语用 mum/mom。"
           }
         },
         {
@@ -23395,7 +25742,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "softness",
               "software"
             ],
-            "caution": "副词是 softly；soften 是动词"
+            "caution": "副词是 softly；soften 是动词",
+            "usage": "反义 hard；softly 轻柔地。"
           }
         },
         {
@@ -23414,7 +25762,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "computation",
               "computerize"
             ],
-            "caution": "重音在 -pu-；别写 commputer"
+            "caution": "重音在 -pu-；别写 commputer",
+            "phoneticSplit": "com · pu · ter",
+            "usage": "compute 计算；calculator 计算器。"
           }
         },
         {
@@ -23432,7 +25782,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "altogether",
               "togetherness"
             ],
-            "caution": "别漏中间 e：to-gether；altogether 是「完全」"
+            "caution": "别漏中间 e：to-gether；altogether 是「完全」",
+            "phoneticSplit": "to · ge · ther",
+            "usage": "together with 连同；get together 聚会。"
           }
         },
         {
@@ -23447,7 +25799,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "along",
               "longing"
             ],
-            "caution": "表「渴望」要 long for，不直接接宾语"
+            "caution": "表「渴望」要 long for，不直接接宾语",
+            "usage": "long for sth 渴望；as long as 只要。"
           }
         },
         {
@@ -23461,7 +25814,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dragonfly",
               "dragons"
             ],
-            "caution": "中国龙宜说 Chinese dragon；西方 dragon 是恶兽"
+            "caution": "中国龙宜说 Chinese dragon；西方 dragon 是恶兽",
+            "phoneticSplit": "dra · gon",
+            "usage": "dragon boat 龙舟；dragon dance 舞龙。"
           }
         },
         {
@@ -23475,7 +25830,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "strangely",
               "strangeness"
             ],
-            "caution": "It is strange that…；stranger 是陌生人"
+            "caution": "It is strange that…；stranger 是陌生人",
+            "usage": "stranger 陌生人；be strange to 对……陌生。"
           }
         },
         {
@@ -23493,7 +25849,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "decisive",
               "decided"
             ],
-            "caution": "decide to do，不接 doing；名词是 decision"
+            "caution": "decide to do，不接 doing；名词是 decision",
+            "phoneticSplit": "de · cide",
+            "usage": "decide to do sth；decision 名词。"
           }
         },
         {
@@ -23507,7 +25865,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rower",
               "rows"
             ],
-            "caution": "「吵架」义读 /raʊ/；a row of 表示一排"
+            "caution": "「吵架」义读 /raʊ/；a row of 表示一排",
+            "usage": "in a row 连续；row a boat 划船。"
           }
         },
         {
@@ -23521,7 +25880,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "so",
               "such"
             ],
-            "caution": "as…as 中间用形容词原级；as 可引导时间状语从句"
+            "caution": "as…as 中间用形容词原级；as 可引导时间状语从句",
+            "usage": "as...as 同级比较；as 也可引导原因。"
           }
         },
         {
@@ -23535,7 +25895,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "largeness",
               "enlarge"
             ],
-            "caution": "large 偏体积数量，big 更口语；enlarge 是放大"
+            "caution": "large 偏体积数量，big 更口语；enlarge 是放大",
+            "usage": "large 比 big 正式；at large 逍遥法外。"
           }
         },
         {
@@ -23549,7 +25910,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wrongdoing",
               "wronged"
             ],
-            "caution": "w 不发音；反义 right；go wrong 出错"
+            "caution": "w 不发音；反义 right；go wrong 出错",
+            "usage": "be wrong with 出毛病；反义 right。"
           }
         }
       ]
@@ -23570,7 +25932,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "filming",
               "filmmaker"
             ],
-            "caution": "英式常用 film；「胶卷」义不可数"
+            "caution": "英式常用 film；「胶卷」义不可数",
+            "usage": "film 英式，movie 美式；也指胶片。"
           }
         },
         {
@@ -23584,7 +25947,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "you",
               "yourself"
             ],
-            "caution": "yours 后不接名词；Yours sincerely 是信尾套语"
+            "caution": "yours 后不接名词；Yours sincerely 是信尾套语",
+            "usage": "Yours sincerely 信末敬语；yours 后不接名词。"
           }
         },
         {
@@ -23603,7 +25967,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unsafe",
               "safeguard"
             ],
-            "caution": "拼写保留 e；搭配 in safety"
+            "caution": "拼写保留 e；搭配 in safety",
+            "phoneticSplit": "sa · fe · ty",
+            "usage": "for safety 为了安全；safe 是形容词。"
           }
         },
         {
@@ -23617,7 +25983,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "allot",
               "lottery"
             ],
-            "caution": "a lot of 可接可数或不可数；a lot 常放句尾"
+            "caution": "a lot of 可接可数或不可数；a lot 常放句尾",
+            "usage": "a lot of 可数不可数都行；a lot 修饰动词。"
           }
         },
         {
@@ -23636,7 +26003,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "overload",
               "downloader"
             ],
-            "caution": "写成一个词；反义是 upload"
+            "caution": "写成一个词；反义是 upload",
+            "phoneticSplit": "down · load",
+            "usage": "反义 upload 上传；download sth from…"
           }
         },
         {
@@ -23650,7 +26019,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "education",
               "physics"
             ],
-            "caution": "必须大写；不能写成 pe"
+            "caution": "必须大写；不能写成 pe",
+            "usage": "PE 是缩写，指课程时不加冠词。"
           }
         },
         {
@@ -23665,7 +26035,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "basically",
               "basement"
             ],
-            "caution": "basic 是形容词，basis 是名词；basically 是副词"
+            "caution": "basic 是形容词，basis 是名词；basically 是副词",
+            "phoneticSplit": "ba · sic",
+            "usage": "basis 是名词“基础”；basically 基本上。"
           }
         },
         {
@@ -23679,7 +26051,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "awesome",
               "awfully"
             ],
-            "caution": "awful 是糟糕，awesome 是极好，别混"
+            "caution": "awful 是糟糕，awesome 是极好，别混",
+            "phoneticSplit": "aw · ful",
+            "usage": "口语里就是“很糟”；awfully 非常。"
           }
         },
         {
@@ -23697,7 +26071,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nearly",
               "nearest"
             ],
-            "caution": "写成一个词；作定语放名词前"
+            "caution": "写成一个词；作定语放名词前",
+            "phoneticSplit": "near · by",
+            "usage": "nearby 作定语或副词；near by 分开是“在附近”。"
           }
         },
         {
@@ -23715,7 +26091,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nature",
               "national"
             ],
-            "caution": "native to China 表示原产中国；a native of 是本地人"
+            "caution": "native to China 表示原产中国；a native of 是本地人",
+            "phoneticSplit": "na · tive",
+            "usage": "native speaker 母语者；be native to 原产于。"
           }
         },
         {
@@ -23734,7 +26112,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "originally",
               "originality"
             ],
-            "caution": "兼形容词和名词；副词是 originally"
+            "caution": "兼形容词和名词；副词是 originally",
+            "phoneticSplit": "o · ri · gi · nal",
+            "usage": "original 也作名词“原作”；origin 起源。"
           }
         },
         {
@@ -23748,7 +26128,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reimburse",
               "bursary"
             ],
-            "caution": "purse 多指女式钱包，wallet 多指男式皮夹"
+            "caution": "purse 多指女式钱包，wallet 多指男式皮夹",
+            "usage": "purse 女用钱包；wallet 男用钱包。"
           }
         },
         {
@@ -23766,7 +26147,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "discussed",
               "discussing"
             ],
-            "caution": "拼写双 s；搭配 have a discussion about"
+            "caution": "拼写双 s；搭配 have a discussion about",
+            "phoneticSplit": "di · scus · sion",
+            "usage": "have a discussion about；discuss 后不加 about。"
           }
         },
         {
@@ -23780,7 +26163,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "courtesy",
               "courteous"
             ],
-            "caution": "球场上用 on the court，不用 in"
+            "caution": "球场上用 on the court，不用 in",
+            "usage": "in court 在法庭；on court 在球场上。"
           }
         },
         {
@@ -23794,7 +26178,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bowing",
               "bowman"
             ],
-            "caution": "两读音两义；谢幕用 take a bow"
+            "caution": "两读音两义；谢幕用 take a bow",
+            "usage": "bow to sb 向某人鞠躬；bow and arrow 弓箭。"
           }
         },
         {
@@ -23809,7 +26194,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "saucy",
               "salsa"
             ],
-            "caution": "别与 source（来源）混；sauce 可数"
+            "caution": "别与 source（来源）混；sauce 可数",
+            "usage": "sauce 酱汁；source 源头，只差一个 u。"
           }
         },
         {
@@ -23823,7 +26209,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fetched",
               "far-fetched"
             ],
-            "caution": "fetch 自带「回来」，别再补 back"
+            "caution": "fetch 自带「回来」，别再补 back",
+            "usage": "fetch 一去一回；take 只拿走；bring 只带来。"
           }
         },
         {
@@ -23838,7 +26225,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "calculus",
               "calculated"
             ],
-            "caution": "拼写 calcul-ator，中间别漏 u"
+            "caution": "拼写 calcul-ator，中间别漏 u",
+            "phoneticSplit": "cal · cu · la · tor",
+            "usage": "calculate 计算；calculator 别与 calculus 混。"
           }
         },
         {
@@ -23851,7 +26240,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "zebras",
               "zebrawood"
             ],
-            "caution": "复数 zebras；斑马线是 zebra crossing"
+            "caution": "复数 zebras；斑马线是 zebra crossing",
+            "phoneticSplit": "ze · bra",
+            "usage": "zebra crossing 人行横道。"
           }
         },
         {
@@ -23870,7 +26261,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "critical",
               "criticize"
             ],
-            "caution": "英式 -ise，美式 -ize；别双写 c"
+            "caution": "英式 -ise，美式 -ize；别双写 c",
+            "phoneticSplit": "cri · ti · cise",
+            "usage": "英式 criticise，美式 criticize；criticism 批评。"
           }
         },
         {
@@ -23888,7 +26281,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prohibit",
               "inhibit"
             ],
-            "caution": "拼写 exhib-it-ion，别漏 h；on exhibition 在展出"
+            "caution": "拼写 exhib-it-ion，别漏 h；on exhibition 在展出",
+            "phoneticSplit": "ex · hi · bi · tion",
+            "usage": "on exhibition 在展出；exhibit 动词/展品。"
           }
         },
         {
@@ -23906,7 +26301,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "convene",
               "intervene"
             ],
-            "caution": "缩写 Ave.；Fifth Avenue 第五大道"
+            "caution": "缩写 Ave.；Fifth Avenue 第五大道",
+            "phoneticSplit": "a · ve · nue",
+            "usage": "Fifth Avenue 第五大道；也可指“途径”。"
           }
         },
         {
@@ -23925,7 +26322,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "conjoin",
               "adjunct"
             ],
-            "caution": "缩写 conj.；in conjunction with 与…一起"
+            "caution": "缩写 conj.；in conjunction with 与…一起",
+            "phoneticSplit": "con · junc · tion",
+            "usage": "in conjunction with 与……一起。"
           }
         }
       ]
@@ -23949,7 +26348,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "traditional",
               "traditionally"
             ],
-            "caution": "by tradition 按传统；形容词是 traditional"
+            "caution": "by tradition 按传统；形容词是 traditional",
+            "phoneticSplit": "tra · di · tion",
+            "usage": "by tradition 按传统；traditional 传统的。"
           }
         },
         {
@@ -23964,7 +26365,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "meaningful",
               "meaningless"
             ],
-            "caution": "过去式 meant 读 /ment/；形容词义是「刻薄的」"
+            "caution": "过去式 meant 读 /ment/；形容词义是「刻薄的」",
+            "usage": "mean-meant-meant；mean to do 打算做。"
           }
         },
         {
@@ -23979,7 +26381,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "design",
               "significant"
             ],
-            "caution": "g 不发音；签名这名词是 signature"
+            "caution": "g 不发音；签名这名词是 signature",
+            "usage": "sign 动词签名；signature 是签下的名。"
           }
         },
         {
@@ -23994,7 +26397,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "minimum",
               "mini"
             ],
-            "caution": "名词读 /ˈmɪnɪt/，形容词「微小」读 /maɪˈnjuːt/"
+            "caution": "名词读 /ˈmɪnɪt/，形容词「微小」读 /maɪˈnjuːt/",
+            "phoneticSplit": "mi · nute",
+            "usage": "in a minute 马上；the minute 一……就。"
           }
         },
         {
@@ -24013,7 +26418,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "acquire",
               "required"
             ],
-            "caution": "require sb. to do；名词是 requirement"
+            "caution": "require sb. to do；名词是 requirement",
+            "phoneticSplit": "re · quire",
+            "usage": "require sb to do sth；requirement 要求。"
           }
         },
         {
@@ -24029,7 +26436,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "less"
             ],
-            "caution": "unless 从句用肯定式，不再加 not"
+            "caution": "unless 从句用肯定式，不再加 not",
+            "phoneticSplit": "un · less",
+            "usage": "unless = if not，从句用现在时表将来。"
           }
         },
         {
@@ -24043,7 +26452,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "allowed",
               "allowing"
             ],
-            "caution": "allow sb. to do；allow doing 不加 to"
+            "caution": "allow sb. to do；allow doing 不加 to",
+            "phoneticSplit": "al · low",
+            "usage": "allow doing sth；allow sb to do sth；反义 forbid。"
           }
         },
         {
@@ -24062,7 +26473,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "discoverer",
               "uncovered"
             ],
-            "caution": "discover 发现已有之物，invent 发明新物"
+            "caution": "discover 发现已有之物，invent 发明新物",
+            "phoneticSplit": "di · sco · ver",
+            "usage": "discover 发现已有之物；invent 发明新东西。"
           }
         },
         {
@@ -24077,7 +26490,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "enlighten",
               "lights"
             ],
-            "caution": "拼写无 e；a flash of lightning"
+            "caution": "拼写无 e；a flash of lightning",
+            "phoneticSplit": "light · ning",
+            "usage": "lightning 是名词；lightning fast 极快。"
           }
         },
         {
@@ -24091,7 +26506,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "staging",
               "backstage"
             ],
-            "caution": "on stage 上台（不加 the）；in the early stages"
+            "caution": "on stage 上台（不加 the）；in the early stages",
+            "usage": "on stage 在舞台上；at this stage 在这个阶段。"
           }
         },
         {
@@ -24110,7 +26526,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "studious",
               "studied"
             ],
-            "caution": "拼写 stud-ent；a student of 是…的研究者"
+            "caution": "拼写 stud-ent；a student of 是…的研究者",
+            "phoneticSplit": "stu · dent",
+            "usage": "student 大学生也泛指学生；pupil 中小学生。"
           }
         },
         {
@@ -24125,7 +26543,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "payer",
               "repay"
             ],
-            "caution": "过去式 paid；买东西说 pay for sth."
+            "caution": "过去式 paid；买东西说 pay for sth.",
+            "usage": "pay-paid-paid；pay for sth；pay sb 付钱给某人。"
           }
         },
         {
@@ -24138,7 +26557,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beaches",
               "beachside"
             ],
-            "caution": "复数 beaches 加 es；海边用 on"
+            "caution": "复数 beaches 加 es；海边用 on",
+            "usage": "beach 沙滩；coast 海岸线；shore 岸边。"
           }
         },
         {
@@ -24153,7 +26573,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "believer",
               "unbelievable"
             ],
-            "caution": "拼写 ie；believe in 表信任或信仰"
+            "caution": "拼写 ie；believe in 表信任或信仰",
+            "phoneticSplit": "be · lieve",
+            "usage": "believe sb 信某人的话；believe in 信任、信仰。"
           }
         },
         {
@@ -24168,7 +26590,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sticker",
               "sticks"
             ],
-            "caution": "过去式 stuck；stick to 表坚持或粘住"
+            "caution": "过去式 stuck；stick to 表坚持或粘住",
+            "usage": "stick-stuck-stuck；stick to 坚持。"
           }
         },
         {
@@ -24180,7 +26603,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "chores"
             ],
-            "caution": "常用复数 chores；可数名词"
+            "caution": "常用复数 chores；可数名词",
+            "usage": "chores 常用复数；housework 不可数。"
           }
         },
         {
@@ -24195,7 +26619,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hairdresser",
               "hairs"
             ],
-            "caution": "整体不可数；一根才说 a hair"
+            "caution": "整体不可数；一根才说 a hair",
+            "usage": "hair 指整体不可数，指一根时可数。"
           }
         },
         {
@@ -24209,7 +26634,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "each",
               "other"
             ],
-            "caution": "each 后动词用单数；each of 接复数名词"
+            "caution": "each 后动词用单数；each of 接复数名词",
+            "usage": "each 后接单数名词；each other 互相。"
           }
         },
         {
@@ -24223,7 +26649,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "forked",
               "forklift"
             ],
-            "caution": "词表「又」是「叉」的误印；a knife and fork"
+            "caution": "词表「又」是「叉」的误印；a knife and fork",
+            "usage": "knife and fork 刀叉；a fork in the road 岔路口。"
           }
         },
         {
@@ -24237,7 +26664,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shameless",
               "ashamed"
             ],
-            "caution": "What a shame! 是「真遗憾」；ashamed 形容人"
+            "caution": "What a shame! 是「真遗憾」；ashamed 形容人",
+            "usage": "What a shame! 真可惜；shameful 可耻的。"
           }
         }
       ]
@@ -24259,7 +26687,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "landscape",
               "landlord"
             ],
-            "caution": "作动词既可及物（land a plane）也可不及物（land safely）"
+            "caution": "作动词既可及物（land a plane）也可不及物（land safely）",
+            "usage": "land on 降落在；by land 走陆路。"
           }
         },
         {
@@ -24279,7 +26708,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "conduct",
               "reduce"
             ],
-            "caution": "词表「传人」应为「传入」；introduce sb to sb 用 to 不用 with"
+            "caution": "词表「传人」应为「传入」；introduce sb to sb 用 to 不用 with",
+            "phoneticSplit": "in · tro · duce",
+            "usage": "introduce A to B；introduce oneself 自我介绍。"
           }
         },
         {
@@ -24294,7 +26725,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "locked",
               "lockup"
             ],
-            "caution": "可数（a lock）；锁门说 lock the door，不加介词"
+            "caution": "可数（a lock）；锁门说 lock the door，不加介词",
+            "usage": "lock up 锁好；lock 也可指一绺头发。"
           }
         },
         {
@@ -24313,7 +26745,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "returnee",
               "turnover"
             ],
-            "caution": "return 后不加 back（return back 冗余）；作名词可数"
+            "caution": "return 后不加 back（return back 冗余）；作名词可数",
+            "phoneticSplit": "re · turn",
+            "usage": "return to 回到；in return 作为回报。"
           }
         },
         {
@@ -24328,7 +26762,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "club",
               "fanatic"
             ],
-            "caution": "复数 fans；球迷、影迷都用 fan，没有 faner 这个说法"
+            "caution": "复数 fans；球迷、影迷都用 fan，没有 faner 这个说法",
+            "usage": "a football fan 球迷；electric fan 电扇。"
           }
         },
         {
@@ -24348,7 +26783,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "popularity",
               "unpopular"
             ],
-            "caution": "be popular with sb 不用 by；popular 不含「便宜」义"
+            "caution": "be popular with sb 不用 by；popular 不含「便宜」义",
+            "phoneticSplit": "po · pu · lar",
+            "usage": "be popular with 受……欢迎；popularity 名气。"
           }
         },
         {
@@ -24362,7 +26799,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "auntie",
               "uncle"
             ],
-            "caution": "一个 aunt 管五种亲戚；口语用 auntie"
+            "caution": "一个 aunt 管五种亲戚；口语用 auntie",
+            "usage": "aunt 统称女性长辈；uncle 是男性。"
           }
         },
         {
@@ -24376,7 +26814,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gymnastics",
               "gymnast"
             ],
-            "caution": "gym 是缩写，正式场合用 gymnasium；go to the gym 要加 the"
+            "caution": "gym 是缩写，正式场合用 gymnasium；go to the gym 要加 the",
+            "usage": "gym 是 gymnasium 的缩写；gymnastics 体操。"
           }
         },
         {
@@ -24392,7 +26831,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rest",
               "room"
             ],
-            "caution": "the rest 作主语时谓语看所指；表「休息」时不可数"
+            "caution": "the rest 作主语时谓语看所指；表「休息」时不可数",
+            "usage": "have a rest 休息一下；the rest of 其余的。"
           }
         },
         {
@@ -24407,7 +26847,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "half-time",
               "half-brother"
             ],
-            "caution": "复数 halves；语序是 half an hour，不说 a half hour（美式口语除外）"
+            "caution": "复数 halves；语序是 half an hour，不说 a half hour（美式口语除外）",
+            "usage": "half an hour 半小时；half of us 我们中的一半。"
           }
         },
         {
@@ -24423,7 +26864,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tiny",
               "bit"
             ],
-            "caution": "比较级 tinier、最高级 tiniest；程度比 small 强得多"
+            "caution": "比较级 tinier、最高级 tiniest；程度比 small 强得多",
+            "phoneticSplit": "ti · ny",
+            "usage": "tiny 比 small 更小，常说 a tiny bit 一点点。"
           }
         },
         {
@@ -24442,7 +26885,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "incomplete",
               "complement"
             ],
-            "caution": "作形容词无比较级；complete sth 后不接 with"
+            "caution": "作形容词无比较级；complete sth 后不接 with",
+            "phoneticSplit": "com · plete",
+            "usage": "作形容词是“完整的”，作动词是“完成”。"
           }
         },
         {
@@ -24458,7 +26903,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "black",
               "hole"
             ],
-            "caution": "hole 与 whole 同音不同义；「洞在墙上」用 a hole in the wall"
+            "caution": "hole 与 whole 同音不同义；「洞在墙上」用 a hole in the wall",
+            "phoneticSplit": "ho · le",
+            "usage": "a hole in the wall 墙上的洞；in the hole 亏空。"
           }
         },
         {
@@ -24473,7 +26920,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "earthy",
               "earthworm"
             ],
-            "caution": "表「地球」前加 the；on earth 还可表「究竟」"
+            "caution": "表「地球」前加 the；on earth 还可表「究竟」",
+            "usage": "on earth 在疑问句里加强语气：What on earth…?"
           }
         },
         {
@@ -24487,7 +26935,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sorrow",
               "sorrowful"
             ],
-            "caution": "I'm sorry to do sth / for doing sth；口语 Sorry? 是请人重说"
+            "caution": "I'm sorry to do sth / for doing sth；口语 Sorry? 是请人重说",
+            "phoneticSplit": "sor · ry",
+            "usage": "I'm sorry to hear that 听到这事很难过。"
           }
         },
         {
@@ -24503,7 +26953,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "been",
               "being"
             ],
-            "caution": "现在分词 being，过去分词 been；随人称和时态变形，别漏掉 be"
+            "caution": "现在分词 being，过去分词 been；随人称和时态变形，别漏掉 be",
+            "usage": "be 随人称变：I am, you are, he is。"
           }
         },
         {
@@ -24519,7 +26970,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "white",
               "flag"
             ],
-            "caution": "可数；raise/lower the flag 升/降旗；white flag 表投降"
+            "caution": "可数；raise/lower the flag 升/降旗；white flag 表投降",
+            "usage": "the national flag 国旗；flag 作动词指“标记出”。"
           }
         },
         {
@@ -24538,7 +26990,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "latter",
               "lately"
             ],
-            "caution": "later（后来）/ latter（后者）/ lately（最近）三词别混"
+            "caution": "later（后来）/ latter（后者）/ lately（最近）三词别混",
+            "phoneticSplit": "la · ter",
+            "usage": "later on 后来；see you later 回头见。"
           }
         },
         {
@@ -24557,7 +27011,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wonderland",
               "wonderment"
             ],
-            "caution": "本身语气已强，不必再加 very much；口语 fine 语气弱得多"
+            "caution": "本身语气已强，不必再加 very much；口语 fine 语气弱得多",
+            "phoneticSplit": "won · der · ful",
+            "usage": "口语里单说 Wonderful! 就是“太棒了”。"
           }
         },
         {
@@ -24575,7 +27031,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "forehead",
               "forecast"
             ],
-            "caution": "therefore 是副词，不能像连词 so 那样直接连接两个句子"
+            "caution": "therefore 是副词，不能像连词 so 那样直接连接两个句子",
+            "phoneticSplit": "the · re · fore",
+            "usage": "therefore 偏正式，口语多用 so。"
           }
         }
       ]
@@ -24597,7 +27055,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eyesight",
               "eye-catching"
             ],
-            "caution": "复数 eyes；「目击者」是 eyewitness"
+            "caution": "复数 eyes；「目击者」是 eyewitness",
+            "usage": "keep an eye on 照看；catch one's eye 引起注意。"
           }
         },
         {
@@ -24612,7 +27071,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "moonlight",
               "honeymoon"
             ],
-            "caution": "独一无二的天体前加 the：the moon"
+            "caution": "独一无二的天体前加 the：the moon",
+            "usage": "full moon 满月；moon 也指行星的卫星。"
           }
         },
         {
@@ -24627,7 +27087,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Miss",
               "Mister"
             ],
-            "caution": "英式不加句点；不接名，只接姓或全名"
+            "caution": "英式不加句点；不接名，只接姓或全名",
+            "usage": "Mr 男性，Mrs 已婚女性，Miss 未婚女性。"
           }
         },
         {
@@ -24642,7 +27103,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "if",
               "ever"
             ],
-            "caution": "句首时句子部分倒装；本身否定，反意疑问句用肯定式"
+            "caution": "句首时句子部分倒装；本身否定，反意疑问句用肯定式",
+            "phoneticSplit": "sel · dom",
+            "usage": "seldom 含否定，反义疑问句用 do they?"
           }
         },
         {
@@ -24657,7 +27120,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "air",
               "guitar"
             ],
-            "caution": "是 gui- 不是 gi-；弹奏说 play the guitar"
+            "caution": "是 gui- 不是 gi-；弹奏说 play the guitar",
+            "phoneticSplit": "gui · tar",
+            "usage": "play the guitar 弹吉他，乐器前要加 the。"
           }
         },
         {
@@ -24676,7 +27141,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "workshop",
               "teamwork"
             ],
-            "caution": "复数 workers；worker 多指体力或职业劳动者"
+            "caution": "复数 workers；worker 多指体力或职业劳动者",
+            "phoneticSplit": "wor · ker",
+            "usage": "office worker 上班族；worker 可数。"
           }
         },
         {
@@ -24695,7 +27162,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "trainee",
               "trained"
             ],
-            "caution": "不可数；in training 表「在训练中」"
+            "caution": "不可数；in training 表「在训练中」",
+            "phoneticSplit": "trai · ning",
+            "usage": "training course 培训课；in training 在受训。"
           }
         },
         {
@@ -24714,7 +27183,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "playground",
               "playback"
             ],
-            "caution": "球类运动员用 player；player 也指「播放器」"
+            "caution": "球类运动员用 player；player 也指「播放器」",
+            "phoneticSplit": "pla · yer",
+            "usage": "player 还指播放器：a music player。"
           }
         },
         {
@@ -24728,7 +27199,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "toasted",
               "toastmaster"
             ],
-            "caution": "「干杯」义可数：propose a toast；「一片吐司」a slice of toast"
+            "caution": "「干杯」义可数：propose a toast；「一片吐司」a slice of toast",
+            "usage": "a piece of toast 一片吐司；drink a toast 干杯。"
           }
         },
         {
@@ -24742,7 +27214,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "retired",
               "retiree"
             ],
-            "caution": "retire from 从…退休；retire 作「退休」不及物"
+            "caution": "retire from 从…退休；retire 作「退休」不及物",
+            "phoneticSplit": "re · tire",
+            "usage": "retire from 从…退休；retire at 60 六十岁退休。"
           }
         },
         {
@@ -24760,7 +27234,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "popularize",
               "unpopular"
             ],
-            "caution": "不可数；gain/lose popularity 走红/失宠"
+            "caution": "不可数；gain/lose popularity 走红/失宠",
+            "phoneticSplit": "po · pu · la · ri · ty",
+            "usage": "gain popularity 走红；popularity 不可数。"
           }
         },
         {
@@ -24779,7 +27255,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "realize",
               "unrealistic"
             ],
-            "caution": "realistic 不等于 real：一个是「逼真」，一个是「真」"
+            "caution": "realistic 不等于 real：一个是「逼真」，一个是「真」",
+            "phoneticSplit": "rea · li · stic",
+            "usage": "反义 unrealistic；a realistic plan 可行的计划。"
           }
         },
         {
@@ -24795,7 +27273,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wheat",
               "flour"
             ],
-            "caution": "不可数；形近词 weed 杂草、wet 湿的"
+            "caution": "不可数；形近词 weed 杂草、wet 湿的",
+            "usage": "wheat 不可数；a field of wheat 一片麦田。"
           }
         },
         {
@@ -24814,7 +27293,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "look",
               "out"
             ],
-            "caution": "on the lookout for 留心寻找；连写才是名词"
+            "caution": "on the lookout for 留心寻找；连写才是名词",
+            "phoneticSplit": "loo · kout",
+            "usage": "on the lookout for 留心找；keep a lookout 放哨。"
           }
         },
         {
@@ -24833,7 +27314,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "event",
               "invent"
             ],
-            "caution": "prevent sb from doing sth；不说 prevent sb to do"
+            "caution": "prevent sb from doing sth；不说 prevent sb to do",
+            "phoneticSplit": "pre · vent",
+            "usage": "prevent sb from doing sth 阻止某人做某事。"
           }
         },
         {
@@ -24847,7 +27330,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seeker",
               "hide-and-seek"
             ],
-            "caution": "过去式、过去分词都是 sought；seek 及物，找东西一般不用 seek for"
+            "caution": "过去式、过去分词都是 sought；seek 及物，找东西一般不用 seek for",
+            "usage": "seek-sought-sought；直接跟宾语，少用 seek for。"
           }
         },
         {
@@ -24866,7 +27350,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leading",
               "misguided"
             ],
-            "caution": "词表「今人误解」应为「令人误解」；形容词用 misleading，动词用 mislead"
+            "caution": "词表「今人误解」应为「令人误解」；形容词用 misleading，动词用 mislead",
+            "phoneticSplit": "mi · slea · ding",
+            "usage": "misleading ads 误导性广告；mislead 是动词。"
           }
         },
         {
@@ -24881,7 +27367,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sauce",
               "barbecued"
             ],
-            "caution": "缩写 BBQ；中间是 be 不是 ba，完整拼写 bar-be-cue"
+            "caution": "缩写 BBQ；中间是 be 不是 ba，完整拼写 bar-be-cue",
+            "phoneticSplit": "bar · be · cue",
+            "usage": "have a barbecue 搞一次烧烤；barbecue 可数。"
           }
         },
         {
@@ -24895,7 +27383,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "singularity",
               "singularly"
             ],
-            "caution": "反义词 plural；singular 还可表「非凡的」"
+            "caution": "反义词 plural；singular 还可表「非凡的」",
+            "phoneticSplit": "sing · u · lar",
+            "usage": "反义 plural；the singular form 单数形式。"
           }
         },
         {
@@ -24914,7 +27404,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "aggression",
               "aggressively"
             ],
-            "caution": "语境不同可褒可贬：an aggressive salesman 可译「有冲劲的」"
+            "caution": "语境不同可褒可贬：an aggressive salesman 可译「有冲劲的」",
+            "phoneticSplit": "ag · gres · sive",
+            "usage": "褒义指“有闯劲”，贬义指“好斗”。"
           }
         },
         {
@@ -24932,7 +27424,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "forbidden",
               "bid"
             ],
-            "caution": "过去式 forbade，过去分词 forbidden；forbid sb to do sth"
+            "caution": "过去式 forbade，过去分词 forbidden；forbid sb to do sth",
+            "phoneticSplit": "for · bid",
+            "usage": "forbid sb to do sth；过去式 forbade。"
           }
         }
       ]
@@ -24957,7 +27451,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "crowding",
               "overcrowded"
             ],
-            "caution": "be crowded with；crowded 是形容词，不是被动语态"
+            "caution": "be crowded with；crowded 是形容词，不是被动语态",
+            "phoneticSplit": "crow · ded",
+            "usage": "be crowded with 挤满；比 full 更强调人多。"
           }
         },
         {
@@ -24972,7 +27468,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pie",
               "chart"
             ],
-            "caution": "音译「派」；「一块派」a slice of pie"
+            "caution": "音译「派」；「一块派」a slice of pie",
+            "usage": "a slice of pie 一块派；pie 可数。"
           }
         },
         {
@@ -24987,7 +27484,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "empty",
               "stomach"
             ],
-            "caution": "ch 读 /k/；复数是 stomachs，不写 stomaches"
+            "caution": "ch 读 /k/；复数是 stomachs，不写 stomaches",
+            "phoneticSplit": "sto · mach",
+            "usage": "on an empty stomach 空腹；也指“忍耐”。"
           }
         },
         {
@@ -25002,7 +27501,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunburn",
               "burned"
             ],
-            "caution": "burnt/burned 均可；burn oneself 烫伤自己"
+            "caution": "burnt/burned 均可；burn oneself 烫伤自己",
+            "usage": "burn down 烧毁；burn-burnt-burnt。"
           }
         },
         {
@@ -25015,7 +27515,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "deliciously",
               "deliciousness"
             ],
-            "caution": "拼写是 -cious；delicious 本身已含「非常」之意"
+            "caution": "拼写是 -cious；delicious 本身已含「非常」之意",
+            "phoneticSplit": "de · li · cious",
+            "usage": "只修饰食物；说人好吃用 tasty 也不行。"
           }
         },
         {
@@ -25029,7 +27531,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "performer",
               "performing"
             ],
-            "caution": "perform 及物：perform a play；名词是 performance"
+            "caution": "perform 及物：perform a play；名词是 performance",
+            "phoneticSplit": "per · form",
+            "usage": "perform a task 完成任务；名词 performance。"
           }
         },
         {
@@ -25044,7 +27548,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "get",
               "along"
             ],
-            "caution": "along with 表「连同」；get along with sb 与某人相处"
+            "caution": "along with 表「连同」；get along with sb 与某人相处",
+            "phoneticSplit": "a · long",
+            "usage": "along with 连同；get along with 与…相处。"
           }
         },
         {
@@ -25058,7 +27564,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mighty",
               "mightily"
             ],
-            "caution": "might have done 表对过去的推测；作名词表「力量」"
+            "caution": "might have done 表对过去的推测；作名词表「力量」",
+            "usage": "might as well 不妨；might 后接动词原形。"
           }
         },
         {
@@ -25074,7 +27581,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "trade",
               "union"
             ],
-            "caution": "trade with sb 与…做生意；trade A for B 以 A 换 B"
+            "caution": "trade with sb 与…做生意；trade A for B 以 A 换 B",
+            "usage": "trade with 与…做买卖；trade A for B 以 A 换 B。"
           }
         },
         {
@@ -25088,7 +27596,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dramatically",
               "dramatist"
             ],
-            "caution": "「电视剧」说 TV drama；形容词是 dramatic"
+            "caution": "「电视剧」说 TV drama；形容词是 dramatic",
+            "phoneticSplit": "dra · ma",
+            "usage": "不可数指戏剧艺术；TV drama 电视剧。"
           }
         },
         {
@@ -25103,7 +27613,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "horsepower",
               "superpower"
             ],
-            "caution": "「电力」义不可数；in power 表执政"
+            "caution": "「电力」义不可数；in power 表执政",
+            "phoneticSplit": "po · wer",
+            "usage": "in power 执政；power station 发电站。"
           }
         },
         {
@@ -25118,7 +27630,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "at",
               "least"
             ],
-            "caution": "at least 至少；not least 尤其；least 前加 the 作形容词"
+            "caution": "at least 至少；not least 尤其；least 前加 the 作形容词",
+            "usage": "least 是 little 的最高级；at least 至少。"
           }
         },
         {
@@ -25132,7 +27645,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cheating",
               "cheater"
             ],
-            "caution": "cheat sb out of sth 骗走某物；cheat 可不及物（考试作弊）"
+            "caution": "cheat sb out of sth 骗走某物；cheat 可不及物（考试作弊）",
+            "usage": "cheat sb out of sth 骗走某物；cheat at cards 打牌作假。"
           }
         },
         {
@@ -25147,7 +27661,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "trainee",
               "trained"
             ],
-            "caution": "by train 不加冠词；train sb to do sth"
+            "caution": "by train 不加冠词；train sb to do sth",
+            "usage": "by train 乘火车；train sb to do 训练某人做。"
           }
         },
         {
@@ -25161,7 +27676,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "focal",
               "refocus"
             ],
-            "caution": "focus on sth；复数为 focuses 或 foci"
+            "caution": "focus on sth；复数为 focuses 或 foci",
+            "phoneticSplit": "fo · cus",
+            "usage": "focus on 专注于；in focus 对焦清楚。"
           }
         },
         {
@@ -25179,7 +27696,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "competitor",
               "competitive"
             ],
-            "caution": "词表「竟赛」应为「竞赛」；compete with/against sb for sth，且不及物"
+            "caution": "词表「竟赛」应为「竞赛」；compete with/against sb for sth，且不及物",
+            "phoneticSplit": "com · pete",
+            "usage": "compete with/against sb 与某人竞争。"
           }
         },
         {
@@ -25194,7 +27713,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "taxi",
               "driver"
             ],
-            "caution": "take a taxi 打车；复数 taxis"
+            "caution": "take a taxi 打车；复数 taxis",
+            "phoneticSplit": "tax · i",
+            "usage": "take a taxi 打车；by taxi 乘出租车。"
           }
         },
         {
@@ -25213,7 +27734,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uniformity",
               "unique"
             ],
-            "caution": "in uniform 穿着制服；作形容词表「一致的」"
+            "caution": "in uniform 穿着制服；作形容词表「一致的」",
+            "phoneticSplit": "u · ni · form",
+            "usage": "in uniform 穿着制服；school uniform 校服。"
           }
         },
         {
@@ -25231,7 +27754,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "descriptive",
               "subscribe"
             ],
-            "caution": "词表「播写」应为「描写」；搭配 describe sth as sth"
+            "caution": "词表「播写」应为「描写」；搭配 describe sth as sth",
+            "phoneticSplit": "de · scribe",
+            "usage": "describe sth as… 把某物说成；名词 description。"
           }
         },
         {
@@ -25245,7 +27770,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sadness",
               "sadden"
             ],
-            "caution": "比较级 sadder、最高级 saddest（双写 d）"
+            "caution": "比较级 sadder、最高级 saddest（双写 d）",
+            "usage": "be sad about sth 为某事难过；sadly 是副词。"
           }
         }
       ]
@@ -25271,7 +27797,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "carelessly",
               "carelessness"
             ],
-            "caution": "反义 careful；搭配 be careless of/about sth"
+            "caution": "反义 careful；搭配 be careless of/about sth",
+            "phoneticSplit": "ca · re · less",
+            "usage": "反义 careful；be careless of/about。"
           }
         },
         {
@@ -25286,7 +27814,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "inhuman",
               "superhuman"
             ],
-            "caution": "作名词可数：a human / humans；human being 更完整"
+            "caution": "作名词可数：a human / humans；human being 更完整",
+            "phoneticSplit": "hu · man",
+            "usage": "作名词可数：humans；human nature 人性。"
           }
         },
         {
@@ -25304,7 +27834,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "promised",
               "compromise"
             ],
-            "caution": "promise to do sth；keep/break a promise；promising 指「有前途的」"
+            "caution": "promise to do sth；keep/break a promise；promising 指「有前途的」",
+            "phoneticSplit": "pro · mise",
+            "usage": "keep/break a promise 守信/失约。"
           }
         },
         {
@@ -25323,7 +27855,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whenever",
               "whoever"
             ],
-            "caution": "作插入语需逗号；表「无论多么」时后接形容词或副词"
+            "caution": "作插入语需逗号；表「无论多么」时后接形容词或副词",
+            "phoneticSplit": "ho · we · ver",
+            "usage": "however 后要逗号；however hard 无论多难。"
           }
         },
         {
@@ -25339,7 +27873,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "understand",
               "standstill"
             ],
-            "caution": "过去式 stood；can't stand doing sth 受不了做某事"
+            "caution": "过去式 stood；can't stand doing sth 受不了做某事",
+            "usage": "can't stand doing 受不了做某事；stand for 代表。"
           }
         },
         {
@@ -25354,7 +27889,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "below",
               "lowland"
             ],
-            "caution": "low 与 lower（更低/降低）区别；low 可指声音「低声」"
+            "caution": "low 与 lower（更低/降低）区别；low 可指声音「低声」",
+            "usage": "low 指高度或声音低；人矮说 short。"
           }
         },
         {
@@ -25369,7 +27905,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "visible",
               "revise"
             ],
-            "caution": "visit sb 不加 to；拜访某人用 pay a visit to sb"
+            "caution": "visit sb 不加 to；拜访某人用 pay a visit to sb",
+            "phoneticSplit": "vi · sit",
+            "usage": "pay a visit to 拜访；visit 及物，不加 to。"
           }
         },
         {
@@ -25386,7 +27924,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dining",
               "car"
             ],
-            "caution": "by car 不加冠词；「车厢」义多见于美式"
+            "caution": "by car 不加冠词；「车厢」义多见于美式",
+            "usage": "by car 乘车；dining car 餐车。"
           }
         },
         {
@@ -25405,7 +27944,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "opera",
               "cooperate"
             ],
-            "caution": "operate on sb 给某人动手术；表「运转」时不及物"
+            "caution": "operate on sb 给某人动手术；表「运转」时不及物",
+            "phoneticSplit": "o · pe · rate",
+            "usage": "operate on sb 给某人动手术；名词 operation。"
           }
         },
         {
@@ -25419,7 +27960,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bullying",
               "bullies"
             ],
-            "caution": "过去式 bullied（y 变 i）；bully sb into doing sth 逼某人做"
+            "caution": "过去式 bullied（y 变 i）；bully sb into doing sth 逼某人做",
+            "phoneticSplit": "bul · ly",
+            "usage": "bully sb into doing 逼某人做；可数名词。"
           }
         },
         {
@@ -25435,7 +27978,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "leather",
               "jacket"
             ],
-            "caution": "音译「夹克」；「救生衣」是 life jacket"
+            "caution": "音译「夹克」；「救生衣」是 life jacket",
+            "phoneticSplit": "jack · et",
+            "usage": "a leather jacket 皮夹克；jacket 可数。"
           }
         },
         {
@@ -25449,7 +27994,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cheesecake",
               "cheesy"
             ],
-            "caution": "不可数；say cheese 是拍照用语；cheesy 是「俗气的」"
+            "caution": "不可数；say cheese 是拍照用语；cheesy 是「俗气的」",
+            "usage": "a piece of cheese 一块奶酪；cheese 不可数。"
           }
         },
         {
@@ -25468,7 +28014,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "satisfactory",
               "unsatisfactory"
             ],
-            "caution": "be satisfied with；satisfied 用于人，satisfying 用于物"
+            "caution": "be satisfied with；satisfied 用于人，satisfying 用于物",
+            "phoneticSplit": "sa · tis · fy",
+            "usage": "be satisfied with 对…满意；satisfying 令人满意。"
           }
         },
         {
@@ -25483,7 +28031,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "freeway",
               "carefree"
             ],
-            "caution": "for free / free of charge 免费；be free to do 随意做"
+            "caution": "for free / free of charge 免费；be free to do 随意做",
+            "usage": "free of charge 免费；be free to do 可自由做。"
           }
         },
         {
@@ -25502,7 +28051,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "housekeeper",
               "work"
             ],
-            "caution": "不可数；housework（家务）与 homework（作业）别混"
+            "caution": "不可数；housework（家务）与 homework（作业）别混",
+            "phoneticSplit": "hou · se · work",
+            "usage": "do housework 做家务；housework 不可数。"
           }
         },
         {
@@ -25517,7 +28068,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "newborn",
               "reborn"
             ],
-            "caution": "只用 be born；borne 是 bear「承受」的过去分词"
+            "caution": "只用 be born；borne 是 bear「承受」的过去分词",
+            "usage": "I was born in… 用过去时；born of 出身于。"
           }
         },
         {
@@ -25532,7 +28084,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "airline",
               "airmail"
             ],
-            "caution": "by air 不加冠词；airs 表「做作的姿态」"
+            "caution": "by air 不加冠词；airs 表「做作的姿态」",
+            "usage": "by air 乘飞机；in the air 在空中/在流传。"
           }
         },
         {
@@ -25547,7 +28100,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "how",
               "about"
             ],
-            "caution": "How do you like...? 问看法；how 不直接修饰名词"
+            "caution": "How do you like...? 问看法；how 不直接修饰名词",
+            "usage": "how 问方式程度；what 问“什么”。"
           }
         },
         {
@@ -25563,7 +28117,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "read",
               "out"
             ],
-            "caution": "过去式、过去分词拼写都是 read，读 /red/"
+            "caution": "过去式、过去分词拼写都是 read，读 /red/",
+            "usage": "过去式读 /red/；read aloud 朗读。"
           }
         },
         {
@@ -25578,7 +28133,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "left-hand",
               "lefty"
             ],
-            "caution": "on the left 用 on；left 同时是 leave 的过去式/过去分词"
+            "caution": "on the left 用 on；left 同时是 leave 的过去式/过去分词",
+            "usage": "on the left 在左边；turn left 左转。"
           }
         }
       ]
@@ -25599,7 +28155,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "saying",
               "hearsay"
             ],
-            "caution": "过去式 said 读 /sed/；搭配 say sth to sb，不用 say sb sth"
+            "caution": "过去式 said 读 /sed/；搭配 say sth to sb，不用 say sb sth",
+            "usage": "say sth to sb；say 重内容，tell 要有人。"
           }
         },
         {
@@ -25614,7 +28171,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bookstore",
               "bookcase"
             ],
-            "caution": "book a ticket 预订；by the book 表按规矩"
+            "caution": "book a ticket 预订；by the book 表按规矩",
+            "usage": "book a room 订房；book 可数。"
           }
         },
         {
@@ -25629,7 +28187,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "within",
               "indoor"
             ],
-            "caution": "in + 一段时间用于将来（in two days 两天后）；in 与 into 别混"
+            "caution": "in + 一段时间用于将来（in two days 两天后）；in 与 into 别混",
+            "usage": "in 用于大地点、月份年份；at 用于点。"
           }
         },
         {
@@ -25644,7 +28203,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rise",
               "risen"
             ],
-            "caution": "raise 及物、rise 不及物；raise 过去式 raised"
+            "caution": "raise 及物、rise 不及物；raise 过去式 raised",
+            "usage": "raise 及物；rise 不及物，别混。"
           }
         },
         {
@@ -25659,7 +28219,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "digital",
               "era"
             ],
-            "caution": "era 与 area 差一个 a；搭配 in the era of 在…时代"
+            "caution": "era 与 area 差一个 a；搭配 in the era of 在…时代",
+            "usage": "era 可数，常写 the…era。"
           }
         },
         {
@@ -25675,7 +28236,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "free",
               "kick"
             ],
-            "caution": "kick the ball；kick off 开球；踢某人说 kick sb"
+            "caution": "kick the ball；kick off 开球；踢某人说 kick sb",
+            "usage": "kick off 开球/开始；kick sb out 赶走。"
           }
         },
         {
@@ -25693,7 +28255,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "in",
               "between"
             ],
-            "caution": "用于两者：between A and B；分给多方用 divide among"
+            "caution": "用于两者：between A and B；分给多方用 divide among",
+            "phoneticSplit": "be · tween",
+            "usage": "between 用于两者，among 用于三者以上。"
           }
         },
         {
@@ -25708,7 +28272,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cookie",
               "cutter"
             ],
-            "caution": "美式 cookie 对英式 biscuit；复数 cookies"
+            "caution": "美式 cookie 对英式 biscuit；复数 cookies",
+            "phoneticSplit": "coo · kie",
+            "usage": "a cookie 一块，可数；美式常说 cookie。"
           }
         },
         {
@@ -25727,7 +28293,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "go",
               "out"
             ],
-            "caution": "反义 shy/reserved；也可指「即将离任的」"
+            "caution": "反义 shy/reserved；也可指「即将离任的」",
+            "phoneticSplit": "out · going",
+            "usage": "反义 shy/quiet；也指“即将离任的”。"
           }
         },
         {
@@ -25745,7 +28313,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "boring",
               "boredom"
             ],
-            "caution": "be bored with 对…厌烦；bored 用于人、boring 用于物"
+            "caution": "be bored with 对…厌烦；bored 用于人、boring 用于物",
+            "usage": "be bored with 对…厌烦；boring 是“令人烦的”。"
           }
         },
         {
@@ -25760,7 +28329,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elbow",
               "room"
             ],
-            "caution": "bow 在此读 /bəʊ/；拼写是 el + bow"
+            "caution": "bow 在此读 /bəʊ/；拼写是 el + bow",
+            "phoneticSplit": "el · bow",
+            "usage": "elbow one's way 用肘挤过去；可数。"
           }
         },
         {
@@ -25779,7 +28350,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "useless",
               "user"
             ],
-            "caution": "be useful to/for sb；不用 very much 修饰 useful"
+            "caution": "be useful to/for sb；不用 very much 修饰 useful",
+            "phoneticSplit": "u · se · ful",
+            "usage": "be useful to/for；反义 useless。"
           }
         },
         {
@@ -25797,7 +28370,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "competitor",
               "competitive"
             ],
-            "caution": "in competition with 与…竞争；表「比赛」时可数"
+            "caution": "in competition with 与…竞争；表「比赛」时可数",
+            "phoneticSplit": "com · pe · ti · tion",
+            "usage": "in competition with 与…竞争；enter 报名参赛。"
           }
         },
         {
@@ -25816,7 +28391,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "terrible",
               "terrify"
             ],
-            "caution": "terrible 是「可怕的」，terrify 是「使恐惧」；-ist 表人"
+            "caution": "terrible 是「可怕的」，terrify 是「使恐惧」；-ist 表人",
+            "phoneticSplit": "ter · ro · rist",
+            "usage": "terrorist 可数；terrorism 是恐怖主义。"
           }
         },
         {
@@ -25835,7 +28412,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bookshelf",
               "bookshop"
             ],
-            "caution": "bookcase 是柜、bookshelf 是架；复数 bookcases"
+            "caution": "bookcase 是柜、bookshelf 是架；复数 bookcases",
+            "phoneticSplit": "book · case",
+            "usage": "可数，复数是 bookcases。"
           }
         },
         {
@@ -25850,7 +28429,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beloved",
               "lover"
             ],
-            "caution": "loving 是形容词；lovely 是「可爱的」，别混"
+            "caution": "loving 是形容词；lovely 是「可爱的」，别混",
+            "phoneticSplit": "lo · ving",
+            "usage": "a loving family 充满爱的家庭；lovely 是“可爱的”。"
           }
         },
         {
@@ -25868,7 +28449,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elevation",
               "lift"
             ],
-            "caution": "美式 elevator、英式 lift；搭配 take the elevator"
+            "caution": "美式 elevator、英式 lift；搭配 take the elevator",
+            "phoneticSplit": "e · le · va · tor",
+            "usage": "take the elevator 乘电梯；英式说 lift。"
           }
         },
         {
@@ -25883,7 +28466,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "machine",
               "faxed"
             ],
-            "caution": "复数 faxes；by fax 表方式不加冠词"
+            "caution": "复数 faxes；by fax 表方式不加冠词",
+            "usage": "fax sb sth 传真给某人；by fax 用传真。"
           }
         },
         {
@@ -25897,7 +28481,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mysteriously",
               "mystic"
             ],
-            "caution": "myster- 不是 mister-（那是「先生」）"
+            "caution": "myster- 不是 mister-（那是「先生」）",
+            "phoneticSplit": "my · ste · rious",
+            "usage": "反义 clear；a mysterious stranger 神秘陌生人。"
           }
         }
       ]
@@ -25918,7 +28504,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "climatically",
               "acclimatize"
             ],
-            "caution": "别与 climb 混；climate 是长期气候，weather 是某天的天气。"
+            "caution": "别与 climb 混；climate 是长期气候，weather 是某天的天气。",
+            "phoneticSplit": "cli · mate",
+            "usage": "climate change 气候变化；climate 可数。"
           }
         },
         {
@@ -25932,7 +28520,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "magical",
               "magically"
             ],
-            "caution": "魔术师是 magician，不是 magican；magic 一般不可数。"
+            "caution": "魔术师是 magician，不是 magican；magic 一般不可数。",
+            "phoneticSplit": "ma · gic",
+            "usage": "magic 不可数；magical 是“神奇的”。"
           }
         },
         {
@@ -25949,7 +28539,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lay",
               "out"
             ],
-            "caution": "过去式过去分词都是 laid；lie（躺）的过去式才是 lay，极易混。"
+            "caution": "过去式过去分词都是 laid；lie（躺）的过去式才是 lay，极易混。",
+            "usage": "lay-laid-laid；与 lie-lay-lain 别混。"
           }
         },
         {
@@ -25963,7 +28554,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendship",
               "unfriendly"
             ],
-            "caution": "结尾是 -end，不是「结束」；复数直接加 s。"
+            "caution": "结尾是 -end，不是「结束」；复数直接加 s。",
+            "usage": "make friends with 与…交朋友；friendly 是形容词。"
           }
         },
         {
@@ -25981,7 +28573,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "case",
               "study"
             ],
-            "caution": "箱子义与案例义同形不同源；in case 后接从句，不加 that。"
+            "caution": "箱子义与案例义同形不同源；in case 后接从句，不加 that。",
+            "usage": "in case 以防；in any case 无论如何。"
           }
         },
         {
@@ -25999,7 +28592,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "commend",
               "commendable"
             ],
-            "caution": "两个 m：com + mend；说 recommend doing 或 recommend sb to do。"
+            "caution": "两个 m：com + mend；说 recommend doing 或 recommend sb to do。",
+            "phoneticSplit": "re · com · mend",
+            "usage": "recommend doing sth；recommend sb sth。"
           }
         },
         {
@@ -26014,7 +28609,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "heave",
               "heavyweight"
             ],
-            "caution": "副词 heavily 双写 l；大雨是 heavy rain，不说 big rain。"
+            "caution": "副词 heavily 双写 l；大雨是 heavy rain，不说 big rain。",
+            "phoneticSplit": "hea · vy",
+            "usage": "heavy traffic 交通拥堵；副词 heavily。"
           }
         },
         {
@@ -26029,7 +28626,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "easiness",
               "uneasy"
             ],
-            "caution": "比较级 easier 变 y 为 i；take it easy 不能说 take it easily。"
+            "caution": "比较级 easier 变 y 为 i；take it easy 不能说 take it easily。",
+            "phoneticSplit": "ea · sy",
+            "usage": "easier said than done 说来容易做来难。"
           }
         },
         {
@@ -26048,7 +28647,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "predict",
               "dictator"
             ],
-            "caution": "中间是 dic-tion，别漏 i；这一族词都含「说」。"
+            "caution": "中间是 dic-tion，别漏 i；这一族词都含「说」。",
+            "phoneticSplit": "dic · tio · na · ry",
+            "usage": "look up a word in a dictionary 查词典。"
           }
         },
         {
@@ -26067,7 +28668,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "meet",
               "up"
             ],
-            "caution": "meet 加 ing 不双写 t，是 meeting。"
+            "caution": "meet 加 ing 不双写 t，是 meeting。",
+            "phoneticSplit": "mee · ting",
+            "usage": "hold a meeting 开会；sports meeting 运动会。"
           }
         },
         {
@@ -26082,7 +28685,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yourself",
               "yourselves"
             ],
-            "caution": "your 是形容词性物主代词，后面必须带名词；yours 独立使用。"
+            "caution": "your 是形容词性物主代词，后面必须带名词；yours 独立使用。",
+            "usage": "your 是形容词性，后面必须接名词。"
           }
         },
         {
@@ -26100,7 +28704,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "surveillance",
               "surveyed"
             ],
-            "caution": "名词重音在首音节，动词后移；别写成 sruvey。"
+            "caution": "名词重音在首音节，动词后移；别写成 sruvey。",
+            "phoneticSplit": "sur · vey",
+            "usage": "do a survey of 对……做调查。"
           }
         },
         {
@@ -26119,7 +28725,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "apparent",
               "apparently"
             ],
-            "caution": "两个 p：ap + pear；反义词只加 dis- 成 disappear。"
+            "caution": "两个 p：ap + pear；反义词只加 dis- 成 disappear。",
+            "phoneticSplit": "ap · pear",
+            "usage": "appear 无被动；反义 disappear 消失。"
           }
         },
         {
@@ -26137,7 +28745,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "impossible",
               "possibility"
             ],
-            "caution": "两个 s；as ... as possible 别漏 as。"
+            "caution": "两个 s；as ... as possible 别漏 as。",
+            "phoneticSplit": "pos · si · ble",
+            "usage": "as…as possible 尽可能；反义 impossible。"
           }
         },
         {
@@ -26152,7 +28762,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "salary",
               "saline"
             ],
-            "caution": "音译词，别写 salard；two salads 可数。"
+            "caution": "音译词，别写 salard；two salads 可数。",
+            "phoneticSplit": "sa · lad",
+            "usage": "salad 可数：a salad 一份沙拉。"
           }
         },
         {
@@ -26170,7 +28782,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "others",
               "otherwise"
             ],
-            "caution": "another 后接单数名词；one another 是「互相」。"
+            "caution": "another 后接单数名词；one another 是「互相」。",
+            "phoneticSplit": "a · no · ther",
+            "usage": "another 后接单数；another three days 再三天。"
           }
         },
         {
@@ -26185,7 +28799,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "washroom",
               "washer"
             ],
-            "caution": "第三人称 washes 加 es；washing machine 是洗衣机。"
+            "caution": "第三人称 washes 加 es；washing machine 是洗衣机。",
+            "usage": "wash up 洗餐具；do the washing 洗衣服。"
           }
         },
         {
@@ -26204,7 +28819,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "portable",
               "import"
             ],
-            "caution": "双 s；port 是港口，不是门。"
+            "caution": "双 s；port 是港口，不是门。",
+            "phoneticSplit": "pas · sport",
+            "usage": "show your passport 出示护照。"
           }
         },
         {
@@ -26220,7 +28837,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "first",
               "aid"
             ],
-            "caution": "aide 多一个 e 是「助手」（人）；aid 多作不可数。"
+            "caution": "aide 多一个 e 是「助手」（人）；aid 多作不可数。",
+            "usage": "aid 不可数：in aid of 为了帮助。"
           }
         },
         {
@@ -26239,7 +28857,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "conscious",
               "conscience"
             ],
-            "caution": "不可数；scientist 是 sci + ent + ist，拼写与 science 不同。"
+            "caution": "不可数；scientist 是 sci + ent + ist，拼写与 science 不同。",
+            "usage": "science 不可数；scientist 科学家。"
           }
         }
       ]
@@ -26260,7 +28879,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gunfire",
               "handgun"
             ],
-            "caution": "三个字母不双写；可数，a gun。"
+            "caution": "三个字母不双写；可数，a gun。",
+            "usage": "gun 可数；machine gun 机枪。"
           }
         },
         {
@@ -26278,7 +28898,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "researcher",
               "researched"
             ],
-            "caution": "词表释义「v./.」应为 v./n.；作名词不可数。"
+            "caution": "词表释义「v./.」应为 v./n.；作名词不可数。",
+            "phoneticSplit": "re · search",
+            "usage": "do research on 对……做研究，research 不可数。"
           }
         },
         {
@@ -26297,7 +28919,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "farmland",
               "farmhouse"
             ],
-            "caution": "别与 former（前者）混；farmer 偏农场主。"
+            "caution": "别与 former（前者）混；farmer 偏农场主。",
+            "phoneticSplit": "far · mer",
+            "usage": "farmer 指农场主；peasant 带旧色彩。"
           }
         },
         {
@@ -26315,7 +28939,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "prepared",
               "preparatory"
             ],
-            "caution": "prepare for 别漏 for；preparation 中间是 par 不是 per。"
+            "caution": "prepare for 别漏 for；preparation 中间是 par 不是 per。",
+            "phoneticSplit": "pre · pare",
+            "usage": "prepare for 为……做准备；be prepared to do。"
           }
         },
         {
@@ -26329,7 +28955,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "heroine",
               "heroism"
             ],
-            "caution": "复数 heroes；女英雄 heroine 别写 heroene。"
+            "caution": "复数 heroes；女英雄 heroine 别写 heroene。",
+            "phoneticSplit": "he · ro",
+            "usage": "复数 heroes；heroine 女英雄。"
           }
         },
         {
@@ -26347,7 +28975,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "reminder",
               "mindful"
             ],
-            "caution": "搭配是 remind sb of sth 或 to do；别拼成 remine。"
+            "caution": "搭配是 remind sb of sth 或 to do；别拼成 remine。",
+            "phoneticSplit": "re · mind",
+            "usage": "remind sb of sth 使某人想起。"
           }
         },
         {
@@ -26366,7 +28996,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "passing",
               "passageway"
             ],
-            "caution": "双 s；别与 passenger（乘客）混。"
+            "caution": "双 s；别与 passenger（乘客）混。",
+            "phoneticSplit": "pas · sage",
+            "usage": "reading passage 阅读短文。"
           }
         },
         {
@@ -26385,7 +29017,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "...",
               "and"
             ],
-            "caution": "否定句并列用 or；连接的两边要对称。"
+            "caution": "否定句并列用 or；连接的两边要对称。",
+            "usage": "and so on 等等；连接并列成分。"
           }
         },
         {
@@ -26400,7 +29033,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "corn",
               "cornea"
             ],
-            "caution": "屋内的角用 in the corner，街角用 on the corner。"
+            "caution": "屋内的角用 in the corner，街角用 on the corner。",
+            "phoneticSplit": "cor · ner",
+            "usage": "in the corner of 在……角落里；on the corner 在街角。"
           }
         },
         {
@@ -26415,7 +29050,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "catlike",
               "wildcat"
             ],
-            "caution": "复数 cats；小猫是 kitten。"
+            "caution": "复数 cats；小猫是 kitten。",
+            "usage": "cat 可数，复数 cats。"
           }
         },
         {
@@ -26432,7 +29068,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "...",
               "nor"
             ],
-            "caution": "nor 置于句首要倒装（nor did he）；别与 or 混。"
+            "caution": "nor 置于句首要倒装（nor did he）；别与 or 混。",
+            "usage": "neither A nor B 谓语就近一致。"
           }
         },
         {
@@ -26451,7 +29088,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "recycling",
               "recyclable"
             ],
-            "caution": "重音在第一音节；不双写 c。"
+            "caution": "重音在第一音节；不双写 c。",
+            "phoneticSplit": "re · cy · cle",
+            "usage": "recycled paper 再生纸。"
           }
         },
         {
@@ -26468,7 +29107,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "field",
               "trip"
             ],
-            "caution": "短途旅行用 trip，长途用 journey；绊倒义常接 over。"
+            "caution": "短途旅行用 trip，长途用 journey；绊倒义常接 over。",
+            "usage": "trip 短途；journey 长途；trip over 绊倒。"
           }
         },
         {
@@ -26483,7 +29123,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "whichever",
               "whom"
             ],
-            "caution": "指人用 who，指物用 which；别写 wich。"
+            "caution": "指人用 who，指物用 which；别写 wich。",
+            "usage": "which 有范围，what 无范围。"
           }
         },
         {
@@ -26502,7 +29143,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "playground",
               "underground"
             ],
-            "caution": "一个词连写；出身义常说 family background。"
+            "caution": "一个词连写；出身义常说 family background。",
+            "phoneticSplit": "back · ground",
+            "usage": "background music 背景音乐。"
           }
         },
         {
@@ -26517,7 +29160,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tonight",
               "nightmare"
             ],
-            "caution": "与 light 只差首字母；说 at night，不说 in night。"
+            "caution": "与 light 只差首字母；说 at night，不说 in night。",
+            "usage": "at night 在夜里；in the night 夜间某时。"
           }
         },
         {
@@ -26535,7 +29179,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "physicist",
               "physician"
             ],
-            "caution": "学科名作单数；physical 是形容词，physicist 才是物理学家。"
+            "caution": "学科名作单数；physical 是形容词，physicist 才是物理学家。",
+            "phoneticSplit": "phy · sics",
+            "usage": "physics 作主语用单数；physicist 物理学家。"
           }
         },
         {
@@ -26551,7 +29197,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lab",
               "work"
             ],
-            "caution": "口语缩略，正式文体用 laboratory。"
+            "caution": "口语缩略，正式文体用 laboratory。",
+            "usage": "in the lab 在实验室；口语常用 lab。"
           }
         },
         {
@@ -26566,7 +29213,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "screenshot",
               "screening"
             ],
-            "caution": "双 e；动词是「放映、筛查」，不是「看」。"
+            "caution": "双 e；动词是「放映、筛查」，不是「看」。",
+            "usage": "screen 作动词指放映、筛查。"
           }
         },
         {
@@ -26581,7 +29229,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dirtiest",
               "dirtiness"
             ],
-            "caution": "变 y 为 i 再加 er、est；别写 durty。"
+            "caution": "变 y 为 i 再加 er、est；别写 durty。",
+            "phoneticSplit": "dir · ty",
+            "usage": "dirty 的比较级 dirtier。"
           }
         }
       ]
@@ -26604,7 +29254,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "above",
               "average"
             ],
-            "caution": "重音在首音节；说 on average，不说 in average。"
+            "caution": "重音在首音节；说 on average，不说 in average。",
+            "phoneticSplit": "a · ve · rage",
+            "usage": "above/below average 高于/低于平均水平。"
           }
         },
         {
@@ -26618,7 +29270,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "elevate",
               "elevation"
             ],
-            "caution": "英式过去式 levelled 双 l；名词与形容词同形。"
+            "caution": "英式过去式 levelled 双 l；名词与形容词同形。",
+            "phoneticSplit": "le · vel",
+            "usage": "at the level of 在……水平上。"
           }
         },
         {
@@ -26632,7 +29286,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "poetry",
               "poetic"
             ],
-            "caution": "poet 是人，poem 是诗，poetry 是诗的总称（不可数）。"
+            "caution": "poet 是人，poem 是诗，poetry 是诗的总称（不可数）。",
+            "usage": "poem 可数；poetry 诗歌总称。"
           }
         },
         {
@@ -26650,7 +29305,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "come",
               "coming"
             ],
-            "caution": "拼写是 wel + come（一个 l），不是 wellcome。"
+            "caution": "拼写是 wel + come（一个 l），不是 wellcome。",
+            "phoneticSplit": "wel · come",
+            "usage": "You're welcome. 不客气。"
           }
         },
         {
@@ -26664,7 +29321,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hungrily",
               "hungriest"
             ],
-            "caution": "hunger 变 hungry 要去 e；副词 hungrily 变 y 为 i。"
+            "caution": "hunger 变 hungry 要去 e；副词 hungrily 变 y 为 i。",
+            "phoneticSplit": "hun · gry",
+            "usage": "be hungry for 渴望得到。"
           }
         },
         {
@@ -26683,7 +29342,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sociable",
               "associate"
             ],
-            "caution": "social 只作形容词；名词是 society。"
+            "caution": "social 只作形容词；名词是 society。",
+            "phoneticSplit": "so · cial",
+            "usage": "social media 社交媒体；society 社会。"
           }
         },
         {
@@ -26698,7 +29359,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "smoky",
               "smokeless"
             ],
-            "caution": "不可数（a cloud of smoke）；过去式直接加 d。"
+            "caution": "不可数（a cloud of smoke）；过去式直接加 d。",
+            "usage": "smoke 作名词不可数；smoking 指吸烟。"
           }
         },
         {
@@ -26717,7 +29379,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "customs",
               "customize"
             ],
-            "caution": "别写 costomer；customs 又指海关。"
+            "caution": "别写 costomer；customs 又指海关。",
+            "phoneticSplit": "cu · sto · mer",
+            "usage": "customer 顾客；client 指客户。"
           }
         },
         {
@@ -26735,7 +29399,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "combined",
               "combining"
             ],
-            "caution": "结尾是 bine 不是 bain；作名词「联合收割机」时重音在前。"
+            "caution": "结尾是 bine 不是 bain；作名词「联合收割机」时重音在前。",
+            "phoneticSplit": "com · bine",
+            "usage": "combine A with B 把 A 与 B 结合。"
           }
         },
         {
@@ -26753,7 +29419,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "waitress",
               "waiting"
             ],
-            "caution": "不双写 t；wait on sb 是「服侍某人」。"
+            "caution": "不双写 t；wait on sb 是「服侍某人」。",
+            "phoneticSplit": "wai · ter",
+            "usage": "女服务员是 waitress。"
           }
         },
         {
@@ -26768,7 +29436,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chase",
               "after"
             ],
-            "caution": "chase sb 直接及物；别写 chaise（躺椅）。"
+            "caution": "chase sb 直接及物；别写 chaise（躺椅）。",
+            "usage": "chase after 追赶；pursue 更正式。"
           }
         },
         {
@@ -26782,7 +29451,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunk",
               "sinking"
             ],
-            "caution": "不规则变化 sank-sunk；水槽义可数，a sink。"
+            "caution": "不规则变化 sank-sunk；水槽义可数，a sink。",
+            "usage": "sink-sank-sunk 不规则变化。"
           }
         },
         {
@@ -26800,7 +29470,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "disadvantaged",
               "disadvantageous"
             ],
-            "caution": "拼写 dis + advantage，中间两个 a；take advantage of 是「利用」。"
+            "caution": "拼写 dis + advantage，中间两个 a；take advantage of 是「利用」。",
+            "phoneticSplit": "di · sad · van · tage",
+            "usage": "at a disadvantage 处于不利地位。"
           }
         },
         {
@@ -26820,7 +29492,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "resist",
               "consist"
             ],
-            "caution": "两个 s：as + sist；-ant 指人，-ance 是抽象名词。"
+            "caution": "两个 s：as + sist；-ant 指人，-ance 是抽象名词。",
+            "phoneticSplit": "as · si · stant",
+            "usage": "shop assistant 店员；assist sb with sth。"
           }
         },
         {
@@ -26834,7 +29508,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "zigzagging",
               "zigzags"
             ],
-            "caution": "动词双写 g；词表释义「adi」应为 adj。"
+            "caution": "动词双写 g；词表释义「adi」应为 adj。",
+            "phoneticSplit": "zig · zag",
+            "usage": "可作动词：the road zigzags 路蜿蜒。"
           }
         },
         {
@@ -26853,7 +29529,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "treatable",
               "maltreat"
             ],
-            "caution": "治疗义多不可数（medical treatment）；别与 treaty 混。"
+            "caution": "治疗义多不可数（medical treatment）；别与 treaty 混。",
+            "phoneticSplit": "treat · ment",
+            "usage": "medical treatment 治疗；treat sb to sth 请客。"
           }
         },
         {
@@ -26872,7 +29550,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "airport",
               "aircraft"
             ],
-            "caution": "英式 aeroplane，美式 airplane；一个词连写。"
+            "caution": "英式 aeroplane，美式 airplane；一个词连写。",
+            "phoneticSplit": "air · plane",
+            "usage": "by airplane 乘飞机；英式说 aeroplane。"
           }
         },
         {
@@ -26887,7 +29567,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "superb",
               "superior"
             ],
-            "caution": "口语感叹用法多；超级市场要写全 supermarket。"
+            "caution": "口语感叹用法多；超级市场要写全 supermarket。",
+            "phoneticSplit": "su · per",
+            "usage": "口语里 super 表示“极好的”。"
           }
         },
         {
@@ -26906,7 +29588,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blackboard",
               "keyboard"
             ],
-            "caution": "拼写有 p，读音没有 p；词表释义「相橱」应为「橱柜」。"
+            "caution": "拼写有 p，读音没有 p；词表释义「相橱」应为「橱柜」。",
+            "phoneticSplit": "cup · board",
+            "usage": "p 不发音，读 /ˈkʌbəd/。"
           }
         },
         {
@@ -26924,7 +29608,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "television",
               "telescope"
             ],
-            "caution": "口语缩为 phone；telephone sb 直接及物，不加 to。"
+            "caution": "口语缩为 phone；telephone sb 直接及物，不加 to。",
+            "phoneticSplit": "te · le · phone",
+            "usage": "phone 是 telephone 的简写。"
           }
         },
         {
@@ -26942,7 +29628,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "escalation",
               "scale"
             ],
-            "caution": "原释义带尖括号「美」标记，已去掉；扶梯不是 elevator。"
+            "caution": "原释义带尖括号「美」标记，已去掉；扶梯不是 elevator。",
+            "phoneticSplit": "e · sca · la · tor",
+            "usage": "on the escalator 在扶梯上。"
           }
         },
         {
@@ -26956,7 +29644,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "surfing",
               "surfboard"
             ],
-            "caution": "上网义常说 surf the Internet；过去式 surfed 不双写。"
+            "caution": "上网义常说 surf the Internet；过去式 surfed 不双写。",
+            "usage": "surf the web 浏览网页。"
           }
         },
         {
@@ -26971,7 +29660,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "vocation",
               "advocate"
             ],
-            "caution": "拼写 voc-a-bu-lar-y，别漏 b；可说 a large vocabulary。"
+            "caution": "拼写 voc-a-bu-lar-y，别漏 b；可说 a large vocabulary。",
+            "phoneticSplit": "vo · ca · bu · la · ry",
+            "usage": "vocabulary 指词汇量时不可数。"
           }
         },
         {
@@ -26986,7 +29677,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "written",
               "rewrite"
             ],
-            "caution": "去 e 加 er，不双写 t；过去式 wrote。"
+            "caution": "去 e 加 er，不双写 t；过去式 wrote。",
+            "phoneticSplit": "wri · ter",
+            "usage": "writer 作家；author 作者（出版）。"
           }
         },
         {
@@ -27004,7 +29697,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "escapee",
               "escapism"
             ],
-            "caution": "escape 后接 from；a narrow escape 是「九死一生」。"
+            "caution": "escape 后接 from；a narrow escape 是「九死一生」。",
+            "phoneticSplit": "e · scape",
+            "usage": "escape from 从……逃出；escape doing 逃避做。"
           }
         },
         {
@@ -27018,7 +29713,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spinning",
               "spinner"
             ],
-            "caution": "结尾是 -der 不是 -ber；蜘蛛八条腿，别写 spidar。"
+            "caution": "结尾是 -der 不是 -ber；蜘蛛八条腿，别写 spidar。",
+            "phoneticSplit": "spi · der",
+            "usage": "spider web 蜘蛛网。"
           }
         }
       ]
@@ -27039,7 +29736,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Oceania",
               "oceanography"
             ],
-            "caution": "ocean 比 sea 大；四大洋名前加 the。"
+            "caution": "ocean 比 sea 大；四大洋名前加 the。",
+            "phoneticSplit": "o · cean",
+            "usage": "ocean 比 sea 大；the Atlantic Ocean 大西洋。"
           }
         },
         {
@@ -27053,7 +29752,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wonderland",
               "wondering"
             ],
-            "caution": "no wonder 是「难怪」；wonder 后接 if 或 whether 从句。"
+            "caution": "no wonder 是「难怪」；wonder 后接 if 或 whether 从句。",
+            "phoneticSplit": "won · der",
+            "usage": "no wonder 难怪；the Seven Wonders 七大奇迹。"
           }
         },
         {
@@ -27072,7 +29773,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "electronic",
               "electrician"
             ],
-            "caution": "electric 与 electrical 用法有别；别漏 c 写成 eletric。"
+            "caution": "electric 与 electrical 用法有别；别漏 c 写成 eletric。",
+            "phoneticSplit": "e · lec · tric",
+            "usage": "electric 电动的；electrical 与电有关的。"
           }
         },
         {
@@ -27088,7 +29791,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "where",
               "whatever"
             ],
-            "caution": "感叹句 What a day! 语序别倒；别与 that 混。"
+            "caution": "感叹句 What a day! 语序别倒；别与 that 混。",
+            "usage": "What about…? 怎么样；What if…? 要是……呢。"
           }
         },
         {
@@ -27102,7 +29806,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tying",
               "untie"
             ],
-            "caution": "分词 tying 变形特殊；打平义可说 end in a tie。"
+            "caution": "分词 tying 变形特殊；打平义可说 end in a tie。",
+            "usage": "tie…to… 把……系在……上。"
           }
         },
         {
@@ -27120,7 +29825,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "both",
               "sides"
             ],
-            "caution": "both 后接复数名词；both ... and 不用于否定句（否定用 neither ... nor）。"
+            "caution": "both 后接复数名词；both ... and 不用于否定句（否定用 neither ... nor）。",
+            "usage": "both…and… 谓语用复数。"
           }
         },
         {
@@ -27134,7 +29840,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "laziness",
               "lazier"
             ],
-            "caution": "比较级 lazier；变名词、副词都 y 变 i。"
+            "caution": "比较级 lazier；变名词、副词都 y 变 i。",
+            "phoneticSplit": "la · zy",
+            "usage": "lazy 贬义；idle 指闲置的。"
           }
         },
         {
@@ -27148,7 +29856,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rocketed",
               "skyrocket"
             ],
-            "caution": "猛涨义常说 prices rocketed；别写 rockect。"
+            "caution": "猛涨义常说 prices rocketed；别写 rockect。",
+            "phoneticSplit": "rock · et",
+            "usage": "作动词指猛涨：prices rocket。"
           }
         },
         {
@@ -27162,7 +29872,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "soreness",
               "eyesore"
             ],
-            "caution": "与 sour（酸）只差一个 u；sore throat 不能换成 painful throat。"
+            "caution": "与 sour（酸）只差一个 u；sore throat 不能换成 painful throat。",
+            "usage": "sore 一碰就疼；ache 是持续隐痛。"
           }
         },
         {
@@ -27177,7 +29888,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "realize",
               "unreal"
             ],
-            "caution": "real 是形容词，really 是副词；说 a real friend，不加 ly。"
+            "caution": "real 是形容词，really 是副词；说 a real friend，不加 ly。",
+            "usage": "real 形容词；true 指符合事实。"
           }
         },
         {
@@ -27192,7 +29904,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "spoken",
               "speech"
             ],
-            "caution": "词表拼写应为 speak；过去式 spoke，过去分词 spoken。"
+            "caution": "词表拼写应为 speak；过去式 spoke，过去分词 spoken。",
+            "usage": "speak English 说英语；speak to sb 对人说。"
           }
         },
         {
@@ -27207,7 +29920,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "began",
               "begun"
             ],
-            "caution": "现在分词 beginning 双写 n；过去式 began，过去分词 begun。"
+            "caution": "现在分词 beginning 双写 n；过去式 began，过去分词 begun。",
+            "phoneticSplit": "be · gin",
+            "usage": "began-begun；beginner 新手。"
           }
         },
         {
@@ -27222,7 +29937,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slim",
               "down"
             ],
-            "caution": "比较级双写 m：slimmer；slim 是健康苗条，thin 可指病瘦。"
+            "caution": "比较级双写 m：slimmer；slim 是健康苗条，thin 可指病瘦。",
+            "usage": "slim 褒义；thin 中性“瘦”。"
           }
         },
         {
@@ -27236,7 +29952,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "peppercorn",
               "peppermint"
             ],
-            "caution": "双 p；甜椒说 a green pepper，胡椒粉不可数。"
+            "caution": "双 p；甜椒说 a green pepper，胡椒粉不可数。",
+            "phoneticSplit": "pep · per",
+            "usage": "胡椒不可数；a pepper 一个甜椒。"
           }
         },
         {
@@ -27252,7 +29970,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "...",
               "or"
             ],
-            "caution": "别与 weather（天气）混；后面不再叠用 if。"
+            "caution": "别与 weather（天气）混；后面不再叠用 if。",
+            "phoneticSplit": "whe · ther",
+            "usage": "句首只能用 whether，不用 if。"
           }
         },
         {
@@ -27269,7 +29989,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tennis",
               "player"
             ],
-            "caution": "不可数名词；table tennis 是乒乓球。"
+            "caution": "不可数名词；table tennis 是乒乓球。",
+            "phoneticSplit": "ten · nis",
+            "usage": "play tennis 中间不加冠词。"
           }
         },
         {
@@ -27285,7 +30007,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ice",
               "cream"
             ],
-            "caution": "不可数；形容词 icy 去 e 加 y；别与 eyes 混。"
+            "caution": "不可数；形容词 icy 去 e 加 y；别与 eyes 混。",
+            "usage": "ice 不可数；icy 冰冷的。"
           }
         },
         {
@@ -27300,7 +30023,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "planning",
               "plane"
             ],
-            "caution": "双写 n：planned、planning；plan to do 不说 plan doing。"
+            "caution": "双写 n：planned、planning；plan to do 不说 plan doing。",
+            "usage": "plan to do sth 打算做某事。"
           }
         },
         {
@@ -27314,7 +30038,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "highly",
               "heighten"
             ],
-            "caution": "拼写是 eigh，别写 hight；high 是形容词，height 是名词。"
+            "caution": "拼写是 eigh，别写 hight；high 是形容词，height 是名词。",
+            "usage": "问身高：What's your height?"
           }
         },
         {
@@ -27329,7 +30054,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clearance",
               "clearing"
             ],
-            "caution": "词表拼写应为 clear；作动词是「清除」，作形容词是「清楚的」。"
+            "caution": "词表拼写应为 clear；作动词是「清除」，作形容词是「清楚的」。",
+            "usage": "clear 清澈、clean 清洁，形近别混。"
           }
         }
       ]
@@ -27355,7 +30081,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "centimetre",
               "centipede"
             ],
-            "caution": "别写成 centry；cent 是「百」，不是「分」"
+            "caution": "别写成 centry；cent 是「百」，不是「分」",
+            "phoneticSplit": "cen · tu · ry",
+            "usage": "21st century 21 世纪。"
           }
         },
         {
@@ -27369,7 +30097,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sparely",
               "spareness"
             ],
-            "caution": "spare 作动词是「腾出、免去」：spare sb from…；spare time 是空闲时间"
+            "caution": "spare 作动词是「腾出、免去」：spare sb from…；spare time 是空闲时间",
+            "usage": "spare sb sth 免去某人麻烦。"
           }
         },
         {
@@ -27388,7 +30117,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "facility",
               "factor"
             ],
-            "caution": "difficult 是形容词，名词用 difficulty；中间两个 f 别漏"
+            "caution": "difficult 是形容词，名词用 difficulty；中间两个 f 别漏",
+            "phoneticSplit": "dif · fi · cult",
+            "usage": "have difficulty doing sth 做某事有困难。"
           }
         },
         {
@@ -27406,7 +30137,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "festivity",
               "festoon"
             ],
-            "caution": "festival 也可指音乐节；形容词是 festive"
+            "caution": "festival 也可指音乐节；形容词是 festive",
+            "phoneticSplit": "fe · sti · val",
+            "usage": "the Spring Festival 春节。"
           }
         },
         {
@@ -27421,7 +30154,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "homeless",
               "hometown"
             ],
-            "caution": "at home 在家，不用 in home；go home 不加 to"
+            "caution": "at home 在家，不用 in home；go home 不加 to",
+            "usage": "go home 不加 to；home 可作副词。"
           }
         },
         {
@@ -27440,7 +30174,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "behaviour",
               "well-behaved"
             ],
-            "caution": "behave oneself 才是「守规矩」；名词 behaviour 或 behavior"
+            "caution": "behave oneself 才是「守规矩」；名词 behaviour 或 behavior",
+            "phoneticSplit": "be · have",
+            "usage": "behave oneself 规矩点；behaviour 行为。"
           }
         },
         {
@@ -27459,7 +30195,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "medic",
               "medically"
             ],
-            "caution": "medical 是形容词，名词「药」用 medicine"
+            "caution": "medical 是形容词，名词「药」用 medicine",
+            "phoneticSplit": "me · di · cal",
+            "usage": "medical care 医疗；medical 多作定语。"
           }
         },
         {
@@ -27476,7 +30214,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "burger",
               "cheeseburger"
             ],
-            "caution": "不是 ham + burger；口语可简称 burger"
+            "caution": "不是 ham + burger；口语可简称 burger",
+            "phoneticSplit": "ham · bur · ger",
+            "usage": "口语常简称 burger。"
           }
         },
         {
@@ -27495,7 +30235,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anywhere",
               "anyhow"
             ],
-            "caution": "anyone 后不接 of，要接用 any one of"
+            "caution": "anyone 后不接 of，要接用 any one of",
+            "phoneticSplit": "an · yone",
+            "usage": "anyone 不接 of；any one of 可接。"
           }
         },
         {
@@ -27510,7 +30252,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "afterward",
               "aft"
             ],
-            "caution": "「两周后」用 in two weeks，不用 after two weeks"
+            "caution": "「两周后」用 in two weeks，不用 after two weeks",
+            "phoneticSplit": "af · ter",
+            "usage": "after all 毕竟；afterwards 是副词。"
           }
         },
         {
@@ -27519,7 +30263,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ɪˈnəf/",
             "quick": "good enough 够好了——enough 足够。",
-            "caution": "enough 修饰形容词要后置：good enough；前面不加 very"
+            "caution": "enough 修饰形容词要后置：good enough；前面不加 very",
+            "phoneticSplit": "e · nough",
+            "usage": "修饰形容词要后置：old enough。"
           }
         },
         {
@@ -27534,7 +30280,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "commonplace",
               "uncommon"
             ],
-            "caution": "词表拼写 commor 应为 common；common 前用 a 不用 an"
+            "caution": "词表拼写 commor 应为 common；common 前用 a 不用 an",
+            "phoneticSplit": "com · mon",
+            "usage": "have sth in common 有共同之处。"
           }
         },
         {
@@ -27549,7 +30297,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "himself",
               "she"
             ],
-            "caution": "he 作主语，him 作宾语，别混"
+            "caution": "he 作主语，him 作宾语，别混",
+            "usage": "he 主格，him 宾格。"
           }
         },
         {
@@ -27564,7 +30313,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "himself",
               "hers"
             ],
-            "caution": "his 既可作形容词性也可作名词性：This is his."
+            "caution": "his 既可作形容词性也可作名词性：This is his.",
+            "usage": "his 也可作名词性物主代词。"
           }
         },
         {
@@ -27578,7 +30328,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shocked",
               "shocker"
             ],
-            "caution": "shocking 修饰事，shocked 修饰人；shock 也可指「休克」"
+            "caution": "shocking 修饰事，shocked 修饰人；shock 也可指「休克」",
+            "usage": "shocked 感到震惊；shocking 令人震惊。"
           }
         },
         {
@@ -27597,7 +30348,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "uneasy",
               "diseased"
             ],
-            "caution": "中间别漏 ease；disease 多指具体疾病，illness 更泛"
+            "caution": "中间别漏 ease；disease 多指具体疾病，illness 更泛",
+            "phoneticSplit": "di · sease",
+            "usage": "disease 具体病；illness 生病状态。"
           }
         },
         {
@@ -27611,7 +30364,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "needy",
               "needs"
             ],
-            "caution": "need 作情态动词多用于否定疑问：needn't；名词 need 可数"
+            "caution": "need 作情态动词多用于否定疑问：needn't；名词 need 可数",
+            "usage": "need 作情态动词多用于否定、疑问。"
           }
         },
         {
@@ -27626,7 +30380,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "latest",
               "lastly"
             ],
-            "caution": "the latest 是「最新的」，别与 last（最后的）混"
+            "caution": "the latest 是「最新的」，别与 last（最后的）混",
+            "usage": "last week 上周；last 作动词“持续”。"
           }
         },
         {
@@ -27641,7 +30396,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drunk",
               "drank"
             ],
-            "caution": "过去式 drank，过去分词 drunk；drink 可作名词「一杯饮料」"
+            "caution": "过去式 drank，过去分词 drunk；drink 可作名词「一杯饮料」",
+            "usage": "drink-drank-drunk。"
           }
         },
         {
@@ -27655,7 +30411,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hugged",
               "hugger"
             ],
-            "caution": "加 -ing/-ed 双写 g：hugging、hugged"
+            "caution": "加 -ing/-ed 双写 g：hugging、hugged",
+            "usage": "双写：hugged、hugging。"
           }
         }
       ]
@@ -27677,7 +30434,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "numberless",
               "numbering"
             ],
-            "caution": "number 缩写 No.；a number of 后接复数名词"
+            "caution": "number 缩写 No.；a number of 后接复数名词",
+            "phoneticSplit": "num · ber",
+            "usage": "a number of 谓语用复数；the number of 用单数。"
           }
         },
         {
@@ -27696,7 +30455,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grade",
               "graduate"
             ],
-            "caution": "progress 不可数，make progress 不加 a"
+            "caution": "progress 不可数，make progress 不加 a",
+            "phoneticSplit": "pro · gress",
+            "usage": "progress 不可数；make progress 取得进步。"
           }
         },
         {
@@ -27710,7 +30471,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hometown",
               "townspeople"
             ],
-            "caution": "in town 指「在城里」，不加 the；town 比 city 小"
+            "caution": "in town 指「在城里」，不加 the；town 比 city 小",
+            "usage": "town 比 city 小；village 是村子。"
           }
         },
         {
@@ -27725,7 +30487,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lighting",
               "delight"
             ],
-            "caution": "「轻」与「光」同形；过去式 lit 或 lighted"
+            "caution": "「轻」与「光」同形；过去式 lit 或 lighted",
+            "usage": "light 反义分两个：dark 暗、heavy 重。"
           }
         },
         {
@@ -27739,7 +30502,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "backyard",
               "yardstick"
             ],
-            "caution": "yard 是长度单位「码」，约 0.914 米"
+            "caution": "yard 是长度单位「码」，约 0.914 米",
+            "usage": "缩写 yd.：100 yards 一百码。"
           }
         },
         {
@@ -27758,7 +30522,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "disappoint",
               "appointed"
             ],
-            "caution": "appointment 指公务约见；make an appointment 后不加 to"
+            "caution": "appointment 指公务约见；make an appointment 后不加 to",
+            "phoneticSplit": "ap · point · ment",
+            "usage": "make an appointment 预约；keep it 守约。"
           }
         },
         {
@@ -27777,7 +30543,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "telephone",
               "microphone"
             ],
-            "caution": "sym- 在 p 前写作 sym，不是 syn"
+            "caution": "sym- 在 p 前写作 sym，不是 syn",
+            "phoneticSplit": "sym · pho · ny",
+            "usage": "a symphony orchestra 交响乐团。"
           }
         },
         {
@@ -27796,7 +30564,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "announcer",
               "denounce"
             ],
-            "caution": "「向某人宣布」用 announce sth to sb，不用双宾"
+            "caution": "「向某人宣布」用 announce sth to sb，不用双宾",
+            "phoneticSplit": "an · nounce",
+            "usage": "announce sth to sb 向某人宣布某事。"
           }
         },
         {
@@ -27809,7 +30579,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chestnut",
               "chesty"
             ],
-            "caution": "chest 指胸腔，不指「胃」；a chest of drawers 是抽屉柜"
+            "caution": "chest 指胸腔，不指「胃」；a chest of drawers 是抽屉柜",
+            "usage": "chest of drawers 五斗柜；chest pain 胸痛。"
           }
         },
         {
@@ -27824,7 +30595,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gentleness",
               "gentry"
             ],
-            "caution": "副词去 le 加 y：gently；比较级 gentler"
+            "caution": "副词去 le 加 y：gently；比较级 gentler",
+            "phoneticSplit": "gent · le",
+            "usage": "gentle 指性情温和；mild 多指气候温和。"
           }
         },
         {
@@ -27843,7 +30616,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "jury",
               "just"
             ],
-            "caution": "人受伤用 be injured；名词 injury 复数为 injuries"
+            "caution": "人受伤用 be injured；名词 injury 复数为 injuries",
+            "phoneticSplit": "in · jure",
+            "usage": "injure 多指事故受伤；wound 多指刀枪伤。"
           }
         },
         {
@@ -27858,7 +30633,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "speech",
               "unspoken"
             ],
-            "caution": "不是规则变化 spoked；spoken English 指英语口语"
+            "caution": "不是规则变化 spoked；spoken English 指英语口语",
+            "phoneticSplit": "spo · ken",
+            "usage": "spoken 作定语指口头的，与 written 相对。"
           }
         },
         {
@@ -27873,7 +30650,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stability",
               "established"
             ],
-            "caution": "establish 后接机构、制度；名词 establishment"
+            "caution": "establish 后接机构、制度；名词 establishment",
+            "phoneticSplit": "e · sta · blish",
+            "usage": "establish 建立机构或关系；found 偏“创办”。"
           }
         },
         {
@@ -27887,7 +30666,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "ranked",
               "outrank"
             ],
-            "caution": "rank 可数；the rank of + 职位 表「…的级别」"
+            "caution": "rank 可数；the rank of + 职位 表「…的级别」",
+            "usage": "rank among 位居……之列；the rank of captain。"
           }
         },
         {
@@ -27903,7 +30683,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "chopper"
             ],
-            "caution": "拼写 helico + pter，中间的 p 不能漏"
+            "caution": "拼写 helico + pter，中间的 p 不能漏",
+            "phoneticSplit": "he · li · cop · ter",
+            "usage": "by helicopter 乘直升机。"
           }
         },
         {
@@ -27918,7 +30700,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "upstairs",
               "downstairs"
             ],
-            "caution": "一般用复数 stairs；upstairs 是副词"
+            "caution": "一般用复数 stairs；upstairs 是副词",
+            "usage": "常用复数：climb the stairs 爬楼梯。"
           }
         }
       ]
@@ -27938,7 +30721,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seriously",
               "seriousness"
             ],
-            "caution": "be serious about 是对…认真；别与 series（系列）混"
+            "caution": "be serious about 是对…认真；别与 series（系列）混",
+            "phoneticSplit": "se · rious",
+            "usage": "be serious about 认真对待。"
           }
         },
         {
@@ -27957,7 +30742,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "certificate",
               "uncertain"
             ],
-            "caution": "a certain + 单数名词表「某一」；certainly 单用回答是「当然」"
+            "caution": "a certain + 单数名词表「某一」；certainly 单用回答是「当然」",
+            "phoneticSplit": "cer · tain",
+            "usage": "for certain 确切地；a certain 某一位。"
           }
         },
         {
@@ -27975,7 +30762,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sickness",
               "ailing"
             ],
-            "caution": "illness 泛指病；ill 作定语多表「坏的」，如 ill news"
+            "caution": "illness 泛指病；ill 作定语多表「坏的」，如 ill news",
+            "phoneticSplit": "ill · ness",
+            "usage": "illness 可数；be ill 是形容词短语。"
           }
         },
         {
@@ -27990,7 +30779,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "password",
               "wording"
             ],
-            "caution": "have a word with sb 是「聊两句」，不是「有一个词」"
+            "caution": "have a word with sb 是「聊两句」，不是「有一个词」",
+            "usage": "in other words 换句话说；keep one's word 守约。"
           }
         },
         {
@@ -28005,7 +30795,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "controlling",
               "roll"
             ],
-            "caution": "加 -ing/-ed 双写 l；under control 是在掌控中"
+            "caution": "加 -ing/-ed 双写 l；under control 是在掌控中",
+            "phoneticSplit": "con · trol",
+            "usage": "under control 在控制中；out of control 失控。"
           }
         },
         {
@@ -28020,7 +30812,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "willpower",
               "unwilling"
             ],
-            "caution": "will 表将来；would 是过去将来，也作委婉语气"
+            "caution": "will 表将来；would 是过去将来，也作委婉语气",
+            "usage": "作名词指意志、遗嘱；at will 随意。"
           }
         },
         {
@@ -28033,7 +30826,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dame",
               "madame"
             ],
-            "caution": "词表「女上」应为「女士」；男性尊称是 sir"
+            "caution": "词表「女上」应为「女士」；男性尊称是 sir",
+            "phoneticSplit": "ma · dam",
+            "usage": "可接姓氏：Madam Li；口语略作 ma'am。"
           }
         },
         {
@@ -28052,7 +30847,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "realize",
               "unreal"
             ],
-            "caution": "修饰形容词放前：really good；回答 Really? 是反问"
+            "caution": "修饰形容词放前：really good；回答 Really? 是反问",
+            "phoneticSplit": "real · ly",
+            "usage": "Really? 表怀疑或惊讶；也可以表“很”。"
           }
         },
         {
@@ -28071,7 +30868,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "import",
               "portable"
             ],
-            "caution": "report on/about sth；reporter 是记者"
+            "caution": "report on/about sth；reporter 是记者",
+            "phoneticSplit": "re · port",
+            "usage": "report on 报道；make a report 作报告。"
           }
         },
         {
@@ -28099,7 +30898,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "loudness",
               "loudspeaker"
             ],
-            "caution": "aloud 是出声，不指音量大；loud 也可作副词：speak loud"
+            "caution": "aloud 是出声，不指音量大；loud 也可作副词：speak loud",
+            "usage": "loud 可作副词；aloud 只作副词，指出声。"
           }
         },
         {
@@ -28118,7 +30918,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "football",
               "volleyball"
             ],
-            "caution": "play basketball 不加 the；basket 是「篮子」"
+            "caution": "play basketball 不加 the；basket 是「篮子」",
+            "phoneticSplit": "ba · sket · ball",
+            "usage": "play basketball 打篮球，不加 the。"
           }
         },
         {
@@ -28133,7 +30935,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shorts",
               "trousers"
             ],
-            "caution": "作复数用：Jeans are…；a pair of jeans"
+            "caution": "作复数用：Jeans are…；a pair of jeans",
+            "usage": "a pair of jeans 一条牛仔裤，恒用复数。"
           }
         },
         {
@@ -28147,7 +30950,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "gatekeeper",
               "floodgate"
             ],
-            "caution": "gate 指院门、校门、登机口；房门是 door"
+            "caution": "gate 指院门、校门、登机口；房门是 door",
+            "usage": "gate 指院门/城门；door 指房门。"
           }
         },
         {
@@ -28161,7 +30965,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anthill",
               "plant"
             ],
-            "caution": "ant 三字母；aunt（姑妈）多一个 u，别混"
+            "caution": "ant 三字母；aunt（姑妈）多一个 u，别混",
+            "usage": "ant 蚂蚁；aunt 阿姨，拼写别混。"
           }
         },
         {
@@ -28180,7 +30985,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "courageous",
               "core"
             ],
-            "caution": "不可数：have courage；形容词 courageous"
+            "caution": "不可数：have courage；形容词 courageous",
+            "phoneticSplit": "cou · rage",
+            "usage": "have the courage to do 有勇气做；encourage 鼓励。"
           }
         },
         {
@@ -28195,7 +31002,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "therefore",
               "thereby"
             ],
-            "caution": "There be 句型表存在；there 与 their 同音不同义"
+            "caution": "There be 句型表存在；there 与 their 同音不同义",
+            "usage": "There be 表存在；here 这里，there 那里。"
           }
         },
         {
@@ -28210,7 +31018,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "warming",
               "warm-hearted"
             ],
-            "caution": "名词 warmth 读音变 /wɔːmθ/；比较级 warmer"
+            "caution": "名词 warmth 读音变 /wɔːmθ/；比较级 warmer",
+            "usage": "warm up 热身；warm-hearted 热心的。"
           }
         },
         {
@@ -28225,7 +31034,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "backpack",
               "unpack"
             ],
-            "caution": "pack 指装箱打包；packet 是小包装"
+            "caution": "pack 指装箱打包；packet 是小包装",
+            "usage": "pack up 打包；a pack of 一包。"
           }
         },
         {
@@ -28238,7 +31048,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "oranges",
               "orangeade"
             ],
-            "caution": "既指水果也指橙色；一个橙子是 an orange"
+            "caution": "既指水果也指橙色；一个橙子是 an orange",
+            "phoneticSplit": "o · range",
+            "usage": "an orange 一个橙子，元音开头用 an。"
           }
         }
       ]
@@ -28259,7 +31071,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "madness",
               "madman"
             ],
-            "caution": "be mad at sb 是生气，be mad about 是着迷"
+            "caution": "be mad at sb 是生气，be mad about 是着迷",
+            "usage": "be mad at sb 生某人的气；go mad 发疯。"
           }
         },
         {
@@ -28272,7 +31085,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pets",
               "petting"
             ],
-            "caution": "pet 也可指「宠儿」：teacher's pet 是老师的红人"
+            "caution": "pet 也可指「宠儿」：teacher's pet 是老师的红人",
+            "usage": "pet 作定语：pet dog 宠物狗。"
           }
         },
         {
@@ -28291,7 +31105,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "midday",
               "midway"
             ],
-            "caution": "in the middle of 后接名词；middle school 是初中"
+            "caution": "in the middle of 后接名词；middle school 是初中",
+            "phoneticSplit": "midd · le",
+            "usage": "in the middle of 在……中间/正做某事时。"
           }
         },
         {
@@ -28306,7 +31122,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "waking",
               "woke"
             ],
-            "caution": "awake 多作形容词；动词用 wake/awaken，过去式 awoke"
+            "caution": "awake 多作形容词；动词用 wake/awaken，过去式 awoke",
+            "phoneticSplit": "a · wake",
+            "usage": "awake 是形容词：be awake 醒着。"
           }
         },
         {
@@ -28320,7 +31138,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "streetcar",
               "streetlight"
             ],
-            "caution": "in the street 指露天街上；on the street 是美式用法"
+            "caution": "in the street 指露天街上；on the street 是美式用法",
+            "usage": "英式多用 in the street，美式用 on。"
           }
         },
         {
@@ -28335,7 +31154,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "yourself",
               "yourselves"
             ],
-            "caution": "you 单复数同形；谓语随语境用 are"
+            "caution": "you 单复数同形；谓语随语境用 are",
+            "usage": "单复数同形；You're welcome 不客气。"
           }
         },
         {
@@ -28350,7 +31170,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "packet",
               "poke"
             ],
-            "caution": "词表「装人口袋」应为「装入口袋」；pocket money 是零花钱"
+            "caution": "词表「装人口袋」应为「装入口袋」；pocket money 是零花钱",
+            "phoneticSplit": "pock · et",
+            "usage": "pocket money 零花钱；in one's pocket。"
           }
         },
         {
@@ -28364,7 +31186,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "tallest",
               "tallness"
             ],
-            "caution": "人高用 tall 不用 high；身高说 …metres tall"
+            "caution": "人高用 tall 不用 high；身高说 …metres tall",
+            "usage": "tall 修饰人/树；high 修饰山/楼/价格。"
           }
         },
         {
@@ -28378,7 +31201,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "teamwork",
               "teams"
             ],
-            "caution": "team 作整体用单数，指成员可用复数；a team of"
+            "caution": "team 作整体用单数，指成员可用复数；a team of",
+            "usage": "team up 合作；作主语可单可复。"
           }
         },
         {
@@ -28397,7 +31221,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "wherever",
               "however"
             ],
-            "caution": "whatever 引导让步从句，后面不再加 but"
+            "caution": "whatever 引导让步从句，后面不再加 but",
+            "phoneticSplit": "wha · te · ver",
+            "usage": "引导让步从句；语气可显不耐烦。"
           }
         },
         {
@@ -28411,7 +31237,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "countries",
               "county"
             ],
-            "caution": "in the country 指乡下；the country 也可指全国人民"
+            "caution": "in the country 指乡下；the country 也可指全国人民",
+            "phoneticSplit": "coun · try",
+            "usage": "country 侧重国土/乡下；nation 侧重民族。"
           }
         },
         {
@@ -28425,7 +31253,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "belted",
               "beltway"
             ],
-            "caution": "seat belt 是安全带；belt 表「地带」如 green belt"
+            "caution": "seat belt 是安全带；belt 表「地带」如 green belt",
+            "usage": "seat belt 安全带；tighten one's belt 省吃俭用。"
           }
         },
         {
@@ -28439,7 +31268,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "seemly",
               "unseemly"
             ],
-            "caution": "seem 不用进行时；seem to be 与 seem like 后接不同"
+            "caution": "seem 不用进行时；seem to be 与 seem like 后接不同",
+            "usage": "seem to do；seem + adj.；It seems that…"
           }
         },
         {
@@ -28453,7 +31283,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pulled",
               "pullover"
             ],
-            "caution": "pull 与 push 反义；也可作名词，指「拉力」"
+            "caution": "pull 与 push 反义；也可作名词，指「拉力」",
+            "usage": "pull up 停车；pull out 拔出；反义 push。"
           }
         },
         {
@@ -28472,7 +31303,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "evening",
               "midnight"
             ],
-            "caution": "in the afternoon；this afternoon 前不加 in"
+            "caution": "in the afternoon；this afternoon 前不加 in",
+            "phoneticSplit": "af · ter · noon",
+            "usage": "in the afternoon 在下午；Good afternoon。"
           }
         },
         {
@@ -28486,7 +31319,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "roles",
               "role-play"
             ],
-            "caution": "play a role in 是「起作用」；与 roll 同音不同义"
+            "caution": "play a role in 是「起作用」；与 roll 同音不同义",
+            "phoneticSplit": "ro · le",
+            "usage": "play a role in 在……中起作用。"
           }
         },
         {
@@ -28505,7 +31340,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "impress",
               "expressive"
             ],
-            "caution": "express 作形容词是「特快」，作名词是「快车、快递」"
+            "caution": "express 作形容词是「特快」，作名词是「快车、快递」",
+            "phoneticSplit": "ex · press",
+            "usage": "express oneself 表达自己；express train 快车。"
           }
         },
         {
@@ -28519,7 +31356,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "swept",
               "sweeping"
             ],
-            "caution": "过去式 swept，不是 sweeped；sweep the floor"
+            "caution": "过去式 swept，不是 sweeped；sweep the floor",
+            "usage": "sweep-swept-swept；sweep the floor 扫地。"
           }
         },
         {
@@ -28533,7 +31371,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "busily",
               "busybody"
             ],
-            "caution": "be busy doing sth 或 be busy with sth；比较级 busier"
+            "caution": "be busy doing sth 或 be busy with sth；比较级 busier",
+            "phoneticSplit": "bu · sy",
+            "usage": "be busy with sth / be busy doing sth。"
           }
         },
         {
@@ -28548,7 +31388,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "stolen",
               "thief"
             ],
-            "caution": "过去式 stole，过去分词 stolen；steal sth from sb"
+            "caution": "过去式 stole，过去分词 stolen；steal sth from sb",
+            "usage": "steal 偷物；rob 抢人/地点：rob sb of sth。"
           }
         }
       ]
@@ -28569,7 +31410,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "regrettable",
               "regretted"
             ],
-            "caution": "regret doing（后悔做过）与 regret to say（遗憾要说）不同；双写 t"
+            "caution": "regret doing（后悔做过）与 regret to say（遗憾要说）不同；双写 t",
+            "phoneticSplit": "re · gret",
+            "usage": "regret doing 后悔做过；regret to say 遗憾要说。"
           }
         },
         {
@@ -28584,7 +31427,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "untidy",
               "tidiness"
             ],
-            "caution": "比较级 tidier；untidy 是反义词"
+            "caution": "比较级 tidier；untidy 是反义词",
+            "phoneticSplit": "ti · dy",
+            "usage": "tidy up 收拾；tidy 也可作动词。"
           }
         },
         {
@@ -28603,7 +31448,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "attendance",
               "attentive"
             ],
-            "caution": "attend 直接接宾语；attend to 才是「处理、照顾」"
+            "caution": "attend 直接接宾语；attend to 才是「处理、照顾」",
+            "phoneticSplit": "at · tend",
+            "usage": "attend a meeting 出席；attend to 照料。"
           }
         },
         {
@@ -28616,7 +31463,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "goodbye",
               "bye-bye"
             ],
-            "caution": "bye 非正式；正式场合用 goodbye"
+            "caution": "bye 非正式；正式场合用 goodbye",
+            "usage": "口语再见；goodbye 更正式。"
           }
         },
         {
@@ -28635,7 +31483,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "action",
               "exactness"
             ],
-            "caution": "Exactly! 单用是「完全正确」；修饰数量时放前面"
+            "caution": "Exactly! 单用是「完全正确」；修饰数量时放前面",
+            "phoneticSplit": "ex · act · ly",
+            "usage": "Exactly! 表示完全同意。"
           }
         },
         {
@@ -28647,7 +31497,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "scissor"
             ],
-            "caution": "只用复数：a pair of scissors；谓语也用复数"
+            "caution": "只用复数：a pair of scissors；谓语也用复数",
+            "phoneticSplit": "scis · sors",
+            "usage": "a pair of scissors 一把剪刀，恒用复数。"
           }
         },
         {
@@ -28666,7 +31518,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "living",
               "livelihood"
             ],
-            "caution": "比较级 livelier；live 作形容词读 /laɪv/，别读成 /lɪv/"
+            "caution": "比较级 livelier；live 作形容词读 /laɪv/，别读成 /lɪv/",
+            "phoneticSplit": "li · ve · ly",
+            "usage": "lively 是形容词；a lively discussion 热烈讨论。"
           }
         },
         {
@@ -28685,7 +31539,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "actor",
               "activity"
             ],
-            "caution": "take action 不加冠词；in action 是「在运转」"
+            "caution": "take action 不加冠词；in action 是「在运转」",
+            "phoneticSplit": "ac · tion",
+            "usage": "take action 采取行动；in action 在运转中。"
           }
         },
         {
@@ -28698,7 +31554,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lemonade",
               "lemony"
             ],
-            "caution": "lemonade 不可数；lemon 可数：a lemon"
+            "caution": "lemonade 不可数；lemon 可数：a lemon",
+            "phoneticSplit": "le · mon",
+            "usage": "lemon 柠檬；lemonade 柠檬水。"
           }
         },
         {
@@ -28712,7 +31570,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cornfield",
               "corny"
             ],
-            "caution": "英美含义不同：英式 corn 泛指谷物，美式是玉米"
+            "caution": "英美含义不同：英式 corn 泛指谷物，美式是玉米",
+            "usage": "英式泛指谷物，美式专指玉米。"
           }
         },
         {
@@ -28731,7 +31590,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "chairperson",
               "chairmanship"
             ],
-            "caution": "女性可用 chairwoman，或中性的 chairperson"
+            "caution": "女性可用 chairwoman，或中性的 chairperson",
+            "phoneticSplit": "chair · man",
+            "usage": "现多用 chair 代替，避免性别指向。"
           }
         },
         {
@@ -28744,7 +31605,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dozens",
               "dozenth"
             ],
-            "caution": "two dozen eggs 不加 s；dozens of 才加 s"
+            "caution": "two dozen eggs 不加 s；dozens of 才加 s",
+            "phoneticSplit": "do · zen",
+            "usage": "dozens of 几十个；two dozen 不加 s。"
           }
         },
         {
@@ -28763,7 +31626,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "magician",
               "physician"
             ],
-            "caution": "拼写是 music + ian，中间的 i 别漏"
+            "caution": "拼写是 music + ian，中间的 i 别漏",
+            "phoneticSplit": "mu · si · cian",
+            "usage": "musician 可数；play the piano 演奏。"
           }
         },
         {
@@ -28778,7 +31643,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "twine",
               "twins"
             ],
-            "caution": "词表「李生儿」应为「孪生儿」；作定语说 twin brother"
+            "caution": "词表「李生儿」应为「孪生儿」；作定语说 twin brother",
+            "usage": "twin beds 两张单人床。"
           }
         },
         {
@@ -28797,7 +31663,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "underground",
               "underwear"
             ],
-            "caution": "作定语放名词前：underwater camera；副词不加 ly"
+            "caution": "作定语放名词前：underwater camera；副词不加 ly",
+            "phoneticSplit": "un · der · wa · ter",
+            "usage": "作定语；under water 指被水淹。"
           }
         },
         {
@@ -28816,7 +31684,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dictionary",
               "predictable"
             ],
-            "caution": "动词 predict，名词 prediction；make a prediction"
+            "caution": "动词 predict，名词 prediction；make a prediction",
+            "phoneticSplit": "pre · dic · tion",
+            "usage": "make a prediction 作预测；predict 是动词。"
           }
         },
         {
@@ -28830,7 +31700,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "featured",
               "featureless"
             ],
-            "caution": "词表「.以.··为特色」应为「以…为特色」；feature 作动词是及物"
+            "caution": "词表「.以.··为特色」应为「以…为特色」；feature 作动词是及物",
+            "phoneticSplit": "fea · ture",
+            "usage": "The film features… 由……主演。"
           }
         },
         {
@@ -28844,7 +31716,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pence",
               "penniless"
             ],
-            "caution": "复数 pennies（硬币）与 pence（数额）不同"
+            "caution": "复数 pennies（硬币）与 pence（数额）不同",
+            "phoneticSplit": "pen · ny",
+            "usage": "pence 指金额，pennies 指一枚枚硬币。"
           }
         },
         {
@@ -28862,7 +31736,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dormant",
               "dormouse"
             ],
-            "caution": "口语缩略为 dorm；dormant 是「休眠的」"
+            "caution": "口语缩略为 dorm；dormant 是「休眠的」",
+            "phoneticSplit": "dor · mi · to · ry",
+            "usage": "口语缩略 dorm。"
           }
         },
         {
@@ -28881,7 +31757,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "citation",
               "excite"
             ],
-            "caution": "recite 是「背诵」，不是「重新引用」；名词 recitation"
+            "caution": "recite 是「背诵」，不是「重新引用」；名词 recitation",
+            "phoneticSplit": "re · cite",
+            "usage": "recite a poem 背诵一首诗。"
           }
         },
         {
@@ -28895,7 +31773,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anxiously",
               "anxiousness"
             ],
-            "caution": "be anxious to do 是「渴望」不是「担心」；名词 anxiety"
+            "caution": "be anxious to do 是「渴望」不是「担心」；名词 anxiety",
+            "phoneticSplit": "an · xious",
+            "usage": "be anxious about 担心；be anxious to do 渴望。"
           }
         }
       ]
@@ -28921,7 +31801,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "understanding",
               "understandable"
             ],
-            "caution": "过去式、过去分词都是 understood，不写 understanded。"
+            "caution": "过去式、过去分词都是 understood，不写 understanded。",
+            "phoneticSplit": "un · der · stand",
+            "usage": "过去式 understood；make oneself understood。"
           }
         },
         {
@@ -28936,7 +31818,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "waking",
               "wake-up"
             ],
-            "caution": "wake 的过去式 woke，过去分词 woken。"
+            "caution": "wake 的过去式 woke，过去分词 woken。",
+            "usage": "wake sb up 叫醒某人。"
           }
         },
         {
@@ -28951,7 +31834,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "baseball",
               "basketball"
             ],
-            "caution": "「舞会」义也写 ball，别以为是 balloon 的缩写。"
+            "caution": "「舞会」义也写 ball，别以为是 balloon 的缩写。",
+            "usage": "ball 球/舞会；on the ball 机灵。"
           }
         },
         {
@@ -28960,7 +31844,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈmɛnju/",
             "quick": "menu 是餐厅那张单子——菜单；电脑菜单也用它。",
-            "caution": "读 /ˈmenjuː/，重音在前；套餐是 set menu。"
+            "caution": "读 /ˈmenjuː/，重音在前；套餐是 set menu。",
+            "phoneticSplit": "me · nu",
+            "usage": "on the menu 在菜单上。"
           }
         },
         {
@@ -28973,7 +31859,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "adulthood",
               "adults"
             ],
-            "caution": "重音在前 /ˈædʌlt/ 多作名词，重音在后多作形容词。"
+            "caution": "重音在前 /ˈædʌlt/ 多作名词，重音在后多作形容词。",
+            "phoneticSplit": "a · dult",
+            "usage": "adult ticket 成人票；adult education 成人教育。"
           }
         },
         {
@@ -28988,7 +31876,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unfair",
               "fairground"
             ],
-            "caution": "「白皙的」词表误作「自皙」；fair hair 指淡色头发。"
+            "caution": "「白皙的」词表误作「自皙」；fair hair 指淡色头发。",
+            "usage": "fair 公平的/集市；fair hair 金发。"
           }
         },
         {
@@ -29002,7 +31891,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "thinness",
               "thinly"
             ],
-            "caution": "比较级 thinner，双写 n。"
+            "caution": "比较级 thinner，双写 n。",
+            "usage": "thin 瘦/薄；slim 是褒义瘦。"
           }
         },
         {
@@ -29017,7 +31907,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "myself",
               "I"
             ],
-            "caution": "my 后必须跟名词；单独用要用 mine。"
+            "caution": "my 后必须跟名词；单独用要用 mine。",
+            "usage": "my 后必接名词；mine 单独用。"
           }
         },
         {
@@ -29031,7 +31922,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brainless",
               "brainstorm"
             ],
-            "caution": "「智慧」义常用复数 brains：use your brains。"
+            "caution": "「智慧」义常用复数 brains：use your brains。",
+            "usage": "brains 可指聪明人。"
           }
         },
         {
@@ -29040,7 +31932,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/kwaɪt/",
             "quick": "quite 是“相当”，quite a few 反而是“不少”。",
-            "caution": "quite a few 是「相当多」，不是「相当少」。"
+            "caution": "quite a few 是「相当多」，不是「相当少」。",
+            "usage": "quite a few 相当多；quite 修饰形容词。"
           }
         },
         {
@@ -29059,7 +31952,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "realistic",
               "realize"
             ],
-            "caution": "英式 realise，美式 realize，同一词。"
+            "caution": "英式 realise，美式 realize，同一词。",
+            "phoneticSplit": "rea · lise",
+            "usage": "英式 realise，美式 realize。"
           }
         },
         {
@@ -29074,7 +31969,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "matchbox",
               "rematch"
             ],
-            "caution": "复数 matches；「与…相配」用 match sth，不加 with 也可。"
+            "caution": "复数 matches；「与…相配」用 match sth，不加 with 也可。",
+            "usage": "match A with B 配对；a box of matches 一盒火柴。"
           }
         },
         {
@@ -29089,7 +31985,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sidewalk",
               "beside"
             ],
-            "caution": "on the other side of 是固定说法，介词用 on。"
+            "caution": "on the other side of 是固定说法，介词用 on。",
+            "usage": "side by side 并排；take sides 站队。"
           }
         },
         {
@@ -29107,7 +32004,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "operetta",
               "opus"
             ],
-            "caution": "opera 是歌剧，play 是话剧，不要混用。"
+            "caution": "opera 是歌剧，play 是话剧，不要混用。",
+            "phoneticSplit": "o · pe · ra",
+            "usage": "soap opera 肥皂剧。"
           }
         },
         {
@@ -29121,7 +32020,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bitten",
               "biting"
             ],
-            "caution": "a bit 修饰形容词；a bit of 后接名词。"
+            "caution": "a bit 修饰形容词；a bit of 后接名词。",
+            "usage": "a bit of 一点儿；bit 是 bite 过去式。"
           }
         },
         {
@@ -29136,7 +32036,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hotel",
               "hosting"
             ],
-            "caution": "电视节目「主持人」用 host，不用 master。"
+            "caution": "电视节目「主持人」用 host，不用 master。",
+            "usage": "反义 guest；host the Olympics 主办奥运。"
           }
         },
         {
@@ -29154,7 +32055,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hostel",
               "hostesses"
             ],
-            "caution": "重音仍在第一音节；不要写成 hostress。"
+            "caution": "重音仍在第一音节；不要写成 hostress。",
+            "phoneticSplit": "ho · stess",
+            "usage": "-ess 表女性：actress、waitress。"
           }
         },
         {
@@ -29173,7 +32076,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "handful",
               "handbag"
             ],
-            "caution": "形容男子英俊用 handsome，女子一般用 beautiful。"
+            "caution": "形容男子英俊用 handsome，女子一般用 beautiful。",
+            "phoneticSplit": "hand · some",
+            "usage": "多形容男性；a handsome sum 一大笔钱。"
           }
         },
         {
@@ -29192,7 +32097,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "anyplace",
               "anything"
             ],
-            "caution": "anyway 是一个词；any way 是两个词，意为「任何方式」。"
+            "caution": "anyway 是一个词；any way 是两个词，意为「任何方式」。",
+            "phoneticSplit": "a · ny · way",
+            "usage": "常作转话题的口语开头。"
           }
         },
         {
@@ -29207,7 +32114,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "quarters",
               "quart"
             ],
-            "caution": "词表拼写应为 quarter，此处照抄原拼写。"
+            "caution": "词表拼写应为 quarter，此处照抄原拼写。",
+            "phoneticSplit": "quar · ter",
+            "usage": "a quarter past three 三点一刻。"
           }
         }
       ]
@@ -29229,7 +32138,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "choosy",
               "chooser"
             ],
-            "caution": "choice 是名词，别当动词用；复数 choices。"
+            "caution": "choice 是名词，别当动词用；复数 choices。",
+            "usage": "have no choice but to do 只能做某事。"
           }
         },
         {
@@ -29243,7 +32153,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "rounded",
               "roundabout"
             ],
-            "caution": "round 还可作介词「围绕」，此时别再加 around。"
+            "caution": "round 还可作介词「围绕」，此时别再加 around。",
+            "usage": "英式 round 常作介词 = around。"
           }
         },
         {
@@ -29257,7 +32168,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "lakeside",
               "lakefront"
             ],
-            "caution": "in the lake 指湖里，on the lake 指湖面上。"
+            "caution": "in the lake 指湖里，on the lake 指湖面上。",
+            "usage": "in the lake 在湖里；on the lake 湖面上。"
           }
         },
         {
@@ -29276,7 +32188,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "enable",
               "disabled"
             ],
-            "caution": "the ability to do sth，介词用 to 不用 of doing。"
+            "caution": "the ability to do sth，介词用 to 不用 of doing。",
+            "phoneticSplit": "a · bi · li · ty",
+            "usage": "the ability to do sth 做某事的能力。"
           }
         },
         {
@@ -29295,7 +32209,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unity",
               "unify"
             ],
-            "caution": "unit 是单位，unite 是联合，只差一个 e。"
+            "caution": "unit 是单位，unite 是联合，只差一个 e。",
+            "phoneticSplit": "u · nit",
+            "usage": "a unit of 一单位……；Unit 3 第三单元。"
           }
         },
         {
@@ -29310,7 +32226,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "theirs",
               "themselves"
             ],
-            "caution": "their（他们的）/ there（那里）/ they're（他们是）三词常混。"
+            "caution": "their（他们的）/ there（那里）/ they're（他们是）三词常混。",
+            "usage": "后接名词；theirs 单独用，别与 there 混。"
           }
         },
         {
@@ -29324,7 +32241,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "good",
               "best-selling"
             ],
-            "caution": "like best 是「最喜欢」，不是「最好地喜欢」。"
+            "caution": "like best 是「最喜欢」，不是「最好地喜欢」。",
+            "usage": "better 是比级，best 是最高级；do one's best 尽全力。"
           }
         },
         {
@@ -29339,7 +32257,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "postmodern",
               "modernism"
             ],
-            "caution": "modern 是「现代的」，不表示「时髦漂亮」。"
+            "caution": "modern 是「现代的」，不表示「时髦漂亮」。",
+            "phoneticSplit": "mo · dern",
+            "usage": "反义 ancient；modern 多作定语。"
           }
         },
         {
@@ -29352,7 +32272,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "kites",
               "kite-flying"
             ],
-            "caution": "词表释义「纸营」应为「纸鸢」。"
+            "caution": "词表释义「纸营」应为「纸鸢」。",
+            "usage": "fly a kite 放风筝；kite 也可指风筝冲浪。"
           }
         },
         {
@@ -29364,7 +32285,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "tomatoes"
             ],
-            "caution": "复数 tomatoes，要加 -es。"
+            "caution": "复数 tomatoes，要加 -es。",
+            "phoneticSplit": "to · ma · to",
+            "usage": "复数 tomatoes，要加 -es。"
           }
         },
         {
@@ -29379,7 +32302,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "turtleneck",
               "necktie"
             ],
-            "caution": "「领口」义用 neck 或 neckline，不用 collar 混说。"
+            "caution": "「领口」义用 neck 或 neckline，不用 collar 混说。",
+            "usage": "neck and neck 并驾齐驱；bottle neck 瓶颈。"
           }
         },
         {
@@ -29394,7 +32318,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "how",
               "much"
             ],
-            "caution": "much 修饰不可数名词；very much 放句末表程度。"
+            "caution": "much 修饰不可数名词；very much 放句末表程度。",
+            "usage": "much 修饰不可数名词，many 修饰可数名词。"
           }
         },
         {
@@ -29409,7 +32334,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "microwave",
               "wavelength"
             ],
-            "caution": "wave to sb 是「向某人挥手」，介词用 to。"
+            "caution": "wave to sb 是「向某人挥手」，介词用 to。",
+            "usage": "wave to sb 向某人挥手；wave goodbye 挥手告别。"
           }
         },
         {
@@ -29422,7 +32348,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hats",
               "hatter"
             ],
-            "caution": "hat 多有边，cap 多有檐，别一律译「帽子」。"
+            "caution": "hat 多有边，cap 多有檐，别一律译「帽子」。",
+            "usage": "hat 多有帽檐，cap 指棒球帽。"
           }
         },
         {
@@ -29431,7 +32358,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
           "extra": {
             "phonetic": "/ˈbædˌmɪntən/",
             "quick": "隔网对抽、球带羽毛——badminton 羽毛球。",
-            "caution": "badminton 不可数，不说 a badminton，球用 shuttlecock。"
+            "caution": "badminton 不可数，不说 a badminton，球用 shuttlecock。",
+            "phoneticSplit": "bad · min · ton",
+            "usage": "play badminton 中间不加 the；球拍叫 racket。"
           }
         },
         {
@@ -29446,7 +32375,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cheaply",
               "cheapness"
             ],
-            "caution": "cheap 形容物便宜；说人「小气」不礼貌，宜用 careful with money。"
+            "caution": "cheap 形容物便宜；说人「小气」不礼貌，宜用 careful with money。",
+            "usage": "cheap 形容人还有“小气”的贬义。"
           }
         },
         {
@@ -29461,7 +32391,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "paperback",
               "papers"
             ],
-            "caution": "「纸」不可数，一张纸是 a piece of paper。"
+            "caution": "「纸」不可数，一张纸是 a piece of paper。",
+            "phoneticSplit": "pa · per",
+            "usage": "不可数，用 a piece of paper；作“论文”可数。"
           }
         },
         {
@@ -29476,7 +32408,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "fatty",
               "fatness"
             ],
-            "caution": "比较级 fatter，双写 t；当面说人 fat 不礼貌。"
+            "caution": "比较级 fatter，双写 t；当面说人 fat 不礼貌。",
+            "usage": "说人 fat 不礼貌，宜用 heavy 或 overweight。"
           }
         },
         {
@@ -29495,7 +32428,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "encouragement",
               "discourage"
             ],
-            "caution": "encourage sb to do sth；反义是 discourage。"
+            "caution": "encourage sb to do sth；反义是 discourage。",
+            "phoneticSplit": "en · cou · rage",
+            "usage": "encourage sb to do sth；反义 discourage。"
           }
         },
         {
@@ -29510,7 +32445,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "untouchable",
               "touchy"
             ],
-            "caution": "keep in touch with sb 是固定搭配，with 不能省。"
+            "caution": "keep in touch with sb 是固定搭配，with 不能省。",
+            "usage": "keep in touch 保持联系；get in touch with 与……联系。"
           }
         }
       ]
@@ -29532,7 +32468,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "springy",
               "offspring"
             ],
-            "caution": "过去式 sprang，过去分词 sprung。"
+            "caution": "过去式 sprang，过去分词 sprung。",
+            "usage": "in spring 在春天；hot spring 温泉。"
           }
         },
         {
@@ -29546,7 +32483,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "complete",
               "supply"
             ],
-            "caution": "plenty of 前不加 a；谓语随后面的名词变化。"
+            "caution": "plenty of 前不加 a；谓语随后面的名词变化。",
+            "phoneticSplit": "plen · ty",
+            "usage": "plenty of 后可接可数，也可接不可数。"
           }
         },
         {
@@ -29559,7 +32498,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "concerts",
               "concertgoer"
             ],
-            "caution": "in concert 表「现场演出」或「一致行动」。"
+            "caution": "in concert 表「现场演出」或「一致行动」。",
+            "phoneticSplit": "con · cert",
+            "usage": "give a concert 开音乐会；concert hall 音乐厅。"
           }
         },
         {
@@ -29578,7 +32519,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "mobility",
               "automobile"
             ],
-            "caution": "英式读 /ˈməʊbaɪl/，美式 /ˈmoʊbl/；英式手机常说 mobile phone。"
+            "caution": "英式读 /ˈməʊbaɪl/，美式 /ˈmoʊbl/；英式手机常说 mobile phone。",
+            "phoneticSplit": "mo · bi · le",
+            "usage": "mobile 作名词多指手机；英式也说 mobile phone。"
           }
         },
         {
@@ -29593,7 +32536,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "unhappy",
               "happen"
             ],
-            "caution": "be happy to do sth 表「乐意做」，不是「高兴地做」。"
+            "caution": "be happy to do sth 表「乐意做」，不是「高兴地做」。",
+            "phoneticSplit": "hap · py",
+            "usage": "be happy to do 乐意做；名词 happiness。"
           }
         },
         {
@@ -29606,7 +32551,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Chinese",
               "chinaware"
             ],
-            "caution": "国名首字母必大写；小写 china 是「瓷器」。"
+            "caution": "国名首字母必大写；小写 china 是「瓷器」。",
+            "phoneticSplit": "chi · na",
+            "usage": "小写 china 指瓷器；Chinese 是中国人、汉语。"
           }
         },
         {
@@ -29618,7 +32565,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "China"
             ],
-            "caution": "作「中国人」可数，two Chinese；作「汉语」不可数。"
+            "caution": "作「中国人」可数，two Chinese；作「汉语」不可数。",
+            "phoneticSplit": "chi · nese",
+            "usage": "Chinese 单复数同形；Chinese food 中餐。"
           }
         },
         {
@@ -29633,7 +32582,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "sunshine",
               "shiny"
             ],
-            "caution": "shine 去 e 加 y，不写 shinny。"
+            "caution": "shine 去 e 加 y，不写 shinny。",
+            "phoneticSplit": "shi · ny",
+            "usage": "shine 是动词，shiny 是形容词；shiny hair 有光泽的头发。"
           }
         },
         {
@@ -29647,7 +32598,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "development",
               "envelop"
             ],
-            "caution": "重音在第一音节 /ˈenvələʊp/；动词 envelop 重音在后。"
+            "caution": "重音在第一音节 /ˈenvələʊp/；动词 envelop 重音在后。",
+            "phoneticSplit": "en · ve · lope",
+            "usage": "重音在第一音节 /ˈenvələʊp/；复数 envelopes。"
           }
         },
         {
@@ -29661,7 +32614,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "polluted",
               "pollutant"
             ],
-            "caution": "pollution 不可数，不说 a pollution。"
+            "caution": "pollution 不可数，不说 a pollution。",
+            "phoneticSplit": "pol · lu · tion",
+            "usage": "不可数；air / water / noise pollution。"
           }
         },
         {
@@ -29674,7 +32629,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "batteries",
               "battery-powered"
             ],
-            "caution": "复数 batteries；「充电」是 charge the battery。"
+            "caution": "复数 batteries；「充电」是 charge the battery。",
+            "phoneticSplit": "bat · te · ry",
+            "usage": "复数 batteries；recharge the battery 充电。"
           }
         },
         {
@@ -29689,7 +32646,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "eyesight",
               "insight"
             ],
-            "caution": "词表释义「警见」应为「瞥见」；名胜常用复数 sights。"
+            "caution": "词表释义「警见」应为「瞥见」；名胜常用复数 sights。",
+            "usage": "at first sight 乍一看；out of sight 看不见。"
           }
         },
         {
@@ -29701,7 +32659,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "rustic"
             ],
-            "caution": "反义 urban「城市的」，两词常成对考。"
+            "caution": "反义 urban「城市的」，两词常成对考。",
+            "phoneticSplit": "ru · ral",
+            "usage": "反义 urban；rural area 农村地区。"
           }
         },
         {
@@ -29715,7 +32675,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "blankly",
               "blankness"
             ],
-            "caution": "blank 是空白，black 是黑，只差一个字母别写混。"
+            "caution": "blank 是空白，black 是黑，只差一个字母别写混。",
+            "usage": "fill in the blanks 填空；go blank 脑子一片空白。"
           }
         },
         {
@@ -29729,7 +32690,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "receipt",
               "recipient"
             ],
-            "caution": "读 /ˈresəpi/，别按拼写读成 re-cipe。"
+            "caution": "读 /ˈresəpi/，别按拼写读成 re-cipe。",
+            "phoneticSplit": "re · cipe",
+            "usage": "recipe for success 成功的诀窍；读 /ˈresəpi/。"
           }
         },
         {
@@ -29744,7 +32707,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "flying",
               "flight"
             ],
-            "caution": "fly-flew-flown；flight 是名词，别当动词用。"
+            "caution": "fly-flew-flown；flight 是名词，别当动词用。",
+            "usage": "take a flight 乘航班；flight 可数。"
           }
         },
         {
@@ -29758,7 +32722,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "intense",
               "extend"
             ],
-            "caution": "tense 三义：紧张的、时态、绷紧，看词性辨义。"
+            "caution": "tense 三义：紧张的、时态、绷紧，看词性辨义。",
+            "usage": "作形容词指紧张，作名词指时态；get tense。"
           }
         }
       ]
@@ -29783,7 +32748,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "donation",
               "pardonable"
             ],
-            "caution": "词表释义「宽想」应为「宽恕」；I beg your pardon 也是「对不起」。"
+            "caution": "词表释义「宽想」应为「宽恕」；I beg your pardon 也是「对不起」。",
+            "phoneticSplit": "par · don",
+            "usage": "Pardon? 请再说一遍；pardon sb for sth 原谅某人。"
           }
         },
         {
@@ -29797,7 +32764,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "shirt",
               "T"
             ],
-            "caution": "T 必须大写，中间有连字符。"
+            "caution": "T 必须大写，中间有连字符。",
+            "usage": "复数 T-shirts；棉质短袖就叫 T-shirt。"
           }
         },
         {
@@ -29816,7 +32784,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "respectful",
               "aspect"
             ],
-            "caution": "show respect for sb，介词用 for；respect 作名词不可数。"
+            "caution": "show respect for sb，介词用 for；respect 作名词不可数。",
+            "phoneticSplit": "re · spect",
+            "usage": "respect sb for sth；show respect for 对……尊重。"
           }
         },
         {
@@ -29835,7 +32805,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "manufacture",
               "factual"
             ],
-            "caution": "复数 factories，y 变 i 加 es。"
+            "caution": "复数 factories，y 变 i 加 es。",
+            "phoneticSplit": "fac · to · ry",
+            "usage": "复数 factories；factory worker 工厂工人。"
           }
         },
         {
@@ -29849,7 +32821,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "room",
               "classmate"
             ],
-            "caution": "写成一个词，中间不加空格或连字符。"
+            "caution": "写成一个词，中间不加空格或连字符。",
+            "phoneticSplit": "class · room",
+            "usage": "合成词，重音在前面的 class。"
           }
         },
         {
@@ -29864,7 +32838,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "roommate",
               "classmates"
             ],
-            "caution": "写成一个词；泛指同学也可用 schoolmate。"
+            "caution": "写成一个词；泛指同学也可用 schoolmate。",
+            "phoneticSplit": "clas · smate",
+            "usage": "schoolmate 是同校，classmate 是同班。"
           }
         },
         {
@@ -29883,7 +32859,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "directly",
               "directory"
             ],
-            "caution": "director 是导演，actor 是演员，别混。"
+            "caution": "director 是导演，actor 是演员，别混。",
+            "phoneticSplit": "di · rec · tor",
+            "usage": "film director 电影导演；也可指部门主管。"
           }
         },
         {
@@ -29897,7 +32875,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "patiently",
               "impatient"
             ],
-            "caution": "be patient with sb 用 with；名词「病人」可数。"
+            "caution": "be patient with sb 用 with；名词「病人」可数。",
+            "phoneticSplit": "pa · tient",
+            "usage": "be patient with sb 对某人有耐心；名词指病人。"
           }
         },
         {
@@ -29909,7 +32889,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "until"
             ],
-            "caution": "till 与 until 都可作介词和连词；not...until 表「直到…才」。"
+            "caution": "till 与 until 都可作介词和连词；not...until 表「直到…才」。",
+            "usage": "till 与 until 同义，till 更口语；not...till 直到…才。"
           }
         },
         {
@@ -29924,7 +32905,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dragonfly",
               "firefly"
             ],
-            "caution": "复数 butterflies，y 变 i 加 es。"
+            "caution": "复数 butterflies，y 变 i 加 es。",
+            "phoneticSplit": "but · ter · fly",
+            "usage": "复数 butterflies；蝶泳也叫 butterfly。"
           }
         },
         {
@@ -29943,7 +32926,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "vacate",
               "evacuate"
             ],
-            "caution": "英式假期多用 holiday，美式用 vacation；on vacation 表在度假。"
+            "caution": "英式假期多用 holiday，美式用 vacation；on vacation 表在度假。",
+            "phoneticSplit": "va · ca · tion",
+            "usage": "on vacation 在度假；美式 vacation＝英式 holiday。"
           }
         },
         {
@@ -29955,7 +32940,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "cancerous"
             ],
-            "caution": "cancer 可数，说 lung cancer 不加冠词。"
+            "caution": "cancer 可数，说 lung cancer 不加冠词。",
+            "phoneticSplit": "can · cer",
+            "usage": "不可数；lung cancer 肺癌。"
           }
         },
         {
@@ -29968,7 +32955,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pilots",
               "pilotless"
             ],
-            "caution": "飞行员是 pilot，宇航员是 astronaut，别混。"
+            "caution": "飞行员是 pilot，宇航员是 astronaut，别混。",
+            "phoneticSplit": "pi · lot",
+            "usage": "pilot 开飞机，driver 开车；也可指领航员。"
           }
         },
         {
@@ -29983,7 +32972,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "drove",
               "driver's"
             ],
-            "caution": "drive-drove-driven；driver 别漏中间的 v。"
+            "caution": "drive-drove-driven；driver 别漏中间的 v。",
+            "phoneticSplit": "dri · ver",
+            "usage": "bus driver 公交司机；driver's license 驾照。"
           }
         },
         {
@@ -29998,7 +32989,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "excitement",
               "excitedly"
             ],
-            "caution": "人作主语用 excited，物作主语用 exciting。"
+            "caution": "人作主语用 excited，物作主语用 exciting。",
+            "phoneticSplit": "ex · ci · ted",
+            "usage": "人作主语用 excited，物作主语用 exciting。"
           }
         },
         {
@@ -30012,7 +33005,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "excited",
               "excitement"
             ],
-            "caution": "The film is exciting. / I am excited. 两句主语不能换。"
+            "caution": "The film is exciting. / I am excited. 两句主语不能换。",
+            "phoneticSplit": "ex · ci · ting",
+            "usage": "an exciting game 令人激动的比赛；主语多为物。"
           }
         },
         {
@@ -30027,7 +33022,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "smoothie",
               "smoother"
             ],
-            "caution": "smooth 是「光滑平坦」，不表「安静」。"
+            "caution": "smooth 是「光滑平坦」，不表「安静」。",
+            "usage": "反义 rough；也可指事情顺利。"
           }
         },
         {
@@ -30042,7 +33038,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "painted",
               "paintbrush"
             ],
-            "caution": "paint 指油画、油漆；draw 指用铅笔线条画。"
+            "caution": "paint 指油画、油漆；draw 指用铅笔线条画。",
+            "usage": "paint the wall 刷墙；paint a picture 画画。"
           }
         },
         {
@@ -30056,7 +33053,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "cream",
               "icebox"
             ],
-            "caution": "两个词分开写，中间有空格；不可数。"
+            "caution": "两个词分开写，中间有空格；不可数。",
+            "usage": "不可数；two ice creams 指两份。"
           }
         },
         {
@@ -30069,7 +33067,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "palaces",
               "palatial"
             ],
-            "caution": "词表释义「官」应为「宫」；palace 指宫殿，不指政府机关。"
+            "caution": "词表释义「官」应为「宫」；palace 指宫殿，不指政府机关。",
+            "phoneticSplit": "pa · lace",
+            "usage": "the Summer Palace 颐和园；比 castle 更华美。"
           }
         }
       ]
@@ -30094,7 +33094,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bicycle",
               "bilingual"
             ],
-            "caution": "英式 biscuit 等于美式 cookie；复数直接加 s。"
+            "caution": "英式 biscuit 等于美式 cookie；复数直接加 s。",
+            "phoneticSplit": "bi · scuit",
+            "usage": "英式 biscuit＝美式 cookie；复数 biscuits。"
           }
         },
         {
@@ -30109,7 +33111,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "grandparent",
               "grandchild"
             ],
-            "caution": "口语词，正式场合用 grandmother。"
+            "caution": "口语词，正式场合用 grandmother。",
+            "phoneticSplit": "grand · ma",
+            "usage": "grandpa 是爷爷；口语里更亲昵。"
           }
         },
         {
@@ -30124,7 +33128,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "weighing",
               "weightless"
             ],
-            "caution": "gh 不发音，读 /weɪ/；名词是 weight，别写 wiegh。"
+            "caution": "gh 不发音，读 /weɪ/；名词是 weight，别写 wiegh。",
+            "usage": "weigh 是动词，weight 是名词；weigh oneself 称体重。"
           }
         },
         {
@@ -30138,7 +33143,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "site",
               "websites"
             ],
-            "caution": "写成一个词；「网址」是 website address，不是 website's name。"
+            "caution": "写成一个词；「网址」是 website address，不是 website's name。",
+            "phoneticSplit": "web · site",
+            "usage": "on the website 在网站上；复数 websites。"
           }
         },
         {
@@ -30152,7 +33159,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Mrs",
               "Mr"
             ],
-            "caution": "Ms 读 /mɪz/，英式不加点，美式写作 Ms.。"
+            "caution": "Ms 读 /mɪz/，英式不加点，美式写作 Ms.。",
+            "usage": "Ms 后接姓：Ms Li；读 /mɪz/。"
           }
         },
         {
@@ -30166,7 +33174,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "brushwork",
               "toothbrush"
             ],
-            "caution": "复数 brushes，加 es；brush teeth 用复数 teeth。"
+            "caution": "复数 brushes，加 es；brush teeth 用复数 teeth。",
+            "usage": "brush one's teeth 刷牙；a hair brush 发刷。"
           }
         },
         {
@@ -30179,7 +33188,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hello",
               "hey"
             ],
-            "caution": "hi 比 hello 随意，用于熟人之间。"
+            "caution": "hi 比 hello 随意，用于熟人之间。",
+            "usage": "hi 比 hello 随意，熟人之间用。"
           }
         },
         {
@@ -30194,7 +33204,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "keyboards",
               "keypad"
             ],
-            "caution": "写成一个词；「打字」是 type on the keyboard。"
+            "caution": "写成一个词；「打字」是 type on the keyboard。",
+            "phoneticSplit": "key · board",
+            "usage": "复数 keyboards；也可指键盘乐器。"
           }
         },
         {
@@ -30209,7 +33221,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nearest",
               "nearness"
             ],
-            "caution": "nearly 不与否定词连用表「几乎不」，那要用 hardly。"
+            "caution": "nearly 不与否定词连用表「几乎不」，那要用 hardly。",
+            "phoneticSplit": "near · ly",
+            "usage": "nearly 常与数字、完成时连用；not nearly 远非。"
           }
         },
         {
@@ -30223,7 +33237,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "goalless",
               "goals"
             ],
-            "caution": "score a goal 是「进一球」，介词不省。"
+            "caution": "score a goal 是「进一球」，介词不省。",
+            "usage": "score a goal 进一球；achieve a goal 实现目标。"
           }
         },
         {
@@ -30238,7 +33253,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nobody",
               "nor"
             ],
-            "caution": "no 后直接跟名词：no money；not 用于动词前。"
+            "caution": "no 后直接跟名词：no money；not 用于动词前。",
+            "usage": "no 直接修饰名词＝not any；no 与 not 位置不同。"
           }
         },
         {
@@ -30253,7 +33269,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bathroom",
               "bedrooms"
             ],
-            "caution": "词表释义「孙室」应为「卧室」。"
+            "caution": "词表释义「孙室」应为「卧室」。",
+            "phoneticSplit": "be · droom",
+            "usage": "合成词；a two-bedroom flat 两居室。"
           }
         },
         {
@@ -30268,7 +33286,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "advisable",
               "advisory"
             ],
-            "caution": "advise sb to do sth；名词 advice 不可数。"
+            "caution": "advise sb to do sth；名词 advice 不可数。",
+            "phoneticSplit": "ad · vise",
+            "usage": "advise sb to do sth；名词 advice 不可数。"
           }
         },
         {
@@ -30282,7 +33302,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "nodding",
               "nodded"
             ],
-            "caution": "nod 是点头（同意），shake one's head 才是摇头。"
+            "caution": "nod 是点头（同意），shake one's head 才是摇头。",
+            "usage": "nod one's head 点头；nod to sb 向某人点头。"
           }
         },
         {
@@ -30296,7 +33317,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "bored",
               "boredom"
             ],
-            "caution": "boring 修饰物，bored 修饰人：I'm bored. The book is boring."
+            "caution": "boring 修饰物，bored 修饰人：I'm bored. The book is boring.",
+            "phoneticSplit": "bo · ring",
+            "usage": "物作主语用 boring；人觉得无聊是 bored。"
           }
         },
         {
@@ -30315,7 +33338,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "technician",
               "technological"
             ],
-            "caution": "technology 不可数；-logy 结尾的重音在 -ol- 上。"
+            "caution": "technology 不可数；-logy 结尾的重音在 -ol- 上。",
+            "phoneticSplit": "tech · no · lo · gy",
+            "usage": "high technology 高科技；形容词 technological。"
           }
         },
         {
@@ -30330,7 +33355,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "feelings",
               "feeler"
             ],
-            "caution": "hurt one's feelings 用复数，单数 feelings 不指「感情」。"
+            "caution": "hurt one's feelings 用复数，单数 feelings 不指「感情」。",
+            "phoneticSplit": "fee · ling",
+            "usage": "feelings 指感情；hurt one's feelings 伤人感情。"
           }
         },
         {
@@ -30344,7 +33371,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clockwork",
               "clockwise"
             ],
-            "caution": "只接整点：three o'clock；不能写 o'clock thirty。"
+            "caution": "只接整点：three o'clock；不能写 o'clock thirty。",
+            "usage": "只用于整点；three o'clock 三点。"
           }
         },
         {
@@ -30356,7 +33384,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "trouser"
             ],
-            "caution": "永远用复数，计数说 a pair of trousers。"
+            "caution": "永远用复数，计数说 a pair of trousers。",
+            "phoneticSplit": "trou · sers",
+            "usage": "a pair of trousers 一条裤子；作主语谓语用复数。"
           }
         },
         {
@@ -30368,7 +33398,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
             "family": [
               "giraffes"
             ],
-            "caution": "两个 f、一个 r；复数直接加 s。"
+            "caution": "两个 f、一个 r；复数直接加 s。",
+            "phoneticSplit": "gi · raffe",
+            "usage": "复数 giraffes；a giraffe's neck 长颈鹿的脖子。"
           }
         }
       ]
@@ -30389,7 +33421,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "missus",
               "Ms"
             ],
-            "caution": "称呼人时首字母必须大写；小写 miss 是「错过、想念」"
+            "caution": "称呼人时首字母必须大写；小写 miss 是「错过、想念」",
+            "usage": "Miss 后接姓；miss 作动词指错过、想念。"
           }
         },
         {
@@ -30403,7 +33436,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "beanstalk",
               "beanbag"
             ],
-            "caution": "bean 与 been 同音不同义；可数，两颗豆是 two beans"
+            "caution": "bean 与 been 同音不同义；可数，两颗豆是 two beans",
+            "usage": "可数；beans 也指豆类蔬菜。"
           }
         },
         {
@@ -30418,7 +33452,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "common",
               "communism"
             ],
-            "caution": "双写 m；结尾是 -ity，别写成 communty"
+            "caution": "双写 m；结尾是 -ity，别写成 communty",
+            "phoneticSplit": "com · mu · ni · ty",
+            "usage": "可数；the Chinese community 华人社区。"
           }
         },
         {
@@ -30434,7 +33470,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendship",
               "hardship"
             ],
-            "caution": "是一个词，不分开写 relation ship；relation 也可单独表示「关系」"
+            "caution": "是一个词，不分开写 relation ship；relation 也可单独表示「关系」",
+            "phoneticSplit": "re · la · tion · ship",
+            "usage": "relationship between A and B；也指恋爱关系。"
           }
         },
         {
@@ -30453,7 +33491,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "interesting",
               "uninteresting"
             ],
-            "caution": "重音在 IN-terest-ing；别漏中间的 e 写成 intresting"
+            "caution": "重音在 IN-terest-ing；别漏中间的 e 写成 intresting",
+            "phoneticSplit": "in · te · re · sting",
+            "usage": "物作主语用 interesting，人感兴趣是 interested。"
           }
         },
         {
@@ -30468,7 +33508,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pollutant",
               "polluter"
             ],
-            "caution": "双写 l；名词是 pollution，别写 polluteion"
+            "caution": "双写 l；名词是 pollution，别写 polluteion",
+            "phoneticSplit": "pol · lute",
+            "usage": "pollute the river 污染河流；polluted 被污染的。"
           }
         },
         {
@@ -30482,7 +33524,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "pallid",
               "pallor"
             ],
-            "caution": "别与 pail（桶）、pole（杆）混；比较级直接加 -er 成 paler"
+            "caution": "别与 pail（桶）、pole（杆）混；比较级直接加 -er 成 paler",
+            "phoneticSplit": "pa · le",
+            "usage": "turn pale 脸变白；反义 dark、deep。"
           }
         },
         {
@@ -30496,7 +33540,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "official",
               "officially"
             ],
-            "caution": "officer 指「官、警官」，official 指「官员、正式的」，别混"
+            "caution": "officer 指「官、警官」，official 指「官员、正式的」，别混",
+            "phoneticSplit": "of · fi · cer",
+            "usage": "police officer 警察；official 指官方的。"
           }
         },
         {
@@ -30509,7 +33555,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "carton",
               "cartoonist"
             ],
-            "caution": "中间双写 o；cartoon 是卡通，carton 是纸盒"
+            "caution": "中间双写 o；cartoon 是卡通，carton 是纸盒",
+            "phoneticSplit": "car · toon",
+            "usage": "可数；cartoon 也指报刊上的讽刺画。"
           }
         },
         {
@@ -30528,7 +33576,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "personality",
               "personnel"
             ],
-            "caution": "personal（私人的）与 personnel（人事、职员）只差字母，别混"
+            "caution": "personal（私人的）与 personnel（人事、职员）只差字母，别混",
+            "phoneticSplit": "per · so · nal",
+            "usage": "personal information 个人信息；personally 亲自。"
           }
         },
         {
@@ -30542,7 +33592,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "winning",
               "winnings"
             ],
-            "caution": "双写 n；别写 winer（wine 是酒，winer 不成词）"
+            "caution": "双写 n；别写 winer（wine 是酒，winer 不成词）",
+            "phoneticSplit": "win · ner",
+            "usage": "win-winner 要双写 n；反义 loser。"
           }
         },
         {
@@ -30556,7 +33608,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "swivel",
               "swung"
             ],
-            "caution": "过去式、过去分词都是 swung；秋千可数，a swing"
+            "caution": "过去式、过去分词都是 swung；秋千可数，a swing",
+            "usage": "swing-swung-swung；play on the swing 荡秋千。"
           }
         },
         {
@@ -30570,7 +33623,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "clergy",
               "clergyman"
             ],
-            "caution": "读 /klɑːk/，别按拼写读成「克勒克」；美式常写 salesclerk"
+            "caution": "读 /klɑːk/，别按拼写读成「克勒克」；美式常写 salesclerk",
+            "usage": "英音 /klɑːk/，美音 /klɜːrk/。"
           }
         },
         {
@@ -30589,7 +33643,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "dissolve",
               "resolution"
             ],
-            "caution": "别写 solusion；the solution to a problem 用 to 不用 of"
+            "caution": "别写 solusion；the solution to a problem 用 to 不用 of",
+            "phoneticSplit": "so · lu · tion",
+            "usage": "solution to a problem 用 to；也可指溶液。"
           }
         },
         {
@@ -30603,7 +33659,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "hungrily",
               "hungered"
             ],
-            "caution": "作名词不可数；表「渴望」用 hunger for / after"
+            "caution": "作名词不可数；表「渴望」用 hunger for / after",
+            "phoneticSplit": "hung · er",
+            "usage": "hunger for 渴望；hunger strike 绝食。"
           }
         },
         {
@@ -30617,7 +33675,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "slippery",
               "slippers"
             ],
-            "caution": "双写 p；成双使用，常说 a pair of slippers"
+            "caution": "双写 p；成双使用，常说 a pair of slippers",
+            "phoneticSplit": "slip · per",
+            "usage": "常用复数 slippers；a pair of slippers。"
           }
         },
         {
@@ -30631,7 +33691,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "Turkish",
               "turkeys"
             ],
-            "caution": "国名 Turkey 要大写；火鸡可数，复数 turkeys"
+            "caution": "国名 Turkey 要大写；火鸡可数，复数 turkeys",
+            "phoneticSplit": "tur · key",
+            "usage": "大写 Turkey 指土耳其。"
           }
         },
         {
@@ -30646,7 +33708,8 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "proverb",
               "verbally"
             ],
-            "caution": "别与 word 混；词典里 v. 指动词，n. 指名词"
+            "caution": "别与 word 混；词典里 v. 指动词，n. 指名词",
+            "usage": "verb 动词，noun 名词，adjective 形容词。"
           }
         },
         {
@@ -30660,7 +33723,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "song",
               "singing"
             ],
-            "caution": "只加 -er，不双写 g（对比 winner）；song 是「歌」，singer 是「人」"
+            "caution": "只加 -er，不双写 g（对比 winner）；song 是「歌」，singer 是「人」",
+            "phoneticSplit": "sing · er",
+            "usage": "只加 -er，不双写 g；复数 singers。"
           }
         },
         {
@@ -30679,7 +33744,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "creative",
               "creator"
             ],
-            "caution": "别与 feature（特征）、creacher 混写；结尾 -ture"
+            "caution": "别与 feature（特征）、creacher 混写；结尾 -ture",
+            "phoneticSplit": "crea · ture",
+            "usage": "creature 指生物，也可指“家伙”。"
           }
         },
         {
@@ -30695,7 +33762,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "southwest",
               "southern"
             ],
-            "caution": "顺序是 south+east，别照中文写成 eastsouth；作副词前不加介词"
+            "caution": "顺序是 south+east，别照中文写成 eastsouth；作副词前不加介词",
+            "phoneticSplit": "sou · theast",
+            "usage": "中文“东南”对应 south+east，别颠倒。"
           }
         },
         {
@@ -30710,7 +33779,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "customary",
               "costume"
             ],
-            "caution": "表「风俗」可数；customs 还专指「海关」，别与 costume 混"
+            "caution": "表「风俗」可数；customs 还专指「海关」，别与 costume 混",
+            "phoneticSplit": "cu · stom",
+            "usage": "复数 customs 指海关；custom 指习俗、习惯。"
           }
         },
         {
@@ -30724,7 +33795,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "scientist",
               "scientifically"
             ],
-            "caution": "不是 sciencetific；重音在 -TIF- 前：sci-en-TIF-ic"
+            "caution": "不是 sciencetific；重音在 -TIF- 前：sci-en-TIF-ic",
+            "phoneticSplit": "scien · ti · fic",
+            "usage": "scientific research 科学研究；scientist 科学家。"
           }
         },
         {
@@ -30738,7 +33811,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "experimental",
               "experimentally"
             ],
-            "caution": "重音在 -PER-：ex-PER-i-ment；做实验用 do / carry out an experiment"
+            "caution": "重音在 -PER-：ex-PER-i-ment；做实验用 do / carry out an experiment",
+            "phoneticSplit": "ex · pe · ri · ment",
+            "usage": "do an experiment 做实验；experiment on 在…上做。"
           }
         },
         {
@@ -30757,7 +33832,9 @@ export const JUNIOR_EMBEDDED_BOOK: VocabularyBook = {
               "friendliness",
               "unfriend"
             ],
-            "caution": "-ly 结尾仍是形容词；比较级用 more unfriendly，别写 unfriendlly"
+            "caution": "-ly 结尾仍是形容词；比较级用 more unfriendly，别写 unfriendlly",
+            "phoneticSplit": "un · friend · ly",
+            "usage": "比 not friendly 语气重；反义 friendly。"
           }
         }
       ]

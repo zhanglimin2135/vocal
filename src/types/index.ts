@@ -40,6 +40,10 @@ export interface WordMnemonic {
   family?: string[];
   caution?: string;
   phonetic?: string;
+  /** 音标拆分（如 "ju · nior"） */
+  phoneticSplit?: string;
+  /** 用法（搭配/例句） */
+  usage?: string;
   accent?: string;
   tint?: string;
 }

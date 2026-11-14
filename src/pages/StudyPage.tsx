@@ -249,7 +249,7 @@ export default function StudyPage() {
       window.clearTimeout(mnemonicCloseTimer.current);
       mnemonicCloseTimer.current = null;
     }
-    const CARD_W = 360;
+    const CARD_W = 420;
     const GAP = 10;
     const MARGIN = 12;
     const r = btn.getBoundingClientRect();
@@ -2910,8 +2910,18 @@ export default function StudyPage() {
         const tint = mn?.tint || '#eef2ff';
         const splitParts = mn?.splitParts || [];
         const family = mn?.family || [];
+        // 初中词汇（23版）用「钩子 / 同族 / 音标拆分 / 用法」，其他词表沿用「速记 / 词根扩展」
+        const isJuniorBook = currentBook?.id === 'built-in-junior';
+        const quickLabel = isJuniorBook ? '钩子' : '速记';
+        const familyLabel = isJuniorBook ? '同族' : '词根扩展';
+        // 词根词缀：按 + 拆成「词根 + 括号说明」的片段，便于加粗词根
+        const splitSegments = splitParts
+          .join(' ')
+          .split(/\s*\+\s*/)
+          .filter(Boolean);
         const hasMnemonic = !!(
           mn?.rhyme || mn?.quick || mn?.etymology || mn?.caution ||
+          mn?.usage || mn?.phoneticSplit ||
           splitParts.length > 0 || family.length > 0
         );
         return (
@@ -2921,17 +2931,19 @@ export default function StudyPage() {
               position: 'fixed',
               left,
               top,
-              width: 'min(360px, calc(100vw - 24px))',
+              width: 'min(420px, calc(100vw - 24px))',
               maxHeight: Math.max(220, window.innerHeight - top - 12),
             }}
-            className="z-50 overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-slate-200/80"
+            className="z-50 overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl ring-1 ring-slate-200/80"
             onMouseEnter={cancelCloseMnemonic}
             onMouseLeave={scheduleCloseMnemonic}
           >
             {/* 头部：单词 + 音标 + 关闭 */}
-            <div className="mb-2 flex items-start justify-between gap-2">
-              <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                <h3 className="text-base font-semibold tracking-tight text-slate-900">{word.word}</h3>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+                <h3 className="text-[19px] font-bold leading-tight tracking-tight text-slate-900">
+                  {word.word}
+                </h3>
                 {(mn?.phonetic || word.phonetic) && (
                   <span className="font-mono text-[11px] text-slate-400">
                     {mn?.phonetic || word.phonetic}
@@ -2948,68 +2960,111 @@ export default function StudyPage() {
             </div>
 
             {/* 释义 */}
-            <p className="text-[13px] leading-relaxed text-slate-800">{word.meaning}</p>
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-slate-700">{word.meaning}</p>
 
-            {/* 词根词缀 */}
-            {splitParts.length > 0 && (
-              <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600">
+            {/* 词根词缀：标签 + 词根加粗 + 括号说明灰色 */}
+            {splitSegments.length > 0 && (
+              <div className="mt-3 flex items-start gap-2">
                 <span
-                  className="mr-1.5 inline-block rounded px-1.5 py-0.5 text-[10px] font-medium"
+                  className="mt-0.5 shrink-0 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold"
                   style={{ backgroundColor: tint, color: accent }}
                 >
                   词根词缀
                 </span>
-                {splitParts.join(' ')}
-              </p>
+                <div className="flex flex-wrap items-baseline gap-x-1 gap-y-0.5 text-[13px] leading-relaxed">
+                  {splitSegments.map((seg, i) => {
+                    const m = seg.match(/^([^（(]+)([（(].*)?$/);
+                    const root = (m?.[1] ?? seg).trim();
+                    const rest = (m?.[2] ?? '').trim();
+                    return (
+                      <span key={`${seg}-${i}`} className="inline-flex items-baseline">
+                        {i > 0 && <span className="mx-1 font-normal text-slate-400">+</span>}
+                        <span className="font-semibold text-slate-900">{root}</span>
+                        {rest && <span className="ml-1 text-slate-400">{rest}</span>}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
             )}
 
             {/* 词源 */}
             {mn?.etymology && (
-              <p className="mt-2 text-[12px] leading-relaxed text-slate-500">
-                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+              <div className="mt-3 flex items-start gap-2">
+                <span className="mt-0.5 shrink-0 rounded-md bg-slate-100 px-1.5 py-0.5 text-[10.5px] font-semibold text-slate-500">
                   词源
                 </span>
-                {mn.etymology}
-              </p>
+                <p className="text-[12.5px] leading-relaxed text-slate-600">{mn.etymology}</p>
+              </div>
             )}
 
             {/* 口诀 */}
             {mn?.rhyme && (
-              <div
-                className="mt-2.5 rounded-lg p-2.5 text-[13px] leading-relaxed text-slate-800"
-                style={{ backgroundColor: tint }}
-              >
+              <div className="mt-3 flex items-start gap-2">
                 <span
-                  className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium"
-                  style={{ color: accent }}
+                  className="mt-0.5 shrink-0 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold"
+                  style={{ backgroundColor: tint, color: accent }}
                 >
                   口诀
                 </span>
-                {mn.rhyme}
+                <p className="text-[13px] leading-relaxed text-slate-800">{mn.rhyme}</p>
               </div>
             )}
 
-            {/* 速记 */}
+            {/* 钩子（速记）：浅紫底色块，内容带序号圆标 */}
             {mn?.quick && (
-              <div className="mt-2 rounded-lg border border-dashed border-amber-300 bg-amber-50/80 p-2.5 text-[12.5px] leading-relaxed text-slate-700">
-                <span className="mr-1.5 inline-block rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-800">
-                  速记
+              <div className="mt-3 rounded-xl px-3 py-2.5" style={{ backgroundColor: tint }}>
+                <span
+                  className="inline-block rounded-md bg-white px-2 py-0.5 text-[10.5px] font-semibold shadow-sm"
+                  style={{ color: accent }}
+                >
+                  {quickLabel}
                 </span>
-                {mn.quick}
+                <div className="mt-2 flex items-start gap-2">
+                  <span
+                    className="mt-[1px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold text-white"
+                    style={{ backgroundColor: accent }}
+                  >
+                    1
+                  </span>
+                  <p className="text-[13px] leading-relaxed text-slate-800">{mn.quick}</p>
+                </div>
               </div>
             )}
 
-            {/* 词根扩展 */}
-            {family.length > 0 && (
-              <div className="mt-2.5">
-                <span className="mr-1.5 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
-                  词根扩展
+            {/* 音标拆分 */}
+            {mn?.phoneticSplit && (
+              <div className="mt-3 flex items-start gap-2">
+                <span className="mt-0.5 shrink-0 rounded-md bg-slate-100 px-1.5 py-0.5 text-[10.5px] font-semibold text-slate-500">
+                  音标拆分
                 </span>
-                <div className="mt-1 flex flex-wrap gap-1.5">
+                <p className="font-mono text-[13px] tracking-[0.08em] text-slate-600">
+                  {mn.phoneticSplit}
+                </p>
+              </div>
+            )}
+
+            {/* 用法：琥珀色虚线框 */}
+            {mn?.usage && (
+              <div className="mt-3 flex items-start gap-2 rounded-xl border border-dashed border-amber-300 bg-amber-50/70 px-3 py-2.5">
+                <span className="mt-0.5 shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10.5px] font-semibold text-amber-700">
+                  用法
+                </span>
+                <p className="text-[12.5px] leading-relaxed text-slate-700">{mn.usage}</p>
+              </div>
+            )}
+
+            {/* 同族 / 词根扩展：标签 + 单词胶囊 */}
+            {family.length > 0 && (
+              <div className="mt-3 flex items-start gap-2">
+                <span className="mt-0.5 shrink-0 rounded-md bg-slate-100 px-1.5 py-0.5 text-[10.5px] font-semibold text-slate-500">
+                  {familyLabel}
+                </span>
+                <div className="flex flex-wrap gap-1.5">
                   {family.map((f) => (
                     <span
                       key={f}
-                      className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600"
+                      className="rounded-md bg-slate-100 px-2 py-0.5 text-[11.5px] text-slate-600"
                     >
                       {f}
                     </span>
@@ -3018,13 +3073,13 @@ export default function StudyPage() {
               </div>
             )}
 
-            {/* 易错 */}
+            {/* 易错：浅红底 */}
             {mn?.caution && (
-              <div className="mt-2.5 rounded-lg bg-rose-50 p-2.5 text-[11.5px] leading-relaxed text-rose-700">
-                <span className="mr-1.5 inline-block rounded bg-white px-1.5 py-0.5 text-[10px] font-medium text-rose-600">
+              <div className="mt-3 flex items-start gap-2 rounded-xl bg-rose-50 px-3 py-2.5">
+                <span className="mt-0.5 shrink-0 rounded-md bg-white px-1.5 py-0.5 text-[10.5px] font-semibold text-rose-600">
                   易错
                 </span>
-                {mn.caution}
+                <p className="text-[12px] leading-relaxed text-rose-700">{mn.caution}</p>
               </div>
             )}
 
