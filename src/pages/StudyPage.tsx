@@ -2910,10 +2910,10 @@ export default function StudyPage() {
         const tint = mn?.tint || '#eef2ff';
         const splitParts = mn?.splitParts || [];
         const family = mn?.family || [];
-        // 初中词汇（23版）用「钩子 / 同族 / 音标拆分 / 用法」，其他词表沿用「速记 / 词根扩展」
-        const isJuniorBook = currentBook?.id === 'built-in-junior';
-        const quickLabel = isJuniorBook ? '钩子' : '速记';
-        const familyLabel = isJuniorBook ? '同族' : '词根扩展';
+        // 四份固定词表均为「钩子版」，用「钩子 / 同族」；用户自传词表沿用「速记 / 词根扩展」
+        const isBuiltInBook = !!currentBook?.id?.startsWith('built-in-');
+        const quickLabel = isBuiltInBook ? '钩子' : '速记';
+        const familyLabel = isBuiltInBook ? '同族' : '词根扩展';
         // 词根词缀：按 + 拆成「词根 + 括号说明」的片段，便于加粗词根
         const splitSegments = splitParts
           .join(' ')

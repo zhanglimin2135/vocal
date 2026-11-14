@@ -58,13 +58,15 @@ const MEANING_KEYWORDS = [
 
 // 助记相关列关键词（用于把导入表里的助记字段写入 WordItem.extra）
 const MNEMONIC_COLUMN_KEYWORDS: { field: keyof WordMnemonic; keywords: string[] }[] = [
+  { field: 'phoneticSplit', keywords: ['音标拆分', '音节拆分', 'syllable'] },
   { field: 'phonetic', keywords: ['音标', 'phonetic', 'pronunciation', '发音', '读音'] },
   { field: 'rhyme', keywords: ['口诀', '助记口诀', '记忆口诀'] },
-  { field: 'quick', keywords: ['速记', '速记法', '记忆法', '助记'] },
+  { field: 'quick', keywords: ['钩子', '速记', '速记法', '记忆法', '助记'] },
   { field: 'etymology', keywords: ['词源', '词根', '词源说明', 'etymology'] },
+  { field: 'usage', keywords: ['用法', '搭配', '例句', 'usage'] },
   { field: 'caution', keywords: ['易错', '注意', '易混', '辨析', '常见错误'] },
   { field: 'splitParts', keywords: ['词根词缀', '拆分', '词根拆分', '词素拆分', '拆解', 'split'] },
-  { field: 'family', keywords: ['词根扩展', '同族', '同根', '派生词', '同源', 'family', 'derivative'] },
+  { field: 'family', keywords: ['词根扩展', '同组', '同族', '同根', '派生词', '同源', 'family', 'derivative'] },
 ];
 
 /** 检测助记相关列在表头中的位置，返回字段→列索引的映射 */
