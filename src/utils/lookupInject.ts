@@ -86,8 +86,9 @@ const LOOKUP_SCRIPT = String.raw`
     '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr) 2.2rem;align-items:center;',
     'gap:18px;padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
     '.row:last-child{border-bottom:0;}',
-    '.del{width:26px;height:26px;border:0;border-radius:8px;background:transparent;color:#cbd5e1;font-size:16px;',
-    'line-height:1;cursor:pointer;transition:background .15s,color .15s;}',
+    '.del{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;',
+    'border-radius:8px;background:transparent;color:#cbd5e1;cursor:pointer;transition:background .15s,color .15s;}',
+    '.del svg{width:15px;height:15px;display:block;}',
     '.del:hover{background:#fff1f2;color:#e11d48;}',
     '.idx{color:#94a3b8;font-size:13px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;}',
     '.wd{font-weight:700;color:#0f172a;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
@@ -446,9 +447,13 @@ const LOOKUP_SCRIPT = String.raw`
         row.appendChild(el('span', 'mn', w.meaning || '—'));
 
         // 行尾删除：点击后从生词本移除当前单词
-        var del = el('button', 'del', '×');
+        var del = el('button', 'del');
         del.type = 'button';
         del.title = '删除这个单词';
+        del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+          'stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path>' +
+          '<path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path>' +
+          '<path d="M10 11v6"></path><path d="M14 11v6"></path></svg>';
         del.onclick = (function (word) {
           return function () {
             var arr = loadBook();
