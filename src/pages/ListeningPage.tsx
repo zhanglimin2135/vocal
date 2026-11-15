@@ -341,8 +341,8 @@ export default function ListeningPage() {
         alert('网页文件已丢失，请重新导入这份 .html');
         return;
       }
-      // 打开前注入「划词查义」脚本：完整版文本里选中单词/句子自动显示释义（有道优先）
-      const patched = injectLookup(html);
+      // 打开前注入「划词查义 + 生词本」脚本：选中单词显示释义，可加入生词本并限时检查
+      const patched = injectLookup(html, entry.title);
       const url = URL.createObjectURL(new Blob([patched], { type: 'text/html;charset=utf-8' }));
       window.open(url, '_blank', 'noopener,noreferrer');
       // 给新标签页留出加载时间后释放

@@ -62,68 +62,142 @@ const LOOKUP_SCRIPT = String.raw`
     'padding:6px 12px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s;}',
     '.addbtn:hover{background:#ede9fe;}',
     '.addbtn.done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;}',
-    /* ---- 生词本面板 ---- */
-    '.book{position:fixed;left:12px;right:12px;bottom:12px;max-height:40vh;background:#fff;border-radius:14px;',
-    'box-shadow:0 10px 34px rgba(15,23,42,.16),0 2px 8px rgba(15,23,42,.06);border:1px solid #eef1f6;',
+    /* ---- 生词本面板（参考导出错词卡片） ---- */
+    '.book{position:fixed;left:14px;right:14px;bottom:14px;max-height:56vh;background:#fff;border-radius:22px;',
+    'box-shadow:0 18px 50px rgba(15,23,42,.22),0 2px 8px rgba(15,23,42,.06);border:1px solid #eef1f6;',
     'display:none;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
     '"PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;}',
     '.book.show{display:flex;}',
-    '.bookHead{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #eef1f6;}',
-    '.bookTitle{font-size:13px;font-weight:600;color:#111827;}',
-    '.bookCount{font-size:11.5px;color:#9aa4b2;}',
-    '.bookActions{margin-left:auto;display:flex;align-items:center;gap:6px;}',
-    '.chk{border:0;background:#4f46e5;color:#fff;font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;}',
-    '.chk:hover{background:#4338ca;}',
-    '.tgl{border:0;background:#f3f4f6;color:#4b5563;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;}',
-    '.tgl:hover{background:#e9ecf1;}',
-    '.timePick{display:flex;align-items:center;gap:6px;}',
-    '.timePick span{font-size:12px;color:#9aa4b2;}',
-    '.tbtn{border:1px solid #e5e7eb;background:#fff;color:#374151;font-size:12px;padding:4px 9px;border-radius:7px;cursor:pointer;}',
-    '.tbtn:hover{border-color:#c7d2fe;color:#4338ca;background:#eef2ff;}',
-    '.bookList{overflow:auto;padding:2px 14px 10px;}',
-    '.row{display:grid;grid-template-columns:2rem minmax(0,9rem) 3.6rem minmax(0,1fr);align-items:center;',
-    'gap:8px;padding:6px 0;border-bottom:1px dashed #f1f3f7;font-size:13px;}',
+    '.bookHead{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #f1f5f9;}',
+    '.bookIcon{flex:0 0 auto;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#a855f7);',
+    'color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(139,92,246,.35);}',
+    '.bookIcon svg{width:22px;height:22px;}',
+    '.bookTitles{flex:1;min-width:0;}',
+    '.bookTitle{font-size:15px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+    '.bookSub{margin-top:3px;font-size:12px;color:#64748b;}',
+    '.bookSub b{color:#7c3aed;font-weight:800;}',
+    '.bookActions{display:flex;align-items:center;gap:8px;}',
+    '.chk{display:inline-flex;align-items:center;gap:5px;border:0;background:linear-gradient(135deg,#8b5cf6,#7c3aed);',
+    'color:#fff;font-size:13px;font-weight:700;padding:8px 16px;border-radius:12px;cursor:pointer;',
+    'box-shadow:0 8px 18px rgba(124,58,237,.28);}',
+    '.chk:hover{filter:brightness(1.07);}',
+    '.chk svg{width:14px;height:14px;}',
+    '.bookList{overflow:auto;padding:4px 20px 8px;}',
+    '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr);align-items:center;',
+    'gap:18px;padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
     '.row:last-child{border-bottom:0;}',
-    '.idx{color:#9aa4b2;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;}',
-    '.wd{font-weight:600;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
-    '.pronMini{display:flex;gap:4px;align-items:center;}',
-    '.pmini{border:1px solid #e5e7eb;background:#fff;color:#6b7280;font-size:11px;line-height:1;',
-    'padding:3px 6px;border-radius:6px;cursor:pointer;}',
-    '.pmini:hover{border-color:#c7d2fe;color:#4338ca;}',
-    '.mn{color:#4b5563;font-size:12.5px;line-height:1.5;word-break:break-word;}',
-    '.empty{padding:14px 0;color:#9aa4b2;font-size:12.5px;}',
+    '.idx{color:#94a3b8;font-size:13px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;}',
+    '.wd{font-weight:700;color:#0f172a;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+    '.pronMini{display:flex;gap:5px;align-items:center;}',
+    '.pmini{border:1px solid #e5e7eb;background:#fff;color:#64748b;font-size:11px;line-height:1;',
+    'padding:4px 7px;border-radius:7px;cursor:pointer;}',
+    '.pmini:hover{border-color:#c4b5fd;color:#7c3aed;background:#f5f3ff;}',
+    '.mn{color:#475569;font-size:13.5px;line-height:1.55;word-break:break-word;}',
+    '.bookFoot{display:flex;gap:10px;padding:12px 20px 14px;border-top:1px solid #f1f5f9;background:#fbfcfe;}',
+    '.copy{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;',
+    'background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:13.5px;font-weight:700;padding:11px 0;',
+    'border-radius:14px;cursor:pointer;box-shadow:0 10px 22px rgba(124,58,237,.3);}',
+    '.copy:hover{filter:brightness(1.06);}',
+    '.copy svg{width:16px;height:16px;}',
+    '.fold{border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:13px;font-weight:600;padding:11px 22px;',
+    'border-radius:14px;cursor:pointer;}',
+    '.fold:hover{border-color:#c4b5fd;color:#7c3aed;}',
     /* ---- 提示条 ---- */
     '.toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:rgba(17,24,39,.9);color:#fff;',
     'font-size:12.5px;padding:8px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;',
     'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}',
     '.toast.on{opacity:1;}',
-    /* ---- 辨音弹窗 ---- */
-    '.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;',
-    'z-index:2147483647;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}',
-    '.modal.show{display:flex;}',
-    '.mcard{width:min(420px,calc(100vw - 32px));background:#fff;border-radius:20px;padding:20px 22px 18px;',
-    'box-shadow:0 20px 60px rgba(15,23,42,.35);color:#1f2937;}',
-    '.mtop{display:flex;align-items:center;justify-content:space-between;gap:10px;}',
-    '.mstep{font-size:12px;color:#9aa4b2;font-variant-numeric:tabular-nums;}',
-    '.mx{border:0;background:transparent;color:#b6bdc8;font-size:22px;line-height:1;cursor:pointer;}',
-    '.mx:hover{color:#6b7280;}',
-    '.mbody{padding:14px 0 4px;text-align:center;}',
-    '.bigspk{width:74px;height:74px;border-radius:50%;border:0;background:#eef2ff;color:#4f46e5;cursor:pointer;',
-    'display:inline-flex;align-items:center;justify-content:center;transition:background .15s;}',
-    '.bigspk:hover{background:#e0e7ff;}',
-    '.bigspk svg{width:32px;height:32px;}',
-    '.count{font-size:30px;font-weight:700;color:#4338ca;margin-top:12px;font-variant-numeric:tabular-nums;}',
-    '.count small{font-size:12px;font-weight:500;color:#9aa4b2;margin-left:3px;}',
-    '.mword{font-size:22px;font-weight:700;letter-spacing:-.2px;margin-top:10px;color:#111827;min-height:30px;}',
-    '.mword.hide{color:#cbd5e1;letter-spacing:.32em;}',
-    '.mmean{font-size:14px;line-height:1.7;color:#4b5563;margin-top:8px;min-height:24px;}',
-    '.mmean.hide{color:transparent;background:#eef1f6;border-radius:6px;height:20px;margin:8px auto 0;width:62%;}',
-    '.mfoot{margin-top:6px;text-align:center;font-size:11.5px;color:#b0b7c3;}',
-    '.mdone{text-align:center;padding:8px 0 4px;}',
-    '.mdone h4{font-size:17px;font-weight:700;margin:0 0 6px;color:#111827;}',
-    '.mdone p{font-size:13px;color:#6b7280;margin:0 0 14px;}',
-    '.mbtn{border:0;background:#4f46e5;color:#fff;font-size:13px;padding:9px 22px;border-radius:10px;cursor:pointer;}',
-    '.mbtn:hover{background:#4338ca;}'
+    /* ---- 限时选择弹窗 ---- */
+    '.pick{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:none;',
+    'align-items:center;justify-content:center;padding:0 20px;z-index:2147483647;',
+    'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}',
+    '.pick.show{display:flex;}',
+    '.pickCard{position:relative;width:min(460px,calc(100vw - 40px));background:#fff;border-radius:24px;padding:24px;',
+    'box-shadow:0 24px 64px rgba(15,23,42,.32);}',
+    '.pickTop{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-right:28px;}',
+    '.pickIcon{flex:0 0 auto;width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#8b5cf6,#a855f7);',
+    'color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px rgba(139,92,246,.35);}',
+    '.pickIcon svg{width:24px;height:24px;}',
+    '.pickTitle{font-size:18px;font-weight:800;color:#0f172a;}',
+    '.pickDesc{margin-top:4px;font-size:12px;color:#64748b;}',
+    '.px{position:absolute;right:14px;top:14px;width:32px;height:32px;border:0;border-radius:50%;background:transparent;',
+    'color:#94a3b8;font-size:20px;line-height:1;cursor:pointer;}',
+    '.px:hover{background:#f1f5f9;color:#475569;}',
+    '.pickGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}',
+    '.pickBtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 0 14px;border:2px solid #e2e8f0;',
+    'border-radius:18px;background:#fff;cursor:pointer;transition:.15s;}',
+    '.pickBtn:hover{border-color:#a78bfa;background:#f5f3ff;}',
+    '.pickBtn b{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:30px;font-weight:900;',
+    'color:#7c3aed;line-height:1;}',
+    '.pickBtn span{font-size:12px;color:#64748b;}',
+    /* ---- 辨音计时弹窗（听音辨义计时模式） ---- */
+    '.recite{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(6px);display:none;',
+    'align-items:center;justify-content:center;padding:0 10px;z-index:2147483647;',
+    'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}',
+    '.recite.show{display:flex;}',
+    '.rwrap{display:flex;align-items:center;gap:14px;width:100%;max-width:660px;}',
+    '.nav{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:0;',
+    'border-radius:50%;background:#fff;color:#475569;font-size:20px;line-height:1;cursor:pointer;',
+    'box-shadow:0 8px 20px rgba(15,23,42,.2);transition:.15s;}',
+    '.nav:hover:not(:disabled){background:#f5f3ff;color:#7c3aed;}',
+    '.nav:disabled{background:rgba(226,232,240,.85);color:#cbd5e1;cursor:not-allowed;}',
+    '.rbox{flex:1;min-width:0;background:#fff;border-radius:24px;overflow:hidden;user-select:none;',
+    'box-shadow:0 24px 64px rgba(15,23,42,.35);}',
+    '.rhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 22px;',
+    'background:linear-gradient(90deg,#f5f3ff,#faf5ff);border-bottom:1px solid #f1f5f9;}',
+    '.rstat{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:#334155;flex-wrap:wrap;}',
+    '.rstat svg{width:14px;height:14px;color:#7c3aed;}',
+    '.rstat .dot2{width:4px;height:4px;border-radius:50%;background:#cbd5e1;margin:0 2px;}',
+    '.rstat .cur{color:#7c3aed;}',
+    '.rstat .star{color:#d97706;}',
+    '.rstat .acc{color:#059669;font-weight:800;}',
+    '.rstat .acc.bad{color:#e11d48;}',
+    '.rx{flex:0 0 auto;border:0;background:transparent;color:#94a3b8;font-size:22px;line-height:1;cursor:pointer;',
+    'padding:0 2px;}',
+    '.rx:hover{color:#475569;}',
+    '.rbar{height:6px;background:#f1f5f9;}',
+    '.rbarIn{height:100%;border-radius:999px;background:linear-gradient(90deg,#8b5cf6,#a855f7);',
+    'transition:width .6s ease-out;}',
+    '.rbody{padding:24px 24px 20px;text-align:center;}',
+    '.ring{position:relative;width:80px;height:80px;margin:0 auto 16px;}',
+    '.ring svg{width:80px;height:80px;transform:rotate(-90deg);display:block;}',
+    '.ringNum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px;',
+    'font-weight:900;color:#7c3aed;font-variant-numeric:tabular-nums;}',
+    '.starTag{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;font-size:12px;',
+    'font-weight:600;color:#d97706;}',
+    '.starTag svg{width:12px;height:12px;}',
+    '.bigspk{width:96px;height:96px;border:0;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a855f7);',
+    'color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;',
+    'box-shadow:0 14px 30px rgba(139,92,246,.42);transition:transform .15s;}',
+    '.bigspk:hover{transform:scale(1.05);}',
+    '.bigspk svg{width:44px;height:44px;}',
+    '.rhint{margin-top:16px;font-size:13px;font-weight:500;color:#64748b;}',
+    '.rshow{margin-top:16px;min-height:2.5rem;}',
+    '.rshowBtn{border:0;background:transparent;font-family:inherit;cursor:pointer;padding:0;width:100%;}',
+    '.rshowBtn p{margin:0;}',
+    '.rplaceholder{font-size:26px;font-weight:900;color:#94a3b8;opacity:.45;letter-spacing:-.2px;}',
+    '.rword{font-size:34px;font-weight:900;color:#0f172a;letter-spacing:-.5px;line-height:1.2;word-break:break-word;}',
+    '.rdiv{width:64px;height:1px;background:#ddd6fe;margin:14px auto;}',
+    '.rmean{font-size:18px;line-height:1.65;color:#0f172a;word-break:break-word;}',
+    '.rfoot{border-top:1px solid #f1f5f9;background:#fafbfe;padding:15px 22px 17px;}',
+    '.rbtns{display:flex;gap:10px;}',
+    '.rbtn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;padding:13px 0;',
+    'border-radius:16px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;transition:.15s;}',
+    '.rbtn svg{width:18px;height:18px;}',
+    '.rbtn.ok{background:linear-gradient(90deg,#10b981,#14b8a6);box-shadow:0 10px 22px rgba(16,185,129,.3);}',
+    '.rbtn.mark{background:linear-gradient(90deg,#fbbf24,#f97316);box-shadow:0 10px 22px rgba(249,115,22,.3);}',
+    '.rbtn.ghost{background:#fff;border:1px solid #e2e8f0;color:#475569;box-shadow:none;}',
+    '.rbtn:hover{filter:brightness(1.05);}',
+    '.rbtn:active{transform:translateY(1px);}',
+    '.rkeys{margin-top:10px;text-align:center;font-size:11px;color:#94a3b8;}',
+    '.rdone{text-align:center;padding:26px 22px 24px;}',
+    '.rdone h4{margin:0 0 6px;font-size:18px;font-weight:800;color:#0f172a;}',
+    '.rdone p{margin:0 0 16px;font-size:13px;color:#64748b;}',
+    '.rdone .rbtns{justify-content:center;}',
+    '.rdone .rbtn{flex:0 0 auto;padding:11px 26px;font-size:14px;}',
+    '@keyframes deplete{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}',
+    '@keyframes tone{0%{stroke:#8b5cf6}60%{stroke:#f59e0b}100%{stroke:#ef4444}}',
+    '@keyframes toneText{0%{color:#7c3aed}60%{color:#d97706}100%{color:#e11d48}}'
   ].join('');
   root.appendChild(style);
 
@@ -163,16 +237,41 @@ const LOOKUP_SCRIPT = String.raw`
   // ---------- 生词本（本机 localStorage，跨刷新保留） ----------
 
   var WB_KEY = 'vocal_listening_wordbook_v1';
-  var bookExpanded = true;
+  var bookCollapsed = false;
   var quizTimer = null;
+  var quizState = null;
+  var quizPaintShow = null;
+
+  /** 播放页标题（目录标题），由 injectLookup 注入时写入 */
+  function resolvePageTitle() {
+    var t = '';
+    try { t = String(window.__vocalPageTitle || ''); } catch (e) { t = ''; }
+    if (!t) t = String(document.title || '').replace(/·\s*逐句听练.*$/, '').trim();
+    return t || '精听生词本';
+  }
+  var PAGE_TITLE = resolvePageTitle();
+
+  /** 常用图标（线性风格，颜色跟随 currentColor） */
+  var ICON = {
+    timer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"></path></svg>',
+    speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>'
+  };
 
   var bookEl = document.createElement('div');
   bookEl.className = 'book';
   root.appendChild(bookEl);
 
-  var modalEl = document.createElement('div');
-  modalEl.className = 'modal';
-  root.appendChild(modalEl);
+  var pickEl = document.createElement('div');
+  pickEl.className = 'pick';
+  root.appendChild(pickEl);
+
+  var reciteEl = document.createElement('div');
+  reciteEl.className = 'recite';
+  root.appendChild(reciteEl);
 
   var toastEl = document.createElement('div');
   toastEl.className = 'toast';
@@ -224,7 +323,44 @@ const LOOKUP_SCRIPT = String.raw`
     renderBook();
   }
 
-  /** 生词本面板：序号 / 单词 / 英·美发音 / 释义 + 检查（限时辨音） */
+  /** 一键复制文本：第 1 行播放页标题，之后每行「序号\t单词\t释义」 */
+  function buildCopyText() {
+    var list = loadBook();
+    var lines = [PAGE_TITLE];
+    for (var i = 0; i < list.length; i++) {
+      lines.push((i + 1) + '\t' + list[i].word + '\t' + (list[i].meaning || ''));
+    }
+    return lines.join('\n');
+  }
+
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;';
+      (document.body || document.documentElement).appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      if (ta.parentNode) ta.parentNode.removeChild(ta);
+      return !!ok;
+    } catch (e) { return false; }
+  }
+
+  function copyBook() {
+    var text = buildCopyText();
+    function done(ok) { toast(ok ? '已复制到剪贴板' : '复制失败，请手动选择'); }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () {
+          done(fallbackCopy(text));
+        });
+        return;
+      }
+    } catch (e) { /* 继续走兜底 */ }
+    done(fallbackCopy(text));
+  }
+
+  /** 生词本面板：标题 + 数量 + 检查 + 列表 + 一键复制（参考导出错词卡片） */
   function renderBook() {
     var list = loadBook();
     bookEl.innerHTML = '';
@@ -235,77 +371,74 @@ const LOOKUP_SCRIPT = String.raw`
     bookEl.className = 'book show';
 
     var head = el('div', 'bookHead');
-    head.appendChild(el('span', 'bookTitle', '生词本'));
-    head.appendChild(el('span', 'bookCount', '共 ' + list.length + ' 词'));
+    var icon = el('div', 'bookIcon');
+    icon.innerHTML = ICON.book;
+    head.appendChild(icon);
+
+    var titles = el('div', 'bookTitles');
+    titles.appendChild(el('div', 'bookTitle', PAGE_TITLE));
+    var sub = el('div', 'bookSub');
+    sub.appendChild(document.createTextNode('生词本 · 共 '));
+    sub.appendChild(el('b', null, String(list.length)));
+    sub.appendChild(document.createTextNode(' 词'));
+    titles.appendChild(sub);
+    head.appendChild(titles);
 
     var actions = el('div', 'bookActions');
-
-    // 「检查」→ 就地展开 5/7/10/15 秒限时选项
-    var timePick = el('div', 'timePick');
-    timePick.style.display = 'none';
-    var checkBtn = el('button', 'chk', '检查');
-    checkBtn.onclick = function () {
-      timePick.style.display = 'flex';
-      checkBtn.style.display = 'none';
-    };
-    timePick.appendChild(el('span', null, '每词限时'));
-    var secs = [5, 7, 10, 15];
-    for (var s = 0; s < secs.length; s++) {
-      (function (sec) {
-        var b = el('button', 'tbtn', sec + '秒');
-        b.onclick = function () {
-          timePick.style.display = 'none';
-          checkBtn.style.display = '';
-          startQuiz(sec);
-        };
-        timePick.appendChild(b);
-      })(secs[s]);
-    }
-    var cancelPick = el('button', 'tbtn', '取消');
-    cancelPick.onclick = function () {
-      timePick.style.display = 'none';
-      checkBtn.style.display = '';
-    };
-    timePick.appendChild(cancelPick);
-
-    var toggle = el('button', 'tgl', bookExpanded ? '收起' : '展开');
-    toggle.onclick = function () {
-      bookExpanded = !bookExpanded;
-      renderBook();
-    };
-
+    var checkBtn = document.createElement('button');
+    checkBtn.className = 'chk';
+    checkBtn.type = 'button';
+    checkBtn.innerHTML = ICON.timer + '<span>检查</span>';
+    checkBtn.onclick = openPicker;
     actions.appendChild(checkBtn);
-    actions.appendChild(timePick);
-    actions.appendChild(toggle);
     head.appendChild(actions);
     bookEl.appendChild(head);
 
-    if (!bookExpanded) return;
+    if (!bookCollapsed) {
+      var listEl = el('div', 'bookList');
+      for (var i = 0; i < list.length; i++) {
+        var w = list[i];
+        var row = el('div', 'row');
+        row.appendChild(el('span', 'idx', String(i + 1)));
+        row.appendChild(el('span', 'wd', String(w.word)));
 
-    var listEl = el('div', 'bookList');
-    for (var i = 0; i < list.length; i++) {
-      var w = list[i];
-      var row = el('div', 'row');
-      row.appendChild(el('span', 'idx', String(i + 1)));
-      row.appendChild(el('span', 'wd', String(w.word)));
+        var pron = el('span', 'pronMini');
+        (function (word) {
+          var uk = el('button', 'pmini', '英');
+          uk.type = 'button';
+          uk.title = '英式发音';
+          uk.onclick = function () { playPronunciation(word, 'uk'); };
+          var us = el('button', 'pmini', '美');
+          us.type = 'button';
+          us.title = '美式发音';
+          us.onclick = function () { playPronunciation(word, 'us'); };
+          pron.appendChild(uk);
+          pron.appendChild(us);
+        })(w.word);
+        row.appendChild(pron);
 
-      var pron = el('span', 'pronMini');
-      (function (word) {
-        var uk = el('button', 'pmini', '英');
-        uk.title = '英式发音';
-        uk.onclick = function () { playPronunciation(word, 'uk'); };
-        var us = el('button', 'pmini', '美');
-        us.title = '美式发音';
-        us.onclick = function () { playPronunciation(word, 'us'); };
-        pron.appendChild(uk);
-        pron.appendChild(us);
-      })(w.word);
-      row.appendChild(pron);
-
-      row.appendChild(el('span', 'mn', w.meaning || '—'));
-      listEl.appendChild(row);
+        row.appendChild(el('span', 'mn', w.meaning || '—'));
+        listEl.appendChild(row);
+      }
+      bookEl.appendChild(listEl);
     }
-    bookEl.appendChild(listEl);
+
+    var foot = el('div', 'bookFoot');
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'copy';
+    copyBtn.type = 'button';
+    copyBtn.innerHTML = ICON.copy + '<span>一键复制</span>';
+    copyBtn.onclick = copyBook;
+    foot.appendChild(copyBtn);
+
+    var fold = el('button', 'fold', bookCollapsed ? '展开' : '收起');
+    fold.type = 'button';
+    fold.onclick = function () {
+      bookCollapsed = !bookCollapsed;
+      renderBook();
+    };
+    foot.appendChild(fold);
+    bookEl.appendChild(foot);
   }
 
   // ---------- 辨音限时检查弹窗 ----------
@@ -320,104 +453,314 @@ const LOOKUP_SCRIPT = String.raw`
     return arr;
   }
 
-  function closeQuiz() {
+  // ---------- 限时选择弹窗（图二：计时背诵） ----------
+
+  function openPicker() {
+    if (reciteEl.className.indexOf('show') >= 0) return;
+    if (!loadBook().length) { toast('生词本还是空的'); return; }
+    pickEl.className = 'pick show';
+    pickEl.innerHTML = '';
+
+    var pickCard = el('div', 'pickCard');
+    var x = el('button', 'px', '×');
+    x.type = 'button';
+    x.title = '关闭';
+    x.onclick = closePicker;
+    pickCard.appendChild(x);
+
+    var top = el('div', 'pickTop');
+    var icon = el('div', 'pickIcon');
+    icon.innerHTML = ICON.timer;
+    top.appendChild(icon);
+    var tt = el('div', null);
+    tt.appendChild(el('div', 'pickTitle', '计时背诵'));
+    tt.appendChild(el('div', 'pickDesc', '选择每个单词的倒计时秒数，超时未操作将自动标星'));
+    top.appendChild(tt);
+    pickCard.appendChild(top);
+
+    var grid = el('div', 'pickGrid');
+    var secs = [5, 7, 10, 15];
+    for (var i = 0; i < secs.length; i++) {
+      (function (sec) {
+        var b = el('button', 'pickBtn');
+        b.type = 'button';
+        b.appendChild(el('b', null, String(sec)));
+        b.appendChild(el('span', null, '秒 / 词'));
+        b.onclick = function () { closePicker(); startQuiz(sec); };
+        grid.appendChild(b);
+      })(secs[i]);
+    }
+    pickCard.appendChild(grid);
+    pickEl.appendChild(pickCard);
+    pickEl.onclick = function (e) { if (e.target === pickEl) closePicker(); };
+  }
+
+  function closePicker() {
+    pickEl.className = 'pick';
+    pickEl.innerHTML = '';
+    pickEl.onclick = null;
+  }
+
+  // ---------- 辨音计时检查（与「听音辨义 · 计时背诵」一致） ----------
+
+  function stopTimer() {
     if (quizTimer) { clearInterval(quizTimer); quizTimer = null; }
-    modalEl.className = 'modal';
-    modalEl.innerHTML = '';
+  }
+
+  function closeQuiz() {
+    stopTimer();
+    quizState = null;
+    quizPaintShow = null;
+    reciteEl.className = 'recite';
+    reciteEl.innerHTML = '';
   }
 
   function startQuiz(seconds) {
-    var words = shuffle(loadBook().slice());
-    if (!words.length) { toast('生词本还是空的'); return; }
+    stopTimer();
+    var list = shuffle(loadBook().slice());
+    if (!list.length) { toast('生词本还是空的'); return; }
+    quizState = {
+      list: list,
+      seconds: seconds,
+      index: 0,
+      remaining: seconds,
+      revealed: false,
+      starred: {}
+    };
+    reciteEl.className = 'recite show';
+    renderQuiz();
+  }
 
-    var idx = 0;
-    modalEl.className = 'modal show';
-    modalEl.innerHTML = '';
+  /** 当前已标星数量 */
+  function quizStarCount() {
+    if (!quizState) return 0;
+    var n = 0;
+    for (var k in quizState.starred) { if (quizState.starred[k]) n++; }
+    return n;
+  }
 
-    var mcard = el('div', 'mcard');
-    modalEl.appendChild(mcard);
+  /** 切换到指定下标（倒计时与释义展示状态重置） */
+  function quizGo(index) {
+    var game = quizState;
+    if (!game) return;
+    game.index = index < 0 ? 0 : index;
+    game.remaining = game.seconds;
+    game.revealed = false;
+    renderQuiz();
+  }
 
-    function step() {
-      if (idx >= words.length) { finish(); return; }
-      var w = words[idx];
-      mcard.innerHTML = '';
+  /** mark=true 标星并下一词；mark=false 记住（取消标星）并下一词 */
+  function quizStep(mark) {
+    var game = quizState;
+    if (!game) return;
+    var cur = game.list[game.index];
+    if (cur) {
+      if (mark) game.starred[cur.word] = true;
+      else delete game.starred[cur.word];
+    }
+    quizGo(game.index + 1);
+  }
 
-      var top = el('div', 'mtop');
-      top.appendChild(el('span', 'mstep', (idx + 1) + ' / ' + words.length));
-      var x = el('button', 'mx', '×');
-      x.title = '退出检查';
-      x.onclick = closeQuiz;
-      top.appendChild(x);
-      mcard.appendChild(top);
+  /** 每词独立倒计时：归零 = 自动标星并进入下一词 */
+  function startTimer() {
+    stopTimer();
+    quizTimer = setInterval(function () {
+      var game = quizState;
+      if (!game) { stopTimer(); return; }
+      game.remaining--;
+      var numEl = reciteEl.querySelector('.ringNum');
+      if (game.remaining > 0) {
+        if (numEl) numEl.textContent = String(game.remaining);
+        return;
+      }
+      stopTimer();
+      if (numEl) numEl.textContent = '0';
+      quizStep(true);
+    }, 1000);
+  }
 
-      var body = el('div', 'mbody');
-      var spk = document.createElement('button');
-      spk.className = 'bigspk';
-      spk.type = 'button';
-      spk.title = '重听发音';
-      spk.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
-        'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path>' +
-        '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>';
-      spk.onclick = function () { playPronunciation(w.word, 'us'); };
-      body.appendChild(spk);
+  function renderQuiz() {
+    var game = quizState;
+    if (!game) return;
+    stopTimer();
+    reciteEl.innerHTML = '';
+    if (game.index >= game.list.length) { renderQuizDone(); return; }
 
-      var count = el('div', 'count', String(seconds));
-      count.appendChild(el('small', null, '秒'));
-      body.appendChild(count);
+    var cur = game.list[game.index];
+    var total = game.list.length;
+    var starredCount = quizStarCount();
+    var acc = total > 0 ? Math.round(((total - starredCount) / total) * 100) : 100;
 
-      var wordEl = el('div', 'mword hide', '···');
-      body.appendChild(wordEl);
-      var meanEl = el('div', 'mmean hide', w.meaning || '—');
-      body.appendChild(meanEl);
-      mcard.appendChild(body);
-      mcard.appendChild(el('div', 'mfoot', '听发音，在限时内回忆词义'));
+    var wrap = el('div', 'rwrap');
 
-      playPronunciation(w.word, 'us');
+    var prev = el('button', 'nav', '‹');
+    prev.type = 'button';
+    prev.title = '上一词（←）';
+    prev.disabled = game.index <= 0;
+    prev.onclick = function () { quizGo(game.index - 1); };
+    wrap.appendChild(prev);
 
-      var left = seconds;
-      if (quizTimer) clearInterval(quizTimer);
-      quizTimer = setInterval(function () {
-        left--;
-        if (left > 0) {
-          count.firstChild.nodeValue = String(left);
-          return;
-        }
-        clearInterval(quizTimer);
-        quizTimer = null;
-        count.textContent = '时间到';
-        wordEl.className = 'mword';
-        wordEl.textContent = w.us ? w.word + '  ' + w.us : w.word;
-        meanEl.className = 'mmean';
-        setTimeout(function () {
-          idx++;
-          step();
-        }, 1400);
-      }, 1000);
+    var box = el('div', 'rbox');
+
+    // 顶部统计：第 N / 总数 个 · 标星 X 个 · 准确率 Y%
+    var head = el('div', 'rhead');
+    var stat = el('div', 'rstat');
+    var clock = el('span', null);
+    clock.innerHTML = ICON.timer;
+    stat.appendChild(clock);
+    stat.appendChild(document.createTextNode('第 '));
+    stat.appendChild(el('span', 'cur', String(game.index + 1)));
+    stat.appendChild(document.createTextNode(' / ' + total + ' 个'));
+    stat.appendChild(el('span', 'dot2'));
+    stat.appendChild(el('span', 'star', '标星 ' + starredCount + ' 个'));
+    stat.appendChild(el('span', 'dot2'));
+    stat.appendChild(el('span', 'acc' + (acc < 90 ? ' bad' : ''), '准确率 ' + acc + '%'));
+    head.appendChild(stat);
+    var xx = el('button', 'rx', '×');
+    xx.type = 'button';
+    xx.title = '退出检查';
+    xx.onclick = closeQuiz;
+    head.appendChild(xx);
+    box.appendChild(head);
+
+    // 进度条
+    var bar = el('div', 'rbar');
+    var barIn = el('div', 'rbarIn');
+    barIn.style.width = ((game.index / total) * 100) + '%';
+    bar.appendChild(barIn);
+    box.appendChild(bar);
+
+    var body = el('div', 'rbody');
+
+    // 圆形倒计时（环随秒数递减并变色）
+    var ring = el('div', 'ring');
+    ring.innerHTML = '<svg viewBox="0 0 36 36">' +
+      '<circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"></circle>' +
+      '<circle cx="18" cy="18" r="15.9155" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="100" ' +
+      'style="animation:deplete ' + game.seconds + 's linear forwards,tone ' + game.seconds + 's linear forwards"></circle>' +
+      '</svg>';
+    var num = el('div', 'ringNum', String(game.remaining));
+    num.style.animation = 'toneText ' + game.seconds + 's linear forwards';
+    ring.appendChild(num);
+    body.appendChild(ring);
+
+    if (game.starred[cur.word]) {
+      var tag = el('div', 'starTag');
+      tag.innerHTML = ICON.star + '<span>已标星</span>';
+      body.appendChild(tag);
     }
 
-    function finish() {
-      mcard.innerHTML = '';
-      var top = el('div', 'mtop');
-      top.appendChild(el('span', 'mstep', '完成'));
-      var x = el('button', 'mx', '×');
-      x.onclick = closeQuiz;
-      top.appendChild(x);
-      mcard.appendChild(top);
+    // 听音辨义：只给发音，单词与释义默认隐藏
+    var spk = document.createElement('button');
+    spk.className = 'bigspk';
+    spk.type = 'button';
+    spk.title = '点击播放发音（Shift / B）';
+    spk.innerHTML = ICON.speaker;
+    spk.onclick = function () { playPronunciation(cur.word, 'us'); };
+    body.appendChild(spk);
 
-      var done = el('div', 'mdone');
-      done.appendChild(el('h4', null, '本轮检查完成'));
-      done.appendChild(el('p', null, '共检查 ' + words.length + ' 个单词'));
-      var again = el('button', 'mbtn', '再来一轮');
-      again.onclick = function () {
-        words = shuffle(loadBook().slice());
-        idx = 0;
-        step();
+    body.appendChild(el('p', 'rhint', '点击喇叭播放发音，尝试回想单词和释义'));
+
+    var show = el('div', 'rshow');
+    function paintShow() {
+      show.innerHTML = '';
+      var b = document.createElement('button');
+      b.className = 'rshowBtn';
+      b.type = 'button';
+      if (game.revealed) {
+        b.title = '点击收起（↑）';
+        b.appendChild(el('p', 'rword', cur.word));
+        b.appendChild(el('div', 'rdiv'));
+        b.appendChild(el('p', 'rmean', cur.meaning || '—'));
+      } else {
+        b.title = '点击显示（↑ / 空格）';
+        b.appendChild(el('span', 'rplaceholder', '显示单词和释义'));
+      }
+      b.onclick = function () {
+        game.revealed = !game.revealed;
+        paintShow();
       };
-      done.appendChild(again);
-      mcard.appendChild(done);
+      show.appendChild(b);
     }
+    quizPaintShow = paintShow;
+    paintShow();
+    body.appendChild(show);
 
-    step();
+    box.appendChild(body);
+
+    // 底部：记住 / 标星 + 快捷键
+    var foot = el('div', 'rfoot');
+    var btns = el('div', 'rbtns');
+    var ok = document.createElement('button');
+    ok.className = 'rbtn ok';
+    ok.type = 'button';
+    ok.innerHTML = ICON.check + '<span>记住</span>';
+    ok.onclick = function () { quizStep(false); };
+    var mark = document.createElement('button');
+    mark.className = 'rbtn mark';
+    mark.type = 'button';
+    mark.innerHTML = ICON.star + '<span>标星</span>';
+    mark.onclick = function () { quizStep(true); };
+    btns.appendChild(ok);
+    btns.appendChild(mark);
+    foot.appendChild(btns);
+    foot.appendChild(el('div', 'rkeys', '快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift/B 播放发音'));
+    box.appendChild(foot);
+
+    wrap.appendChild(box);
+
+    var next = el('button', 'nav', '›');
+    next.type = 'button';
+    next.title = '下一词（→）';
+    next.disabled = game.index >= total - 1;
+    next.onclick = function () { quizGo(game.index + 1); };
+    wrap.appendChild(next);
+
+    reciteEl.appendChild(wrap);
+
+    // 与听音辨义计时模式一致：进入新单词自动播放美音
+    playPronunciation(cur.word, 'us');
+    startTimer();
+  }
+
+  /** 检查完成页 */
+  function renderQuizDone() {
+    var game = quizState;
+    if (!game) return;
+    var total = game.list.length;
+    var starredCount = quizStarCount();
+    var acc = total > 0 ? Math.round(((total - starredCount) / total) * 100) : 100;
+
+    reciteEl.innerHTML = '';
+    var box = el('div', 'rbox');
+    box.style.maxWidth = '480px';
+
+    var head = el('div', 'rhead');
+    var stat = el('div', 'rstat');
+    stat.appendChild(el('span', 'cur', '检查完成'));
+    head.appendChild(stat);
+    var xx = el('button', 'rx', '×');
+    xx.type = 'button';
+    xx.title = '关闭';
+    xx.onclick = closeQuiz;
+    head.appendChild(xx);
+    box.appendChild(head);
+
+    var done = el('div', 'rdone');
+    done.appendChild(el('h4', null, '本轮检查完成'));
+    done.appendChild(el('p', null, '共检查 ' + total + ' 个单词 · 标星 ' + starredCount + ' 个 · 准确率 ' + acc + '%'));
+    var btns = el('div', 'rbtns');
+    var again = el('button', 'rbtn ok', '再来一轮');
+    again.type = 'button';
+    again.onclick = function () { startQuiz(game.seconds); };
+    var quit = el('button', 'rbtn ghost', '关闭');
+    quit.type = 'button';
+    quit.onclick = closeQuiz;
+    btns.appendChild(again);
+    btns.appendChild(quit);
+    done.appendChild(btns);
+    box.appendChild(done);
+    reciteEl.appendChild(box);
   }
 
   function render(data) {
@@ -785,8 +1128,42 @@ const LOOKUP_SCRIPT = String.raw`
   }, true);
 
   document.addEventListener('keydown', function (e) {
+    // 辨音检查弹窗激活时接管快捷键（与「听音辨义 · 计时背诵」完全一致）
+    if (reciteEl.className.indexOf('show') >= 0) {
+      var game = quizState;
+      if (!game) return;
+      var key = e.key;
+      if (key === 'Escape') { e.preventDefault(); closeQuiz(); return; }
+      if (game.index >= game.list.length) return;
+      if (key === 'ArrowLeft') { e.preventDefault(); quizGo(game.index - 1); return; }
+      if (key === 'ArrowRight') { e.preventDefault(); quizGo(game.index + 1); return; }
+      if (key === 'ArrowUp' || key === ' ' || key === 'Spacebar') {
+        e.preventDefault();
+        game.revealed = !game.revealed;
+        if (quizPaintShow) quizPaintShow();
+        return;
+      }
+      if (key === 'ArrowDown' || key === 'm' || key === 'M') {
+        e.preventDefault();
+        quizStep(true);
+        return;
+      }
+      if (key === 'n' || key === 'N') {
+        e.preventDefault();
+        quizStep(false);
+        return;
+      }
+      if (key === 'Shift' || key === 'b' || key === 'B') {
+        if (e.repeat) return;
+        e.preventDefault();
+        var cur = game.list[game.index];
+        if (cur) playPronunciation(cur.word, 'us');
+        return;
+      }
+      return;
+    }
     if (e.key === 'Escape') {
-      if (modalEl.className.indexOf('show') >= 0) closeQuiz();
+      if (pickEl.className.indexOf('show') >= 0) closePicker();
       else hide();
     }
   });
@@ -799,11 +1176,14 @@ const LOOKUP_SCRIPT = String.raw`
 `;
 
 /**
- * 把划词查义脚本注入到精听播放页 HTML 中
+ * 把划词查义 + 生词本脚本注入到精听播放页 HTML 中
+ * @param html 播放页 HTML
+ * @param pageTitle 目录里的标题（生词本标题与一键复制首行使用）
  * 优先插入到 </body> 前，没有 body 时追加到末尾
  */
-export function injectLookup(html: string): string {
-  const tag = `<script>${LOOKUP_SCRIPT}</script>`;
+export function injectLookup(html: string, pageTitle?: string): string {
+  const titleJson = JSON.stringify(pageTitle || '').replace(/</g, '\\u003c');
+  const tag = `<script>window.__vocalPageTitle=${titleJson};</script><script>${LOOKUP_SCRIPT}</script>`;
   const idx = html.search(/<\/body>/i);
   if (idx >= 0) return html.slice(0, idx) + tag + html.slice(idx);
   return html + tag;
