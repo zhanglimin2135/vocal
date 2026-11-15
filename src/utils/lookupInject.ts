@@ -1178,45 +1178,71 @@ const LOOKUP_SCRIPT = String.raw`
     if (!host.contains(e.target) && card.style.display !== 'none') hide();
   }, true);
 
-  document.addEventListener('keydown', function (e) {
-    // 辨音检查弹窗激活时接管快捷键（与「听音辨义 · 计时背诵」完全一致）
-    if (reciteEl.className.indexOf('show') >= 0) {
-      var game = quizState;
-      if (!game) return;
-      var key = e.key;
-      if (key === 'Escape') { e.preventDefault(); closeQuiz(); return; }
-      if (game.index >= game.list.length) return;
-      if (key === 'ArrowLeft') { e.preventDefault(); quizGo(game.index - 1); return; }
-      if (key === 'ArrowRight') { e.preventDefault(); quizGo(game.index + 1); return; }
-      if (key === 'ArrowUp' || key === ' ' || key === 'Spacebar') {
-        e.preventDefault();
-        game.revealed = !game.revealed;
-        if (quizPaintShow) quizPaintShow();
-        return;
-      }
-      if (key === 'ArrowDown' || key === 'm' || key === 'M') {
-        e.preventDefault();
-        quizStep(true);
-        return;
-      }
-      if (key === 'n' || key === 'N') {
-        e.preventDefault();
-        quizStep(false);
-        return;
-      }
-      if (key === 'Shift' || key === 'b' || key === 'B') {
-        if (e.repeat) return;
-        e.preventDefault();
-        var cur = game.list[game.index];
-        if (cur) playPronunciation(cur.word, 'us');
-        return;
-      }
+  /** 是否有弹窗处于打开状态（限时选择 / 辨音检查） */
+  function modalOpen() {
+    return reciteEl.className.indexOf('show') >= 0 || pickEl.className.indexOf('show') >= 0;
+  }
+
+  /**
+   * 弹窗打开期间独占键盘：
+   *   在 window 捕获阶段拦截，事件不再传给播放页，
+   *   避免空格键既切换释义、又触发下方句子的播放/暂停。
+   */
+  function captureKey(e) {
+    if (!modalOpen()) return;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    if (e.type !== 'keydown') return;
+
+    // 限时选择弹窗：只响应 Esc，其余按键一律不传到页面
+    if (pickEl.className.indexOf('show') >= 0) {
+      if (e.key === 'Escape') { e.preventDefault(); closePicker(); }
       return;
     }
-    if (e.key === 'Escape') {
-      if (pickEl.className.indexOf('show') >= 0) closePicker();
-      else hide();
+
+    var game = quizState;
+    if (!game) return;
+    var key = e.key;
+    if (key === 'Escape') { e.preventDefault(); closeQuiz(); return; }
+    if (game.index >= game.list.length) return;
+    if (key === 'Tab') return; // 保留焦点切换
+    if (key === 'ArrowLeft') { e.preventDefault(); quizGo(game.index - 1); return; }
+    if (key === 'ArrowRight') { e.preventDefault(); quizGo(game.index + 1); return; }
+    if (key === 'ArrowUp' || key === ' ' || key === 'Spacebar') {
+      e.preventDefault();
+      game.revealed = !game.revealed;
+      if (quizPaintShow) quizPaintShow();
+      return;
     }
+    if (key === 'ArrowDown' || key === 'm' || key === 'M') {
+      e.preventDefault();
+      quizStep(true);
+      return;
+    }
+    if (key === 'n' || key === 'N') {
+      e.preventDefault();
+      quizStep(false);
+      return;
+    }
+    if (key === 'Shift' || key === 'b' || key === 'B') {
+      e.preventDefault();
+      if (e.repeat) return;
+      var cur = game.list[game.index];
+      if (cur) playPronunciation(cur.word, 'us');
+      return;
+    }
+    // 空格等按键的默认行为也不落到页面/按钮上
+    if (key === ' ' || key === 'Spacebar' || key === 'Enter') e.preventDefault();
+  }
+
+  window.addEventListener('keydown', captureKey, true);
+  window.addEventListener('keyup', captureKey, true);
+  window.addEventListener('keypress', captureKey, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (modalOpen()) return; // 弹窗期间由 captureKey 独占处理
+    if (e.key === 'Escape') hide();
   });
 
   window.addEventListener('scroll', hide, true);
