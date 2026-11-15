@@ -83,9 +83,12 @@ const LOOKUP_SCRIPT = String.raw`
     '.chk:hover{filter:brightness(1.07);}',
     '.chk svg{width:14px;height:14px;}',
     '.bookList{padding:4px 20px 8px;}',
-    '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr);align-items:center;',
+    '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr) 2.2rem;align-items:center;',
     'gap:18px;padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
     '.row:last-child{border-bottom:0;}',
+    '.del{width:26px;height:26px;border:0;border-radius:8px;background:transparent;color:#cbd5e1;font-size:16px;',
+    'line-height:1;cursor:pointer;transition:background .15s,color .15s;}',
+    '.del:hover{background:#fff1f2;color:#e11d48;}',
     '.idx{color:#94a3b8;font-size:13px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;}',
     '.wd{font-weight:700;color:#0f172a;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
     '.pronMini{display:flex;gap:5px;align-items:center;}',
@@ -441,6 +444,25 @@ const LOOKUP_SCRIPT = String.raw`
         row.appendChild(pron);
 
         row.appendChild(el('span', 'mn', w.meaning || '—'));
+
+        // 行尾删除：点击后从生词本移除当前单词
+        var del = el('button', 'del', '×');
+        del.type = 'button';
+        del.title = '删除这个单词';
+        del.onclick = (function (word) {
+          return function () {
+            var arr = loadBook();
+            var next = [];
+            for (var k = 0; k < arr.length; k++) {
+              if (arr[k].word !== word) next.push(arr[k]);
+            }
+            saveBook(next);
+            toast('已删除 ' + word);
+            renderBook();
+          };
+        })(w.word);
+        row.appendChild(del);
+
         listEl.appendChild(row);
       }
       bookEl.appendChild(listEl);
