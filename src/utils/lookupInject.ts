@@ -136,10 +136,10 @@ const LOOKUP_SCRIPT = String.raw`
     '.pickBtn span{font-size:12px;color:#64748b;}',
     /* ---- 辨音计时弹窗（听音辨义计时模式） ---- */
     '.recite{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(6px);display:none;',
-    'align-items:center;justify-content:center;padding:0 10px;z-index:2147483647;',
+    'align-items:center;justify-content:center;padding:20px 10px;overflow:auto;z-index:2147483647;',
     'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}',
     '.recite.show{display:flex;}',
-    '.rwrap{display:flex;align-items:center;gap:14px;width:100%;max-width:660px;}',
+    '.rwrap{display:flex;align-items:center;gap:14px;width:100%;max-width:660px;margin:auto;}',
     '.nav{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:0;',
     'border-radius:50%;background:#fff;color:#475569;font-size:20px;line-height:1;cursor:pointer;',
     'box-shadow:0 8px 20px rgba(15,23,42,.2);transition:.15s;}',
@@ -201,12 +201,12 @@ const LOOKUP_SCRIPT = String.raw`
     '.rdone .rbtn{flex:0 0 auto;padding:11px 26px;font-size:14px;}',
     '.rdone .dlabel{display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:12px;',
     'font-weight:700;color:#94a3b8;}',
-    '.rdone .dlist{max-height:236px;overflow:auto;text-align:left;margin:0 0 16px;border-top:1px solid #f1f5f9;}',
-    '.rdone .drow{display:grid;grid-template-columns:2.1rem minmax(0,8rem) minmax(0,1fr);gap:14px;align-items:center;',
-    'padding:9px 2px;border-bottom:1px solid #f4f6fa;font-size:13.5px;}',
-    '.rdone .didx{color:#94a3b8;font-size:12.5px;font-weight:600;text-align:center;',
+    '.rdone .dlist{max-height:46vh;overflow:auto;text-align:left;margin:0 0 16px;border-top:1px solid #f1f5f9;}',
+    '.rdone .drow{display:grid;grid-template-columns:2.6rem minmax(0,10rem) minmax(0,1fr);gap:18px;align-items:center;',
+    'padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
+    '.rdone .didx{color:#94a3b8;font-size:13px;font-weight:600;text-align:center;',
     'font-variant-numeric:tabular-nums;}',
-    '.rdone .dwd{font-weight:700;color:#0f172a;word-break:break-word;}',
+    '.rdone .dwd{font-weight:700;color:#0f172a;font-size:15px;word-break:break-word;}',
     '.rdone .dmn{color:#475569;line-height:1.5;word-break:break-word;}',
     '.rdone .dempty{padding:10px 0 16px;font-size:13px;color:#94a3b8;}',
     '@keyframes deplete{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}',
@@ -783,7 +783,10 @@ const LOOKUP_SCRIPT = String.raw`
 
     reciteEl.innerHTML = '';
     var box = el('div', 'rbox');
-    box.style.maxWidth = '520px';
+    // 与生词本面板同宽
+    box.style.width = 'calc(100% - 32px)';
+    box.style.maxWidth = '1080px';
+    box.style.margin = 'auto';
 
     var head = el('div', 'rhead');
     var stat = el('div', 'rstat');
