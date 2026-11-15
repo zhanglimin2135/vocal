@@ -9,6 +9,9 @@
  *   - 释义优先「有道词典」，其次「百度翻译」，最后 MyMemory 兜底
  *   - 单词附带英/美两套音标与发音（发音走有道发音接口，失败时用开放词典音频兜底）
  *   - 卡片样式贴近有道词典：单词标题、英 / 美 音标、喇叭按钮、词性释义、来源
+ *   - 查词后点「＋ 加入词表」可把单词存入生词本（localStorage，本机保留）
+ *   - 生词本固定在页面最下面：序号 / 单词 / 英·美发音 / 释义
+ *   - 生词本「检查」→ 选 5/7/10/15 秒限时 → 乱序辨音弹窗（听音回忆，倒计时结束揭晓）
  *
  * 说明：脚本运行在独立页面的 Shadow DOM 里，样式与播放页互不影响。
  */
@@ -52,7 +55,75 @@ const LOOKUP_SCRIPT = String.raw`
     '.hint{font-size:12px;color:#9aa4b2;}',
     '.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6366f1;margin-right:6px;',
     'vertical-align:middle;animation:pulse 1s ease-in-out infinite;}',
-    '@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}'
+    '@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}',
+    /* ---- 加入词表按钮 ---- */
+    '.addrow{margin-top:9px;display:flex;justify-content:flex-end;}',
+    '.addbtn{border:1px solid #ddd6fe;background:#f5f3ff;color:#5b21b6;font-size:12.5px;font-weight:600;',
+    'padding:6px 12px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s;}',
+    '.addbtn:hover{background:#ede9fe;}',
+    '.addbtn.done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;}',
+    /* ---- 生词本面板 ---- */
+    '.book{position:fixed;left:12px;right:12px;bottom:12px;max-height:40vh;background:#fff;border-radius:14px;',
+    'box-shadow:0 10px 34px rgba(15,23,42,.16),0 2px 8px rgba(15,23,42,.06);border:1px solid #eef1f6;',
+    'display:none;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
+    '"PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;}',
+    '.book.show{display:flex;}',
+    '.bookHead{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #eef1f6;}',
+    '.bookTitle{font-size:13px;font-weight:600;color:#111827;}',
+    '.bookCount{font-size:11.5px;color:#9aa4b2;}',
+    '.bookActions{margin-left:auto;display:flex;align-items:center;gap:6px;}',
+    '.chk{border:0;background:#4f46e5;color:#fff;font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;}',
+    '.chk:hover{background:#4338ca;}',
+    '.tgl{border:0;background:#f3f4f6;color:#4b5563;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer;}',
+    '.tgl:hover{background:#e9ecf1;}',
+    '.timePick{display:flex;align-items:center;gap:6px;}',
+    '.timePick span{font-size:12px;color:#9aa4b2;}',
+    '.tbtn{border:1px solid #e5e7eb;background:#fff;color:#374151;font-size:12px;padding:4px 9px;border-radius:7px;cursor:pointer;}',
+    '.tbtn:hover{border-color:#c7d2fe;color:#4338ca;background:#eef2ff;}',
+    '.bookList{overflow:auto;padding:2px 14px 10px;}',
+    '.row{display:grid;grid-template-columns:2rem minmax(0,9rem) 3.6rem minmax(0,1fr);align-items:center;',
+    'gap:8px;padding:6px 0;border-bottom:1px dashed #f1f3f7;font-size:13px;}',
+    '.row:last-child{border-bottom:0;}',
+    '.idx{color:#9aa4b2;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;}',
+    '.wd{font-weight:600;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+    '.pronMini{display:flex;gap:4px;align-items:center;}',
+    '.pmini{border:1px solid #e5e7eb;background:#fff;color:#6b7280;font-size:11px;line-height:1;',
+    'padding:3px 6px;border-radius:6px;cursor:pointer;}',
+    '.pmini:hover{border-color:#c7d2fe;color:#4338ca;}',
+    '.mn{color:#4b5563;font-size:12.5px;line-height:1.5;word-break:break-word;}',
+    '.empty{padding:14px 0;color:#9aa4b2;font-size:12.5px;}',
+    /* ---- 提示条 ---- */
+    '.toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:rgba(17,24,39,.9);color:#fff;',
+    'font-size:12.5px;padding:8px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;',
+    'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}',
+    '.toast.on{opacity:1;}',
+    /* ---- 辨音弹窗 ---- */
+    '.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;',
+    'z-index:2147483647;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}',
+    '.modal.show{display:flex;}',
+    '.mcard{width:min(420px,calc(100vw - 32px));background:#fff;border-radius:20px;padding:20px 22px 18px;',
+    'box-shadow:0 20px 60px rgba(15,23,42,.35);color:#1f2937;}',
+    '.mtop{display:flex;align-items:center;justify-content:space-between;gap:10px;}',
+    '.mstep{font-size:12px;color:#9aa4b2;font-variant-numeric:tabular-nums;}',
+    '.mx{border:0;background:transparent;color:#b6bdc8;font-size:22px;line-height:1;cursor:pointer;}',
+    '.mx:hover{color:#6b7280;}',
+    '.mbody{padding:14px 0 4px;text-align:center;}',
+    '.bigspk{width:74px;height:74px;border-radius:50%;border:0;background:#eef2ff;color:#4f46e5;cursor:pointer;',
+    'display:inline-flex;align-items:center;justify-content:center;transition:background .15s;}',
+    '.bigspk:hover{background:#e0e7ff;}',
+    '.bigspk svg{width:32px;height:32px;}',
+    '.count{font-size:30px;font-weight:700;color:#4338ca;margin-top:12px;font-variant-numeric:tabular-nums;}',
+    '.count small{font-size:12px;font-weight:500;color:#9aa4b2;margin-left:3px;}',
+    '.mword{font-size:22px;font-weight:700;letter-spacing:-.2px;margin-top:10px;color:#111827;min-height:30px;}',
+    '.mword.hide{color:#cbd5e1;letter-spacing:.32em;}',
+    '.mmean{font-size:14px;line-height:1.7;color:#4b5563;margin-top:8px;min-height:24px;}',
+    '.mmean.hide{color:transparent;background:#eef1f6;border-radius:6px;height:20px;margin:8px auto 0;width:62%;}',
+    '.mfoot{margin-top:6px;text-align:center;font-size:11.5px;color:#b0b7c3;}',
+    '.mdone{text-align:center;padding:8px 0 4px;}',
+    '.mdone h4{font-size:17px;font-weight:700;margin:0 0 6px;color:#111827;}',
+    '.mdone p{font-size:13px;color:#6b7280;margin:0 0 14px;}',
+    '.mbtn{border:0;background:#4f46e5;color:#fff;font-size:13px;padding:9px 22px;border-radius:10px;cursor:pointer;}',
+    '.mbtn:hover{background:#4338ca;}'
   ].join('');
   root.appendChild(style);
 
@@ -87,6 +158,266 @@ const LOOKUP_SCRIPT = String.raw`
       onClick();
     };
     return btn;
+  }
+
+  // ---------- 生词本（本机 localStorage，跨刷新保留） ----------
+
+  var WB_KEY = 'vocal_listening_wordbook_v1';
+  var bookExpanded = true;
+  var quizTimer = null;
+
+  var bookEl = document.createElement('div');
+  bookEl.className = 'book';
+  root.appendChild(bookEl);
+
+  var modalEl = document.createElement('div');
+  modalEl.className = 'modal';
+  root.appendChild(modalEl);
+
+  var toastEl = document.createElement('div');
+  toastEl.className = 'toast';
+  root.appendChild(toastEl);
+  var toastTimer = null;
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.className = 'toast on';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.className = 'toast'; }, 1500);
+  }
+
+  function loadBook() {
+    try {
+      var raw = localStorage.getItem(WB_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+
+  function saveBook(arr) {
+    try { localStorage.setItem(WB_KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+
+  function findInBook(word) {
+    var list = loadBook();
+    var lower = String(word).toLowerCase();
+    for (var i = 0; i < list.length; i++) {
+      if (String(list[i].word).toLowerCase() === lower) return true;
+    }
+    return false;
+  }
+
+  /** 把当前查询结果加入生词本（单词 + 音标 + 释义） */
+  function addToBook(data) {
+    var word = String((data && data.title) || '').trim();
+    if (!word) return;
+    var list = loadBook();
+    if (findInBook(word)) { toast('已在生词本中'); return; }
+    list.push({
+      word: word,
+      uk: data.uk || '',
+      us: data.us || '',
+      meaning: (data.defs || []).join('；')
+    });
+    saveBook(list);
+    toast('已加入生词本');
+    renderBook();
+  }
+
+  /** 生词本面板：序号 / 单词 / 英·美发音 / 释义 + 检查（限时辨音） */
+  function renderBook() {
+    var list = loadBook();
+    bookEl.innerHTML = '';
+    if (!list.length) {
+      bookEl.className = 'book';
+      return;
+    }
+    bookEl.className = 'book show';
+
+    var head = el('div', 'bookHead');
+    head.appendChild(el('span', 'bookTitle', '生词本'));
+    head.appendChild(el('span', 'bookCount', '共 ' + list.length + ' 词'));
+
+    var actions = el('div', 'bookActions');
+
+    // 「检查」→ 就地展开 5/7/10/15 秒限时选项
+    var timePick = el('div', 'timePick');
+    timePick.style.display = 'none';
+    var checkBtn = el('button', 'chk', '检查');
+    checkBtn.onclick = function () {
+      timePick.style.display = 'flex';
+      checkBtn.style.display = 'none';
+    };
+    timePick.appendChild(el('span', null, '每词限时'));
+    var secs = [5, 7, 10, 15];
+    for (var s = 0; s < secs.length; s++) {
+      (function (sec) {
+        var b = el('button', 'tbtn', sec + '秒');
+        b.onclick = function () {
+          timePick.style.display = 'none';
+          checkBtn.style.display = '';
+          startQuiz(sec);
+        };
+        timePick.appendChild(b);
+      })(secs[s]);
+    }
+    var cancelPick = el('button', 'tbtn', '取消');
+    cancelPick.onclick = function () {
+      timePick.style.display = 'none';
+      checkBtn.style.display = '';
+    };
+    timePick.appendChild(cancelPick);
+
+    var toggle = el('button', 'tgl', bookExpanded ? '收起' : '展开');
+    toggle.onclick = function () {
+      bookExpanded = !bookExpanded;
+      renderBook();
+    };
+
+    actions.appendChild(checkBtn);
+    actions.appendChild(timePick);
+    actions.appendChild(toggle);
+    head.appendChild(actions);
+    bookEl.appendChild(head);
+
+    if (!bookExpanded) return;
+
+    var listEl = el('div', 'bookList');
+    for (var i = 0; i < list.length; i++) {
+      var w = list[i];
+      var row = el('div', 'row');
+      row.appendChild(el('span', 'idx', String(i + 1)));
+      row.appendChild(el('span', 'wd', String(w.word)));
+
+      var pron = el('span', 'pronMini');
+      (function (word) {
+        var uk = el('button', 'pmini', '英');
+        uk.title = '英式发音';
+        uk.onclick = function () { playPronunciation(word, 'uk'); };
+        var us = el('button', 'pmini', '美');
+        us.title = '美式发音';
+        us.onclick = function () { playPronunciation(word, 'us'); };
+        pron.appendChild(uk);
+        pron.appendChild(us);
+      })(w.word);
+      row.appendChild(pron);
+
+      row.appendChild(el('span', 'mn', w.meaning || '—'));
+      listEl.appendChild(row);
+    }
+    bookEl.appendChild(listEl);
+  }
+
+  // ---------- 辨音限时检查弹窗 ----------
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+    return arr;
+  }
+
+  function closeQuiz() {
+    if (quizTimer) { clearInterval(quizTimer); quizTimer = null; }
+    modalEl.className = 'modal';
+    modalEl.innerHTML = '';
+  }
+
+  function startQuiz(seconds) {
+    var words = shuffle(loadBook().slice());
+    if (!words.length) { toast('生词本还是空的'); return; }
+
+    var idx = 0;
+    modalEl.className = 'modal show';
+    modalEl.innerHTML = '';
+
+    var mcard = el('div', 'mcard');
+    modalEl.appendChild(mcard);
+
+    function step() {
+      if (idx >= words.length) { finish(); return; }
+      var w = words[idx];
+      mcard.innerHTML = '';
+
+      var top = el('div', 'mtop');
+      top.appendChild(el('span', 'mstep', (idx + 1) + ' / ' + words.length));
+      var x = el('button', 'mx', '×');
+      x.title = '退出检查';
+      x.onclick = closeQuiz;
+      top.appendChild(x);
+      mcard.appendChild(top);
+
+      var body = el('div', 'mbody');
+      var spk = document.createElement('button');
+      spk.className = 'bigspk';
+      spk.type = 'button';
+      spk.title = '重听发音';
+      spk.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+        'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path>' +
+        '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>';
+      spk.onclick = function () { playPronunciation(w.word, 'us'); };
+      body.appendChild(spk);
+
+      var count = el('div', 'count', String(seconds));
+      count.appendChild(el('small', null, '秒'));
+      body.appendChild(count);
+
+      var wordEl = el('div', 'mword hide', '···');
+      body.appendChild(wordEl);
+      var meanEl = el('div', 'mmean hide', w.meaning || '—');
+      body.appendChild(meanEl);
+      mcard.appendChild(body);
+      mcard.appendChild(el('div', 'mfoot', '听发音，在限时内回忆词义'));
+
+      playPronunciation(w.word, 'us');
+
+      var left = seconds;
+      if (quizTimer) clearInterval(quizTimer);
+      quizTimer = setInterval(function () {
+        left--;
+        if (left > 0) {
+          count.firstChild.nodeValue = String(left);
+          return;
+        }
+        clearInterval(quizTimer);
+        quizTimer = null;
+        count.textContent = '时间到';
+        wordEl.className = 'mword';
+        wordEl.textContent = w.us ? w.word + '  ' + w.us : w.word;
+        meanEl.className = 'mmean';
+        setTimeout(function () {
+          idx++;
+          step();
+        }, 1400);
+      }, 1000);
+    }
+
+    function finish() {
+      mcard.innerHTML = '';
+      var top = el('div', 'mtop');
+      top.appendChild(el('span', 'mstep', '完成'));
+      var x = el('button', 'mx', '×');
+      x.onclick = closeQuiz;
+      top.appendChild(x);
+      mcard.appendChild(top);
+
+      var done = el('div', 'mdone');
+      done.appendChild(el('h4', null, '本轮检查完成'));
+      done.appendChild(el('p', null, '共检查 ' + words.length + ' 个单词'));
+      var again = el('button', 'mbtn', '再来一轮');
+      again.onclick = function () {
+        words = shuffle(loadBook().slice());
+        idx = 0;
+        step();
+      };
+      done.appendChild(again);
+      mcard.appendChild(done);
+    }
+
+    step();
   }
 
   function render(data) {
@@ -133,6 +464,21 @@ const LOOKUP_SCRIPT = String.raw`
       rel.appendChild(el('span', null, '相关：'));
       rel.appendChild(document.createTextNode(data.related.join(' / ')));
       card.appendChild(rel);
+    }
+
+    // 单词查询完成后才提供「加入词表」，释义 / 音标取当前查询结果
+    if (data.isWord && !data.loading) {
+      var addRow = el('div', 'addrow');
+      var added = findInBook(data.title);
+      var addBtn = el('button', 'addbtn' + (added ? ' done' : ''), added ? '✓ 已在词表' : '＋ 加入词表');
+      addBtn.title = '加入生词本';
+      addBtn.onclick = function () {
+        addToBook(data);
+        addBtn.className = 'addbtn done';
+        addBtn.textContent = '✓ 已在词表';
+      };
+      addRow.appendChild(addBtn);
+      card.appendChild(addRow);
     }
 
     var foot = el('div', 'foot');
@@ -439,10 +785,16 @@ const LOOKUP_SCRIPT = String.raw`
   }, true);
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') hide();
+    if (e.key === 'Escape') {
+      if (modalEl.className.indexOf('show') >= 0) closeQuiz();
+      else hide();
+    }
   });
 
   window.addEventListener('scroll', hide, true);
+
+  // 进入页面即渲染生词本（本机有记录时自动显示在页面最下面）
+  renderBook();
 })();
 `;
 
