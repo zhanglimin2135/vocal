@@ -63,8 +63,8 @@ const LOOKUP_SCRIPT = String.raw`
     '.addbtn:hover{background:#ede9fe;}',
     '.addbtn.done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;}',
     /* ---- 生词本面板（参考导出错词卡片） ---- */
-    '.book{position:fixed;left:14px;right:14px;bottom:14px;max-height:56vh;background:#fff;border-radius:22px;',
-    'box-shadow:0 18px 50px rgba(15,23,42,.22),0 2px 8px rgba(15,23,42,.06);border:1px solid #eef1f6;',
+    '.book{position:relative;margin:26px auto 44px;width:calc(100% - 32px);max-width:1080px;background:#fff;',
+    'border-radius:22px;box-shadow:0 8px 30px rgba(15,23,42,.10);border:1px solid #eef1f6;',
     'display:none;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
     '"PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;}',
     '.book.show{display:flex;}',
@@ -82,7 +82,7 @@ const LOOKUP_SCRIPT = String.raw`
     'box-shadow:0 8px 18px rgba(124,58,237,.28);}',
     '.chk:hover{filter:brightness(1.07);}',
     '.chk svg{width:14px;height:14px;}',
-    '.bookList{overflow:auto;padding:4px 20px 8px;}',
+    '.bookList{padding:4px 20px 8px;}',
     '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr);align-items:center;',
     'gap:18px;padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
     '.row:last-child{border-bottom:0;}',
@@ -190,8 +190,8 @@ const LOOKUP_SCRIPT = String.raw`
     '.rbtn:hover{filter:brightness(1.05);}',
     '.rbtn:active{transform:translateY(1px);}',
     '.rkeys{margin-top:10px;text-align:center;font-size:11px;color:#94a3b8;}',
-    '.rdone{text-align:center;padding:26px 22px 24px;}',
-    '.rdone h4{margin:0 0 6px;font-size:18px;font-weight:800;color:#0f172a;}',
+    '.rdone{text-align:left;padding:22px 22px 24px;}',
+    '.rdone h4{margin:0 0 6px;font-size:17px;font-weight:800;color:#0f172a;line-height:1.4;word-break:break-word;}',
     '.rdone p{margin:0 0 16px;font-size:13px;color:#64748b;}',
     '.rdone .rbtns{justify-content:center;}',
     '.rdone .rbtn{flex:0 0 auto;padding:11px 26px;font-size:14px;}',
@@ -271,9 +271,17 @@ const LOOKUP_SCRIPT = String.raw`
     book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>'
   };
 
+  // 生词本挂到页面内容末尾（文档流内）：永远在「全文」下方，逐条向下排，不遮挡原文
+  var bookHost = document.createElement('div');
+  bookHost.id = '__vocal_book_root';
+  bookHost.style.cssText = 'display:block;width:100%;box-sizing:border-box;';
+  (document.body || document.documentElement).appendChild(bookHost);
+  var bookRoot = bookHost.attachShadow ? bookHost.attachShadow({ mode: 'open' }) : bookHost;
+  if (bookRoot !== bookHost) bookRoot.appendChild(style.cloneNode(true));
+
   var bookEl = document.createElement('div');
   bookEl.className = 'book';
-  root.appendChild(bookEl);
+  bookRoot.appendChild(bookEl);
 
   var pickEl = document.createElement('div');
   pickEl.className = 'pick';
@@ -322,6 +330,7 @@ const LOOKUP_SCRIPT = String.raw`
     if (!word) return;
     var list = loadBook();
     if (findInBook(word)) { toast('已在生词本中'); return; }
+    var wasEmpty = list.length === 0;
     list.push({
       word: word,
       uk: data.uk || '',
@@ -331,6 +340,10 @@ const LOOKUP_SCRIPT = String.raw`
     saveBook(list);
     toast('已加入生词本');
     renderBook();
+    // 首次加入时把生词本滚动到可视区（它位于全文下方）
+    if (wasEmpty) {
+      try { bookEl.scrollIntoView({ behavior: 'smooth', block: 'end' }); } catch (e) {}
+    }
   }
 
   /** 一键复制文本：第 1 行播放页标题，之后每行「序号\t单词\t释义」 */
@@ -757,8 +770,9 @@ const LOOKUP_SCRIPT = String.raw`
     box.appendChild(head);
 
     var done = el('div', 'rdone');
-    done.appendChild(el('h4', null, '本轮检查完成'));
-    done.appendChild(el('p', null, '共检查 ' + total + ' 个单词 · 标星 ' + starredCount + ' 个 · 准确率 ' + acc + '%'));
+    done.appendChild(el('h4', null, PAGE_TITLE + ' 错词'));
+    var rightCount = total - starredCount;
+    done.appendChild(el('p', null, '共 ' + total + ' 词 · 错 ' + starredCount + ' · 对 ' + rightCount + '，准确率 ' + acc + '%'));
 
     // 标星错词（与导出标星错词一致：序号 / 单词 / 释义）
     var wrong = [];
