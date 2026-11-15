@@ -34,7 +34,7 @@ const LOOKUP_SCRIPT = String.raw`
     'border:1px solid #edf0f5;padding:16px 18px 12px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",',
     '"PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;display:none;}',
     '.head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}',
-    '.title{font-size:22px;font-weight:700;line-height:1.25;word-break:break-word;letter-spacing:-.2px;}',
+    '.title{flex:1;min-width:0;font-size:22px;font-weight:700;line-height:1.25;word-break:break-word;letter-spacing:-.2px;}',
     '.close{border:0;background:transparent;color:#b6bdc8;font-size:22px;line-height:1;cursor:pointer;',
     'padding:0 2px;margin-top:-3px;transition:color .15s;}',
     '.close:hover{color:#6b7280;}',
@@ -56,10 +56,10 @@ const LOOKUP_SCRIPT = String.raw`
     '.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6366f1;margin-right:6px;',
     'vertical-align:middle;animation:pulse 1s ease-in-out infinite;}',
     '@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}',
-    /* ---- 加入词表按钮 ---- */
-    '.addrow{margin-top:9px;display:flex;justify-content:flex-end;}',
-    '.addbtn{border:1px solid #ddd6fe;background:#f5f3ff;color:#5b21b6;font-size:12.5px;font-weight:600;',
-    'padding:6px 12px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s;}',
+    /* ---- 加入词表按钮（卡片右上角，× 左侧） ---- */
+    '.hright{display:flex;align-items:center;gap:8px;flex:0 0 auto;}',
+    '.addbtn{border:1px solid #ddd6fe;background:#f5f3ff;color:#5b21b6;font-size:12px;font-weight:600;',
+    'padding:5px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;}',
     '.addbtn:hover{background:#ede9fe;}',
     '.addbtn.done{background:#ecfdf5;border-color:#a7f3d0;color:#047857;}',
     /* ---- 生词本面板（参考导出错词卡片） ---- */
@@ -195,6 +195,16 @@ const LOOKUP_SCRIPT = String.raw`
     '.rdone p{margin:0 0 16px;font-size:13px;color:#64748b;}',
     '.rdone .rbtns{justify-content:center;}',
     '.rdone .rbtn{flex:0 0 auto;padding:11px 26px;font-size:14px;}',
+    '.rdone .dlabel{display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:12px;',
+    'font-weight:700;color:#94a3b8;}',
+    '.rdone .dlist{max-height:236px;overflow:auto;text-align:left;margin:0 0 16px;border-top:1px solid #f1f5f9;}',
+    '.rdone .drow{display:grid;grid-template-columns:2.1rem minmax(0,8rem) minmax(0,1fr);gap:14px;align-items:center;',
+    'padding:9px 2px;border-bottom:1px solid #f4f6fa;font-size:13.5px;}',
+    '.rdone .didx{color:#94a3b8;font-size:12.5px;font-weight:600;text-align:center;',
+    'font-variant-numeric:tabular-nums;}',
+    '.rdone .dwd{font-weight:700;color:#0f172a;word-break:break-word;}',
+    '.rdone .dmn{color:#475569;line-height:1.5;word-break:break-word;}',
+    '.rdone .dempty{padding:10px 0 16px;font-size:13px;color:#94a3b8;}',
     '@keyframes deplete{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}',
     '@keyframes tone{0%{stroke:#8b5cf6}60%{stroke:#f59e0b}100%{stroke:#ef4444}}',
     '@keyframes toneText{0%{color:#7c3aed}60%{color:#d97706}100%{color:#e11d48}}'
@@ -733,7 +743,7 @@ const LOOKUP_SCRIPT = String.raw`
 
     reciteEl.innerHTML = '';
     var box = el('div', 'rbox');
-    box.style.maxWidth = '480px';
+    box.style.maxWidth = '520px';
 
     var head = el('div', 'rhead');
     var stat = el('div', 'rstat');
@@ -749,6 +759,30 @@ const LOOKUP_SCRIPT = String.raw`
     var done = el('div', 'rdone');
     done.appendChild(el('h4', null, '本轮检查完成'));
     done.appendChild(el('p', null, '共检查 ' + total + ' 个单词 · 标星 ' + starredCount + ' 个 · 准确率 ' + acc + '%'));
+
+    // 标星错词（与导出标星错词一致：序号 / 单词 / 释义）
+    var wrong = [];
+    for (var i = 0; i < game.list.length; i++) {
+      if (game.starred[game.list[i].word]) wrong.push(game.list[i]);
+    }
+    var label = el('div', 'dlabel');
+    label.appendChild(el('span', null, '标星错词'));
+    label.appendChild(el('span', null, '共 ' + wrong.length + ' 个'));
+    done.appendChild(label);
+    if (!wrong.length) {
+      done.appendChild(el('div', 'dempty', '本轮没有标星的错词'));
+    } else {
+      var dlist = el('div', 'dlist');
+      for (var j = 0; j < wrong.length; j++) {
+        var r = el('div', 'drow');
+        r.appendChild(el('span', 'didx', String(j + 1)));
+        r.appendChild(el('span', 'dwd', String(wrong[j].word)));
+        r.appendChild(el('span', 'dmn', wrong[j].meaning || '—'));
+        dlist.appendChild(r);
+      }
+      done.appendChild(dlist);
+    }
+
     var btns = el('div', 'rbtns');
     var again = el('button', 'rbtn ok', '再来一轮');
     again.type = 'button';
@@ -767,10 +801,28 @@ const LOOKUP_SCRIPT = String.raw`
     card.innerHTML = '';
     var head = el('div', 'head');
     head.appendChild(el('div', 'title', data.title));
+
+    // 右上角：加入词表 + 关闭（单词查询完成后才提供，释义 / 音标取当前查询结果）
+    var hright = el('div', 'hright');
+    if (data.isWord && !data.loading) {
+      var added = findInBook(data.title);
+      var addBtn = el('button', 'addbtn' + (added ? ' done' : ''), added ? '✓ 已在词表' : '＋ 加入词表');
+      addBtn.type = 'button';
+      addBtn.title = '加入生词本';
+      addBtn.onclick = function (e) {
+        e.stopPropagation();
+        addToBook(data);
+        addBtn.className = 'addbtn done';
+        addBtn.textContent = '✓ 已在词表';
+      };
+      hright.appendChild(addBtn);
+    }
+
     var close = el('button', 'close', '×');
     close.title = '关闭';
     close.onclick = hide;
-    head.appendChild(close);
+    hright.appendChild(close);
+    head.appendChild(hright);
     card.appendChild(head);
 
     // 音标行：单词始终显示 英 / 美 两个喇叭；有 IPA 时顺带显示音标
@@ -807,21 +859,6 @@ const LOOKUP_SCRIPT = String.raw`
       rel.appendChild(el('span', null, '相关：'));
       rel.appendChild(document.createTextNode(data.related.join(' / ')));
       card.appendChild(rel);
-    }
-
-    // 单词查询完成后才提供「加入词表」，释义 / 音标取当前查询结果
-    if (data.isWord && !data.loading) {
-      var addRow = el('div', 'addrow');
-      var added = findInBook(data.title);
-      var addBtn = el('button', 'addbtn' + (added ? ' done' : ''), added ? '✓ 已在词表' : '＋ 加入词表');
-      addBtn.title = '加入生词本';
-      addBtn.onclick = function () {
-        addToBook(data);
-        addBtn.className = 'addbtn done';
-        addBtn.textContent = '✓ 已在词表';
-      };
-      addRow.appendChild(addBtn);
-      card.appendChild(addRow);
     }
 
     var foot = el('div', 'foot');
