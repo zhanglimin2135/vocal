@@ -373,8 +373,8 @@ const LOOKUP_SCRIPT = String.raw`
     } catch (e) { return false; }
   }
 
-  function copyBook() {
-    var text = buildCopyText();
+  /** 复制任意文本（Clipboard API，失败走 execCommand 兜底），并给出提示 */
+  function copyToClipboard(text) {
     function done(ok) { toast(ok ? '已复制到剪贴板' : '复制失败，请手动选择'); }
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -385,6 +385,10 @@ const LOOKUP_SCRIPT = String.raw`
       }
     } catch (e) { /* 继续走兜底 */ }
     done(fallbackCopy(text));
+  }
+
+  function copyBook() {
+    copyToClipboard(buildCopyText());
   }
 
   /** 生词本面板：标题 + 数量 + 检查 + 列表 + 一键复制（参考导出错词卡片） */
@@ -828,6 +832,21 @@ const LOOKUP_SCRIPT = String.raw`
     }
 
     var btns = el('div', 'rbtns');
+    var copyBtn = el('button', 'rbtn ghost');
+    copyBtn.type = 'button';
+    copyBtn.innerHTML = ICON.copy + '<span>一键复制</span>';
+    copyBtn.onclick = function () {
+      // 格式同导出标星：第 1 行标题，第 2 行统计，之后每行「序号\t单词\t释义」
+      var lines = [
+        PAGE_TITLE,
+        '共 ' + total + ' 词 · 错 ' + starredCount + ' · 对 ' + rightCount + '，准确率 ' + acc + '%'
+      ];
+      for (var k = 0; k < wrong.length; k++) {
+        lines.push((k + 1) + '\t' + wrong[k].word + '\t' + (wrong[k].meaning || ''));
+      }
+      copyToClipboard(lines.join('\n'));
+    };
+    btns.appendChild(copyBtn);
     var again = el('button', 'rbtn ok', '再来一轮');
     again.type = 'button';
     again.onclick = function () { startQuiz(game.seconds); };
