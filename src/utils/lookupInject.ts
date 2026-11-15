@@ -9,7 +9,7 @@
  *   - 释义优先「有道词典」，其次「百度翻译」，最后 MyMemory 兜底
  *   - 单词附带英/美两套音标与发音（发音走有道发音接口，失败时用开放词典音频兜底）
  *   - 卡片样式贴近有道词典：单词标题、英 / 美 音标、喇叭按钮、词性释义、来源
- *   - 查词后点「＋ 加入词表」可把单词存入生词本（localStorage，本机保留）
+ *   - 查词后点「＋ 加入词表」可把单词存入生词本（仅当前页面，关闭或切换页面即清空）
  *   - 生词本固定在页面最下面：序号 / 单词 / 英·美发音 / 释义
  *   - 生词本「检查」→ 选 5/7/10/15 秒限时 → 乱序辨音弹窗（听音回忆，倒计时结束揭晓）
  *
@@ -248,7 +248,7 @@ const LOOKUP_SCRIPT = String.raw`
     return btn;
   }
 
-  // ---------- 生词本（本机 localStorage，跨刷新保留） ----------
+  // ---------- 生词本（仅当前页面内存，关闭页面即清空） ----------
 
   var WB_KEY = 'vocal_listening_wordbook_v1';
   var bookCollapsed = false;
@@ -307,16 +307,19 @@ const LOOKUP_SCRIPT = String.raw`
     toastTimer = setTimeout(function () { toastEl.className = 'toast'; }, 1500);
   }
 
+  // 生词本只保存在当前页面内存中：关闭标签页或打开其他目录条目后自动清空，
+  // 不同精听页面之间不共享词表。
+  var bookStore = [];
+
+  // 清理旧版本遗留在本机的跨页面生词本数据
+  try { localStorage.removeItem(WB_KEY); } catch (e) {}
+
   function loadBook() {
-    try {
-      var raw = localStorage.getItem(WB_KEY);
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    } catch (e) { return []; }
+    return bookStore;
   }
 
   function saveBook(arr) {
-    try { localStorage.setItem(WB_KEY, JSON.stringify(arr)); } catch (e) {}
+    bookStore = arr;
   }
 
   function findInBook(word) {
@@ -1296,7 +1299,7 @@ const LOOKUP_SCRIPT = String.raw`
 
   window.addEventListener('scroll', hide, true);
 
-  // 进入页面即渲染生词本（本机有记录时自动显示在页面最下面）
+  // 首次渲染生词本（当前页面已有单词时显示在页面最下面）
   renderBook();
 })();
 `;
