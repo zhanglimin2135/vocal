@@ -21,6 +21,8 @@ import StudyPage from '@/pages/StudyPage';
 import ListeningPage from '@/pages/ListeningPage';
 // 固定词表模块：四级词汇 List 09–15
 import CET4Page from '@/pages/CET4Page';
+// 生词整理（自定义输入单元 + 看词识意/听音辨义计时）
+import CollectionPage from '@/pages/CollectionPage';
 // 全局 store
 import { useAppStore } from '@/store/appStore';
 
@@ -38,6 +40,7 @@ function AppShell() {
       <Route path="/study" element={<StudyPage />} />
       <Route path="/listening" element={<ListeningPage />} />
       <Route path="/cet4" element={<CET4Page />} />
+      <Route path="/collection" element={<CollectionPage />} />
       {/* 旧路由重定向到新的听力精听页面，保证收藏链接不失效 */}
       <Route path="/reading-upload" element={<Navigate to="/listening" replace />} />
       <Route path="/reading" element={<Navigate to="/listening" replace />} />

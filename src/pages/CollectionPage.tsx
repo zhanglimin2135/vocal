@@ -1,0 +1,637 @@
+/**
+ * 生词整理页面
+ *   首页固定词表下的入口；支持用户手动输入单词/词组（/ 或换行分隔），
+ *   自动抓取发音与释义后存为一个单元；可追加到上一单元或新建单元。
+ *
+ *   单元内：
+ *     - 生词本样式（序号 / 单词 / 发音 / 释义 / 删除 / 一键复制本单元）
+ *     - 看词识意（识别背诵计时弹窗）
+ *     - 听音辨义（听音辨义计时弹窗）
+ *
+ *   总量上限 500 词；450 / 480 / 500 时弹窗提示。
+ */
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  ArrowLeft, Plus, Sparkles, Copy, Download, Trash2, Volume2, BookOpen, Headphones,
+  AlertTriangle, BookMarked, Check, Timer, ChevronDown, ChevronUp, Loader2, X,
+} from 'lucide-react';
+import * as XLSX from 'xlsx';
+import { useAppStore } from '@/store/appStore';
+import { lookupBatch, type LookupResult } from '@/utils/wordLookup';
+import {
+  loadUnits, saveUnits, totalWordCount, appendOrCreate, formatTimestamp,
+  type CollectionUnit, type WordEntry, COLLECTION_LIMIT,
+} from '@/utils/wordCollection';
+import ReciteQuiz, { type QuizWord } from '@/components/ReciteQuiz';
+import { cn } from '@/lib/utils';
+
+/** 把原始输入拆成数组（支持 '/' '、' '，' 和换行分隔） */
+function splitInput(raw: string): string[] {
+  return raw
+    .split(/[\/、，,；;\n\r]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/** 有道发音 URL */
+function youdaoVoice(word: string, type: 1 | 2) {
+  return `https://dict.youdao.com/dictvoice?type=${type}&audio=${encodeURIComponent(word)}`;
+}
+
+/** 剪贴板写文本（失败走 execCommand 兜底） */
+function copyText(text: string): Promise<boolean> {
+  const fallback = (s: string) => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = s; ta.style.position = 'fixed'; ta.style.top = '-1000px';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch { return false; }
+  };
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => fallback(text));
+  }
+  return Promise.resolve(fallback(text));
+}
+
+/** 生成单元的复制文本（和听力精听一致） */
+function buildUnitCopy(unit: CollectionUnit): string {
+  const lines: string[] = [unit.name];
+  for (let i = 0; i < unit.words.length; i++) {
+    const w = unit.words[i];
+    lines.push(`${i + 1}\t${w.word}\t${w.meaning}`);
+  }
+  return lines.join('\n');
+}
+
+/** 生成所有单元的复制文本 */
+function buildAllCopy(units: CollectionUnit[]): string {
+  const lines: string[] = [];
+  let globalIdx = 0;
+  for (const u of units) {
+    lines.push(u.name);
+    for (const w of u.words) {
+      globalIdx++;
+      lines.push(`${globalIdx}\t${w.word}\t${w.meaning}`);
+    }
+  }
+  return lines.join('\n');
+}
+
+/** 把所有单元导出 xlsx：两个 sheet——「全表」和按单元拆分 */
+function exportXlsx(units: CollectionUnit[]) {
+  const wb = XLSX.utils.book_new();
+  const allRows: string[][] = [];
+  let globalIdx = 0;
+  for (const u of units) {
+    allRows.push([u.name, '', '', formatTimestamp(u.createdAt)]);
+    for (const w of u.words) {
+      globalIdx++;
+      allRows.push([String(globalIdx), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning, w.usPhonetic || w.ukPhonetic]);
+    }
+  }
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(allRows), '全表');
+  for (const u of units) {
+    const rows = [
+      ['序号', '单词', '释义', '音标'],
+      ...u.words.map((w, i) => [String(i + 1), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning, w.usPhonetic || w.ukPhonetic]),
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), u.name.slice(0, 28));
+  }
+  const stamp = formatTimestamp(Date.now()).replace(/[: ]/g, '-');
+  XLSX.writeFile(wb, `生词整理-${stamp}.xlsx`);
+}
+
+export default function CollectionPage() {
+  const navigate = useNavigate();
+  const hydrate = useAppStore((s) => s.hydrate);
+
+  const [units, setUnits] = useState<CollectionUnit[]>(() => loadUnits());
+  const [inputRaw, setInputRaw] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState({ done: 0, total: 0, current: '' });
+  const [parsedBatch, setParsedBatch] = useState<LookupResult[] | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [modeConfirm, setModeConfirm] = useState<'append' | 'new'>('new');
+  const [nameHint, setNameHint] = useState('真题2026');
+  const [limitPopup, setLimitPopup] = useState<null | { total: number; threshold: number; atLimit: boolean; overflow: boolean }>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [toast, setToast] = useState('');
+  const toastTimer = useRef<number | null>(null);
+
+  const [quiz, setQuiz] = useState<null | { unitId: string; mode: 'word-meaning' | 'meaning-word'; seconds: number; title: string }>(null);
+  const [quizPick, setQuizPick] = useState<null | { unitId: string; mode: 'word-meaning' | 'meaning-word'; title: string }>(null);
+
+  const totalCount = useMemo(() => totalWordCount(units), [units]);
+
+  useEffect(() => { hydrate(); }, [hydrate]);
+  useEffect(() => { saveUnits(units); }, [units]);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(''), 1600);
+  };
+
+  const playAudio = (url: string) => {
+    if (!url) return;
+    try { new Audio(url).play().catch(() => {}); } catch { /* ignore */ }
+  };
+
+  // ====== 输入 → 抓取 → 确认 ======
+  const startImport = async () => {
+    const words = splitInput(inputRaw);
+    if (words.length === 0) { showToast('请输入至少一个单词'); return; }
+    if (words.length > 120) { showToast('单次建议不超过 120 个，以免抓取过慢'); }
+
+    setLoading(true);
+    setProgress({ done: 0, total: words.length, current: '' });
+    try {
+      const results = await lookupBatch(words, (done, total, cur) => {
+        setProgress({ done, total, current: cur });
+      });
+      setParsedBatch(results);
+      if (results.length === 0) {
+        showToast('未抓取到任何释义，请检查网络');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const confirmImport = async () => {
+    if (!parsedBatch || parsedBatch.length === 0) return;
+    // 计算两种模式下的数量，判断是否超限
+    const current = totalWordCount(units);
+    // 上一单元（最前的）去重后 room
+    const topWords = modeConfirm === 'append' && units.length > 0
+      ? units[0].words.map((w) => w.word.toLowerCase())
+      : [];
+    const deduped = parsedBatch.filter((w) => !topWords.includes(w.word.toLowerCase()));
+    const room = Math.max(0, COLLECTION_LIMIT - current);
+    const take = deduped.slice(0, room);
+    const overflow = take.length < deduped.length;
+    const newTotal = current + take.length;
+
+    const updated = appendOrCreate(units, parsedBatch, { mode: modeConfirm, nameHint });
+    setUnits(updated.next);
+
+    // 清零
+    setInputRaw('');
+    setParsedBatch(null);
+    setShowConfirm(false);
+
+    // 上限提示（达到阈值就弹）
+    if (newTotal >= 500 || updated.atLimit) {
+      setLimitPopup({ total: updated.next.reduce((s, u) => s + u.words.length, 0), threshold: 500, atLimit: true, overflow });
+    } else if (newTotal >= 480) {
+      setLimitPopup({ total: newTotal, threshold: 480, atLimit: false, overflow });
+    } else if (newTotal >= 450) {
+      setLimitPopup({ total: newTotal, threshold: 450, atLimit: false, overflow });
+    }
+
+    showToast(updated.added > 0 ? `已加入 ${updated.added} 词` : '这些词都已在上一单元里');
+  };
+
+  // ====== 单元操作 ======
+  const deleteUnit = (id: string) => {
+    setUnits((us) => us.filter((u) => u.id !== id));
+    showToast('单元已删除');
+  };
+
+  const deleteWord = (unitId: string, wordIdx: number) => {
+    setUnits((us) => us.map((u) => u.id !== unitId ? u : { ...u, words: u.words.filter((_, i) => i !== wordIdx) }));
+  };
+
+  const copyUnit = async (u: CollectionUnit) => {
+    const ok = await copyText(buildUnitCopy(u));
+    showToast(ok ? `已复制「${u.name}」` : '复制失败，请手动选择');
+  };
+
+  const copyAll = async () => {
+    const ok = await copyText(buildAllCopy(units));
+    showToast(ok ? '全部单元已复制' : '复制失败，请手动选择');
+  };
+
+  const exportAll = () => {
+    if (units.length === 0) { showToast('还没有单元'); return; }
+    exportXlsx(units);
+  };
+
+  const toggleExpand = (id: string) => setExpanded((e) => ({ ...e, [id]: !e[id] }));
+
+  const openQuiz = (u: CollectionUnit, mode: 'word-meaning' | 'meaning-word') => {
+    if (u.words.length === 0) { showToast('单元里还没有单词'); return; }
+    setQuizPick({ unitId: u.id, mode, title: `${mode === 'word-meaning' ? '看词识意' : '听音辨义'} · ${u.name}` });
+  };
+
+  const currentUnit = quiz ? units.find((u) => u.id === quiz.unitId) : null;
+  const quizWords: QuizWord[] = currentUnit?.words.map((w) => ({
+    word: w.word,
+    uk: w.uk, us: w.us, ukPhonetic: w.ukPhonetic, usPhonetic: w.usPhonetic, meaning: w.meaning,
+  })) ?? [];
+
+  return (
+    <div className="mx-auto min-h-screen max-w-5xl px-5 py-7">
+      {/* 顶部返回 + 批量按钮 */}
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <button onClick={() => navigate('/')} className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
+          <ArrowLeft className="h-4 w-4" /> 返回首页
+        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={copyAll}
+            disabled={units.length === 0}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100 disabled:opacity-40"
+          >
+            <Copy className="h-3.5 w-3.5" /> 一键复制全部单元
+          </button>
+          <button
+            onClick={exportAll}
+            disabled={units.length === 0}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-indigo-600 hover:to-sky-600 disabled:opacity-40"
+          >
+            <Download className="h-3.5 w-3.5" /> 导出词表（xlsx）
+          </button>
+        </div>
+      </div>
+
+      {/* 标题 + 统计 */}
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900">
+            <BookMarked className="h-6 w-6 text-indigo-500" />
+            生词整理
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            共 <b className="text-slate-700">{units.length}</b> 单元 ·
+            <b className="text-slate-700"> {totalCount}</b> 词
+            <span className="ml-2 text-slate-400">（上限 {COLLECTION_LIMIT}）</span>
+          </p>
+        </div>
+      </div>
+
+      {/* 输入卡片 */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <label className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+          <Sparkles className="h-4 w-4 text-indigo-500" />
+          输入单词 / 词组（每行一个，或用 / / 、 / ，分隔）
+        </label>
+        <textarea
+          value={inputRaw}
+          onChange={(e) => setInputRaw(e.target.value)}
+          placeholder={'legacy\nambiguous  /  take into account\n换句话说，也就是说'}
+          rows={5}
+          className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+        />
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="text-xs text-slate-500">
+            {splitInput(inputRaw).length > 0 && `共 ${splitInput(inputRaw).length} 个待抓取`}
+            {loading && progress.total > 0 && ` · 抓取中 ${progress.done}/${progress.total}（${progress.current || '…'}）`}
+          </div>
+          <button
+            onClick={startImport}
+            disabled={loading || splitInput(inputRaw).length === 0}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:from-indigo-600 hover:to-sky-600 disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            完成输入
+          </button>
+        </div>
+      </div>
+
+      {/* 单元列表 */}
+      {units.length === 0 ? (
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-300 bg-white/60 p-10 text-center">
+          <BookMarked className="mx-auto mb-3 h-10 w-10 text-slate-300" />
+          <p className="text-sm text-slate-400">还没有任何单元，先在上面输入一些单词吧</p>
+        </div>
+      ) : (
+        <div className="mt-8 space-y-5">
+          {units.map((u) => (
+            <UnitCard
+              key={u.id}
+              unit={u}
+              expanded={!!expanded[u.id]}
+              onToggle={() => toggleExpand(u.id)}
+              onDeleteUnit={() => deleteUnit(u.id)}
+              onDeleteWord={(idx) => deleteWord(u.id, idx)}
+              onCopy={() => copyUnit(u)}
+              onPlay={(url) => playAudio(url)}
+              onQuiz={(m) => openQuiz(u, m)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 抓取完成后 —— 确认弹窗（选择「新单元」还是「追加到上一单元」） */}
+      {parsedBatch && parsedBatch.length > 0 && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-2xl rounded-3xl bg-white p-6 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 text-base font-bold text-slate-900">
+                <Sparkles className="h-4 w-4 text-indigo-500" />
+                抓到 {parsedBatch.length} 个单词，加入到哪里？
+              </h3>
+              <button onClick={() => { setParsedBatch(null); }} className="rounded-full p-1 text-slate-400 hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            </div>
+
+            <div className="mt-4 max-h-48 overflow-auto rounded-xl border border-slate-200 p-3 text-xs">
+              {parsedBatch.slice(0, 20).map((w, i) => (
+                <div key={i} className="flex gap-2 border-b border-slate-100 py-1 last:border-b-0">
+                  <span className="w-28 shrink-0 font-semibold text-slate-800">{w.word}</span>
+                  <span className="text-slate-500">{w.meaning || '—（未释义）'}</span>
+                </div>
+              ))}
+              {parsedBatch.length > 20 && <div className="mt-1 text-slate-400">… 还有 {parsedBatch.length - 20} 个</div>}
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <label className="text-xs font-semibold text-slate-600">保存方式</label>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <button
+                  onClick={() => { setModeConfirm('new'); setShowConfirm(true); }}
+                  className="rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-left hover:bg-indigo-100"
+                >
+                  <div className="text-sm font-bold text-indigo-700">✦ 添加为新单元</div>
+                  <div className="mt-1 text-[11px] text-indigo-500">单元名 = 手动文字 + 添加时间（年月日时分）</div>
+                </button>
+                <button
+                  onClick={() => { setModeConfirm('append'); setShowConfirm(true); }}
+                  disabled={units.length === 0}
+                  className="rounded-xl border border-slate-200 bg-white p-3 text-left hover:bg-slate-50 disabled:opacity-40"
+                >
+                  <div className="text-sm font-bold text-slate-700">↳ 追加到上一单元</div>
+                  <div className="mt-1 text-[11px] text-slate-400">汇总到最上面那个单元的末尾</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 新单元命名 */}
+      {showConfirm && modeConfirm === 'new' && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+            <h4 className="text-sm font-bold text-slate-900">新单元命名</h4>
+            <p className="mt-1 text-xs text-slate-500">
+              命名规则：手动文字 + 当前时间（自动追加）。<br />
+              例如「真题2026 · 2026-11-17 14:32」
+            </p>
+            <input
+              value={nameHint}
+              onChange={(e) => setNameHint(e.target.value)}
+              placeholder="真题2026 / 或其他出处"
+              className="mt-3 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-indigo-300 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setShowConfirm(false)} className="rounded-xl border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50">取消</button>
+              <button onClick={() => confirmImport()} className="rounded-xl bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500">确认添加</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirm && modeConfirm === 'append' && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+            <h4 className="text-sm font-bold text-slate-900">追加到上一单元？</h4>
+            <p className="mt-1 text-xs text-slate-500">
+              把这 <b>{parsedBatch?.length}</b> 个单词汇总到当前最上面的单元「<b>{units[0]?.name}</b>」末尾。
+            </p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setShowConfirm(false)} className="rounded-xl border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50">取消</button>
+              <button onClick={() => confirmImport()} className="rounded-xl bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500">确认追加</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 上限提示 */}
+      {limitPopup && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="flex items-center gap-2 text-amber-600">
+              <AlertTriangle className="h-5 w-5" />
+              <h4 className="text-sm font-bold">
+                {limitPopup.atLimit ? '单词上限已达到' : `单词数量达到 ${limitPopup.threshold}`}
+              </h4>
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              生词整理总共 <b>{COLLECTION_LIMIT}</b> 词上限。
+              当前已使用 <b>{limitPopup.total}</b> 词
+              {limitPopup.atLimit ? '，新单词将不再能继续加入。' : `，再加入 ${COLLECTION_LIMIT - limitPopup.total} 词即满。`}
+            </p>
+            <p className="mt-2 text-xs text-slate-500">
+              建议：点页面顶部「一键复制全部单元」或「导出词表（xlsx）」把当前所有单元保存到本地，再回到首页清除生词整理。
+            </p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                onClick={() => { copyAll(); setLimitPopup(null); }}
+                className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
+              >
+                一键复制全部
+              </button>
+              <button
+                onClick={() => { exportAll(); setLimitPopup(null); }}
+                className="rounded-xl bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500"
+              >
+                导出词表
+              </button>
+              <button
+                onClick={() => setLimitPopup(null)}
+                className="rounded-xl border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50"
+              >
+                我知道了
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 计时秒数选择弹窗（和听力精听的形式一致） */}
+      {quizPick && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h4 className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
+                <Timer className="h-4 w-4 text-indigo-500" />
+                {quizPick.title}
+              </h4>
+              <button onClick={() => setQuizPick(null)} className="rounded-full p-1 text-slate-400 hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            </div>
+            <p className="mt-1 text-xs text-slate-500">
+              选择每个单词的倒计时秒数；时间到会自动揭晓并进入下一词。
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {[5, 7, 10, 15].map((s) => (
+                <button
+                  key={s}
+                  onClick={() => {
+                    setQuiz({ unitId: quizPick.unitId, mode: quizPick.mode, seconds: s, title: quizPick.title });
+                    setQuizPick(null);
+                  }}
+                  className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
+                >
+                  {s} 秒 / 词
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 计时背诵弹窗 */}
+      {quiz && (
+        <ReciteQuiz
+          words={quizWords}
+          mode={quiz.mode}
+          seconds={quiz.seconds}
+          title={quiz.title}
+          onClose={() => setQuiz(null)}
+        />
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-8 left-1/2 z-[2147483647] -translate-x-1/2 rounded-full bg-slate-900/90 px-4 py-2 text-xs text-white shadow-lg">
+          {toast}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =============================
+// 单元卡片（子组件）
+// =============================
+
+interface UnitCardProps {
+  unit: CollectionUnit;
+  expanded: boolean;
+  onToggle: () => void;
+  onDeleteUnit: () => void;
+  onDeleteWord: (idx: number) => void;
+  onCopy: () => void;
+  onPlay: (url: string) => void;
+  onQuiz: (mode: 'word-meaning' | 'meaning-word') => void;
+}
+
+function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy, onPlay, onQuiz }: UnitCardProps) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      {/* 单元头 */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-gradient-to-r from-indigo-50 to-sky-50 px-4 py-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <BookOpen className="h-4 w-4 shrink-0 text-indigo-500" />
+            <h3 className="truncate text-sm font-bold text-slate-800">{unit.name}</h3>
+          </div>
+          <div className="mt-0.5 flex items-center gap-2 text-[11px] text-slate-500">
+            <span>共 {unit.words.length} 词</span>
+            <span>· {formatTimestamp(unit.createdAt)}</span>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => onQuiz('word-meaning')}
+            className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-indigo-700 hover:bg-indigo-50"
+          >
+            <BookOpen className="h-3 w-3" /> 看词识意
+          </button>
+          <button
+            onClick={() => onQuiz('meaning-word')}
+            className="inline-flex items-center gap-1 rounded-lg border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-sky-700 hover:bg-sky-50"
+          >
+            <Headphones className="h-3 w-3" /> 听音辨义
+          </button>
+          <button
+            onClick={onCopy}
+            className="inline-flex items-center gap-1 rounded-lg border border-emerald-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-50"
+          >
+            <Copy className="h-3 w-3" /> 复制本单元
+          </button>
+          <button
+            onClick={() => {
+              if (confirm(`删除整个单元「${unit.name}」？`)) onDeleteUnit();
+            }}
+            className="rounded-lg border border-rose-200 bg-white p-1 text-rose-500 hover:bg-rose-50"
+            title="删除单元"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+          <button onClick={onToggle} className="rounded-lg border border-slate-200 bg-white p-1 text-slate-500 hover:bg-slate-50">
+            {expanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* 列表 */}
+      {expanded && (
+        <div className="max-h-[60vh] overflow-auto px-4 py-2">
+          {unit.words.length === 0 ? (
+            <div className="py-6 text-center text-xs text-slate-400">单元里还没有单词</div>
+          ) : (
+            <div className="divide-y divide-slate-100">
+              {unit.words.map((w, i) => (
+                <WordRow key={i} idx={i + 1} word={w} onPlay={onPlay} onDelete={() => onDeleteWord(i)} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string) => void; onDelete: () => void }) {
+  return (
+    <div className="grid grid-cols-[2rem_120px_auto_1fr_28px] items-center gap-3 py-2 text-sm">
+      <span className="text-center text-xs text-slate-400 tabular-nums">{idx}</span>
+      <span className="truncate font-semibold text-slate-800">{word.word}</span>
+      <span className="inline-flex gap-1">
+        {word.us && (
+          <button
+            onClick={() => onPlay(word.us)}
+            title="美音"
+            className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600"
+          >
+            <Volume2 className="h-2.5 w-2.5" /> 美
+          </button>
+        )}
+        {word.uk && (
+          <button
+            onClick={() => onPlay(word.uk)}
+            title="英音"
+            className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600"
+          >
+            <Volume2 className="h-2.5 w-2.5" /> 英
+          </button>
+        )}
+        {!word.us && !word.uk && (
+          <>
+            <button onClick={() => onPlay(youdaoVoice(word.word, 2))} title="美音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600">
+              <Volume2 className="h-2.5 w-2.5" /> 美
+            </button>
+            <button onClick={() => onPlay(youdaoVoice(word.word, 1))} title="英音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+              <Volume2 className="h-2.5 w-2.5" /> 英
+            </button>
+          </>
+        )}
+      </span>
+      <span className="text-xs leading-relaxed text-slate-500">
+        {word.usPhonetic && <span className="mr-2 text-slate-400">美 {word.usPhonetic}</span>}
+        {word.ukPhonetic && <span className="mr-2 text-slate-400">英 {word.ukPhonetic}</span>}
+        {word.meaning}
+      </span>
+      <button onClick={onDelete} title="删除" className="flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">
+        <Trash2 className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+}

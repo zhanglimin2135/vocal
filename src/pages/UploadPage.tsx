@@ -32,6 +32,7 @@ import {
   Award,            // 奖牌图标（四级词汇）
   Hammer,           // 锤子图标（赶工中）
   Sparkles,         // 星光图标（欢迎弹窗装饰）
+  Plus,             // 加号图标（生词整理）
 } from 'lucide-react';
 // 导入全局状态管理 Hook（Zustand）
 import { useAppStore } from '@/store/appStore';
@@ -447,10 +448,27 @@ export default function UploadPage() {
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
+            {/* 生词整理 —— 用户手动输入单元，自定义抓取发音与释义 */}
+            <div
+              onClick={() => { navigate('/collection'); }}
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-400 via-amber-400 to-emerald-400" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-400 to-amber-500 shadow-md">
+                  <Plus className="h-6 w-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="truncate text-base font-semibold text-slate-800">生词整理</h4>
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    手动输入单词 · 自动抓取发音释义 · 看词识意 / 听音辨义
+                  </p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
           </div>
         </section>
-
-        {/* ======== 我的词表：已导入词表列表展示区 ======== */}
         <section className="mt-12">
           {/* 列表标题栏：左侧显示标题 + 词表数量统计 */}
           <div className="mb-5 flex items-end justify-between">
