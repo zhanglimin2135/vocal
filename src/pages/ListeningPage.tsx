@@ -14,7 +14,7 @@
  *   这些工具函数被 ListeningUpload / ListeningEditor 直接引用。
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Volume2, Plus, Link2, FileUp, GripVertical, Trash2, ExternalLink,
@@ -286,6 +286,12 @@ export default function ListeningPage() {
   const [sorting, setSorting] = useState(false);
   // 排序模式下每张卡片的「目标序号」输入框值（entry.id → 字符串）
   const [rankInputs, setRankInputs] = useState<Record<string, string>>({});
+  // 排序模式下多选的条目 id（按选择顺序无关，移动时保持它们在列表中的相对顺序）
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  // 多选整体移动的目标序号输入值
+  const [groupRank, setGroupRank] = useState('');
+  // 排序后需要恢复的滚动位置（避免页面跳动到移动后的位置）
+  const scrollLockRef = useRef<number | null>(null);
   // 目录搜索关键词
   const [search, setSearch] = useState('');
   // 拖拽排序：记录被拖拽条目的 id 与当前悬停的目标 id
@@ -484,21 +490,26 @@ export default function ListeningPage() {
   // ===== 排序（仅作用于当前分类，其他分类的顺序不变） =====
 
   /**
-   * moveEntryToRank - 在当前分类内把某个条目移动到目标序号（1-based）
-   *   后面的条目自动顺延，序号实时刷新
+   * moveEntriesToRank - 在当前分类内把一组条目整体移动到目标序号（1-based）
+   *   未选中的条目自动顺延，选中条目之间保持原有相对顺序
+   *   排序完成后恢复滚动位置，页面停留在操作前的位置
    */
-  const moveEntryToRank = (id: string, rankInput: string) => {
+  const moveEntriesToRank = (movingIds: string[], rankInput: string) => {
     const ids = categoryEntries.map((e) => e.id);
-    const from = ids.indexOf(id);
-    if (from < 0) return;
+    const movingSet = new Set(movingIds);
+    const moving = ids.filter((id) => movingSet.has(id));
+    if (moving.length === 0) return;
+    const rest = ids.filter((id) => !movingSet.has(id));
     const raw = parseInt(rankInput, 10);
     if (Number.isNaN(raw)) return;
-    // 目标序号 clamp 到 [1, 当前分类条目数]
-    const to = Math.max(1, Math.min(ids.length, raw)) - 1;
-    if (from === to) return;
-    const nextIds = [...ids];
-    const [moved] = nextIds.splice(from, 1);
-    nextIds.splice(to, 0, moved);
+    // 目标序号 clamp 到 [1, 未移动条目数 + 1]
+    const to = Math.max(1, Math.min(rest.length + 1, raw)) - 1;
+    const nextIds = [...rest.slice(0, to), ...moving, ...rest.slice(to)];
+    if (nextIds.join() === ids.join()) return;
+
+    // 记录滚动位置：重排后恢复，避免页面跟着条目跳到新位置
+    scrollLockRef.current = window.scrollY;
+
     // 重新拼出全局顺序：按分类顺序依次排列各分类的条目
     const ordered: string[] = [];
     for (const c of LISTENING_CATEGORIES) {
@@ -509,13 +520,48 @@ export default function ListeningPage() {
       }
     }
     reorderListeningEntries(ordered);
-    // 移动后清空这张卡片的输入框，避免显示旧值
+    // 移动后清空输入框，避免显示旧值
     setRankInputs((prev) => {
       const next = { ...prev };
-      delete next[id];
+      for (const id of moving) delete next[id];
       return next;
     });
   };
+
+  /** 单张卡片按序号移动 */
+  const moveEntryToRank = (id: string, rankInput: string) => {
+    moveEntriesToRank([id], rankInput);
+  };
+
+  /** 多选整体移动 */
+  const moveSelectedToRank = () => {
+    if (selectedIds.length === 0) return;
+    moveEntriesToRank(selectedIds, groupRank);
+    setGroupRank('');
+  };
+
+  /** 排序模式下切换单张卡片的选中状态 */
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => (
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    ));
+  };
+
+  /** 退出排序模式并清空排序相关的临时状态 */
+  const exitSorting = () => {
+    setSorting(false);
+    setRankInputs({});
+    setSelectedIds([]);
+    setGroupRank('');
+  };
+
+  // 重排引起的滚动恢复：在布局完成后把滚动位置拉回操作前
+  useLayoutEffect(() => {
+    if (scrollLockRef.current == null) return;
+    const y = scrollLockRef.current;
+    scrollLockRef.current = null;
+    window.scrollTo({ top: y, behavior: 'auto' });
+  }, [entries]);
 
   // ===== 拖拽排序（卡片之间） =====
   const onDragStart = (id: string) => {
@@ -530,9 +576,13 @@ export default function ListeningPage() {
     dragFromRef.current = null;
     setDragOverId(null);
     if (!fromId || fromId === targetId) return;
-    const targetIdx = categoryEntries.findIndex((e) => e.id === targetId);
-    if (targetIdx < 0) return;
-    moveEntryToRank(fromId, String(targetIdx + 1));
+    // 拖动的是已选中的卡片时，整组一起移动
+    const group = selectedIds.includes(fromId) ? selectedIds : [fromId];
+    const groupSet = new Set(group);
+    const rest = categoryEntries.map((e) => e.id).filter((id) => !groupSet.has(id));
+    const pos = rest.indexOf(targetId);
+    if (pos < 0) return;
+    moveEntriesToRank(group, String(pos + 1));
   };
 
   // 搜索过滤：按名称匹配（不区分大小写），范围仅限当前分类
@@ -635,7 +685,12 @@ export default function ListeningPage() {
             return (
               <button
                 key={c.id}
-                onClick={() => { setActiveCategory(c.id); setSearch(''); }}
+                onClick={() => {
+                  setActiveCategory(c.id);
+                  setSearch('');
+                  setSelectedIds([]);
+                  setGroupRank('');
+                }}
                 className={cn(
                   'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition',
                   active
@@ -662,15 +717,52 @@ export default function ListeningPage() {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/80 px-4 py-3">
             <p className="flex items-center gap-2 text-sm text-indigo-800">
               <Sparkles className="h-4 w-4" />
-              已生成新的目录：每张卡片左上角显示当前序号，输入目标序号（1 ~ {categoryEntries.length}）后回车或点「确定」即可移动
+              {selectedIds.length > 0
+                ? `已选 ${selectedIds.length} 项：输入目标序号后点「整体移动」，这组条目会按原顺序一起移动`
+                : `点卡片可多选整体移动；也可按单张卡片输入目标序号（1 ~ ${categoryEntries.length}）`}
             </p>
-            <button
-              onClick={() => { setSorting(false); setRankInputs({}); }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
-            >
-              <Check className="h-4 w-4" />
-              完成排序
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              {selectedIds.length > 0 && (
+                <>
+                  <span className="text-[11px] font-medium text-indigo-600">移动到序号</span>
+                  <input
+                    type="number"
+                    min={1}
+                    max={categoryEntries.length}
+                    placeholder=""
+                    value={groupRank}
+                    onChange={(e) => setGroupRank(e.target.value.replace(/[^0-9]/g, ''))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        moveSelectedToRank();
+                      }
+                    }}
+                    className="h-7 w-16 rounded-md border border-indigo-300 bg-white px-2 text-center text-sm font-semibold text-indigo-700 outline-none transition focus:border-indigo-500"
+                  />
+                  <span className="text-[11px] text-slate-400">/ {categoryEntries.length}</span>
+                  <button
+                    onClick={moveSelectedToRank}
+                    className="rounded-md bg-indigo-600 px-3 py-1 text-[11px] font-semibold text-white transition hover:bg-indigo-500"
+                  >
+                    整体移动
+                  </button>
+                  <button
+                    onClick={() => { setSelectedIds([]); setGroupRank(''); }}
+                    className="rounded-md border border-indigo-200 bg-white px-3 py-1 text-[11px] font-medium text-indigo-600 transition hover:bg-indigo-50"
+                  >
+                    取消选择
+                  </button>
+                </>
+              )}
+              <button
+                onClick={exitSorting}
+                className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+              >
+                <Check className="h-4 w-4" />
+                完成排序
+              </button>
+            </div>
           </div>
         )}
 
@@ -758,14 +850,28 @@ export default function ListeningPage() {
                 onDragOver={(e) => onDragOver(entry.id, e)}
                 onDrop={() => onDrop(entry.id)}
                 onDragEnd={() => { dragFromRef.current = null; setDragOverId(null); }}
-                onClick={() => { if (!sorting) openEntry(entry); }}
+                onClick={() => { if (sorting) toggleSelect(entry.id); else openEntry(entry); }}
                 className={cn(
                   'group relative flex cursor-pointer items-center gap-4 rounded-2xl border bg-white p-4 shadow-sm transition-all',
                   'border-slate-200/80 hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg',
                   sorting && 'cursor-grab active:cursor-grabbing',
+                  sorting && selectedIds.includes(entry.id) && 'border-indigo-500 ring-2 ring-indigo-300',
                   dragOverId === entry.id && 'border-indigo-400 ring-2 ring-indigo-200',
                 )}
               >
+                {/* 多选框（排序模式显示） */}
+                {sorting && (
+                  <span
+                    className={cn(
+                      'flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition',
+                      selectedIds.includes(entry.id)
+                        ? 'border-indigo-600 bg-indigo-600 text-white'
+                        : 'border-slate-300 bg-white text-transparent',
+                    )}
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                  </span>
+                )}
                 {/* 序号徽章 —— 始终显示 */}
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-700 text-sm font-bold text-white shadow-md ring-1 ring-indigo-900/30">
                   {rank}
