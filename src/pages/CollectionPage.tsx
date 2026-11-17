@@ -122,6 +122,7 @@ export default function CollectionPage() {
   const [nameHint, setNameHint] = useState('真题2026');
   const [limitPopup, setLimitPopup] = useState<null | { total: number; threshold: number; atLimit: boolean; overflow: boolean }>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [confirmClearAll, setConfirmClearAll] = useState(false);
   const [toast, setToast] = useState('');
   const toastTimer = useRef<number | null>(null);
 
@@ -210,6 +211,13 @@ export default function CollectionPage() {
     setUnits((us) => us.map((u) => u.id !== unitId ? u : { ...u, words: u.words.filter((_, i) => i !== wordIdx) }));
   };
 
+  const deleteAllUnits = () => {
+    setUnits([]);
+    setExpanded({});
+    setConfirmClearAll(false);
+    showToast('全部单元已删除');
+  };
+
   const copyUnit = async (u: CollectionUnit) => {
     const ok = await copyText(buildUnitCopy(u));
     showToast(ok ? `已复制「${u.name}」` : '复制失败，请手动选择');
@@ -265,6 +273,13 @@ export default function CollectionPage() {
             className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-indigo-600 hover:to-sky-600 disabled:opacity-40"
           >
             <Download className="h-3.5 w-3.5" /> 导出词表（xlsx）
+          </button>
+          <button
+            onClick={() => setConfirmClearAll(true)}
+            disabled={units.length === 0}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-100 disabled:opacity-40"
+          >
+            <Trash2 className="h-3.5 w-3.5" /> 删除全部单元
           </button>
         </div>
       </div>
@@ -479,6 +494,25 @@ export default function CollectionPage() {
               >
                 我知道了
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 删除全部单元确认 */}
+      {confirmClearAll && (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl">
+            <h4 className="flex items-center gap-2 text-sm font-bold text-slate-900">
+              <AlertTriangle className="h-4 w-4 text-rose-500" />
+              删除全部单元？
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              将删除当前全部 {units.length} 个单元、共 {totalCount} 个单词，此操作不可恢复。
+            </p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setConfirmClearAll(false)} className="rounded-xl border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-50">取消</button>
+              <button onClick={deleteAllUnits} className="rounded-xl bg-rose-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-rose-500">确认删除</button>
             </div>
           </div>
         </div>
