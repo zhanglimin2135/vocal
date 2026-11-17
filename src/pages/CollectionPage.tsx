@@ -511,10 +511,10 @@ export default function CollectionPage() {
                     setQuiz({ unitId: quizPick.unitId, mode: quizPick.mode, seconds: s, title: quizPick.title });
                     setQuizPick(null);
                   }}
-                  className="rounded-2xl border-2 border-violet-100 bg-violet-50/60 px-4 py-4 text-center transition hover:border-violet-300 hover:bg-violet-100 active:translate-y-0.5"
+                  className="flex flex-col items-center gap-1 rounded-2xl border-2 border-slate-200 bg-white py-5 transition-all hover:border-violet-400 hover:bg-violet-50 active:translate-y-0.5"
                 >
-                  <span className="text-3xl font-black text-violet-600">{s}</span>
-                  <span className="ml-1 text-sm font-medium text-violet-400">秒 / 词</span>
+                  <span className="font-mono text-3xl font-semibold text-violet-600">{s}</span>
+                  <span className="text-xs font-medium text-slate-500">秒 / 词</span>
                 </button>
               ))}
             </div>

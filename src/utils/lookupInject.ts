@@ -1067,37 +1067,66 @@ const LOOKUP_SCRIPT = String.raw`
     return forms;
   }
 
-  /** 有道发音（type=1 英 / type=2 美） → 百度 TTS（lan=uk 英 / lan=en 美） */
+  /** 优先所选口音；美音不可用时自动补英音，最后百度 TTS 兜底 */
   function audioUrls(word, accent) {
-    var youdaoType = accent === 'uk' ? 1 : 2;
-    var baiduLan = accent === 'uk' ? 'uk' : 'en';
     var forms = wordForms(word);
+    var accents = accent === 'us' ? ['us', 'uk'] : ['uk', 'us'];
     var urls = [];
-    for (var i = 0; i < forms.length; i++) {
-      urls.push('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(forms[i]) + '&type=' + youdaoType);
+    for (var a = 0; a < accents.length; a++) {
+      var youdaoType = accents[a] === 'uk' ? 1 : 2;
+      for (var i = 0; i < forms.length; i++) {
+        var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(forms[i]) + '&type=' + youdaoType;
+        if (urls.indexOf(url) < 0) urls.push(url);
+      }
     }
-    // 百度 TTS 兜底（用原词，百度对变形词支持较好）
-    urls.push('https://fanyi.baidu.com/gettts?lan=' + baiduLan + '&text=' + encodeURIComponent(word) + '&spd=3&source=web');
+    for (var b = 0; b < accents.length; b++) {
+      var baiduLan = accents[b] === 'uk' ? 'uk' : 'en';
+      urls.push('https://fanyi.baidu.com/gettts?lan=' + baiduLan + '&text=' + encodeURIComponent(word) + '&spd=3&source=web');
+    }
     return urls;
   }
 
-  /** 依次尝试一组音频 URL，成功即播放，全部失败则静默 */
-  function playChain(urls) {
+  /** 依次尝试音源；播放失败或超时都会切换，全部失败后执行兜底 */
+  function playChain(urls, onFailure) {
     var i = 0;
     function next() {
-      if (i >= urls.length) return;
+      if (i >= urls.length) { if (onFailure) onFailure(); return; }
+      var audio;
+      var done = false;
+      var timer = null;
+      function finish(ok) {
+        if (done) return;
+        done = true;
+        if (timer) clearTimeout(timer);
+        if (audio) audio.onerror = null;
+        if (!ok) {
+          try { if (audio) audio.pause(); } catch (e) { /* ignore */ }
+          next();
+        }
+      }
       try {
-        var audio = new Audio(urls[i++]);
-        audio.onerror = next;
+        audio = new Audio(urls[i++]);
+        audio.onerror = function () { finish(false); };
+        timer = setTimeout(function () { finish(false); }, 4500);
         var p = audio.play();
-        if (p && p.catch) p.catch(next);
-      } catch (e) { next(); }
+        if (p && p.then) p.then(function () { finish(true); }, function () { finish(false); });
+        else finish(true);
+      } catch (e) { finish(false); }
     }
     next();
   }
 
   function playPronunciation(word, accent) {
-    playChain(audioUrls(word, accent));
+    playChain(audioUrls(word, accent), function () {
+      // 网络音源全部不可用时，仍用系统英文语音保证发声
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+      try {
+        window.speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-GB';
+        window.speechSynthesis.speak(utterance);
+      } catch (e) { /* ignore */ }
+    });
   }
 
   // ---------- 数据源 ----------

@@ -64,6 +64,53 @@ function copyText(text: string): Promise<boolean> {
   return Promise.resolve(fallback(text));
 }
 
+/** 单个音源只有真正开始播放才算成功；加载失败或超时则交给下一个音源 */
+function tryAudio(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let done = false;
+    const finish = (ok: boolean) => {
+      if (done) return;
+      done = true;
+      window.clearTimeout(timer);
+      audio.onerror = null;
+      if (!ok) {
+        try { audio.pause(); } catch { /* ignore */ }
+      }
+      resolve(ok);
+    };
+    audio.onerror = () => finish(false);
+    const timer = window.setTimeout(() => finish(false), 4500);
+    try {
+      const pending = audio.play();
+      if (pending) pending.then(() => finish(true)).catch(() => finish(false));
+      else finish(true);
+    } catch {
+      finish(false);
+    }
+  });
+}
+
+/** 美音优先，失败自动补英音；所有音频源失败时用系统英文语音兜底 */
+async function playWithFallback(word: QuizWord) {
+  const urls = [
+    word.us || youdaoVoice(word.word, 2),
+    word.uk || youdaoVoice(word.word, 1),
+    youdaoVoice(word.word, 2),
+    youdaoVoice(word.word, 1),
+  ];
+  for (const url of new Set(urls)) {
+    if (await tryAudio(url)) return;
+  }
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(word.word);
+    utterance.lang = 'en-GB';
+    window.speechSynthesis.speak(utterance);
+  } catch { /* ignore */ }
+}
+
 export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Props) {
   // 听音辨义乱序；看词识意保持原顺序
   const [round, setRound] = useState(0);
@@ -84,9 +131,7 @@ export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Pro
   const cur = list[index];
 
   const play = () => {
-    if (!cur) return;
-    const url = cur.us || cur.uk || youdaoVoice(cur.word, 2);
-    try { new Audio(url).play().catch(() => { /* 静默 */ }); } catch { /* ignore */ }
+    if (cur) void playWithFallback(cur);
   };
 
   /** 切到指定下标（重置倒计时与展开状态） */
