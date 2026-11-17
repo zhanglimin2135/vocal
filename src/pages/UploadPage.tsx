@@ -356,7 +356,7 @@ export default function UploadPage() {
             <p className="text-base text-slate-400/70">单词仅为背诵使用，检查请到我的词表中导入检查</p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {/* 初中词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
               onClick={() => {
@@ -460,9 +460,7 @@ export default function UploadPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-base font-semibold text-slate-800">生词整理</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">
-                    手动输入单词 · 自动抓取发音释义 · 看词识意 / 听音辨义
-                  </p>
+                  <p className="mt-0.5 text-xs text-slate-400">自己的生词表</p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
