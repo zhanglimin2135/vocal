@@ -51,6 +51,23 @@ function jsonp<T>(url: string, param: string, timeout = 7000): Promise<T | null>
 
 interface YoudaoEntry { entry?: string; explain?: string }
 
+/**
+ * 精简释义：每个词性最多保留 3 个义项
+ *   有道格式：`n. 遗产，遗赠物；遗留问题，后遗症; adj. xxx`
+ *   词性之间用半角分号分隔，同一词性的多个义项用全角分号分隔
+ */
+function trimMeaning(text: string): string {
+  if (!text) return '';
+  const groups = text.split(/;\s*(?=[a-z]{1,6}\.\s)/i);
+  const out = groups
+    .map((g) => {
+      const senses = g.split('；').map((s) => s.trim()).filter(Boolean);
+      return senses.slice(0, 3).join('；');
+    })
+    .filter(Boolean);
+  return out.join('; ');
+}
+
 /** 有道 suggest：优先取与查询词完全一致的词条，否则取第一条 */
 async function youdaoExplain(word: string): Promise<string> {
   const res = await jsonp<{ data?: { entries?: YoudaoEntry[] } }>(
@@ -62,7 +79,7 @@ async function youdaoExplain(word: string): Promise<string> {
   const lower = word.trim().toLowerCase();
   const exact = entries.find((e) => String(e.entry || '').trim().toLowerCase() === lower);
   const picked = exact || entries[0];
-  return String(picked.explain || '').trim();
+  return trimMeaning(String(picked.explain || '').trim());
 }
 
 /** 音标：dictionaryapi.dev（带简单词形还原） */

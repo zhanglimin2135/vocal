@@ -87,18 +87,19 @@ function exportXlsx(units: CollectionUnit[]) {
   const wb = XLSX.utils.book_new();
   const allRows: string[][] = [];
   let globalIdx = 0;
+  allRows.push(['序号', '单词', '释义']);
   for (const u of units) {
-    allRows.push([u.name, '', '', formatTimestamp(u.createdAt)]);
+    allRows.push([u.name, formatTimestamp(u.createdAt)]);
     for (const w of u.words) {
       globalIdx++;
-      allRows.push([String(globalIdx), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning, w.usPhonetic || w.ukPhonetic]);
+      allRows.push([String(globalIdx), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning]);
     }
   }
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(allRows), '全表');
   for (const u of units) {
     const rows = [
-      ['序号', '单词', '释义', '音标'],
-      ...u.words.map((w, i) => [String(i + 1), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning, w.usPhonetic || w.ukPhonetic]),
+      ['序号', '单词', '释义'],
+      ...u.words.map((w, i) => [String(i + 1), w.word, w.pos ? `${w.pos} ${w.meaning}` : w.meaning]),
     ];
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), u.name.slice(0, 28));
   }
@@ -493,9 +494,6 @@ export default function CollectionPage() {
               </div>
               <div className="min-w-0 flex-1 pt-0.5">
                 <h3 className="text-lg font-extrabold leading-tight text-slate-900">计时背诵</h3>
-                <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                  选择每个单词的倒计时秒数，时间到自动标星并进入下一词
-                </p>
                 <p className="mt-1 truncate text-[11px] text-violet-500">{quizPick.title}</p>
               </div>
               <button
@@ -667,8 +665,6 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
         )}
       </span>
       <span className="text-xs leading-relaxed text-slate-500">
-        {word.usPhonetic && <span className="mr-2 text-slate-400">美 {word.usPhonetic}</span>}
-        {word.ukPhonetic && <span className="mr-2 text-slate-400">英 {word.ukPhonetic}</span>}
         {word.meaning}
       </span>
       <button onClick={onDelete} title="删除" className="flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">

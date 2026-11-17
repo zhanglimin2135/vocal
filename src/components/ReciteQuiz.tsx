@@ -230,7 +230,10 @@ export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Pro
       <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-md">
         <div className="flex max-h-[92vh] w-full max-w-[1080px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
           <div className="flex items-center justify-between border-b border-slate-100 px-7 py-4">
-            <h3 className="truncate pr-4 text-lg font-extrabold text-slate-800">{title} 错词</h3>
+            <div className="min-w-0 pr-4">
+              <h3 className="truncate text-lg font-extrabold text-slate-800">{title} 错词</h3>
+              <p className="mt-1 text-sm font-semibold text-slate-700">{statsLine}</p>
+            </div>
             <button
               onClick={onClose}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
@@ -240,8 +243,6 @@ export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Pro
           </div>
 
           <div className="min-h-0 flex-1 overflow-auto px-7 py-4">
-            <p className="text-sm font-semibold text-slate-700">{statsLine}</p>
-            <div className="mt-3 text-xs font-semibold text-slate-500">标星错词（{wrongCount} 个）</div>
             {wrongCount === 0 ? (
               <div className="py-8 text-center text-sm text-slate-400">本轮没有标星的错词</div>
             ) : (
@@ -383,7 +384,7 @@ export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Pro
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span
                     key={`num-${index}-${seconds}`}
-                    className="font-mono text-2xl font-black tabular-nums"
+                    className="font-mono text-2xl font-normal tabular-nums"
                     style={{ animation: `recite-text-color-fade ${seconds}s linear forwards` }}
                   >
                     {remaining}
