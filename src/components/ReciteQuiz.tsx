@@ -1,20 +1,19 @@
 /**
- * 计时背诵弹窗（共用于：
- *   - 生词整理「看词识意」：显示单词，计时回想释义（识别背诵模式）
- *   - 生词整理「听音辨义」：只播发音，计时回想单词和释义（听音辨义模式）
- *   - 听力精听生词本「检查」：听音辨义计时模式
+ * 计时背诵弹窗（生词整理页使用）
  *
- * props:
- *   words         参加的单词数组
- *   mode          识别背诵(word-meaning / 看词识意) | 听音辨义(meaning-word)
- *   seconds       每词秒数（默认 10）
- *   title         弹窗标题（如「听音辨义 · 真题2026 · 错词」）
- *   onClose       关闭回调
- *   onFinish      完成回调，带结果统计
+ * 两种模式，交互与「背单词 · 计时背诵」完全一致：
+ *   - word-meaning（看词识意）：正面显示单词 + 播放发音，点击/↑/空格 查看释义
+ *   - meaning-word（听音辨义）：正面只显示大喇叭（自动播放），点击/↑/空格 显示单词和释义
+ *
+ * 快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起 · ↓/M 标星 · N 记住 · Shift/B 播放发音 · Esc 退出
+ * 超时：自动标星并进入下一词
+ * 结束：结果页与听力精听生词本检查结果一致（单元名 + 错词、统计、错词列表、一键复制、再来一轮）
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Volume2, Star, Check, ArrowLeft, ArrowRight, Eye, EyeOff, X, Timer } from 'lucide-react';
+import { Volume2, Star, Check, ChevronLeft, ChevronRight, X, Timer, Copy } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { youdaoVoice } from '@/utils/wordLookup';
 
 export interface QuizWord {
   word: string;
@@ -25,234 +24,273 @@ export interface QuizWord {
   meaning: string;
 }
 
-export interface QuizResult {
-  total: number;
-  starredCount: number;
-  rightCount: number; // = total - starredCount（用户主动「记住」）
-  wrongWords: QuizWord[]; // 标星的
-  acc: number;
-}
-
 interface Props {
   words: QuizWord[];
   mode: 'word-meaning' | 'meaning-word';
   seconds: number;
-  title?: string;
+  /** 单元名，用作结果页标题 */
+  title: string;
   onClose: () => void;
-  onFinish?: (r: QuizResult) => void;
 }
 
-const YOUDAO_VOICE = (word: string, type: 1 | 2) =>
-  `https://dict.youdao.com/dictvoice?type=${type}&audio=${encodeURIComponent(word)}`;
+/** 洗牌 */
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-export default function ReciteQuiz({ words, mode, seconds, title = '计时背诵', onClose, onFinish }: Props) {
-  const order = useMemo(() => {
-    const a = [...words];
-    // 听音辨义模式必须乱序
-    if (mode === 'meaning-word') {
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-    }
-    return a;
-  }, [words, mode]);
+/** 复制到剪贴板（失败降级 execCommand） */
+function copyText(text: string): Promise<boolean> {
+  const fallback = (s: string) => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = s;
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch { return false; }
+  };
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => fallback(text));
+  }
+  return Promise.resolve(fallback(text));
+}
 
-  const [idx, setIdx] = useState(0);
-  const [revealed, setRevealed] = useState(mode === 'word-meaning' ? true : false);
-  const [starred, setStarred] = useState<Set<number>>(new Set()); // 标星的下标
-  const [memorized, setMemorized] = useState<Set<number>>(new Set()); // 记住的
+export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Props) {
+  // 听音辨义乱序；看词识意保持原顺序
+  const [round, setRound] = useState(0);
+  const list = useMemo(
+    () => (mode === 'meaning-word' ? shuffle(words) : [...words]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [words, mode, round],
+  );
+
+  const [index, setIndex] = useState(0);
   const [remaining, setRemaining] = useState(seconds);
+  const [revealed, setRevealed] = useState(false);
+  const [starred, setStarred] = useState<Set<number>>(new Set());
   const [finished, setFinished] = useState(false);
-  const timerRef = useRef<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [keyPressed, setKeyPressed] = useState<'remember' | 'mark' | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  const cur = order[idx];
+  const cur = list[index];
 
-  // 自动播放（听音辨义模式，或看词识意的美音）
-  const play = (type: 1 | 2 = 2) => {
+  const play = () => {
     if (!cur) return;
-    const url = cur.us || cur.uk || YOUDAO_VOICE(cur.word, type);
-    audioRef.current = new Audio(url);
-    audioRef.current.play().catch(() => { /* 网络失败静默 */ });
+    const url = cur.us || cur.uk || youdaoVoice(cur.word, 2);
+    try { new Audio(url).play().catch(() => { /* 静默 */ }); } catch { /* ignore */ }
   };
 
-  // 倒计时
-  useEffect(() => {
-    if (finished) return;
+  /** 切到指定下标（重置倒计时与展开状态） */
+  const goTo = (next: number) => {
     setRemaining(seconds);
-    // 听音辨义模式进入就自动播
-    if (mode === 'meaning-word') {
-      setTimeout(() => play(2), 120);
-    }
-    timerRef.current = window.setInterval(() => {
+    setRevealed(false);
+    setIndex(next);
+  };
+
+  /** 记住：已标星则取消标星；进入下一词 */
+  const remember = () => {
+    setStarred((s) => {
+      if (!s.has(index)) return s;
+      const n = new Set(s);
+      n.delete(index);
+      return n;
+    });
+    if (index + 1 >= list.length) finish();
+    else goTo(index + 1);
+  };
+
+  /** 标星：标记当前词；进入下一词 */
+  const mark = () => {
+    setStarred((s) => {
+      const n = new Set(s);
+      n.add(index);
+      return n;
+    });
+    if (index + 1 >= list.length) finish();
+    else goTo(index + 1);
+  };
+
+  /** 超时：自动标星并进入下一词 */
+  const timeout = () => {
+    mark();
+  };
+
+  const prev = () => {
+    if (index <= 0) return;
+    goTo(index - 1);
+  };
+
+  const next = () => {
+    if (index + 1 >= list.length) finish();
+    else goTo(index + 1);
+  };
+
+  const finish = () => {
+    setFinished(true);
+  };
+
+  // 每词倒计时
+  useEffect(() => {
+    if (finished || !cur) return;
+    const t = window.setInterval(() => {
       setRemaining((r) => {
         if (r <= 1) {
-          window.clearInterval(timerRef.current!);
-          timerRef.current = null;
-          // 时间到：听音辨义 → 自动揭晓 + 自动标星 + 下一词
-          if (mode === 'meaning-word') {
-            setRevealed(true);
-            setStarred((s) => {
-              const next = new Set(s);
-              next.add(idx);
-              return next;
-            });
-            // 1.4 秒后切到下一词
-            setTimeout(() => nextCard('auto'), 1400);
-          } else {
-            // 看词识意：时间到自动标星并下一词（用户已见过单词，自动揭晓后继续）
-            setRevealed(true);
-            setStarred((s) => {
-              const next = new Set(s);
-              next.add(idx);
-              return next;
-            });
-            setTimeout(() => nextCard('auto'), 1400);
-          }
+          window.clearInterval(t);
+          window.setTimeout(() => timeout(), 0);
           return 0;
         }
         return r - 1;
       });
     }, 1000);
-    return () => {
-      if (timerRef.current) {
-        window.clearInterval(timerRef.current);
-        timerRef.current = null;
+    return () => window.clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, finished, list.length]);
+
+  // 听音辨义：进入新词自动播放
+  useEffect(() => {
+    if (finished || mode !== 'meaning-word' || !cur) return;
+    const t = window.setTimeout(() => play(), 120);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, finished, mode]);
+
+  // 快捷键（捕获阶段独占键盘，避免触发播放页快捷键）
+  useEffect(() => {
+    if (finished) return;
+    const flash = (k: 'remember' | 'mark') => {
+      setKeyPressed(k);
+      window.setTimeout(() => setKeyPressed(null), 150);
+    };
+    const handler = (e: KeyboardEvent) => {
+      const appKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'Spacebar', 'm', 'M', 'n', 'N', 'b', 'B', 'Shift', 'Escape'];
+      if (appKeys.includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      switch (e.key) {
+        case 'ArrowRight': next(); break;
+        case 'ArrowLeft': prev(); break;
+        case 'ArrowUp':
+        case ' ':
+        case 'Spacebar':
+          setRevealed((v) => !v);
+          break;
+        case 'ArrowDown':
+        case 'm':
+        case 'M':
+          flash('mark');
+          mark();
+          break;
+        case 'n':
+        case 'N':
+          flash('remember');
+          remember();
+          break;
+        case 'Shift':
+        case 'b':
+        case 'B':
+          if (!e.repeat) play();
+          break;
+        case 'Escape':
+          onClose();
+          break;
+        default:
+          break;
       }
     };
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx, finished]);
+  }, [index, finished, list.length]);
 
-  // 键盘快捷键
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (finished) return;
-      // Esc 退出
-      if (e.key === 'Escape') { e.preventDefault(); onClose(); return; }
-      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); return; }
-      if (e.key === 'ArrowRight') { e.preventDefault(); nextCard('manual'); return; }
-      if (e.key === 'ArrowUp' || e.key === ' ') { e.preventDefault(); toggleReveal(); return; }
-      if (e.key === 'ArrowDown' || e.key.toLowerCase() === 'm') { e.preventDefault(); toggleStar(); return; }
-      if (e.key.toLowerCase() === 'n') { e.preventDefault(); toggleMemorize(); return; }
-      if (e.key.toLowerCase() === 'b' || e.shiftKey) { e.preventDefault(); play(); return; }
-    };
-    // 弹窗独占键盘（和精听播放页一致）
-    window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx, finished]);
-
-  const toggleReveal = () => setRevealed((v) => !v);
-  const toggleStar = () => {
-    setStarred((s) => {
-      const next = new Set(s);
-      if (next.has(idx)) next.delete(idx); else next.add(idx);
-      if (next.has(idx)) memorized.has(idx) && setMemorized((m) => { const n = new Set(m); n.delete(idx); return n; });
-      return next;
-    });
-  };
-  const toggleMemorize = () => {
-    setMemorized((s) => {
-      const next = new Set(s);
-      if (next.has(idx)) next.delete(idx); else next.add(idx);
-      if (next.has(idx)) starred.has(idx) && setStarred((ss) => { const n = new Set(ss); n.delete(idx); return n; });
-      return next;
-    });
-  };
-
-  const stopTimer = () => {
-    if (timerRef.current) {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  };
-
-  const prev = () => {
-    if (idx > 0) {
-      stopTimer();
-      setIdx(idx - 1);
-      setRevealed(mode === 'word-meaning');
-    }
-  };
-
-  const nextCard = (reason: 'manual' | 'auto') => {
-    stopTimer();
-    if (idx < order.length - 1) {
-      setIdx(idx + 1);
-      setRevealed(mode === 'word-meaning');
-    } else {
-      finishQuiz();
-    }
-    // 自动模式下不处理
-    if (reason === 'manual') { /* 仅用于区分是否已在 effect 里播过音 */ }
-  };
-
-  const finishQuiz = () => {
-    stopTimer();
-    setFinished(true);
-    const total = order.length;
-    const starredCount = starred.size;
-    const rightCount = total - starredCount;
-    const wrongWords = order.filter((_, i) => starred.has(i));
-    const acc = total === 0 ? 100 : Math.round((rightCount / total) * 100);
-    const result: QuizResult = { total, starredCount, rightCount, wrongWords, acc };
-    onFinish?.(result);
-  };
-
-  // 颜色随倒计时变化
-  const countColor = remaining <= 3 ? 'text-rose-600' : remaining <= Math.ceil(seconds / 2) ? 'text-amber-600' : 'text-indigo-600';
-  const progress = order.length === 0 ? 0 : ((idx + 1) / order.length) * 100;
-  const accNow = order.length === 0 ? 100 : Math.round(((idx + 1 - starred.size) / (idx + 1)) * 100);
-
-  if (!cur) return null;
-
+  // ===== 结果页 =====
   if (finished) {
-    const total = order.length;
-    const starredCount = starred.size;
-    const rightCount = total - starredCount;
-    const wrongWords = order.filter((_, i) => starred.has(i));
+    const total = list.length;
+    const wrong = list.filter((_, i) => starred.has(i));
+    const wrongCount = wrong.length;
+    const rightCount = total - wrongCount;
     const acc = total === 0 ? 100 : Math.round((rightCount / total) * 100);
+    const statsLine = `共 ${total} 词 · 错 ${wrongCount} · 对 ${rightCount}，准确率 ${acc}%`;
+    const copyContent = [
+      `${title} 错词`,
+      statsLine,
+      ...wrong.map((w, i) => `${i + 1}\t${w.word}\t${w.meaning}`),
+    ].join('\n');
+
     return (
-      <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
-        <div className="w-full max-w-3xl rounded-3xl bg-white p-7 shadow-2xl">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-slate-900">{title} · 完成</h3>
-            <button onClick={onClose} className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5" /></button>
+      <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-md">
+        <div className="flex max-h-[92vh] w-full max-w-[1080px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
+          <div className="flex items-center justify-between border-b border-slate-100 px-7 py-4">
+            <h3 className="truncate pr-4 text-lg font-extrabold text-slate-800">{title} 错词</h3>
+            <button
+              onClick={onClose}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <div className="mt-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-sky-50 p-5 text-slate-700">
-            <p className="text-base">
-              共 <b className="text-indigo-600">{total}</b> 词 ·
-              错 <b className="text-rose-500">{starredCount}</b> ·
-              对 <b className="text-emerald-500">{rightCount}</b>，
-              准确率 <b className="text-indigo-600">{acc}%</b>
-            </p>
-          </div>
-          {wrongWords.length > 0 && (
-            <div className="mt-5">
-              <h4 className="mb-2 text-sm font-semibold text-slate-700">标星错词（{wrongWords.length} 个）</h4>
-              <div className="max-h-[40vh] overflow-auto rounded-xl border border-slate-200">
-                {wrongWords.map((w, i) => (
-                  <div key={w.word + i} className="grid grid-cols-[2rem_1fr_2fr] items-center gap-3 border-b border-slate-100 px-3 py-2 text-sm last:border-b-0">
-                    <span className="text-center text-slate-400 tabular-nums">{i + 1}</span>
-                    <span className="font-semibold text-slate-800">{w.word}</span>
-                    <span className="text-slate-500">{w.meaning}</span>
+
+          <div className="min-h-0 flex-1 overflow-auto px-7 py-4">
+            <p className="text-sm font-semibold text-slate-700">{statsLine}</p>
+            <div className="mt-3 text-xs font-semibold text-slate-500">标星错词（{wrongCount} 个）</div>
+            {wrongCount === 0 ? (
+              <div className="py-8 text-center text-sm text-slate-400">本轮没有标星的错词</div>
+            ) : (
+              <div className="mt-2">
+                {wrong.map((w, i) => (
+                  <div
+                    key={`${w.word}-${i}`}
+                    className="grid grid-cols-[2rem_9rem_minmax(0,1fr)] items-center gap-3 border-b border-dashed border-slate-100 py-2 text-sm"
+                  >
+                    <span className="text-right text-xs tabular-nums text-slate-400">{i + 1}</span>
+                    <span className="truncate font-semibold text-slate-800">{w.word}</span>
+                    <span className="break-words text-slate-500">{w.meaning}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
-          <div className="mt-5 flex justify-end gap-2">
-            <button onClick={onClose} className="rounded-xl border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">关闭</button>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end gap-2 border-t border-slate-100 bg-slate-50/60 px-7 py-4">
+            <button
+              onClick={async () => {
+                const ok = await copyText(copyContent);
+                setCopied(true);
+                window.setTimeout(() => setCopied(false), 1500);
+                if (!ok) alert('复制失败，请手动选择内容');
+              }}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
+            >
+              <Copy className="h-4 w-4" />
+              {copied ? '已复制' : '一键复制'}
+            </button>
             <button
               onClick={() => {
-                // 再来一轮：重开
-                onFinish?.({ total, starredCount, rightCount, wrongWords, acc });
-                onClose();
+                setStarred(new Set());
+                setIndex(0);
+                setRemaining(seconds);
+                setRevealed(false);
+                setFinished(false);
+                setRound((r) => r + 1);
               }}
-              className="rounded-xl bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
             >
               再来一轮
+            </button>
+            <button
+              onClick={onClose}
+              className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500"
+            >
+              关闭
             </button>
           </div>
         </div>
@@ -260,114 +298,219 @@ export default function ReciteQuiz({ words, mode, seconds, title = '计时背诵
     );
   }
 
-  return (
-    <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-3xl rounded-3xl bg-white p-7 shadow-2xl">
-        {/* 顶部统计 */}
-        <div className="mb-2 flex items-center justify-between text-xs text-slate-500">
-          <span className="tabular-nums">第 {idx + 1} / {order.length} 个 · 标星 {starred.size} 个 · 准确率 {accNow}%</span>
-          <button onClick={onClose} className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5" /></button>
-        </div>
-        {/* 进度条 */}
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-          <div className="h-full rounded-full bg-indigo-500 transition-all" style={{ width: `${progress}%` }} />
-        </div>
+  if (!cur) return null;
 
-        {/* 主区域 */}
-        <div className="mt-6 flex min-h-[260px] flex-col items-center justify-center gap-4">
-          {/* 听音辨义模式：只显示大喇叭 */}
-          {mode === 'meaning-word' && (
-            <button
-              onClick={() => play(2)}
-              className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 text-white shadow-lg hover:from-indigo-600 hover:to-sky-600"
-            >
-              <Volume2 className="h-12 w-12" />
-            </button>
+  const starredCount = starred.size;
+  const accNow = index + 1 === 0 ? 100 : Math.round(((index + 1 - starredCount) / (index + 1)) * 100);
+  const barWidth = (index / Math.max(1, list.length)) * 100;
+
+  return (
+    <div
+      className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-slate-900/60 px-2 backdrop-blur-md sm:px-4"
+      onCopy={(e) => e.preventDefault()}
+      onCut={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
+    >
+      <div className="flex w-full max-w-2xl items-center gap-2 sm:gap-4">
+        {/* 左箭头 */}
+        <button
+          onClick={prev}
+          disabled={index <= 0}
+          title="上一词（←）"
+          className={cn(
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
+            index <= 0
+              ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
+              : 'bg-white text-slate-600 hover:scale-110 hover:bg-violet-50 hover:text-violet-600 active:translate-y-0.5',
           )}
-          {/* 倒计时（两种模式都显示） */}
-          <div className={`text-4xl font-bold tabular-nums ${countColor}`}>
-            <Timer className="mr-2 inline h-6 w-6" />
-            {remaining}s
-          </div>
-          {/* 看词识意模式：始终显示单词 */}
-          {mode === 'word-meaning' && (
-            <div className="text-center">
-              <div className="text-3xl font-bold text-slate-900">{cur.word}</div>
-              <div className="mt-1 text-sm text-slate-500">
-                {cur.usPhonetic && <span className="mr-3">美 {cur.usPhonetic}</span>}
-                {cur.ukPhonetic && <span>英 {cur.ukPhonetic}</span>}
-              </div>
+        >
+          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+        </button>
+
+        <div className="relative min-w-0 flex-1 select-none overflow-hidden rounded-3xl bg-white shadow-2xl">
+          {/* 顶部统计 */}
+          <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-violet-50/70 to-purple-50/70 px-6 py-4 sm:px-8">
+            <div className="flex items-center gap-2">
+              <Timer className="h-4 w-4 text-violet-600" />
+              <span className="text-sm font-bold text-slate-700">
+                第 <span className="text-violet-600">{index + 1}</span> / {list.length} 个
+                <span className="ml-1 font-normal text-slate-400">·</span>
+                <span className="ml-1 text-amber-600">标星<span className="font-bold">{starredCount}</span>个</span>
+                <span className="ml-1 font-normal text-slate-400">·</span>
+                <span className={cn('ml-1 font-bold', accNow >= 90 ? 'text-emerald-600' : 'text-rose-500')}>
+                  准确率<span>{accNow}</span>%
+                </span>
+              </span>
             </div>
-          )}
-          {/* 释义揭晓/隐藏 */}
-          {mode === 'meaning-word' && (
             <button
-              onClick={toggleReveal}
-              className="text-sm text-slate-400 hover:text-slate-600"
+              onClick={onClose}
+              title="退出计时背诵"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
             >
-              {revealed ? <EyeOff className="mr-1 inline h-4 w-4" /> : <Eye className="mr-1 inline h-4 w-4" />}
-              {revealed ? '收起' : '显示'}单词和释义 (↑ / 空格)
+              <X className="h-5 w-5" />
             </button>
-          )}
-          {revealed && (
-            <div className="text-center">
-              {mode === 'meaning-word' && (
-                <div className="text-2xl font-bold text-slate-900">{cur.word}</div>
-              )}
-              {(cur.usPhonetic || cur.ukPhonetic) && mode === 'meaning-word' && (
-                <div className="mt-1 text-sm text-slate-500">
-                  {cur.usPhonetic && <span className="mr-3">美 {cur.usPhonetic}</span>}
-                  {cur.ukPhonetic && <span>英 {cur.ukPhonetic}</span>}
+          </div>
+          {/* 进度条 */}
+          <div className="h-1.5 w-full rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-[width] duration-700 ease-out"
+              style={{ width: `${barWidth}%` }}
+            />
+          </div>
+
+          {/* 主体 */}
+          <div className="px-6 py-7 sm:px-8 sm:py-8">
+            {/* 倒计时环 */}
+            <div className="mb-6 flex flex-col items-center">
+              <div className="relative h-20 w-20">
+                <svg className="h-20 w-20 -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none" stroke="#e2e8f0" strokeWidth="3" strokeLinecap="round"
+                  />
+                  <path
+                    key={`${index}-${seconds}`}
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray="100"
+                    style={{
+                      animation: `recite-deplete ${seconds}s linear forwards, recite-color-fade ${seconds}s linear forwards`,
+                    }}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span
+                    key={`num-${index}-${seconds}`}
+                    className="font-mono text-2xl font-black tabular-nums"
+                    style={{ animation: `recite-text-color-fade ${seconds}s linear forwards` }}
+                  >
+                    {remaining}
+                  </span>
+                </div>
+              </div>
+              {starred.has(index) && (
+                <div className="mt-2 flex items-center gap-1 text-xs font-medium text-amber-600">
+                  <Star className="h-3 w-3 fill-current" />
+                  已标星
                 </div>
               )}
-              {mode === 'word-meaning' && (
-                <hr className="my-3 w-16 border-slate-200" />
-              )}
-              <div className="text-base leading-relaxed text-slate-700">{cur.meaning}</div>
             </div>
-          )}
+
+            {mode === 'word-meaning' ? (
+              // ===== 看词识意：单词 + 播放发音 + 点击查看释义 =====
+              <div className="text-center">
+                <p className="break-words text-4xl font-black tracking-tight text-slate-900">{cur.word}</p>
+                <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
+                <button
+                  onClick={play}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-violet-50 px-4 py-2 text-sm font-medium text-violet-600 transition-all hover:scale-105 hover:bg-violet-100"
+                  title="播放发音"
+                >
+                  <Volume2 className="h-4 w-4" />
+                  播放发音
+                </button>
+                <div className="mt-3 flex min-h-[66px] items-center justify-center">
+                  {revealed ? (
+                    <button
+                      onClick={() => setRevealed(false)}
+                      className="w-full cursor-pointer break-words bg-transparent text-xl leading-relaxed text-slate-900 focus:outline-none"
+                      title="点击收起（↑）"
+                    >
+                      {cur.meaning}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setRevealed(true)}
+                      className="text-xl leading-relaxed text-slate-400 opacity-40 focus:outline-none"
+                    >
+                      点击查看释义
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              // ===== 听音辨义：大喇叭 + 点击查看单词和释义 =====
+              <div className="text-center">
+                <button
+                  onClick={play}
+                  className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg shadow-purple-200 transition hover:scale-105"
+                  title="点击播放发音"
+                >
+                  <Volume2 className="h-12 w-12" />
+                </button>
+                <p className="mt-4 text-sm font-medium text-slate-500">
+                  点击喇叭播放发音，尝试回想单词和释义
+                </p>
+                <div className="mt-4 min-h-[2.5rem]">
+                  {revealed ? (
+                    <button
+                      onClick={() => setRevealed(false)}
+                      className="w-full cursor-pointer bg-transparent focus:outline-none"
+                      title="点击收起（↑）"
+                    >
+                      <p className="break-words text-4xl font-black tracking-tight text-slate-900">{cur.word}</p>
+                      <div className="mx-auto my-4 h-px w-16 bg-violet-200" />
+                      <p className="break-words text-xl leading-relaxed text-slate-900">{cur.meaning}</p>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setRevealed(true)}
+                      className="text-4xl font-black tracking-tight text-slate-400 opacity-40 focus:outline-none"
+                    >
+                      显示单词和释义
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 底部操作 */}
+          <div className="border-t border-slate-100 bg-slate-50/60 px-6 py-5 sm:px-8">
+            <div className="flex gap-3">
+              <button
+                onClick={remember}
+                className={cn(
+                  'flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all hover:shadow-xl hover:shadow-emerald-300 active:translate-y-0.5',
+                  keyPressed === 'remember' && 'translate-y-0.5 scale-95 brightness-110 shadow-inner',
+                )}
+              >
+                <Check className="h-5 w-5" />
+                记住
+              </button>
+              <button
+                onClick={mark}
+                className={cn(
+                  'flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 py-3.5 text-base font-bold text-white shadow-lg shadow-orange-200 transition-all hover:shadow-xl hover:shadow-orange-300 active:translate-y-0.5',
+                  keyPressed === 'mark' && 'translate-y-0.5 scale-95 brightness-110 shadow-inner',
+                )}
+              >
+                <Star className="h-5 w-5" />
+                标星
+              </button>
+            </div>
+            <p className="mt-3 text-center text-[11px] text-slate-400">
+              快捷键：← 上一词 · → 下一词 · ↑/空格 显示/收起释义 · ↓/M 标星 · N 记住 · Shift/B 播放发音
+            </p>
+          </div>
         </div>
 
-        {/* 底部按钮 */}
-        <div className="mt-6 flex items-center justify-between">
-          <button
-            onClick={prev}
-            disabled={idx === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-30"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </button>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleMemorize}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                memorized.has(idx) ? 'bg-emerald-500 text-white' : 'border border-emerald-200 bg-white text-emerald-600 hover:bg-emerald-50'
-              }`}
-            >
-              <Check className="h-4 w-4" /> 记住 (N)
-            </button>
-            <button
-              onClick={toggleStar}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                starred.has(idx) ? 'bg-amber-500 text-white' : 'border border-amber-200 bg-white text-amber-600 hover:bg-amber-50'
-              }`}
-            >
-              <Star className="h-4 w-4" /> 标星 (↓/M)
-            </button>
-            <button
-              onClick={() => play(2)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
-            >
-              <Volume2 className="h-4 w-4" /> 发音 (Shift/B)
-            </button>
-          </div>
-          <button
-            onClick={() => nextCard('manual')}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
-          >
-            <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
+        {/* 右箭头 */}
+        <button
+          onClick={next}
+          disabled={index >= list.length - 1}
+          title="下一词（→）"
+          className={cn(
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-lg transition-all sm:h-12 sm:w-12',
+            index >= list.length - 1
+              ? 'cursor-not-allowed bg-slate-200/80 text-slate-300'
+              : 'bg-white text-slate-600 hover:scale-110 hover:bg-violet-50 hover:text-violet-600 active:translate-y-0.5',
+          )}
+        >
+          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+        </button>
       </div>
     </div>
   );

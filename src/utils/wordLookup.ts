@@ -1,81 +1,113 @@
 /**
  * 单词释义抓取（共享工具）
- *   优先有道 dict.youdao.com/jsonapi（返回英/美音标、词性释义）
- *   失败时降级 MyMemory 取中文释义
- *   有道发音接口：https://dict.youdao.com/dictvoice?type={1|2}&audio={word}
- *
- * 被两处使用：
- *   - 听力精听播放页（Shadow DOM 脚本里内联了一份等价逻辑）
- *   - 生词整理页面（本文件）
+ *   释义：有道词典 suggest 接口（JSONP，无跨域限制），返回「词性 + 中文释义」，
+ *         例：n. （非正式的）谈话，交谈；<旧>社交，交际
+ *   音标：dictionaryapi.dev（CORS 允许），取英/美两套
+ *   发音：有道 dictvoice（type 1=英音, 2=美音）
+ *   兜底：MyMemory 机器翻译（仅在找不到有道词条时使用）
  */
 
 export interface LookupResult {
   word: string;
-  uk: string;       // 英音 URL
-  us: string;       // 美音 URL
-  ukPhonetic: string; // 英式音标字符串（如 /ɡəˈzɪt/）
+  uk: string;         // 英音音频 URL
+  us: string;         // 美音音频 URL
+  ukPhonetic: string; // 英式音标
   usPhonetic: string; // 美式音标
-  meaning: string;  // 「词性. 释义；…」格式
-  pos: string;      // 主要词性（n./v./adj./adv.）
+  meaning: string;    // 含词性的释义（n. xxx；v. xxx）
+  pos: string;        // 保留字段（释义中已含词性，此处不再重复拼接）
 }
 
 const cache = new Map<string, LookupResult>();
+let cbSeq = 0;
 
-/** 有道发音接口（type 1=英音, 2=美音） */
-function youdaoVoice(word: string, type: 1 | 2): string {
+/** 有道发音地址（type 1=英音, 2=美音） */
+export function youdaoVoice(word: string, type: 1 | 2): string {
   return `https://dict.youdao.com/dictvoice?type=${type}&audio=${encodeURIComponent(word)}`;
 }
 
-/** 从有道 dictapi 返回里抠出音标 + 词性释义 */
-function parseYoudao(raw: unknown): Partial<LookupResult> | null {
-  try {
-    const obj = raw as Record<string, unknown>;
-    const simple = (obj.simpleDict as Record<string, unknown>) || null;
-    if (!simple) return null;
-
-    // 音标：simpleDict.phonetic（英文）、simpleDict.phoneticUS（美音）
-    const ukPhonetic = String(simple.phonetic || '').trim();
-    const usPhonetic = String(simple.phoneticUS || simple.phonetic || '').trim();
-
-    // 词性释义：simpleDict.translations[] → trs[0][0].l.i
-    const meanings: string[] = [];
-    const translations = simple.translations as Array<Record<string, unknown>> | undefined;
-    if (Array.isArray(translations)) {
-      for (const t of translations) {
-        const trs = t?.trs as Array<unknown> | undefined;
-        if (!Array.isArray(trs)) continue;
-        for (const tr of trs) {
-          const arr = Array.isArray(tr) ? tr as Array<{ l?: { i?: string } }> : null;
-          const li = arr?.[0]?.l;
-          const text = typeof li?.i === 'string' ? li.i.trim() : '';
-          if (text) meanings.push(text);
-        }
-      }
-    }
-
-    if (!ukPhonetic && !usPhonetic && meanings.length === 0) return null;
-
-    let pos = '';
-    // 从第一条里抠「n./v./adj./adv.」
-    const first = meanings[0] || '';
-    const m = first.match(/^((?:n|v|adj|adv|prep|conj|pron|aux|interj|art|num|vt|vi)\.?)/i);
-    if (m) pos = m[1].replace(/\.$/, '').toLowerCase() + '.';
-
-    return {
-      ukPhonetic,
-      usPhonetic,
-      meaning: meanings.join('；'),
-      pos,
+/** JSONP 请求（用于有道接口，绕过 CORS） */
+function jsonp<T>(url: string, param: string, timeout = 7000): Promise<T | null> {
+  return new Promise((resolve) => {
+    const name = `__vocal_cb_${Date.now().toString(36)}_${cbSeq++}`;
+    const script = document.createElement('script');
+    let settled = false;
+    const cleanup = () => {
+      if (script.parentNode) script.parentNode.removeChild(script);
+      try { delete (window as unknown as Record<string, unknown>)[name]; } catch { /* ignore */ }
     };
-  } catch {
-    return null;
-  }
+    const finish = (data: T | null) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve(data);
+    };
+    (window as unknown as Record<string, unknown>)[name] = (data: T) => finish(data);
+    script.onerror = () => finish(null);
+    window.setTimeout(() => finish(null), timeout);
+    script.src = `${url}${url.includes('?') ? '&' : '?'}${param}=${name}`;
+    document.body.appendChild(script);
+  });
 }
 
+interface YoudaoEntry { entry?: string; explain?: string }
+
+/** 有道 suggest：优先取与查询词完全一致的词条，否则取第一条 */
+async function youdaoExplain(word: string): Promise<string> {
+  const res = await jsonp<{ data?: { entries?: YoudaoEntry[] } }>(
+    `https://dict.youdao.com/suggest?num=5&ver=3.0&doctype=json&cache=false&le=en&q=${encodeURIComponent(word)}`,
+    'callback',
+  );
+  const entries = res?.data?.entries;
+  if (!Array.isArray(entries) || entries.length === 0) return '';
+  const lower = word.trim().toLowerCase();
+  const exact = entries.find((e) => String(e.entry || '').trim().toLowerCase() === lower);
+  const picked = exact || entries[0];
+  return String(picked.explain || '').trim();
+}
+
+/** 音标：dictionaryapi.dev（带简单词形还原） */
+async function fetchPhonetics(word: string): Promise<{ uk: string; us: string }> {
+  if (/[\u4e00-\u9fa5]/.test(word) || word.includes(' ')) return { uk: '', us: '' };
+  const base = word.trim().toLowerCase();
+  const forms = Array.from(new Set([
+    base,
+    base.replace(/s$/, ''),
+    base.replace(/es$/, ''),
+    base.replace(/ed$/, ''),
+    base.replace(/ing$/, ''),
+  ])).filter(Boolean);
+
+  for (const form of forms) {
+    try {
+      const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(form)}`);
+      if (!r.ok) continue;
+      const arr = await r.json();
+      if (!Array.isArray(arr) || arr.length === 0) continue;
+      let uk = '';
+      let us = '';
+      for (const item of arr) {
+        const phs = Array.isArray(item?.phonetics) ? item.phonetics : [];
+        for (const p of phs) {
+          const text = String(p?.text || '');
+          const audio = String(p?.audio || '');
+          if (!us && /[-_]us\./i.test(audio)) us = text;
+          if (!uk && /[-_]uk\./i.test(audio)) uk = text;
+        }
+      }
+      if (!uk && !us) {
+        const single = String(arr[0]?.phonetic || '');
+        if (single) uk = single;
+      }
+      if (uk || us) return { uk, us };
+    } catch { /* 继续尝试下一个词形 */ }
+  }
+  return { uk: '', us: '' };
+}
+
+/** MyMemory 兜底翻译 */
 async function fallbackMyMemory(word: string): Promise<string> {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|zh-CN`;
-    const res = await fetch(url);
+    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|zh-CN`);
     if (!res.ok) return '';
     const json = await res.json();
     const t = json?.responseData?.translatedText;
@@ -86,39 +118,37 @@ async function fallbackMyMemory(word: string): Promise<string> {
 }
 
 /**
- * 查一个单词/短语；短语也能查（有道 dictapi 支持）。
- * 失败时 meaning 仍会返回 MyMemory 的兜底翻译，不会抛错。
+ * 查一个单词/短语：释义（含词性）+ 英/美音标 + 发音地址
+ * 抓取失败时 meaning 仍会返回兜底文本，不会抛错
  */
 export async function lookupWord(raw: string): Promise<LookupResult> {
   const word = raw.trim();
   if (!word) {
-    return { word: raw.trim(), uk: '', us: '', ukPhonetic: '', usPhonetic: '', meaning: '', pos: '' };
+    return { word, uk: '', us: '', ukPhonetic: '', usPhonetic: '', meaning: '', pos: '' };
   }
   const key = word.toLowerCase();
   if (cache.has(key)) return cache.get(key)!;
 
-  let parsed: Partial<LookupResult> | null = null;
-  try {
-    const url = `https://dict.youdao.com/jsonapi?le=en&q=${encodeURIComponent(word)}&t=1`;
-    const res = await fetch(url);
-    if (res.ok) parsed = parseYoudao(await res.json());
-  } catch { /* ignore */ }
+  const [explain, phonetics] = await Promise.all([
+    youdaoExplain(word).catch(() => ''),
+    fetchPhonetics(word).catch(() => ({ uk: '', us: '' })),
+  ]);
+  const meaning = explain || (await fallbackMyMemory(word));
 
-  const meaning = parsed?.meaning || (await fallbackMyMemory(word));
   const result: LookupResult = {
     word,
     uk: youdaoVoice(word, 1),
     us: youdaoVoice(word, 2),
-    ukPhonetic: parsed?.ukPhonetic || '',
-    usPhonetic: parsed?.usPhonetic || '',
+    ukPhonetic: phonetics.uk,
+    usPhonetic: phonetics.us,
     meaning,
-    pos: parsed?.pos || '',
+    pos: '',
   };
   cache.set(key, result);
   return result;
 }
 
-/** 并发批量抓取，带限流 */
+/** 并发批量抓取 */
 export async function lookupBatch(
   words: string[],
   onProgress?: (done: number, total: number, current: string) => void,
