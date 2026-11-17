@@ -106,6 +106,10 @@ const LOOKUP_SCRIPT = String.raw`
     '.fold{border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:13px;font-weight:600;padding:11px 22px;',
     'border-radius:14px;cursor:pointer;}',
     '.fold:hover{border-color:#c4b5fd;color:#7c3aed;}',
+    '.imp{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid #c7d2fe;',
+    'background:#eef2ff;color:#4f46e5;font-size:13px;font-weight:600;padding:11px 18px;border-radius:14px;cursor:pointer;}',
+    '.imp:hover{background:#e0e7ff;border-color:#a5b4fc;}',
+    '.imp svg{width:15px;height:15px;}',
     /* ---- 提示条 ---- */
     '.toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:rgba(17,24,39,.9);color:#fff;',
     'font-size:12.5px;padding:8px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;',
@@ -269,6 +273,7 @@ const LOOKUP_SCRIPT = String.raw`
   var ICON = {
     timer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>',
+    download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>',
     star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"></path></svg>',
     speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>',
@@ -394,6 +399,76 @@ const LOOKUP_SCRIPT = String.raw`
     copyToClipboard(buildCopyText());
   }
 
+  // ---------- 导入到首页「生词整理」（localStorage: vocal_collection_v1） ----------
+
+  var COLLECTION_KEY = 'vocal_collection_v1';
+  var COLLECTION_LIMIT = 500;
+
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function fmtStamp(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
+      ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  }
+
+  /** 把当前生词本整体导入首页固定词表「生词整理」，作为最上面的一个新单元 */
+  function importToCollection() {
+    var list = loadBook();
+    if (!list.length) { toast('生词本还是空的'); return; }
+
+    var units = [];
+    try {
+      var raw = localStorage.getItem(COLLECTION_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      units = Array.isArray(arr) ? arr : [];
+    } catch (e) { units = []; }
+
+    var total = 0;
+    for (var u = 0; u < units.length; u++) {
+      total += (units[u].words || []).length;
+    }
+    var room = COLLECTION_LIMIT - total;
+    if (room <= 0) {
+      toast('生词整理已达 ' + COLLECTION_LIMIT + ' 词上限，请先导出或清理');
+      return;
+    }
+
+    var seen = {};
+    var words = [];
+    for (var i = 0; i < list.length && words.length < room; i++) {
+      var key = String(list[i].word || '').toLowerCase();
+      if (!key || seen[key]) continue;
+      seen[key] = true;
+      words.push({
+        word: list[i].word,
+        uk: list[i].uk || '',
+        us: list[i].us || '',
+        ukPhonetic: '',
+        usPhonetic: '',
+        meaning: list[i].meaning || '',
+        pos: ''
+      });
+    }
+    if (!words.length) { toast('没有可导入的单词'); return; }
+
+    var unit = {
+      id: 'u_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7),
+      name: (PAGE_TITLE || '精听生词') + ' · ' + fmtStamp(Date.now()),
+      createdAt: Date.now(),
+      words: words
+    };
+    units.unshift(unit);
+
+    try {
+      localStorage.setItem(COLLECTION_KEY, JSON.stringify(units));
+      toast(words.length < list.length
+        ? '已导入 ' + words.length + ' 词（达到上限，部分未导入）'
+        : '已导入生词整理，回首页即可查看');
+    } catch (e) {
+      toast('导入失败：浏览器本地存储不可用');
+    }
+  }
+
   /** 生词本面板：标题 + 数量 + 检查 + 列表 + 一键复制（参考导出错词卡片） */
   function renderBook() {
     var list = loadBook();
@@ -487,6 +562,14 @@ const LOOKUP_SCRIPT = String.raw`
     copyBtn.innerHTML = ICON.copy + '<span>一键复制</span>';
     copyBtn.onclick = copyBook;
     foot.appendChild(copyBtn);
+
+    var impBtn = document.createElement('button');
+    impBtn.className = 'imp';
+    impBtn.type = 'button';
+    impBtn.title = '导入到首页「生词整理」';
+    impBtn.innerHTML = ICON.download + '<span>导入生词表</span>';
+    impBtn.onclick = importToCollection;
+    foot.appendChild(impBtn);
 
     var fold = el('button', 'fold', bookCollapsed ? '展开' : '收起');
     fold.type = 'button';
