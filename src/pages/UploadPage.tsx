@@ -363,16 +363,16 @@ export default function UploadPage() {
                 setCurrentBook('built-in-junior');
                 navigate('/select');
               }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
-                  <GraduationCap className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <GraduationCap className="h-5 w-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="truncate text-base font-semibold text-slate-800">初中词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <h4 className="truncate text-sm font-semibold text-slate-800">初中词汇</h4>
+                  <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
                     {juniorBook?.sheets.length ?? 0}单元{juniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
                   </p>
                 </div>
@@ -386,16 +386,16 @@ export default function UploadPage() {
                 setCurrentBook('built-in-senior');
                 navigate('/select');
               }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
-                  <School className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <School className="h-5 w-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="truncate text-base font-semibold text-slate-800">高中词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <h4 className="truncate text-sm font-semibold text-slate-800">高中词汇</h4>
+                  <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
                     {seniorBook?.sheets.length ?? 0}单元{seniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
                   </p>
                 </div>
@@ -409,16 +409,16 @@ export default function UploadPage() {
                 setCurrentBook('built-in-cet4');
                 navigate('/select');
               }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
-                  <Award className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <Award className="h-5 w-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="truncate text-base font-semibold text-slate-800">四级词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <h4 className="truncate text-sm font-semibold text-slate-800">四级词汇</h4>
+                  <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
                     {builtInBooks[0]?.sheets.length ?? 32}单元{builtInBooks[0]?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 638}词
                   </p>
                 </div>
@@ -432,16 +432,16 @@ export default function UploadPage() {
                 setCurrentBook('built-in-toefl');
                 navigate('/select');
               }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
-                  <BookOpen className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md">
+                  <BookOpen className="h-5 w-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="truncate text-base font-semibold text-slate-800">托福词汇</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <h4 className="truncate text-sm font-semibold text-slate-800">托福词汇</h4>
+                  <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
                     {toeflBook?.sheets.length ?? 0}单元{toeflBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
                   </p>
                 </div>
@@ -451,16 +451,16 @@ export default function UploadPage() {
             {/* 生词整理 —— 用户手动输入单元，自定义抓取发音与释义 */}
             <div
               onClick={() => { navigate('/collection'); }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-400 via-amber-400 to-emerald-400" />
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-400 to-amber-500 shadow-md">
-                  <Plus className="h-6 w-6 text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-rose-400 to-amber-500 shadow-md">
+                  <Plus className="h-5 w-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="truncate text-base font-semibold text-slate-800">生词整理</h4>
-                  <p className="mt-0.5 text-xs text-slate-400">自己的生词表</p>
+                  <h4 className="truncate text-sm font-semibold text-slate-800">生词整理</h4>
+                  <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">自己的生词表</p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
               </div>
@@ -500,15 +500,15 @@ export default function UploadPage() {
                     <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-sky-500" />
                     <div className="flex items-start gap-4 p-5">
                       {/* 左侧表格图标 */}
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-md shadow-indigo-100">
-                        <FileSpreadsheet className="h-6 w-6 text-white" />
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600 shadow-md shadow-indigo-100">
+                        <FileSpreadsheet className="h-5 w-5 text-white" />
                       </div>
                       {/* 中间词表信息区（文件名行 + 元信息行），flex-1 占满可用空间 */}
                       <div className="min-w-0 flex-1">
                         {/* 第一行：词表名称靠左 + 进入选择按钮靠右，使用 justify-between 两端对齐 */}
                         <div className="flex items-center justify-between gap-3">
                           {/* 文件名：超长截断显示省略号，shrink-1 允许压缩宽度为按钮让位 */}
-                          <h4 className="truncate text-base font-semibold text-slate-800">
+                          <h4 className="truncate text-sm font-semibold text-slate-800">
                             {book.fileName}
                           </h4>
                           {/* 「进入选择」主按钮：与词表名称同一行靠右显示，shrink-0 不压缩换行 */}
