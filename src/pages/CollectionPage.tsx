@@ -644,7 +644,7 @@ function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy
 
       {/* 列表 */}
       {expanded && (
-        <div className="max-h-[60vh] overflow-auto px-4 py-2">
+        <div className="px-4 py-2">
           {unit.words.length === 0 ? (
             <div className="py-6 text-center text-xs text-slate-400">单元里还没有单词</div>
           ) : (
