@@ -64,7 +64,7 @@ function copyText(text: string): Promise<boolean> {
   return Promise.resolve(fallback(text));
 }
 
-/** 单个音源只有真正开始播放才算成功；加载失败或超时则交给下一个音源 */
+/** 单个音源 play Promise resolve = 成功，失败或 onerror 才换下一个（无 timer，避免误杀） */
 function tryAudio(url: string): Promise<boolean> {
   return new Promise((resolve) => {
     const audio = new Audio(url);
@@ -72,7 +72,6 @@ function tryAudio(url: string): Promise<boolean> {
     const finish = (ok: boolean) => {
       if (done) return;
       done = true;
-      window.clearTimeout(timer);
       audio.onerror = null;
       if (!ok) {
         try { audio.pause(); } catch { /* ignore */ }
@@ -80,7 +79,6 @@ function tryAudio(url: string): Promise<boolean> {
       resolve(ok);
     };
     audio.onerror = () => finish(false);
-    const timer = window.setTimeout(() => finish(false), 4500);
     try {
       const pending = audio.play();
       if (pending) pending.then(() => finish(true)).catch(() => finish(false));
