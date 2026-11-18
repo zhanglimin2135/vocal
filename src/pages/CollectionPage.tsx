@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { useAppStore } from '@/store/appStore';
-import { lookupBatch, youdaoVoice, baiduVoice, type LookupResult } from '@/utils/wordLookup';
+import { playWordAudio } from '@/utils/audioUtils';
+import { lookupBatch, youdaoVoice, type LookupResult } from '@/utils/wordLookup';
 import {
   loadUnits, saveUnits, totalWordCount, appendOrCreate, formatTimestamp,
   type CollectionUnit, type WordEntry, COLLECTION_LIMIT,
@@ -135,31 +136,10 @@ export default function CollectionPage() {
     toastTimer.current = window.setTimeout(() => setToast(''), 1600);
   };
 
-  /** 单元内单个单词发音：先播传入的音频，失败时自动尝试有道/百度 TTS，最后 speechSynthesis 兜底 */
-  const playAudio = (url: string, word?: string) => {
-    const candidates: string[] = [];
-    if (url) candidates.push(url);
-    if (word) {
-      candidates.push(youdaoVoice(word, 2), baiduVoice(word, 'us'), youdaoVoice(word, 1), baiduVoice(word, 'uk'));
-    }
-    const urls = Array.from(new Set(candidates));
-    let i = 0;
-    const tryNext = () => {
-      if (i >= urls.length) {
-        if (!('speechSynthesis' in window) || !word) return;
-        try {
-          window.speechSynthesis.cancel();
-          const u = new SpeechSynthesisUtterance(word);
-          u.lang = 'en-US';
-          window.speechSynthesis.speak(u);
-        } catch { /* ignore */ }
-        return;
-      }
-      const audio = new Audio(urls[i++]);
-      audio.onerror = tryNext;
-      try { const p = audio.play(); if (p) p.catch(tryNext); } catch { tryNext(); }
-    };
-    tryNext();
+  /** 单元内单词发音：走 playWordAudio，带口音偏好，内部自动停掉上一次播放 */
+  const playAudio = (_url: string, word: string, accent: 'us' | 'uk' = 'us') => {
+    if (!word) return;
+    void playWordAudio(word, accent);
   };
 
   // ====== 输入 → 抓取 → 确认 ======
@@ -383,7 +363,7 @@ export default function CollectionPage() {
               onDeleteUnit={() => deleteUnit(u.id)}
               onDeleteWord={(idx) => deleteWord(u.id, idx)}
               onCopy={() => copyUnit(u)}
-              onPlay={(url, w) => playAudio(url, w)}
+              onPlay={(url, w, accent) => playAudio(url, w, accent)}
               onQuiz={(m) => openQuiz(u, m)}
             />
           ))}
@@ -605,7 +585,7 @@ interface UnitCardProps {
   onDeleteUnit: () => void;
   onDeleteWord: (idx: number) => void;
   onCopy: () => void;
-  onPlay: (url: string, word: string) => void;
+  onPlay: (url: string, word: string, accent?: 'us' | 'uk') => void;
   onQuiz: (mode: 'word-meaning' | 'meaning-word') => void;
 }
 
@@ -680,7 +660,7 @@ function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy
   );
 }
 
-function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string, word: string) => void; onDelete: () => void }) {
+function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string, word: string, accent?: 'us' | 'uk') => void; onDelete: () => void }) {
   return (
     <div className="grid grid-cols-[2rem_minmax(0,1fr)_auto_auto_auto] items-start gap-x-2 gap-y-1 py-2 text-sm">
       <span className="self-center text-center text-xs text-slate-400 tabular-nums">{idx}</span>
@@ -688,7 +668,7 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
       <span className="self-center inline-flex gap-1">
         {word.us && (
           <button
-            onClick={() => onPlay(word.us, word.word)}
+            onClick={() => onPlay(word.us, word.word, 'us')}
             title="美音"
             className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600"
           >
@@ -697,7 +677,7 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
         )}
         {word.uk && (
           <button
-            onClick={() => onPlay(word.uk, word.word)}
+            onClick={() => onPlay(word.uk, word.word, 'uk')}
             title="英音"
             className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600"
           >
@@ -706,10 +686,10 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
         )}
         {!word.us && !word.uk && (
           <>
-            <button onClick={() => onPlay(youdaoVoice(word.word, 2), word.word)} title="美音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600">
+            <button onClick={() => onPlay('', word.word, 'us')} title="美音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600">
               <Volume2 className="h-2.5 w-2.5" /> 美
             </button>
-            <button onClick={() => onPlay(youdaoVoice(word.word, 1), word.word)} title="英音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+            <button onClick={() => onPlay('', word.word, 'uk')} title="英音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
               <Volume2 className="h-2.5 w-2.5" /> 英
             </button>
           </>

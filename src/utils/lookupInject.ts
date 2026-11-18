@@ -83,7 +83,7 @@ const LOOKUP_SCRIPT = String.raw`
     '.chk:hover{filter:brightness(1.07);}',
     '.chk svg{width:14px;height:14px;}',
     '.bookList{padding:4px 20px 8px;}',
-    '.row{display:grid;grid-template-columns:2.6rem minmax(0,1fr) 4.4rem minmax(0,1fr) 2.2rem;align-items:center;',
+    '.row{display:grid;grid-template-columns:2.6rem minmax(0,10rem) 4.4rem minmax(0,1fr) 2.2rem;align-items:center;',
     'gap:18px;padding:11px 0;border-bottom:1px solid #f4f6fa;font-size:14px;}',
     '.row:last-child{border-bottom:0;}',
     '.del{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;',
@@ -91,7 +91,7 @@ const LOOKUP_SCRIPT = String.raw`
     '.del svg{width:15px;height:15px;display:block;}',
     '.del:hover{background:#fff1f2;color:#e11d48;}',
     '.idx{color:#94a3b8;font-size:13px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;}',
-    '.wd{font-weight:700;color:#0f172a;font-size:15px;white-space:normal;word-break:break-word;line-height:1.35;}',
+    '.wd{font-weight:700;color:#0f172a;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
     '.pronMini{display:flex;gap:5px;align-items:center;}',
     '.pmini{border:1px solid #e5e7eb;background:#fff;color:#64748b;font-size:11px;line-height:1;',
     'padding:4px 7px;border-radius:7px;cursor:pointer;}',
@@ -1085,25 +1085,33 @@ const LOOKUP_SCRIPT = String.raw`
     return urls;
   }
 
-  /** 依次尝试音源；play Promise 成功或 onerror 触发才切换（不设 timer，避免误杀导致混合发音），全部失败后执行兜底 */
-  function playChain(urls, onFailure) {
+  /** 依次尝试音源；每次调用先停掉上一次音频避免串音，全部失败后静默 */
+  var _currentAudio = null;
+  function playChain(urls) {
+    try { if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; } } catch (e) { /* ignore */ }
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ } }
     var i = 0;
     function next() {
-      if (i >= urls.length) { if (onFailure) onFailure(); return; }
+      if (i >= urls.length) return;
       var audio;
       var done = false;
+      var timer = null;
       function finish(ok) {
         if (done) return;
         done = true;
+        if (timer) clearTimeout(timer);
         if (audio) audio.onerror = null;
         if (!ok) {
           try { if (audio) audio.pause(); } catch (e) { /* ignore */ }
           next();
+        } else {
+          _currentAudio = audio;
         }
       }
       try {
         audio = new Audio(urls[i++]);
         audio.onerror = function () { finish(false); };
+        timer = setTimeout(function () { finish(false); }, 4500);
         var p = audio.play();
         if (p && p.then) p.then(function () { finish(true); }, function () { finish(false); });
         else finish(true);
@@ -1113,16 +1121,7 @@ const LOOKUP_SCRIPT = String.raw`
   }
 
   function playPronunciation(word, accent) {
-    playChain(audioUrls(word, accent), function () {
-      // 网络音源全部不可用时，仍用系统英文语音保证发声
-      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
-      try {
-        window.speechSynthesis.cancel();
-        var utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = 'en-GB';
-        window.speechSynthesis.speak(utterance);
-      } catch (e) { /* ignore */ }
-    });
+    playChain(audioUrls(word, accent));
   }
 
   // ---------- 数据源 ----------

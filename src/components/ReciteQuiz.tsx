@@ -13,7 +13,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Volume2, Star, Check, ChevronLeft, ChevronRight, X, Timer, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { youdaoVoice, baiduVoice } from '@/utils/wordLookup';
+import { playWordAudio } from '@/utils/audioUtils';
 
 export interface QuizWord {
   word: string;
@@ -64,53 +64,6 @@ function copyText(text: string): Promise<boolean> {
   return Promise.resolve(fallback(text));
 }
 
-/** 单个音源 play Promise resolve = 成功，失败或 onerror 才换下一个（无 timer，避免误杀） */
-function tryAudio(url: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const audio = new Audio(url);
-    let done = false;
-    const finish = (ok: boolean) => {
-      if (done) return;
-      done = true;
-      audio.onerror = null;
-      if (!ok) {
-        try { audio.pause(); } catch { /* ignore */ }
-      }
-      resolve(ok);
-    };
-    audio.onerror = () => finish(false);
-    try {
-      const pending = audio.play();
-      if (pending) pending.then(() => finish(true)).catch(() => finish(false));
-      else finish(true);
-    } catch {
-      finish(false);
-    }
-  });
-}
-
-/** 美音优先，失败自动补英音；有道/百度 TTS 都失败时用系统英文语音兜底 */
-async function playWithFallback(word: QuizWord) {
-  const urls = [
-    word.us || youdaoVoice(word.word, 2),
-    youdaoVoice(word.word, 2),
-    baiduVoice(word.word, 'us'),
-    word.uk || youdaoVoice(word.word, 1),
-    youdaoVoice(word.word, 1),
-    baiduVoice(word.word, 'uk'),
-  ];
-  for (const url of new Set(urls)) {
-    if (await tryAudio(url)) return;
-  }
-  if (!('speechSynthesis' in window)) return;
-  try {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(word.word);
-    utterance.lang = 'en-US';
-    window.speechSynthesis.speak(utterance);
-  } catch { /* ignore */ }
-}
-
 export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Props) {
   // 听音辨义乱序；看词识意保持原顺序
   const [round, setRound] = useState(0);
@@ -131,7 +84,7 @@ export default function ReciteQuiz({ words, mode, seconds, title, onClose }: Pro
   const cur = list[index];
 
   const play = () => {
-    if (cur) void playWithFallback(cur);
+    if (cur) void playWordAudio(cur.word, 'us');
   };
 
   /** 切到指定下标（重置倒计时与展开状态） */
