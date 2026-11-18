@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { useAppStore } from '@/store/appStore';
-import { lookupBatch, type LookupResult } from '@/utils/wordLookup';
+import { lookupBatch, youdaoVoice, baiduVoice, type LookupResult } from '@/utils/wordLookup';
 import {
   loadUnits, saveUnits, totalWordCount, appendOrCreate, formatTimestamp,
   type CollectionUnit, type WordEntry, COLLECTION_LIMIT,
@@ -33,11 +33,6 @@ function splitInput(raw: string): string[] {
     .split(/[\/、，,；;\n\r]+/)
     .map((s) => s.trim())
     .filter(Boolean);
-}
-
-/** 有道发音 URL */
-function youdaoVoice(word: string, type: 1 | 2) {
-  return `https://dict.youdao.com/dictvoice?type=${type}&audio=${encodeURIComponent(word)}`;
 }
 
 /** 剪贴板写文本（失败走 execCommand 兜底） */
@@ -140,9 +135,31 @@ export default function CollectionPage() {
     toastTimer.current = window.setTimeout(() => setToast(''), 1600);
   };
 
-  const playAudio = (url: string) => {
-    if (!url) return;
-    try { new Audio(url).play().catch(() => {}); } catch { /* ignore */ }
+  /** 单元内单个单词发音：先播传入的音频，失败时自动尝试有道/百度 TTS，最后 speechSynthesis 兜底 */
+  const playAudio = (url: string, word?: string) => {
+    const candidates: string[] = [];
+    if (url) candidates.push(url);
+    if (word) {
+      candidates.push(youdaoVoice(word, 2), baiduVoice(word, 'us'), youdaoVoice(word, 1), baiduVoice(word, 'uk'));
+    }
+    const urls = Array.from(new Set(candidates));
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) {
+        if (!('speechSynthesis' in window) || !word) return;
+        try {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(word);
+          u.lang = 'en-US';
+          window.speechSynthesis.speak(u);
+        } catch { /* ignore */ }
+        return;
+      }
+      const audio = new Audio(urls[i++]);
+      audio.onerror = tryNext;
+      try { const p = audio.play(); if (p) p.catch(tryNext); } catch { tryNext(); }
+    };
+    tryNext();
   };
 
   // ====== 输入 → 抓取 → 确认 ======
@@ -366,7 +383,7 @@ export default function CollectionPage() {
               onDeleteUnit={() => deleteUnit(u.id)}
               onDeleteWord={(idx) => deleteWord(u.id, idx)}
               onCopy={() => copyUnit(u)}
-              onPlay={(url) => playAudio(url)}
+              onPlay={(url, w) => playAudio(url, w)}
               onQuiz={(m) => openQuiz(u, m)}
             />
           ))}
@@ -588,7 +605,7 @@ interface UnitCardProps {
   onDeleteUnit: () => void;
   onDeleteWord: (idx: number) => void;
   onCopy: () => void;
-  onPlay: (url: string) => void;
+  onPlay: (url: string, word: string) => void;
   onQuiz: (mode: 'word-meaning' | 'meaning-word') => void;
 }
 
@@ -663,15 +680,15 @@ function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy
   );
 }
 
-function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string) => void; onDelete: () => void }) {
+function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string, word: string) => void; onDelete: () => void }) {
   return (
-    <div className="grid grid-cols-[2rem_120px_auto_1fr_28px] items-center gap-3 py-2 text-sm">
-      <span className="text-center text-xs text-slate-400 tabular-nums">{idx}</span>
-      <span className="truncate font-semibold text-slate-800">{word.word}</span>
-      <span className="inline-flex gap-1">
+    <div className="grid grid-cols-[2rem_minmax(0,1fr)_auto_auto_auto] items-start gap-x-2 gap-y-1 py-2 text-sm">
+      <span className="self-center text-center text-xs text-slate-400 tabular-nums">{idx}</span>
+      <span className="break-words whitespace-normal self-center font-semibold leading-snug text-slate-800">{word.word}</span>
+      <span className="self-center inline-flex gap-1">
         {word.us && (
           <button
-            onClick={() => onPlay(word.us)}
+            onClick={() => onPlay(word.us, word.word)}
             title="美音"
             className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600"
           >
@@ -680,7 +697,7 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
         )}
         {word.uk && (
           <button
-            onClick={() => onPlay(word.uk)}
+            onClick={() => onPlay(word.uk, word.word)}
             title="英音"
             className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600"
           >
@@ -689,19 +706,19 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
         )}
         {!word.us && !word.uk && (
           <>
-            <button onClick={() => onPlay(youdaoVoice(word.word, 2))} title="美音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600">
+            <button onClick={() => onPlay(youdaoVoice(word.word, 2), word.word)} title="美音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-sky-300 hover:text-sky-600">
               <Volume2 className="h-2.5 w-2.5" /> 美
             </button>
-            <button onClick={() => onPlay(youdaoVoice(word.word, 1))} title="英音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+            <button onClick={() => onPlay(youdaoVoice(word.word, 1), word.word)} title="英音" className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
               <Volume2 className="h-2.5 w-2.5" /> 英
             </button>
           </>
         )}
       </span>
-      <span className="text-xs leading-relaxed text-slate-500">
+      <span className="self-center text-xs leading-relaxed text-slate-500">
         {word.meaning}
       </span>
-      <button onClick={onDelete} title="删除" className="flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">
+      <button onClick={onDelete} title="删除" className="self-center flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">
         <Trash2 className="h-3.5 w-3.5" />
       </button>
     </div>

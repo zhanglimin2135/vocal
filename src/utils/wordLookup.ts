@@ -25,6 +25,12 @@ export function youdaoVoice(word: string, type: 1 | 2): string {
   return `https://dict.youdao.com/dictvoice?type=${type}&audio=${encodeURIComponent(word)}`;
 }
 
+/** 百度翻译 TTS 兜底（lan=en 美音, lan=uk 英音） */
+export function baiduVoice(word: string, accent: 'uk' | 'us' = 'us'): string {
+  const lan = accent === 'uk' ? 'uk' : 'en';
+  return `https://fanyi.baidu.com/gettts?lan=${lan}&text=${encodeURIComponent(word)}&spd=3&source=web`;
+}
+
 /** JSONP 请求（用于有道接口，绕过 CORS） */
 function jsonp<T>(url: string, param: string, timeout = 7000): Promise<T | null> {
   return new Promise((resolve) => {

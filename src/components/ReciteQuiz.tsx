@@ -13,7 +13,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Volume2, Star, Check, ChevronLeft, ChevronRight, X, Timer, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { youdaoVoice } from '@/utils/wordLookup';
+import { youdaoVoice, baiduVoice } from '@/utils/wordLookup';
 
 export interface QuizWord {
   word: string;
@@ -91,13 +91,15 @@ function tryAudio(url: string): Promise<boolean> {
   });
 }
 
-/** 美音优先，失败自动补英音；所有音频源失败时用系统英文语音兜底 */
+/** 美音优先，失败自动补英音；有道/百度 TTS 都失败时用系统英文语音兜底 */
 async function playWithFallback(word: QuizWord) {
   const urls = [
     word.us || youdaoVoice(word.word, 2),
-    word.uk || youdaoVoice(word.word, 1),
     youdaoVoice(word.word, 2),
+    baiduVoice(word.word, 'us'),
+    word.uk || youdaoVoice(word.word, 1),
     youdaoVoice(word.word, 1),
+    baiduVoice(word.word, 'uk'),
   ];
   for (const url of new Set(urls)) {
     if (await tryAudio(url)) return;
@@ -106,7 +108,7 @@ async function playWithFallback(word: QuizWord) {
   try {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word.word);
-    utterance.lang = 'en-GB';
+    utterance.lang = 'en-US';
     window.speechSynthesis.speak(utterance);
   } catch { /* ignore */ }
 }
