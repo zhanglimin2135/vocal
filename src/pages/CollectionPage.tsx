@@ -662,7 +662,7 @@ function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy
 
 function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string, word: string, accent?: 'us' | 'uk') => void; onDelete: () => void }) {
   return (
-    <div className="grid grid-cols-[2rem_minmax(0,12rem)_auto_minmax(0,1fr)_28px] items-start gap-x-3 gap-y-1 py-2 text-sm text-left">
+    <div className="grid grid-cols-[2rem_minmax(0,8rem)_auto_minmax(0,1fr)_28px] items-start gap-x-1.5 gap-y-1 py-2 text-sm text-left">
       <span className="pt-0.5 text-center text-xs text-slate-400 tabular-nums">{idx}</span>
       <span className="break-words whitespace-normal font-semibold leading-snug text-slate-800">{word.word}</span>
       <span className="pt-0.5 inline-flex gap-1">
