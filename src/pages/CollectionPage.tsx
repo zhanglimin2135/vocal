@@ -403,7 +403,7 @@ export default function CollectionPage() {
                   className="rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-left hover:bg-indigo-100"
                 >
                   <div className="text-sm font-bold text-indigo-700">✦ 添加为新单元</div>
-                  <div className="mt-1 text-[11px] text-indigo-500">单元名 = 手动文字 + 添加时间（年月日时分）</div>
+                  <div className="mt-1 text-[11px] text-indigo-500">单元名 = 手动文字 + 添加时间（月日）</div>
                 </button>
                 <button
                   onClick={() => { setModeConfirm('append'); setShowConfirm(true); }}
@@ -425,8 +425,8 @@ export default function CollectionPage() {
           <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
             <h4 className="text-sm font-bold text-slate-900">新单元命名</h4>
             <p className="mt-1 text-xs text-slate-500">
-              命名规则：手动文字 + 当前时间（自动追加）。<br />
-              例如「真题2026 · 2026-11-17 14:32」
+              命名规则：手动文字 + 添加时间（月日，自动追加）。<br />
+              例如「真题2026 · 11-18」
             </p>
             <input
               value={nameHint}

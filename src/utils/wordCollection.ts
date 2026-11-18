@@ -93,8 +93,7 @@ export function appendOrCreate(
     next[0] = { ...top, words: [...top.words, ...fresh] };
   } else {
     const base = (opts.nameHint || '').trim() || '生词';
-    const stamp = formatTimestamp(Date.now());
-    const name = `${base} · ${stamp}`;
+    const name = `${base} · ${formatMonthDay(Date.now())}`;
     next = [{ id: uid(), name, createdAt: Date.now(), words: take }, ...next];
   }
   return { next, added: take.length, overflow, atLimit };
@@ -124,4 +123,11 @@ export function formatTimestamp(ts: number): string {
   const d = new Date(ts);
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/** 单元命名用：月-日，如 11-18 */
+export function formatMonthDay(ts: number): string {
+  const d = new Date(ts);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
