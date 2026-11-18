@@ -662,10 +662,10 @@ function UnitCard({ unit, expanded, onToggle, onDeleteUnit, onDeleteWord, onCopy
 
 function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry; onPlay: (url: string, word: string, accent?: 'us' | 'uk') => void; onDelete: () => void }) {
   return (
-    <div className="grid grid-cols-[2rem_minmax(0,1fr)_auto_auto_auto] items-start gap-x-2 gap-y-1 py-2 text-sm">
-      <span className="self-center text-center text-xs text-slate-400 tabular-nums">{idx}</span>
-      <span className="break-words whitespace-normal self-center font-semibold leading-snug text-slate-800">{word.word}</span>
-      <span className="self-center inline-flex gap-1">
+    <div className="grid grid-cols-[2rem_minmax(0,1fr)_auto_minmax(0,1fr)_28px] items-center gap-2 py-2 text-sm text-left">
+      <span className="text-center text-xs text-slate-400 tabular-nums">{idx}</span>
+      <span className="break-words whitespace-normal font-semibold leading-snug text-slate-800">{word.word}</span>
+      <span className="inline-flex gap-1">
         {word.us && (
           <button
             onClick={() => onPlay(word.us, word.word, 'us')}
@@ -695,10 +695,10 @@ function WordRow({ idx, word, onPlay, onDelete }: { idx: number; word: WordEntry
           </>
         )}
       </span>
-      <span className="self-center text-xs leading-relaxed text-slate-500">
+      <span className="text-xs leading-relaxed text-slate-500">
         {word.meaning}
       </span>
-      <button onClick={onDelete} title="删除" className="self-center flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">
+      <button onClick={onDelete} title="删除" className="flex h-6 w-6 items-center justify-center rounded-md text-slate-300 hover:bg-rose-50 hover:text-rose-500">
         <Trash2 className="h-3.5 w-3.5" />
       </button>
     </div>
