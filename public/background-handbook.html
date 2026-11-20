@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL 听力 · 阅读背景知识全景手册</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --ink:#1c263a; --body:#2c3a53; --muted:#8b95a8;
+  --line:#e6e9f0; --accent:#5b5bd6; --accent-bg:#f0f0fc;
+  --green:#2e9b6b; --green-bg:#e9f7ef; --gold:#d99a2b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--body);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:38px 26px 80px}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:40px 44px 34px;margin-bottom:22px;box-shadow:0 1px 3px rgba(28,38,58,.03)}
+.kicker{font-size:12px;letter-spacing:.16em;color:var(--accent);font-weight:700;margin-bottom:14px}
+.hero h1{font-size:36px;line-height:1.3;margin:0 0 10px;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.hero .en-title{font-size:19px;color:#9aa4b7;font-weight:400;margin:0 0 20px}
+.hero .desc{font-size:15px;line-height:1.9;color:#5b6880;margin:0 0 24px;
+  text-align:justify;text-justify:inter-ideograph;text-align-last:left}
+.stat-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
+  width:100%;margin-bottom:22px}
+.stat{background:#f7f8fb;border:1px solid var(--line);border-radius:10px;
+  padding:15px 12px;min-width:0;display:flex;align-items:baseline;
+  justify-content:center;gap:9px;white-space:nowrap}
+.stat b{font-size:24px;color:var(--ink);line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:#5b6880}
+.howto{border-top:1px solid var(--line);padding-top:20px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.howto div{font-size:13px;line-height:1.75;color:#6b7890}
+.howto b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+.howto a.dl{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Sidebar / 学科目录 ---------- */
+.layout{display:grid;grid-template-columns:196px 1fr;gap:26px;align-items:start}
+.sidebar{position:sticky;top:22px;font-size:13px}
+.sidebar .st{font-size:12px;color:var(--muted);letter-spacing:.1em;margin:0 0 12px;font-weight:600}
+.search{position:relative;margin-bottom:12px}
+.search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;
+  padding:9px 10px 9px 30px;font-size:12.5px;color:var(--ink);outline:none;font-family:inherit}
+.search input:focus{border-color:#a9a9e8;box-shadow:0 0 0 3px rgba(91,91,214,.08)}
+.search::before{content:"⌕";position:absolute;left:10px;top:5px;font-size:17px;color:var(--muted)}
+.nav-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;width:100%;
+  border:0;border-left:2px solid transparent;background:transparent;color:#67748d;
+  font-family:inherit;font-size:13px;text-align:left;padding:7px 10px;border-radius:7px;
+  cursor:pointer;line-height:1.4;transition:.15s}
+.nav-item .n{color:#a8b0c0;font-size:11px;min-width:20px;text-align:right;font-variant-numeric:tabular-nums}
+.nav-item:hover{background:#fff;color:var(--accent)}
+.nav-item.on{background:var(--accent-bg);color:var(--accent);border-left-color:var(--accent);font-weight:600}
+.nav-item.on .n{color:var(--accent)}
+.nav-sep{height:1px;background:var(--line);margin:10px 6px}
+.hint{font-size:11.5px;line-height:1.65;color:var(--muted);border-top:1px solid var(--line);
+  margin-top:16px;padding-top:12px}
+main{min-width:0}
+
+/* ---------- Category ---------- */
+section.cat{scroll-margin-top:24px;margin-bottom:38px}
+.cat-head{display:flex;align-items:baseline;gap:12px;margin:6px 0 16px;padding-left:2px}
+.cat-head h2{font-size:19px;color:var(--ink);margin:0;font-weight:700}
+.cat-head .e{font-size:13px;color:#9aa4b7}
+.cat-head .bar{flex:1;height:1px;background:var(--line)}
+.cat-head .cnt{font-size:12px;color:var(--muted)}
+
+/* ---------- Article card (matching the screenshot) ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:34px 40px 30px;margin-bottom:20px;box-shadow:0 1px 3px rgba(28,38,58,.03);
+  scroll-margin-top:24px}
+.cat-line{display:flex;align-items:center;gap:9px;margin-bottom:16px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-bg);
+  border-radius:5px;padding:4px 9px}
+.tag.gray{color:#8b95a8;background:#f3f5f8;font-weight:400}
+.card h3{font-size:32px;line-height:1.3;color:var(--ink);margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
+.card .sub{font-size:20px;color:#9aa4b7;font-weight:400;margin:0 0 22px}
+.rule{height:1px;background:var(--line);margin:0 0 18px}
+.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:26px}
+.abtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;
+  color:#5b6880;border-radius:8px;padding:7px 11px;font-size:12.5px;cursor:pointer;
+  font-family:inherit;transition:.15s;line-height:1.4;margin:0;white-space:nowrap}
+.abtn:hover{border-color:#bcc4dc;color:var(--ink)}
+.abtn .ic{font-size:14px;line-height:1}
+.abtn.read.on{background:var(--green-bg);border-color:#bfe6d1;color:var(--green)}
+.abtn.fav.on{background:#fff8e9;border-color:#f0dcae;color:var(--gold)}
+.abtn.quiz.on{background:var(--accent-bg);border-color:#c9c9f0;color:var(--accent)}
+.abtn.foldbtn.on{background:var(--accent-bg);border-color:#c9c9f0;color:var(--accent)}
+.meta{margin-left:auto;font-size:13px;color:#a3abbc;white-space:nowrap}
+.card p{font-size:16px;line-height:1.95;color:var(--body);margin:0 0 20px;letter-spacing:0;
+  text-align:justify;text-justify:inter-ideograph;text-align-last:left;hyphens:auto}
+.card p .t .cn,.card p .paren{white-space:nowrap}
+.card p:last-child{margin-bottom:0}
+.t{font-weight:700;text-decoration:underline;text-decoration-color:#a5b0c9;
+  text-underline-offset:4px;text-decoration-thickness:1px;cursor:help}
+.t .cn{border-radius:2px}
+.t .en{text-decoration:none}
+.paren{color:#5c6b86;font-weight:400}
+.card.quiz .t{text-decoration:none}
+.card.quiz .t .cn{color:transparent;background:#dbe0ea;box-shadow:0 0 0 2px #dbe0ea;
+  text-decoration:none;user-select:none;transition:.15s}
+.card.quiz .t .cn:hover{color:var(--body);background:transparent;box-shadow:none}
+.card.quiz .quiz-tip{display:block}
+.quiz-tip{display:none;font-size:12px;color:var(--accent);background:var(--accent-bg);
+  border-radius:6px;padding:7px 11px;margin:-12px 0 20px}
+.card.fold .card-body{display:none}
+.card.fold{margin-bottom:12px}
+/* 折叠时分割线与按钮行的间距保持与展开态一致（仅收紧按钮行下方的空白） */
+.card.fold .actions{margin-bottom:0}
+.card.fold{padding-bottom:22px}
+
+/* ---------- Term index ---------- */
+.term-index{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:28px 34px;margin-top:10px}
+.term-index h2{font-size:20px;color:var(--ink);margin:0 0 6px}
+.term-index .d{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.7}
+.term-index details{border-top:1px solid var(--line);padding-top:14px}
+.term-index summary{cursor:pointer;font-size:14px;color:var(--accent);padding:6px 0;outline:none}
+.tg{margin:14px 0 18px}
+.tg h4{font-size:13px;color:var(--ink);margin:0 0 9px;font-weight:600}
+.tg .list{display:flex;flex-wrap:wrap;gap:7px}
+.tg .w{font-size:12.5px;background:#f7f8fb;border:1px solid var(--line);border-radius:6px;
+  padding:5px 9px;color:#4a5870}
+.tg .w i{font-style:normal;color:#98a2b5;margin-left:5px}
+a.w{text-decoration:none;cursor:pointer}
+a.w:hover{background:var(--accent-bg);border-color:#c9c9f0;color:var(--accent)}
+footer{text-align:center;color:#a3abbc;font-size:12px;margin-top:34px;line-height:1.8}
+.empty{display:none;text-align:center;color:var(--muted);padding:70px 0;font-size:14px}
+
+@media (max-width:860px){
+  .wrap{padding:20px 14px 60px}
+  .hero{padding:26px 22px}
+  .hero h1{font-size:27px}
+  .layout{grid-template-columns:1fr;gap:0}
+  .sidebar{position:static;max-height:none;overflow:visible;margin-bottom:18px;
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .nav-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:4px}
+  .nav-sep{display:none}
+  .card{padding:24px 20px}
+  .card h3{font-size:25px}
+  .card .sub{font-size:17px}
+  .card p{font-size:15.5px;line-height:1.9}
+  .stat-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .stat{padding:10px 8px;gap:6px;white-space:normal;flex-wrap:wrap}
+  .stat b{font-size:20px}
+  .stat span{font-size:12px}
+  .meta{margin-left:0;width:100%;padding-top:4px}
+}
+@media print{
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .sidebar,.actions,.howto,footer{display:none!important}
+  .layout{display:block!important}
+  main{width:100%}
+  .hero .stat-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:12px}
+  .hero .stat{background:#fff;border-color:#d8dce4;padding:7px 3px;gap:5px;
+    white-space:nowrap;flex-wrap:nowrap;justify-content:center}
+  .hero .stat b{font-size:13pt}
+  .hero .stat span{font-size:8pt}
+  .term-index{border:none;box-shadow:none;padding:0;margin-top:16px;break-before:page}
+  .term-index .search,.term-index summary{display:none!important}
+  .term-index .w{background:#fff}
+  .hero{border:none;box-shadow:none;padding:0 0 18px;margin-bottom:14px;border-bottom:2px solid #333}
+  .card,.hero{background:#fff}
+  .card{box-shadow:none;border:1px solid #d8dce4;break-inside:avoid;page-break-inside:avoid;padding:24px 26px}
+  section.cat{break-before:auto}
+  .cat-head{break-after:avoid}
+  .card.fold .card-body{display:block!important}
+  /* 单篇导出：只保留点击按钮所在的那一篇文章 */
+  body.print-one .hero,body.print-one .sidebar,body.print-one .term-index,
+  body.print-one footer,body.print-one section.cat:not(.print-keep),
+  body.print-one .card:not(.print-keep){display:none!important}
+  body.print-one .layout{display:block!important}
+  body.print-one main{width:100%}
+  body.print-one .cat-head{display:none!important}
+  body.print-one .card.print-keep{display:block!important;border:none;box-shadow:none;
+    padding:0;break-inside:auto;page-break-inside:auto}
+  body.print-one .card.print-keep .card-body{display:block!important}
+  .quiz-tip{display:none!important}
+  .card.quiz .t{text-decoration:underline!important}
+  .card.quiz .t .cn{color:inherit!important;background:transparent!important;box-shadow:none!important}
+  .card p{font-size:11.5pt;line-height:1.75}
+  .card h3{font-size:20pt}
+  .card .sub{font-size:12pt}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">TOEFL LISTENING &amp; READING · BACKGROUND KNOWLEDGE</div>
+    <h1>托福听力 · 阅读背景知识全景手册</h1>
+    <div class="en-title">A Companion to Academic Background Knowledge for the TOEFL iBT</div>
+    <p class="desc">系统覆盖 2010 年至今托福 iBT（TPO 与公开真题回忆）听力讲座、阅读学术文章中反复出现的学科背景话题，按「学科 → 话题」归档——同一话题常跨年份重复出现，故不按考试日期编排。每篇沿用「中文精读 + 学术术语英汉对照」的三段式结构，正文两端对齐，便于打印精读；读完一篇，等于提前熟悉一类题目的知识底盘。</p>
+    <div class="stat-row" id="statRow"></div>
+    <div class="howto">
+      <div><b>为什么有用</b>托福不考专业深度，但考「听懂术语之间的关系」。先建立学科框架，听讲座时就不容易被生词带偏。</div>
+      <div><b>怎么自测</b>点每张卡片的「隐藏中文（自测）」，术语中文会被遮盖，看英文回忆含义；鼠标悬停可临时查看答案。</div>
+      <div><b>怎么复习</b>用「已读 / 收藏」标记进度（自动保存在本机），左侧目录可按学科或「收藏篇章」筛选，文末附全部核心术语速查表。</div>
+      <div><b>打印成册</b>点任意卡片按钮行的「导出 PDF / 打印」即可单篇输出；<a class="dl" href="handbook.pdf" download>下载完整 PDF（118 页）</a>可带走全本，打印样式会去掉目录与按钮。</div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="st">学科目录</div>
+      <div class="search"><input id="q" type="search" placeholder="搜索篇章 / 术语…" autocomplete="off"></div>
+      <nav class="nav-list" id="navList"></nav>
+      <div class="hint" id="hint">提示：术语后的括号内为托福听力/阅读中对应的英文表达，注意发音与重音。</div>
+    </aside>
+    <main id="main"></main>
+  </div>
+  <div class="empty" id="empty">没有匹配的内容，试试更短的关键词。</div>
+
+  <section class="term-index" id="topicIndex">
+    <h2>2010 — 2026 真题背景话题总目录</h2>
+    <p class="d">按学科列出全部话题的中英标题，点击可直接跳转到对应精读卡片。话题取自 2010 年以来 TPO 与公开真题回忆中反复出现的背景知识，按学科归并，而非逐场考试的流水记录。</p>
+    <details id="topicDetails"><summary>展开全部话题目录</summary><div id="topicGroups"></div></details>
+  </section>
+
+  <section class="term-index" id="termIndex">
+    <h2>附录 · 核心学术术语速查表</h2>
+    <p class="d">自动汇总全文所有英汉对照术语，按学科分组，可直接用于考前扫读与听写自查。同一术语若出现在不同学科会分别保留，故分组合计略高于首页的去重词数。</p>
+    <details id="termDetails"><summary>展开全部术语（共 <span id="termCount">0</span> 条）</summary>
+      <div class="search" style="margin:14px 0 4px"><input id="tq" type="search" placeholder="在术语表中筛选…" autocomplete="off"></div>
+      <div id="termGroups"></div>
+    </details>
+  </section>
+
+  <footer>依据托福听力讲座与阅读学术文章的常见学科分布整理 · 术语释义以考试语境为准<br>建议配合真题精听 / 精读使用，重点记忆「机制 + 因果 + 举例」三类表达</footer>
+</div>
+
+<script>
+/* 术语标记：[[中文|English]] → 加粗下划线的中文 + 全角括号内的英文 */
+const GROUPS = [
+{
+  c:"天文与地球科学", e:"Astronomy & Earth Science", items:[
+  {t:"冰川中的古老空气", en:"Ancient Air in Glaciers", tag:"新托福真题", p:[
+    "[[冰川|glacier]] 是地球上保存古气候信息的重要载体，它们像冰冻的图书馆一样记录着地球气候的历史。当积雪不断[[堆积|accumulation]]并经过数百年压缩，雪会逐渐变成冰，在这个过程中会包裹住当时大气中的空气，形成微小的[[气泡|air bubble]]。这些气泡就像大气成分的[[微型快照|snapshot]]，科学家通过分析气泡中的气体，可以重建过去[[温室气体|greenhouse gas]] 如[[二氧化碳|carbon dioxide]] 和[[甲烷|methane]] 的浓度，从而揭示自然[[气候循环|climate cycle]] 以及人类活动日益加剧的影响。",
+    "尽管许多冰川因气温上升而[[退缩|retreat]]，幸存的冰川仍然提供了了解过去的窗口。科学家向冰层深处钻探，提取圆柱形的[[冰芯|ice core]]，冰芯的[[层理|layer]] 就像[[树木的年轮|tree ring]] 一样，对应着不同的历史时期。冰芯中不仅含有气体，还保存着过去环境事件的化学和物理[[标记|marker]]。例如，通过[[火山灰|volcanic ash]] 和[[硫酸盐|sulfate]] 层可以了解[[火山喷发|volcanic eruption]] 的信息，通过[[同位素|isotope]] 变化可以推断[[太阳活动|solar activity]]，通过 trapped particulates 和[[黑碳|black carbon]] 可以识别[[森林火灾|forest fire]]。",
+    "最近的研究强调了这些冰封[[档案|archive]] 未来面临的风险。随着冰川[[融化|melt]]，它们会导致[[海平面上升|sea level rise]]，同时宝贵气候数据丢失的风险也在增加。研究和保存这些记录的紧迫性日益增长。科学家们正在[[与时间赛跑|race against time]]，而这些冰冻巨人仍然隐藏着许多秘密等待揭示。"
+  ]},
+  {t:"太阳系的形成", en:"The Formation of the Solar System", tag:"TPO 常见", p:[
+    "主流模型认为，太阳系起源于一团巨大的[[星云|nebula]]，其中的气体与尘埃在自身[[引力坍缩|gravitational collapse]] 下逐渐收缩并加速旋转。中心区域物质最密集，温度和压力不断升高，形成[[原恒星|protostar]]；其余物质被摊平成一个绕其旋转的[[吸积盘|accretion disk]]。当核心温度足够高时，[[核聚变|nuclear fusion]] 被点燃，太阳正式成为一颗恒星。",
+    "盘中的尘埃颗粒通过碰撞不断黏合，先长成公里级的[[星子|planetesimal]]，再在引力作用下聚集成行星胚胎。靠近太阳的区域温度高，只有岩石和金属能够凝结，于是形成[[类地行星|terrestrial planet]]；越过[[雪线|frost line]] 的低温区域，冰质材料大量保留，核心迅速壮大并吸积氢氦，形成[[气态巨行星|gas giant]]。残留未能聚成行星的物质，则留在[[小行星带|asteroid belt]] 中。",
+    "新生太阳的[[太阳风|solar wind]] 把剩余气体吹散，行星形成阶段随之结束；此后约一亿年内的[[重轰击期|late heavy bombardment]] 在月球和水星表面留下大量撞击坑。这套模型可以解释行星[[轨道共面|coplanar orbit]]、公转方向一致以及陨石与行星的[[放射性定年|radiometric dating]] 结果，也是听力讲座中最常考的「假说—证据」结构。"
+  ]},
+  {t:"恒星的一生", en:"The Life Cycle of Stars", tag:"常考主题", p:[
+    "恒星的质量几乎决定了它的一生。气体云坍缩后，若核心持续进行氢的[[核聚变|nuclear fusion]]，恒星便进入漫长的[[主序星|main sequence star]] 阶段，此时向内的引力与向外的[[辐射压|radiation pressure]] 保持平衡。天文学家把恒星的[[光度|luminosity]]、表面温度与[[光谱|spectrum]] 标在[[赫罗图|H-R diagram]] 上，就能判断它所处的演化阶段。",
+    "当核心的氢耗尽，大质量恒星会膨胀成[[红巨星|red giant]]，外层冷却变红，核心继续收缩并点燃更重的元素。像太阳这样的中小质量恒星最终抛掉外层，留下密度极高、缓慢冷却的[[白矮星|white dwarf]]；质量更大的恒星则以[[超新星|supernova]] 爆发结束生命，把重元素抛回星际空间，残骸可能成为[[中子星|neutron star]] 甚至[[黑洞|black hole]]。",
+    "因此，恒星既是[[元素合成|nucleosynthesis]] 的工厂，也是下一代恒星与行星的原料来源。讲座常通过对比「质量—寿命—结局」来设问：质量越大，燃料消耗越快，寿命反而越短；而[[球状星团|globular cluster]] 的年龄，正是利用其中恒星脱离主序的转折点估算出来的。"
+  ]}
+  ]},
+{
+  c:"地质学", e:"Geology", items:[
+  {t:"板块构造与大陆漂移", en:"Plate Tectonics and Continental Drift", tag:"TPO 常见", p:[
+    "魏格纳最早提出[[大陆漂移|continental drift]]，认为今天分散的大陆曾连成一块[[泛大陆|Pangaea]]。他的证据包括大西洋两岸海岸线的吻合、跨洋的[[化石分布|fossil distribution]] 与岩层连续性，以及古冰川擦痕指示的[[古气候|paleoclimate]]。但由于当时无法说明大陆移动的动力，这一假说长期未被接受。",
+    "二战后海底测绘带来转机：[[洋中脊|mid-ocean ridge]] 处不断生成新的洋壳并向两侧推开，即[[海底扩张|seafloor spreading]]；洋壳年龄从洋中脊向两侧对称变老，[[古地磁|paleomagnetism]] 条带也呈镜像排列。板块运动的驱动力主要来自[[地幔对流|mantle convection]]，以及洋壳在[[俯冲带|subduction zone]] 下沉时的[[板片拉力|slab pull]]。",
+    "板块边界解释了大部分地质现象：分离边界形成裂谷与新洋壳，汇聚边界造成[[造山运动|orogeny]]、[[海沟|trench]] 与火山弧，[[转换断层|transform fault]] 则引发浅源地震。托福阅读喜欢考「旧假说被质疑—新技术提供证据—理论被重建」这条科学史线索，也常用[[夏威夷热点|hotspot]] 解释不在板块边界上的火山链。"
+  ]},
+  {t:"火山与岩浆活动", en:"Volcanoes and Magmatic Activity", tag:"常考主题", p:[
+    "[[岩浆|magma]] 是地下熔融的岩石与挥发分混合物，喷出地表后称为[[熔岩|lava]]。其[[黏度|viscosity]] 主要由[[二氧化硅含量|silica content]] 决定：玄武质岩浆含硅低、流动性好，气体易于逸出，往往形成平缓的[[盾状火山|shield volcano]]；安山质与流纹质岩浆黏稠、[[挥发分|volatile]] 难以逃逸，压力积累后容易产生爆发式[[喷发|eruption]]，堆积成陡峭的[[成层火山|stratovolcano]]。",
+    "多数火山分布在板块边界，但也有位于板块内部[[热点|hotspot]] 之上的例外，如夏威夷群岛：板块缓慢移过固定的岩浆源，便留下一串年龄递变的火山岛。大规模喷发后火山口塌陷可形成[[破火山口|caldera]]，[[火山灰|volcanic ash]] 与[[火山碎屑流|pyroclastic flow]] 则能覆盖广大区域，甚至短期改变[[气候|climate]]。",
+    "火山的双面性是常见考点：一方面[[火山灰|volcanic ash]] 风化后形成肥沃土壤，[[地热|geothermal energy]] 可被利用；另一方面喷发威胁[[居住区|settlement]] 与航空安全，因此监测[[地震活动|seismic activity]]、[[气体排放|gas emission]] 与地表形变成为预测喷发的关键。"
+  ]},
+  {t:"岩石循环与地层年代", en:"The Rock Cycle and Stratigraphy", tag:"常考主题", p:[
+    "地球表面的岩石分为三大类：岩浆冷却固结形成[[火成岩|igneous rock]]，碎屑经[[风化|weathering]]、[[侵蚀|erosion]]、搬运与[[沉积|deposition]] 后压实胶结成[[沉积岩|sedimentary rock]]，已有岩石在高温高压下发生[[变质作用|metamorphism]] 则成为[[变质岩|metamorphic rock]]。三者通过[[岩石循环|rock cycle]] 相互转化，驱动力来自内部热量与地表[[水循环|water cycle]]。",
+    "沉积岩的[[层理|stratum]] 是解读地质历史的书页。依据[[叠覆律|law of superposition]]，未受扰动的序列中下层更老；[[标准化石|index fossil]] 可用于跨区域[[地层对比|stratigraphic correlation]]；而[[不整合|unconformity]] 则代表一段被侵蚀掉或未曾沉积的时间缺口。化石[[演替序列|faunal succession]] 让生物地层学成为相对定年的基础。",
+    "若要得到具体年龄，则需[[放射性定年|radiometric dating]]，利用[[半衰期|half-life]] 稳定的同位素衰变测定火成岩，再用上下地层关系间接限定沉积岩年代。托福阅读常把「相对年代」与「绝对年代」并列考查，并强调[[地质年代表|geologic time scale]] 是二者结合的结果。"
+  ]}
+  ]},
+{
+  c:"气象与海洋学", e:"Meteorology & Oceanography", items:[
+  {t:"厄尔尼诺与南方涛动", en:"El Niño and the Southern Oscillation", tag:"TPO 常见", p:[
+    "正常情况下，赤道太平洋的[[信风|trade wind]] 自东向西吹，把暖水堆向西侧，东侧的秘鲁沿岸因此出现[[上升流|upwelling]]，把富含[[营养盐|nutrient]] 的冷水带到表层，支撑高产[[渔业|fishery]]。此时[[温跃层|thermocline]] 西深东浅，大气中的[[沃克环流|Walker circulation]] 在西太平洋上升、东太平洋下沉。",
+    "当信风减弱甚至反转，暖水向东回流，东太平洋[[海表温度|sea surface temperature]] 异常升高，上升流被抑制，这就是[[厄尔尼诺|El Niño]]；与之对应的是东西太平洋气压的跷跷板式变化，即[[南方涛动|Southern Oscillation]]，合称 ENSO。相反相位[[拉尼娜|La Niña]] 则令东侧更冷、信风更强。",
+    "ENSO 通过[[遥相关|teleconnection]] 改变全球[[降水异常|precipitation anomaly]]：南美西岸暴雨、澳大利亚与东南亚干旱、北美冬季风暴路径偏移等。听力讲座常以「渔获量下降」引出整条因果链，并说明[[珊瑚白化|coral bleaching]] 与[[预测模型|predictive model]] 的现实意义。"
+  ]},
+  {t:"洋流与全球热量输送", en:"Ocean Currents and Global Heat Transport", tag:"常考主题", p:[
+    "海洋像一台巨大的热量分配机。表层[[表层洋流|surface current]] 主要由盛行风驱动，并因[[科里奥利力|Coriolis effect]] 在北半球向右偏转，形成副热带[[环流|gyre]]；[[墨西哥湾暖流|Gulf Stream]] 把热带暖水输往北大西洋，使西欧冬季远比同纬度地区温和。",
+    "深层则存在由[[密度|density]] 差异驱动的[[温盐环流|thermohaline circulation]]：高纬海面结冰或强烈蒸发使[[盐度|salinity]] 升高、冷水变重而下沉，形成[[北大西洋深层水|North Atlantic Deep Water]]，沿洋底缓慢流向全球。这条「[[全球输送带|global conveyor belt]]」一次循环可长达上千年，也把[[溶解氧|dissolved oxygen]] 带入深海。",
+    "风生[[上升流|upwelling]] 把深层[[营养盐|nutrient]] 送回透光层，造就世界主要渔场；而大量淡水注入若降低高纬海水密度，可能减弱深水形成并影响[[气候|climate]]。托福常考的是「表层风驱动 vs 深层密度驱动」这一对比结构。"
+  ]},
+  {t:"飓风如何形成", en:"How Hurricanes Form", tag:"常考主题", p:[
+    "[[热带气旋|tropical cyclone]] 诞生于温暖海洋：[[海表温度|sea surface temperature]] 通常需高于约 26.5℃，海水蒸发提供大量水汽。空气在[[低压中心|low-pressure center]] 辐合上升，水汽[[凝结|condensation]] 释放[[潜热|latent heat]]，进一步加热气柱、降低地面气压，形成自我强化的正反馈。",
+    "地转的[[科里奥利力|Coriolis force]] 使气流旋转，因此赤道附近难以生成气旋。成熟风暴中心是下沉气流造成的平静[[风眼|eye]]，四周[[眼壁|eyewall]] 的风速与降水最强，螺旋[[雨带|rain band]] 向外延伸。若[[垂直风切变|wind shear]] 过强，或登陆后失去水汽供应，风暴便迅速减弱。",
+    "危害不仅来自强风，还包括[[风暴潮|storm surge]] 与内陆[[洪水|flooding]]。讲座常对比「生成条件—加强机制—消散原因」，并借[[等级划分|category scale]] 说明为何暖季与[[厄尔尼诺|El Niño]] 相位会改变飓风频次。"
+  ]}
+  ]},
+{
+  c:"生物学与动物行为", e:"Biology & Animal Behavior", items:[
+  {t:"动物迁徙与导航", en:"Animal Migration and Navigation", tag:"TPO 常见", p:[
+    "[[迁徙|migration]] 是动物在繁殖地与越冬地之间的周期性往返，本质是对季节性[[资源波动|resource fluctuation]] 的适应。代价极高：长距离飞行需要大量[[脂肪储备|fat reserve]]，途中还面临捕食与天气风险，因此只有在[[繁殖成功率|reproductive success]] 的收益超过成本时，这一策略才会被[[自然选择|natural selection]] 保留。",
+    "导航机制是讲座最爱的考点。候鸟可利用[[太阳罗盘|sun compass]] 并结合[[昼夜节律|circadian rhythm]] 校正时间，夜间则依赖[[星象导航|star navigation]]；还有物种具备[[地磁感应|magnetoreception]]，能感知地磁场倾角。鲑鱼依靠[[嗅觉印记|olfactory imprinting]] 回到出生河流，[[归巢|homing]] 行为常由[[本能|instinct]] 与后天学习共同塑造。",
+    "迁徙路线的[[停歇地|stopover site]] 决定种群存亡，湿地破坏或[[光污染|light pollution]] 都可能造成导航失误。托福听力常以「某物种为何迁徙 / 实验如何证明它用哪种线索」为设问，实验中常用[[定向笼|orientation cage]] 或[[移位实验|displacement experiment]] 排除干扰变量。"
+  ]},
+  {t:"共生：从互利到寄生", en:"Symbiosis: Mutualism to Parasitism", tag:"常考主题", p:[
+    "[[共生|symbiosis]] 指不同物种长期密切生活在一起，按利弊分为三类：双方获益的[[互利共生|mutualism]]、一方获益另一方不受明显影响的[[偏利共生|commensalism]]，以及一方获益、[[宿主|host]] 受损的[[寄生|parasitism]]。分类并非固定，环境变化可能让关系从互利滑向剥削。",
+    "典型互利案例包括：[[菌根|mycorrhiza]] 真菌帮助植物吸收磷和水分，换取光合作用产物；[[固氮菌|nitrogen-fixing bacteria]] 为豆科植物提供可利用的氮；[[传粉者|pollinator]] 取得[[花蜜|nectar]] 的同时完成[[异花授粉|cross-pollination]]；珊瑚与[[虫黄藻|zooxanthellae]] 的合作则支撑整个[[珊瑚礁|coral reef]] 生态系统。",
+    "长期互作会导致[[协同进化|coevolution]]，双方性状彼此匹配，甚至出现[[专性共生|obligate symbiosis]] 而无法独立生存。[[内共生|endosymbiosis]] 理论更进一步解释真核细胞中[[线粒体|mitochondrion]] 与[[叶绿体|chloroplast]] 的起源，是阅读中「证据支持理论」的常见素材。"
+  ]},
+  {t:"伪装、拟态与警戒色", en:"Camouflage, Mimicry and Warning Coloration", tag:"常考主题", p:[
+    "面对[[捕食者|predator]]，猎物演化出两条相反路线：把自己藏起来，或高调宣告不好惹。前者是[[保护色|cryptic coloration]]，如[[反荫蔽|countershading]] 让身体上下明暗抵消立体感，或[[变色|color change]] 随环境调整；后者是[[警戒色|aposematic coloration]]，用鲜艳色彩配合[[毒素|toxin]] 或难闻气味，让捕食者一次尝试后形成[[回避学习|avoidance learning]]。",
+    "[[拟态|mimicry]] 介于两者之间：无毒的[[贝氏拟态|Batesian mimicry]] 者冒充有毒模型种，靠「搭便车」获得保护，因此模型种数量必须足够多才有效；[[缪勒拟态|Müllerian mimicry]] 则是多个真正有毒的物种共享同一套警戒信号，共同分担捕食者的学习成本。",
+    "这些性状都可用[[自然选择|natural selection]] 解释，并常通过[[捕食实验|predation experiment]] 与[[可食性|palatability]] 比较来验证。托福讲座常追问「为什么警戒色反而更醒目」，答案在于信号对[[捕食者学习|predator learning]] 的效率，而非隐蔽本身。"
+  ]}
+  ]},
+{
+  c:"植物学", e:"Botany", items:[
+  {t:"光合作用与碳水权衡", en:"Photosynthesis and the Carbon–Water Trade-off", tag:"TPO 常见", p:[
+    "植物在[[叶绿体|chloroplast]] 中利用[[叶绿素|chlorophyll]] 捕获光能。[[光反应|light reaction]] 分解水、释放氧气并产生能量载体，随后[[卡尔文循环|Calvin cycle]] 完成[[二氧化碳固定|carbon fixation]]，把无机碳合成[[葡萄糖|glucose]]。整个过程把[[光能|light energy]] 转为[[化学能|chemical energy]]，是几乎所有[[食物链|food chain]] 的能量入口。",
+    "关键矛盾在于气体交换与水分散失：叶片通过[[气孔|stoma]] 吸收二氧化碳，却也由此发生[[蒸腾作用|transpiration]]。炎热干旱时关闭气孔能保水，却会限制光合速率并加剧[[光抑制|photoinhibition]]。[[C4 植物|C4 plant]] 与[[CAM 植物|CAM plant]] 分别通过空间分隔与昼夜分隔浓缩二氧化碳，从而在高温或干旱环境中保持效率。",
+    "植物还会依据[[光周期|photoperiod]] 调整开花与休眠，依据[[向光性|phototropism]] 调整生长方向。托福阅读常以「为什么沙漠植物长得慢」引出[[资源分配|resource allocation]] 的权衡：把有限能量投向[[根系|root system]] 还是[[地上生物量|aboveground biomass]]，决定了不同环境下的生存策略。"
+  ]},
+  {t:"传粉与植物繁殖策略", en:"Pollination and Plant Reproductive Strategies", tag:"常考主题", p:[
+    "[[传粉|pollination]] 是[[花粉|pollen]] 从花药到达柱头的过程，之后才有受精与[[种子|seed]] 形成。[[自花授粉|self-pollination]] 稳妥、不依赖外界，却降低[[遗传多样性|genetic diversity]]；[[异花授粉|cross-pollination]] 能带来新基因组合，但必须借助[[传粉媒介|pollinator]] 或风力，因此植物演化出花色、香气与[[花蜜|nectar]] 作为报酬。",
+    "媒介不同，花的性状也成套变化：[[虫媒|insect pollination]] 花常鲜艳、有蜜腺与着陆平台；[[风媒|wind pollination]] 花则小而素、产生海量轻质花粉，[[鸟媒|bird pollination]] 花多为红色管状。这种匹配是[[协同进化|coevolution]] 的经典例证，兰花与特定昆虫的[[专化关系|specialization]] 常被拿来设问。",
+    "为避免自交，植物还发展出[[雌雄异株|dioecy]]、[[自交不亲和|self-incompatibility]] 与雌雄成熟时间错开等机制。受精后[[果实|fruit]] 既保护种子，也借助动物取食或风力完成[[种子传播|seed dispersal]]，形成从开花到定居的完整[[生活史|life history]]。"
+  ]},
+  {t:"植物的化学防御", en:"Plant Chemical Defenses", tag:"常考主题", p:[
+    "植物无法逃跑，于是把资源投入[[次生代谢物|secondary metabolite]]：[[单宁|tannin]] 让组织涩口且难以消化，[[生物碱|alkaloid]] 干扰[[植食性昆虫|herbivore]] 的神经系统，[[萜类|terpene]] 树脂能黏住啃食者并封闭伤口。配合[[刺|thorn]]、[[硅质体|phytolith]] 等[[物理防御|physical defense]]，构成多层次屏障。",
+    "防御并非时刻全开，因为合成代价高昂。[[诱导防御|induced defense]] 只在被取食后启动，植物可识别昆虫唾液中的[[激发子|elicitor]]，并释放[[挥发性有机物|volatile organic compound]] 向邻近叶片甚至邻近植株预警；某些挥发物还会招引[[寄生蜂|parasitoid wasp]] 等[[天敌|natural enemy]]，形成间接防御与[[互利共生|mutualism]]。",
+    "由此产生[[协同进化军备竞赛|coevolutionary arms race]]：昆虫演化出[[解毒机制|detoxification]] 甚至把毒素据为己用，植物再更新化合物。托福阅读常借此讨论[[资源分配权衡|allocation trade-off]]——投入防御的能量多了，用于[[生长|growth]] 与[[繁殖|reproduction]] 的就少了。"
+  ]}
+  ]},
+{
+  c:"生态学与环境科学", e:"Ecology & Environmental Science", items:[
+  {t:"群落演替", en:"Ecological Succession", tag:"TPO 常见", p:[
+    "[[群落|community]] 并非静止，受干扰后会沿可预测的方向更替，即[[演替|succession]]。从裸岩、火山灰或退却冰川后的裸地开始的是[[初生演替|primary succession]]：[[地衣|lichen]] 等[[先锋物种|pioneer species]] 分泌酸风化岩石、积累有机质，逐步促成[[土壤形成|soil formation]]，为草本、灌木乃至乔木创造条件。",
+    "若土壤与[[种子库|seed bank]] 仍在，如火灾或弃耕之后，则属更快的[[次生演替|secondary succession]]。随着[[物种丰富度|species richness]] 上升，[[竞争|competition]] 从争夺光照和养分转向更细的[[生态位分化|niche partitioning]]，最终形成相对稳定的[[顶极群落|climax community]]——不过现代生态学更强调[[干扰|disturbance]] 频发下的动态平衡，而非固定终点。",
+    "[[火灾|fire]] 在这一框架中并非纯粹灾难：低强度火可清除枯落物、释放养分，并触发某些[[需火萌发|fire-adapted germination]]。托福听力常围绕「教授纠正学生认为干扰只有坏处」展开，也会用[[冰川退缩|glacial retreat]] 后的植被带作为天然实验。"
+  ]},
+  {t:"外来入侵物种", en:"Invasive Species", tag:"常考主题", p:[
+    "并非所有[[外来物种|non-native species]] 都会成灾；只有能快速[[扩散|dispersal]]、挤占[[生态位|niche]] 并造成生态或经济损害的才称[[入侵|invasion]]。成功往往因为原产地[[天敌|natural enemy]] 未被一并带来，同时具备高[[繁殖力|fecundity]]、广[[耐受性|tolerance]] 与强[[表型可塑性|phenotypic plasticity]]。",
+    "引入途径包括船舶[[压载水|ballast water]]、园艺贸易与有意[[生物防治|biological control]] 的失败案例。后果可能是[[本地种|native species]] 被竞争排挤、[[食物网|food web]] 重组、[[水文|hydrology]] 改变，乃至[[生物多样性|biodiversity]] 下降；岛上[[特有种|endemic species]] 因缺乏防御尤其脆弱。",
+    "治理强调[[早期监测|early detection]] 与[[快速反应|rapid response]]，机械清除、化学处理与引入专一性天敌各有利弊，后者必须先做[[宿主专一性|host specificity]] 测试。托福阅读常以「引入天敌反而成为新入侵者」考查[[意外后果|unintended consequence]]。"
+  ]},
+  {t:"关键种与营养级联", en:"Keystone Species and Trophic Cascades", tag:"常考主题", p:[
+    "[[关键种|keystone species]] 的影响远超其数量占比：一旦移除，整个[[群落结构|community structure]] 会剧烈改变。经典案例是北太平洋的[[海獭|sea otter]]，它捕食[[海胆|sea urchin]]，从而保护[[海藻林|kelp forest]]；当海獭因猎杀或[[虎鲸|orca]] 捕食而减少，海胆暴增并啃光海藻，形成[[海胆荒漠|urchin barren]]。",
+    "这类自上而下的连锁效应称为[[营养级联|trophic cascade]]，体现[[顶级捕食者|apex predator]] 的[[下行控制|top-down control]]；与之相对的是由养分与初级生产力驱动的[[上行控制|bottom-up control]]。[[营养级|trophic level]] 之间通过[[食物网|food web]] 相连，因此单一物种变动常引发[[级联效应|cascading effect]]。",
+    "另一类[[生态系统工程师|ecosystem engineer]] 如[[河狸|beaver]] 则通过筑坝改造物理环境，创造[[湿地|wetland]] 栖息地。托福听力常借狼群重引入[[黄石|Yellowstone]] 的案例，讨论[[再野化|rewilding]] 与[[恢复生态学|restoration ecology]] 的复杂后果。"
+  ]}
+  ]},
+{
+  c:"古生物学与进化", e:"Paleontology & Evolution", items:[
+  {t:"恐龙灭绝与 K-Pg 界线", en:"The K-Pg Extinction Event", tag:"TPO 常见", p:[
+    "在[[白垩纪—古近纪界线|K-Pg boundary]] 的黏土层中，研究者发现全球性的[[铱异常|iridium anomaly]]：铱在地壳中稀少，却在小行星中富集。随后在墨西哥尤卡坦半岛找到对应年代的[[希克苏鲁伯陨石坑|Chicxulub crater]]，为[[撞击假说|impact hypothesis]] 提供了关键证据，也解释了[[冲击石英|shocked quartz]] 与[[微玻陨石|tektite]] 的分布。",
+    "撞击抛出的尘埃与[[硫酸盐气溶胶|sulfate aerosol]] 遮蔽阳光，造成[[撞击冬天|impact winter]]：[[光合作用|photosynthesis]] 骤减、[[食物链|food chain]] 自底层崩溃，全球降温并伴随酸雨。争议在于[[德干暗色岩|Deccan Traps]] 的大规模[[火山活动|volcanism]] 是否已先令生态系统承压；目前主流观点倾向多因素叠加，而非单一原因。",
+    "这次[[大规模灭绝|mass extinction]] 消灭约四分之三的物种，却为[[哺乳动物|mammal]] 腾出[[生态位|niche]]，触发[[适应辐射|adaptive radiation]]。托福阅读常以此考查「假说提出—异常证据—替代解释—修正共识」的科学论证链条，也提醒[[化石记录|fossil record]] 存在[[采样偏差|sampling bias]]。"
+  ]},
+  {t:"寒武纪大爆发", en:"The Cambrian Explosion", tag:"常考主题", p:[
+    "约五亿多年前的[[寒武纪|Cambrian period]]，[[化石记录|fossil record]] 中几乎同时出现绝大多数动物[[身体构型|body plan]]，这一看似突然的多样化被称为[[寒武纪大爆发|Cambrian explosion]]。[[伯吉斯页岩|Burgess Shale]] 等[[特异埋藏|exceptional preservation]] 遗址保存了软体组织，让研究者得以看到[[两侧对称动物|bilaterian]]、[[附肢|appendage]] 与[[复眼|compound eye]] 的早期形态。",
+    "解释通常分为环境与生物两类：[[氧化事件|oxygenation event]] 使海水含氧量上升，支持更活跃的运动与[[胶原合成|collagen synthesis]]；[[捕食压力|predation pressure]] 则推动[[外骨骼|exoskeleton]]、掘穴与感官的军备竞赛；此外[[发育基因|developmental gene]] 工具箱的成熟，让少量调控变化即可产生显著形态差异。",
+    "达尔文曾把这段「突然出现」视为对进化论的难题，如今[[分子钟|molecular clock]] 与[[痕迹化石|trace fossil]] 显示前寒武纪已有漫长的隐秘铺垫，爆发部分也来自[[矿化作用|biomineralization]] 提升了成化石概率。托福常考「证据不完整导致的表观突变」这一[[采样偏差|sampling bias]] 逻辑。"
+  ]},
+  {t:"自然选择与适应", en:"Natural Selection and Adaptation", tag:"常考主题", p:[
+    "[[自然选择|natural selection]] 需要三个条件：种群内存在可[[遗传|heredity]] 的[[变异|variation]]，不同变异带来不同的[[适应度|fitness]]，因而[[等位基因频率|allele frequency]] 在代际间改变。经典案例是[[工业黑化|industrial melanism]]：煤烟使树干变暗后，深色桦尺蛾更难被鸟类发现，比例迅速上升。",
+    "选择并非只有一种形式：[[定向选择|directional selection]] 推移平均值，[[稳定化选择|stabilizing selection]] 淘汰两端极端值，[[分裂选择|disruptive selection]] 则偏好两端的极端值；[[性选择|sexual selection]] 可保留看似累赘的性状，[[基因漂变|genetic drift]] 则说明小种群中的随机变化同样能改变基因库。",
+    "长期积累会导致[[适应|adaptation]] 乃至[[物种形成|speciation]]，而不同谱系在相似环境下独立演化出相近特征，称为[[趋同进化|convergent evolution]]。托福听力常用「教授纠正学生把进化理解为有目的的进步」来设问：选择作用于既有变异，没有预设方向，也不保证[[完美适应|perfect adaptation]]。"
+  ]}
+  ]},
+{
+  c:"考古学与人类学", e:"Archaeology & Anthropology", items:[
+  {t:"农业的起源", en:"The Origins of Agriculture", tag:"TPO 常见", p:[
+    "末次冰期结束后气候转暖，部分[[采集狩猎|hunter-gatherer]] 群体开始[[驯化|domestication]] 动植物，这一转变被称为[[新石器革命|Neolithic Revolution]]。[[肥沃新月地带|Fertile Crescent]] 最早出现小麦与大麦栽培，东亚、中美洲与安第斯则分别独立驯化稻米、玉米与马铃薯，说明农业是[[多中心起源|multiple independent origins]] 而非单线传播。",
+    "动因仍有争论：[[人口压力|population pressure]] 与[[资源短缺|resource scarcity]] 可能迫使人们提高单位面积产出，[[气候波动|climatic fluctuation]] 或[[定居|sedentism]] 也可能先于栽培出现。通过[[人工选择|artificial selection]]，人们偏爱不易落粒、籽粒更大的[[谷类|cereal]]，无意间改变了植物形态；[[孢粉分析|pollen analysis]] 与[[植硅体|phytolith]] 让这一过程可被追踪。",
+    "[[剩余产品|surplus]] 支撑[[人口增长|population growth]]、[[手工业专业化|craft specialization]] 与[[社会分层|social stratification]]，也带来[[营养不良|malnutrition]]、[[传染病|infectious disease]] 与[[劳动强度|labor intensity]] 上升。托福阅读常借「农业并非单向进步」考查[[代价与收益|cost-benefit trade-off]]，并用[[骨骼证据|skeletal evidence]] 佐证。"
+  ]},
+  {t:"白令陆桥与人类迁徙", en:"Beringia and the Peopling of the Americas", tag:"常考主题", p:[
+    "[[冰期|ice age]] 大量海水被锁在冰盖中，[[海平面下降|sea level drop]] 使西伯利亚与阿拉斯加之间露出宽阔的[[白令陆桥|Beringia]]，形成有草原植被、可供[[巨型动物|megafauna]] 与人类通行的[[陆桥|land bridge]]。传统模型认为人群追猎大型动物，待冰盖消融后经[[无冰走廊|ice-free corridor]] 南下，形成[[克洛维斯文化|Clovis culture]]。",
+    "新证据不断修正这一图景：[[考古遗址|archaeological site]] 的[[放射性碳定年|radiocarbon dating]] 显示某些地点早于克洛维斯，[[古DNA|ancient DNA]] 支持[[单次迁徙|single migration]] 后在美洲内部[[分化|divergence]]，而[[海岸路线|coastal route]] 因资源充足可能比内陆走廊更早可行；部分[[石器|lithic artifact]] 与[[猛犸象|mammoth]] 骨骼的共出关系也被重新审视。",
+    "争论焦点还包括人类到达与[[巨型动物灭绝|megafaunal extinction]] 的时间重合究竟意味着[[过度捕猎|overkill]] 还是[[气候变化|climate change]]。托福听力偏爱「教科书观点被新测年技术挑战」的结构，[[校准|calibration]] 与[[地层扰动|stratigraphic disturbance]] 常成为解题关键。"
+  ]},
+  {t:"陶器与早期技术", en:"Pottery and Early Technology", tag:"常考主题", p:[
+    "[[陶器|pottery]] 的出现不只是容器革新：[[黏土|clay]] 经[[成型|forming]]、干燥与[[烧制|firing]] 后发生不可逆化学变化，成为耐水、耐火、可密封的器皿。早期多用[[露天烧制|open firing]]，温度较低；[[窑|kiln]] 与[[陶轮|potter's wheel]] 的发明提升温度与[[器型|vessel form]] 一致性，使[[批量生产|mass production]] 成为可能。",
+    "陶器让[[储藏|storage]]、[[烹煮|cooking]] 与[[发酵|fermentation]] 更可靠，间接支持[[定居|sedentism]] 与[[剩余产品|surplus]] 管理；器表[[纹饰|decoration]] 与[[器型|vessel form]] 还可作为[[文化标识|cultural marker]] 用于[[年代排序|seriation]]。[[残留物分析|residue analysis]] 能从器壁脂质中辨识乳制品、谷物酒或鱼类，直接揭示[[饮食|diet]]。",
+    "断代方面，[[热释光测年|thermoluminescence dating]] 测定烧制后累积的辐射剂量，弥补[[放射性碳定年|radiocarbon dating]] 只适用于有机物的局限。托福阅读常围绕「技术发明如何反推社会结构」展开，并以[[手工业专业化|craft specialization]] 与[[贸易网络|trade network]] 作为证据链。"
+  ]}
+  ]},
+{
+  c:"艺术史与人文", e:"Art History & Humanities", items:[
+  {t:"史前洞穴艺术", en:"Prehistoric Cave Art", tag:"TPO 常见", p:[
+    "[[旧石器时代|Paleolithic]] 晚期的[[洞穴壁画|cave painting]] 以[[拉斯科|Lascaux]] 与[[阿尔塔米拉|Altamira]] 最为著名：[[野牛|bison]]、[[马|horse]] 与[[鹿|deer]] 轮廓以[[木炭|charcoal]] 勾勒，再敷[[赭石|ochre]] 等[[矿物颜料|mineral pigment]]；洞壁起伏被巧妙利用来制造体积感，还留有[[手印|hand stencil]] 与抽象[[符号|symbol]]。",
+    "含义众说纷纭。早期流行的[[巫术假说|sympathetic magic]] 认为描绘猎物可保佑狩猎成功，但[[动物形象|animal figure]] 与当时实际[[食谱|diet]] 并不吻合；另有[[萨满仪式|shamanic ritual]]、[[叙事记录|narrative record]] 或[[标记领地|territorial marker]] 等解释。[[放射性碳定年|radiocarbon dating]] 与[[铀系测年|uranium-series dating]] 显示部分作品跨越多期，说明洞穴被反复使用。",
+    "洞穴深处缺乏自然光，需[[油脂灯|grease lamp]] 照明，且[[回声|acoustics]] 显著的洞段往往图像密集，暗示[[仪式|ritual]] 与声音有关。托福讲座常强调「解释难以证实」，并借[[民族志类比|ethnographic analogy]] 的局限考查[[证据强度|strength of evidence]]。"
+  ]},
+  {t:"文艺复兴与线性透视", en:"Renaissance Linear Perspective", tag:"常考主题", p:[
+    "十五世纪佛罗伦萨的[[线性透视|linear perspective]] 让平面首次能精确模拟空间：所有与画面垂直的[[正交线|orthogonal]] 汇聚于[[消失点|vanishing point]]，物体按距离等比缩小。[[布鲁内莱斯基|Brunelleschi]] 的演示与阿尔贝蒂的理论化，使[[构图|composition]] 从经验手艺变成可传授的[[几何学|geometry]]。",
+    "同期技术进步彼此叠加：[[湿壁画|fresco]] 要求在未干灰泥上快速落笔，[[油画|oil painting]] 的慢干特性则允许层层罩染；[[明暗法|chiaroscuro]] 与[[解剖学|anatomy]] 研究增强体积与真实感，[[人文主义|humanism]] 把[[世俗题材|secular subject]] 与个体[[肖像|portrait]] 推向中心，[[赞助人|patron]] 的委托则决定作品规模与主题。",
+    "透视不只是技法，也体现一种以观察者为中心的世界观。托福阅读常以「某幅画为何被视为分水岭」设问，答案往往落在[[数学方法|mathematical method]]、[[材料创新|material innovation]] 与[[社会需求|social demand]] 三者的交汇，而非单一艺术家的天才。"
+  ]},
+  {t:"印象派的诞生", en:"The Birth of Impressionism", tag:"常考主题", p:[
+    "十九世纪中后期，一群画家拒绝[[沙龙|Salon]] 推崇的[[历史画|history painting]] 与光滑平整的[[精细修饰|polished finish]]，转而以[[外光画法|plein air painting]] 捕捉[[瞬间印象|fleeting impression]]。[[管装颜料|paint tube]]、便携画架与铁路让户外写生可行，[[摄影术|photography]] 的普及则削弱了「精确再现」的职能，促使绘画转向[[光与色|light and color]] 本身。",
+    "技法上，他们以短促分离的[[笔触|brushstroke]] 并置[[互补色|complementary color]]，让观众的眼睛在远处完成[[光学混合|optical mixing]]，避免在调色板上把颜色调脏；阴影不用黑色，而用带环境色的冷调。[[色彩理论|color theory]] 与[[视觉暂留|persistence of vision]] 的当代研究，为这种做法提供了[[科学依据|scientific basis]]。",
+    "起初评论界以「未完成」讥讽，作品屡遭[[落选|rejection]]，但独立[[展览|exhibition]] 与[[画商|art dealer]] 体系最终改写市场规则。托福听力常考「技术发明 → 创作方式变化 → 审美标准转移」的因果链，并提醒[[命名|labeling]] 往往来自批评者而非画家自身。"
+  ]}
+  ]},
+{
+  c:"历史与社会科学", e:"History & Social Science", items:[
+  {t:"工业革命", en:"The Industrial Revolution", tag:"TPO 常见", p:[
+    "十八世纪英国的[[工业革命|Industrial Revolution]] 始于纺织业：[[飞梭|flying shuttle]] 与[[珍妮纺纱机|spinning jenny]] 大幅提高[[生产率|productivity]]，随后[[水力纺纱机|water frame]] 把生产从家庭作坊推向[[工厂制度|factory system]]。[[蒸汽机|steam engine]] 的改良让工厂摆脱对[[水力|water power]] 选址的依赖，[[煤炭|coal]] 与[[炼铁|iron smelting]] 构成能源—材料基础。",
+    "配套条件同样关键：[[圈地运动|enclosure movement]] 提供[[劳动力|labor force]]，[[资本市场|capital market]] 与[[专利制度|patent system]] 鼓励投资与发明，[[铁路|railway]] 与[[运河|canal]] 降低[[运输成本|transportation cost]]，[[殖民地市场|colonial market]] 扩大需求。[[分工|division of labor]] 使工序标准化，也带来[[劳动异化|alienation of labor]] 与[[童工|child labor]] 等社会问题。",
+    "[[城市化|urbanization]] 迅速推进，[[公共卫生|public health]]、[[住房|housing]] 与[[工人运动|labor movement]] 随之成为新议题，[[立法改革|legislative reform]] 逐步跟进。托福阅读常反对「单一发明引发革命」的说法，强调[[技术—经济—制度|techno-economic-institutional]] 的相互作用与[[渐进过程|gradual process]]。"
+  ]},
+  {t:"印刷术与知识传播", en:"The Printing Press and the Spread of Knowledge", tag:"常考主题", p:[
+    "在[[手抄本|manuscript]] 时代，书籍昂贵稀少，复制依赖抄写员且易生[[讹误|scribal error]]。[[雕版印刷|woodblock printing]] 早已在东亚成熟，十五世纪[[古腾堡|Gutenberg]] 整合[[活字印刷|movable type]]、[[金属合金|metal alloy]]、油性[[油墨|ink]] 与[[压印机|press]]，使大规模、可重复的[[批量复制|mass reproduction]] 成为现实。",
+    "后果远超出版业：[[识字率|literacy]] 上升、[[书籍价格|book price]] 下降，[[标准化|standardization]] 让地图、[[图表|diagram]] 与数据能被异地核对；[[宗教改革|Reformation]] 借[[小册子|pamphlet]] 迅速扩散，[[科学革命|Scientific Revolution]] 则依赖可复现的文本与[[同行评议|peer review]] 的雏形，[[方言写作|vernacular writing]] 的兴起也削弱了拉丁语的垄断。",
+    "但影响并非一刀切：[[审查制度|censorship]]、[[行会管制|guild regulation]] 与[[纸张供应|paper supply]] 都限制传播速度，[[口述文化|oral culture]] 长期并存。托福阅读常以「技术决定论是否被夸大」为论点，考查[[知识传播|dissemination of knowledge]] 与[[社会制度|social institution]] 的相互塑造。"
+  ]},
+  {t:"城市化与城市规划", en:"Urbanization and City Planning", tag:"常考主题", p:[
+    "工业化把人口从乡村吸向城市，[[人口密度|population density]] 骤增使[[基础设施|infrastructure]] 不堪重负：[[供水|water supply]]、[[排污|sewage]] 与[[公共卫生|public health]] 恶化，[[传染病|infectious disease]] 频发，[[贫民窟|slum]] 与[[通勤|commuting]] 问题随之出现。[[网格布局|grid plan]] 便于地籍管理与扩展，却也可能牺牲[[公共空间|public space]]。",
+    "回应分为工程与制度两路：[[下水道系统|sewer system]]、[[街道照明|street lighting]] 与[[公共交通|public transit]] 改善物质条件，[[分区规划|zoning]] 把居住、工业与商业用地分离，[[建筑规范|building code]] 限定[[采光|daylight]] 与[[通风|ventilation]]；[[公园运动|park movement]] 则引入[[绿地|green space]] 作为城市的「肺」。",
+    "二十世纪[[郊区化|suburbanization]] 借[[汽车|automobile]] 与[[高速公路|highway]] 扩散，带来[[城市蔓延|urban sprawl]]、[[通勤成本|commuting cost]] 与[[内城衰退|inner-city decline]]，[[城市更新|urban renewal]] 又引发[[迁置|displacement]] 争议。托福讲座常以「规划方案的初衷与实际后果不符」设问，考查[[意外后果|unintended consequence]]。"
+  ]}
+  ]},
+{
+  c:"心理学与认知科学", e:"Psychology & Cognitive Science", items:[
+  {t:"记忆与遗忘", en:"Memory and Forgetting", tag:"TPO 常见", p:[
+    "信息先经短暂的[[感觉记忆|sensory memory]]，被注意后进入容量有限的[[工作记忆|working memory]]，再通过[[编码|encoding]] 与[[巩固|consolidation]] 转入[[长期记忆|long-term memory]]。[[组块|chunking]] 能把零散项目打包，从而绕开容量限制；[[深加工|depth of processing]] 比机械复述更利于[[提取|retrieval]]。",
+    "遗忘并非单纯的存储损耗。[[遗忘曲线|forgetting curve]] 显示初期下降最快，[[干扰|interference]] 理论则区分[[前摄抑制|proactive interference]] 与[[倒摄抑制|retroactive interference]]；还有[[提取失败|retrieval failure]]，即信息仍在，只是缺少[[提取线索|retrieval cue]]，[[情境依赖记忆|context-dependent memory]] 正是其表现。",
+    "对备考最直接的启示是[[间隔重复|spaced repetition]] 与[[测试效应|testing effect]]：分散复习、主动回忆比集中重读更能形成持久痕迹；[[睡眠|sleep]] 对[[记忆巩固|memory consolidation]] 的作用也常被讲座提及。托福听力常设计「学生以为多读几遍就好，教授指出应自我测验」的转折。"
+  ]},
+  {t:"条件反射与学习", en:"Conditioning and Learning", tag:"常考主题", p:[
+    "[[经典条件反射|classical conditioning]] 中，[[巴甫洛夫|Pavlov]] 把原本中性的铃声与[[无条件刺激|unconditioned stimulus]] 反复配对，最终铃声单独也能引发[[条件反应|conditioned response]]。若之后长期只给铃声不给食物，反应会[[消退|extinction]]；与原型相似的刺激则可能引发[[泛化|generalization]]，而[[辨别|discrimination]] 训练能收紧反应范围。",
+    "[[操作性条件反射|operant conditioning]] 关注行为后果：[[强化|reinforcement]] 提高行为频率，[[惩罚|punishment]] 降低频率，[[强化程序|schedule of reinforcement]] 决定行为抗消退的程度，[[间歇强化|intermittent reinforcement]] 尤其持久。[[行为主义|behaviorism]] 由此主张只研究可观察行为，把[[内在表征|mental representation]] 排除在外。",
+    "后续研究补充了[[认知地图|cognitive map]]、[[潜在学习|latent learning]] 与[[观察学习|observational learning]]，说明学习不必依赖直接[[奖励|reward]]。托福阅读常考「行为主义解释不了什么」，并以[[迷宫实验|maze experiment]] 作为反例。"
+  ]},
+  {t:"语言习得与关键期", en:"Language Acquisition and the Critical Period", tag:"常考主题", p:[
+    "儿童在几乎没有显式教学的情况下，几年内掌握[[音系|phonology]]、[[句法|syntax]] 与大量词汇，经历[[咿呀学语|babbling]]、单词句、双词句到[[词汇爆发|vocabulary spurt]] 的序列。[[过度泛化|overgeneralization]]（如把不规则动词按规则变化）恰说明他们是在抽取[[规则|rule]]，而非单纯[[模仿|imitation]]。",
+    "[[关键期假说|critical period hypothesis]] 认为[[语言习得|language acquisition]] 存在受[[大脑可塑性|brain plasticity]] 限制的时间窗，证据来自[[母语|native language]] 剥夺的极端个案与[[第二语言|second language]] 口音随年龄上升的现象；[[普遍语法|universal grammar]] 则主张人类预置了语法参数的[[先天禀赋|innate endowment]]，[[输入假说|input hypothesis]] 更强调可理解输入的作用。",
+    "[[双语|bilingualism]] 研究显示两种语言并非简单竞争，儿童能依据对话者完成[[语码转换|code-switching]]，并在[[执行控制|executive control]] 上表现出优势。托福讲座常以「成人学语言是否更慢」引出对[[关键期|critical period]] 的修正：不同语言子系统（语音、句法、词汇）的敏感期并不同步。"
+  ]}
+  ]},
+{
+  c:"物理·化学与技术", e:"Physical Science & Technology", items:[
+  {t:"同位素与放射性测年", en:"Isotopes and Radiometric Dating", tag:"TPO 常见", p:[
+    "同一元素的[[同位素|isotope]] 质子数相同而中子数不同，化学性质几乎一致，其中不稳定者会发生[[放射性衰变|radioactive decay]]，由[[母核|parent isotope]] 转变为[[子体|daughter product]]。衰变速率不受温度压力影响，且以[[半衰期|half-life]] 度量：每过一个半衰期，剩余母核减半，因此母/子比例就是一只可靠的时钟。",
+    "不同时间尺度选不同体系：[[碳-14 测年|radiocarbon dating]] 适用于数万年内的[[有机质|organic material]]，需用[[树轮校正|dendrochronological calibration]] 修正大气碳浓度波动；[[铀铅测年|uranium-lead dating]] 半衰期以亿年计，用于[[锆石|zircon]] 与最古老岩石；[[钾氩测年|potassium-argon dating]] 常用于[[火山层|volcanic layer]]。测量依靠[[质谱仪|mass spectrometer]]。",
+    "局限同样常考：样品必须构成[[封闭体系|closed system]]，[[风化|weathering]] 或[[受热|heating]] 会造成子体丢失；沉积岩颗粒来源混杂，通常只能靠上下[[火山灰|volcanic ash]] 层间接[[定年|dating]]。托福阅读借此考查「方法适用条件」与[[交叉验证|cross-validation]]。"
+  ]},
+  {t:"热力学与能量流动", en:"Thermodynamics and Energy Flow", tag:"常考主题", p:[
+    "[[热力学第一定律|first law of thermodynamics]] 即[[能量守恒|conservation of energy]]：能量不会凭空产生或消失，只在热、功与[[内能|internal energy]] 之间转化；[[热力学第二定律|second law of thermodynamics]] 进一步指出，孤立系统的[[熵|entropy]] 只增不减，因此每次转换都有部分能量降级为难以利用的[[废热|waste heat]]。",
+    "热量传递有三条路径：固体中的[[热传导|conduction]]、流体中的[[对流|convection]]，以及无需介质的[[辐射|radiation]]。水的[[比热容|specific heat]] 极高，能缓冲沿海[[气温|temperature]] 变化；[[相变|phase change]] 时吸收或释放[[潜热|latent heat]] 而温度不变，这正是蒸发制冷与[[风暴|storm]] 能量的来源。",
+    "[[热平衡|thermal equilibrium]] 与[[保温|insulation]] 常被用来解释动物[[体温调节|thermoregulation]]、建筑[[能耗|energy consumption]] 乃至[[行星大气|planetary atmosphere]]。托福听力喜欢用生活例子（保温杯、海陆风）引出抽象定律，再要求把定律迁移到新情境。"
+  ]},
+  {t:"电磁感应与发电", en:"Electromagnetic Induction and Power Generation", tag:"常考主题", p:[
+    "[[法拉第定律|Faraday's law]] 指出：穿过闭合回路的[[磁通量|magnetic flux]] 一旦变化，[[导体|conductor]] 中就会产生[[感应电动势|induced electromotive force]]。因此只要让线圈在[[磁场|magnetic field]] 中旋转，或让磁场相对线圈变化，就能持续把[[机械能|mechanical energy]] 转成[[电能|electrical energy]]，这正是[[发电机|generator]] 的原理。",
+    "[[楞次定律|Lenz's law]] 说明[[感应电流|induced current]] 的方向总是反抗引起它的磁通变化，这是[[能量守恒|conservation of energy]] 的必然结果；[[变压器|transformer]] 利用[[互感|mutual induction]] 升降电压，使[[交流电|alternating current]] 可以高压[[输电|power transmission]] 以降低[[焦耳损耗|resistive loss]]，到用户端再降压。",
+    "铁芯中的[[涡电流|eddy current]] 会造成发热，需用[[叠片|lamination]] 抑制；[[超导|superconductivity]] 与[[无线充电|wireless charging]] 则是同一原理的现代延伸。托福阅读常把「科学发现 → 工程装置 → 社会基础设施」串成一条时间线，考查[[技术应用|technological application]] 的因果顺序。"
+  ]}
+  ]}
+];
+
+/* ---------- 扩充：2010 年至今真题背景话题 ---------- */
+const EXTRA = {
+  "天文与地球科学":[
+  {t:"月球起源与大碰撞", en:"The Giant Impact Hypothesis", tag:"TPO 常见", p:[
+    "阿波罗任务带回的[[月岩|lunar rock]] 显示：月球极度缺乏[[挥发性元素|volatile element]]，密度偏低、[[铁核|iron core]] 很小，却与地球拥有几乎一致的[[氧同位素比值|oxygen isotope ratio]]。这些彼此矛盾的特征，让早期的[[同源说|co-accretion hypothesis]] 与[[捕获说|capture hypothesis]] 都难以自圆其说。",
+    "目前主流是[[大碰撞假说|giant impact hypothesis]]：约四十五亿年前，一颗火星大小的[[原行星|protoplanet]] 斜撞原始地球，抛出的碎片在轨道上重新[[吸积|accretion]] 成月球。高温过程解释了挥发分逸失与[[岩浆洋|magma ocean]]，撞击体的角动量则解释[[地月系统|Earth-Moon system]] 的[[角动量|angular momentum]]；但同位素为何如此接近，仍需[[同位素均一化|isotopic equilibration]] 等补充机制。",
+    "后续证据包括月球[[撞击坑|impact crater]] 密度标定的年代、[[潮汐演化|tidal evolution]] 推算的早期近距离，以及[[数值模拟|numerical simulation]] 对撞击角度的限定。托福阅读常借此题展示「同一组数据如何淘汰多个[[假说|hypothesis]]」，并把[[计算机模拟|computer modeling]] 视为与岩石证据并列的检验手段。"
+  ]},
+  {t:"陨石与小行星带", en:"Meteorites and the Asteroid Belt", tag:"真题高频", p:[
+    "[[陨石|meteorite]] 是研究太阳系早期物质的直接样本，按成分分为[[石陨石|stony meteorite]]、[[铁陨石|iron meteorite]] 与[[石铁陨石|stony-iron meteorite]]。其中[[碳质球粒陨石|carbonaceous chondrite]] 保留了[[太阳星云|solar nebula]] 的原始成分，而[[球粒|chondrule]] 这种毫米级熔滴，记录了早期短暂的高温事件。",
+    "绝大多数小行星位于火星与木星之间的[[小行星带|asteroid belt]]，木星强大的[[引力扰动|gravitational perturbation]] 阻止它们聚成行星，并把部分天体抛向[[轨道共振|orbital resonance]] 区域，最终成为[[近地天体|near-Earth object]]。铁陨石被认为来自被撞碎的[[分异天体|differentiated body]] 金属核，因此能间接揭示[[行星分异|planetary differentiation]]。",
+    "[[放射性定年|radiometric dating]] 把最古老陨石的年龄锁定在约 45.6 亿年，成为太阳系年龄的基准；[[宇宙射线暴露年龄|cosmic-ray exposure age]] 则告诉我们碎块在太空中漂泊了多久。托福听力常以「博物馆如何鉴定一块陨石」串联[[密度|density]]、[[镍含量|nickel content]] 与[[熔壳|fusion crust]] 三条证据。"
+  ]},
+  {t:"系外行星与宜居带", en:"Exoplanets and the Habitable Zone", tag:"常考主题", p:[
+    "[[系外行星|exoplanet]] 大多无法直接成像，需靠间接方法发现：[[凌日法|transit method]] 测量行星掠过恒星时造成的微弱[[光度下降|dip in brightness]]，[[径向速度法|radial velocity method]] 则通过恒星[[光谱|spectrum]] 的[[多普勒位移|Doppler shift]] 反推行星引力。两者结合可估算[[行星半径|planetary radius]] 与[[质量|mass]]，进而推断[[密度|density]]。",
+    "[[宜居带|habitable zone]] 指恒星周围允许液态水存在的距离范围，其位置取决于恒星[[光度|luminosity]]：暗弱的[[红矮星|red dwarf]] 宜居带很近，行星易被[[潮汐锁定|tidal locking]]，还可能遭遇强烈的[[恒星耀斑|stellar flare]] 剥离[[大气层|atmosphere]]。因此「落在带内」只是必要条件，[[温室效应|greenhouse effect]]、[[磁场|magnetic field]] 与[[板块活动|tectonic activity]] 同样关键。",
+    "[[大气光谱|atmospheric spectroscopy]] 可在凌日期间的透射光谱中寻找[[水汽|water vapor]]、[[甲烷|methane]] 或[[氧气|oxygen]] 等[[生物标志物|biosignature]]，但[[非生物过程|abiotic process]] 也能产生类似信号。托福阅读常考「候选信号与替代解释」，强调[[假阳性|false positive]] 与[[观测偏差|observational bias]]。"
+  ]},
+  {t:"地球大气的演化", en:"Evolution of Earth's Atmosphere", tag:"常考主题", p:[
+    "地球的[[原始大气|primordial atmosphere]] 主要由氢氦组成，很快被[[太阳风|solar wind]] 与[[撞击剥离|impact erosion]] 带走；随后[[火山排气|volcanic outgassing]] 提供水汽、二氧化碳与氮气，形成以[[二氧化碳|carbon dioxide]] 为主的次生大气，几乎没有游离氧。[[彗星|comet]] 与[[碳质球粒陨石|carbonaceous chondrite]] 可能补充了部分[[挥发分|volatile]]。",
+    "约二十四亿年前的[[大氧化事件|Great Oxygenation Event]] 是转折点：[[蓝藻|cyanobacteria]] 的[[产氧光合作用|oxygenic photosynthesis]] 先氧化海洋中的[[亚铁离子|ferrous iron]]，形成[[条带状铁矿|banded iron formation]]，氧气才在大气中累积。随之形成的[[臭氧层|ozone layer]] 屏蔽[[紫外线|ultraviolet radiation]]，为陆地生命创造条件，同时也可能触发[[雪球地球|Snowball Earth]] 式的[[冰期|glaciation]]。",
+    "大气成分还受[[碳酸盐—硅酸盐循环|carbonate-silicate cycle]] 调节：[[风化|weathering]] 消耗二氧化碳，[[火山作用|volcanism]] 又将其归还，构成长期[[气候稳定器|climate thermostat]]。托福讲座常以「氧既是生命产物也是环境改造者」设问，并用[[同位素分馏|isotopic fractionation]] 作为[[生物活动|biological activity]] 的证据。"
+  ]},
+  {t:"冰期与米兰科维奇循环", en:"Ice Ages and Milankovitch Cycles", tag:"TPO 常见", p:[
+    "第四纪反复出现[[冰期|glacial period]] 与[[间冰期|interglacial period]]，[[冰盖|ice sheet]] 进退的证据来自[[冰碛|moraine]]、[[冰芯|ice core]] 与[[深海沉积|deep-sea sediment]] 中的[[氧同位素|oxygen isotope]] 记录。问题在于：是什么给冰期定时？",
+    "[[米兰科维奇循环|Milankovitch cycle]] 给出答案：地球[[轨道偏心率|eccentricity]]、[[地轴倾角|obliquity]] 与[[岁差|precession]] 的周期性变化，改变高纬夏季接收的[[太阳辐射量|insolation]]。夏季不够暖，冬雪便无法消融，逐年累积成冰；[[冰反照率|ice-albedo feedback]] 与[[温室气体|greenhouse gas]] 下降再把微弱的轨道信号放大为全球性[[气候反馈|climate feedback]]。",
+    "该理论的强项是周期可与[[深海氧同位素记录|marine isotope record]] 的[[频谱分析|spectral analysis]] 对应，难点是约十万年周期的振幅远超轨道强迫本身，需借助[[冰盖动力学|ice-sheet dynamics]] 与[[碳循环|carbon cycle]] 解释。托福阅读常考「外部触发 vs 内部放大」的分工，以及[[相关性|correlation]] 不等于[[因果|causation]] 的提醒。"
+  ]},
+  ],
+  "地质学":[
+  {t:"地震与断层", en:"Earthquakes and Faults", tag:"TPO 常见", p:[
+    "板块运动使岩石缓慢积累[[弹性应变|elastic strain]]，当应力超过[[摩擦强度|frictional strength]]，[[断层|fault]] 突然错动并释放能量，这就是[[弹性回跳|elastic rebound]]。释放的[[地震波|seismic wave]] 中，传播快、可穿固液的[[P 波|P wave]] 先到，剪切型的[[S 波|S wave]] 随后，二者到时差可用于[[震中定位|epicenter location]]。",
+    "震级用[[矩震级|moment magnitude]] 描述释放的总能量，[[烈度|intensity]] 则描述某地实际晃动与破坏，二者常被混淆。破坏程度还取决于[[震源深度|focal depth]]、[[场地效应|site effect]] 与[[土壤液化|liquefaction]]：饱和松散沉积物在震动中失去强度，会让建筑整体倾斜；[[海啸|tsunami]] 则由海底垂直错动触发。",
+    "[[古地震学|paleoseismology]] 通过[[探槽|trench]] 中错断的地层复原史前地震，用于[[概率性地震危险性分析|probabilistic hazard assessment]]。但精确[[短临预测|short-term prediction]] 至今不可靠，托福听力常借「为何能算长期概率却无法预报某一天」考查[[确定性|determinism]] 与[[统计估计|statistical estimate]] 的差别。"
+  ]},
+  {t:"地下水与喀斯特地貌", en:"Groundwater and Karst Topography", tag:"常考主题", p:[
+    "降水入渗后填充岩土孔隙，形成[[含水层|aquifer]]；其上限为[[潜水面|water table]]，被[[隔水层|aquitard]] 封闭时可形成[[承压水|confined groundwater]] 与[[自流井|artesian well]]。水流速度由[[孔隙度|porosity]] 与[[渗透率|permeability]] 共同决定——孔隙多未必透水快，还要看孔隙是否连通。",
+    "含二氧化碳的雨水形成弱[[碳酸|carbonic acid]]，沿[[节理|joint]] 溶蚀[[石灰岩|limestone]]，造就[[喀斯特|karst]] 地貌：地表出现[[溶沟|solution groove]]、[[天坑|sinkhole]] 与[[落水洞|swallet]]，地下则发育[[溶洞|cave]]、[[钟乳石|stalactite]] 与[[石笋|stalagmite]]，后者由滴水中[[方解石|calcite]] 沉淀形成，其[[同位素|isotope]] 层理可重建古[[降水|precipitation]]。",
+    "喀斯特区[[地表水|surface water]] 稀缺却[[地下水污染|groundwater contamination]] 极快，因为缺少土壤[[过滤|filtration]]；[[抽水|pumping]] 过量还会引发[[地面沉降|land subsidence]] 与[[海水入侵|saltwater intrusion]]。托福讲座常以「某镇水井突然变咸」引出[[水文地质|hydrogeology]] 的因果链。"
+  ]},
+  {t:"河流侵蚀与沉积", en:"Fluvial Erosion and Deposition", tag:"常考主题", p:[
+    "河流上游[[坡度|gradient]] 大，以[[下切侵蚀|downcutting]] 为主，形成 V 形谷与[[瀑布|waterfall]]；进入中下游，流速减缓、[[侧蚀|lateral erosion]] 增强，河道摆动出[[曲流|meander]]，凹岸被掏蚀、凸岸堆积成[[点坝|point bar]]，裁弯取直后留下[[牛轭湖|oxbow lake]]。",
+    "河流携带[[泥沙|sediment]] 的方式按粒径分为[[溶解质|dissolved load]]、[[悬移质|suspended load]] 与[[推移质|bed load]]；[[搬运能力|competence]] 随流速急剧上升，因此洪水期能移动巨砾。当水流进入湖海，能量骤降便形成[[三角洲|delta]]，粗颗粒先沉积在[[顶积层|topset]]，细泥被带到远处[[前积层|foreset]]。",
+    "[[泛滥平原|floodplain]] 的肥沃淤泥支撑早期农业，却也带来[[洪水风险|flood risk]]；[[河流阶地|river terrace]] 则记录[[基准面|base level]] 变化与[[构造抬升|tectonic uplift]]。托福阅读常把「流速—粒径—沉积构造」当作一套可推断的[[沉积环境|depositional environment]] 密码。"
+  ]},
+  {t:"风成作用与沙漠地貌", en:"Aeolian Processes and Desert Landforms", tag:"常考主题", p:[
+    "干旱区缺少植被保护，[[风蚀|wind erosion]] 与[[风积|aeolian deposition]] 成为主导外力。沙粒以[[跃移|saltation]] 为主，撞落其他颗粒后弹跳前进；细[[粉尘|dust]] 可进入[[悬浮搬运|suspension]] 被带到千里之外，堆积成[[黄土|loess]]，其[[粒度|grain size]] 分选极好，是中国黄土高原与北美[[冰缘|periglacial]] 沉积的共同特征。",
+    "[[沙丘|dune]] 的形态由风向稳定性与[[沙源|sand supply]] 决定：单向风形成[[新月形沙丘|barchan dune]]，多向风形成[[星状沙丘|star dune]]，迎风坡缓、[[背风坡|slip face]] 陡，沙粒越过脊线后崩落，形成[[交错层理|cross-bedding]]——地质学家据此判断[[古风向|paleowind direction]]。",
+    "[[荒漠化|desertification]] 并非沙漠自然扩张，更多由[[过度放牧|overgrazing]]、[[灌溉盐渍化|salinization]] 与[[地下水超采|groundwater depletion]] 引起。托福听力常用[[沙尘暴|dust storm]] 跨洋输送[[铁元素|iron]]、为海洋补充[[营养盐|nutrient]] 的例子，说明[[风成作用|aeolian process]] 也能产生远端生态效应。"
+  ]},
+  {t:"矿物与晶体结构", en:"Minerals and Crystal Structure", tag:"常考主题", p:[
+    "[[矿物|mineral]] 须是天然形成、具确定[[化学成分|chemical composition]] 与有序[[晶体结构|crystal structure]] 的无机固体；岩石则是矿物的集合体。[[硅酸盐|silicate]] 以[[硅氧四面体|silica tetrahedron]] 为基本单元，通过[[共用氧|shared oxygen]] 连成链状、层状或架状，占地壳九成以上，也解释了[[石英|quartz]] 与[[云母|mica]] 性质的差异。",
+    "鉴定依靠成套物理性质：[[硬度|hardness]] 用[[莫氏硬度|Mohs scale]] 比较抗刮能力，[[解理|cleavage]] 指沿特定晶面裂开的倾向，另有[[条痕|streak]]、[[光泽|luster]] 与[[比重|specific gravity]]。看似相同的[[同质多象|polymorph]] 如[[金刚石|diamond]] 与[[石墨|graphite]]，仅因碳原子排列不同，硬度便天差地别。",
+    "[[矿床|ore deposit]] 的形成常与[[热液活动|hydrothermal activity]] 或[[岩浆分异|magmatic differentiation]] 有关，[[风化|weathering]] 还可使有用元素[[次生富集|secondary enrichment]]。托福阅读常借「为何同一种成分会有两种矿物」引入[[原子排列|atomic arrangement]] 决定[[宏观性质|macroscopic property]] 的核心观念。"
+  ]},
+  ],
+  "气象与海洋学":[
+  {t:"季风与季节性降水", en:"Monsoons and Seasonal Rainfall", tag:"TPO 常见", p:[
+    "[[季风|monsoon]] 的根本驱动力是[[海陆热力差异|differential heating of land and sea]]：夏季陆地升温快，近地面形成[[低压|low pressure]]，湿润的海洋气流被吸向内陆，遇[[地形抬升|orographic lifting]] 后产生[[地形雨|orographic rainfall]]；冬季大陆冷却形成[[高压|high pressure]]，风向反转，转为干季。",
+    "随季节移动的[[热带辐合带|ITCZ]] 与[[副热带高压|subtropical high]] 共同调节雨带位置，[[青藏高原|Tibetan Plateau]] 的热力作用也被认为强化了南亚季风。[[雨影效应|rain shadow]] 则让山脉背风侧形成干旱区，因此同一纬度上降水可相差数倍；[[厄尔尼诺|El Niño]] 年会削弱印度夏季风，体现[[遥相关|teleconnection]]。",
+    "季风稳定性直接决定[[农业|agriculture]] 的[[播种期|sowing season]] 与[[灌溉|irrigation]] 安排，[[古气候|paleoclimate]] 研究者用[[石笋|stalagmite]] 的[[氧同位素|oxygen isotope]] 与[[湖泊沉积|lake sediment]] 重建千年季风强弱。托福讲座常追问「季风是不是单纯的海风」，答案落在大尺度[[环流|circulation]] 与[[地形|topography]] 的叠加。"
+  ]},
+  {t:"锋面与中纬度气旋", en:"Fronts and Mid-latitude Cyclones", tag:"常考主题", p:[
+    "中纬度天气由不同[[气团|air mass]] 交汇支配：[[冷锋|cold front]] 上冷空气楔入暖空气下方，坡度陡，常带来短时[[强降水|heavy precipitation]] 与[[雷暴|thunderstorm]]，过境后气温骤降、气压回升；[[暖锋|warm front]] 上暖空气缓爬于冷空气之上，形成层状云与持续性[[毛毛雨|drizzle]]。",
+    "[[低压系统|low-pressure system]] 中，冷锋追上暖锋便把暖空气抬离地面，形成[[锢囚锋|occluded front]]，气旋进入衰减阶段；高空[[急流|jet stream]] 的[[辐散|divergence]] 则为地面低压提供抽吸，使其[[加深|intensification]]。天气预报因此高度依赖[[高空观测|upper-air observation]] 与[[数值模式|numerical model]]。",
+    "[[锋面|front]] 的位置可在[[卫星云图|satellite imagery]] 与[[雷达回波|radar echo]] 上辨认，[[温带气旋|extratropical cyclone]] 与[[热带气旋|tropical cyclone]] 的能量来源却不同：前者靠[[水平温度梯度|temperature gradient]]，后者靠[[潜热|latent heat]]。托福阅读常以这组对比出题。"
+  ]},
+  {t:"潮汐与地月引力", en:"Tides and Lunar Gravity", tag:"常考主题", p:[
+    "[[潮汐|tide]] 主要源于月球[[引力梯度|gravitational gradient]]：朝向月球一侧受引力更强、背侧更弱，地球两侧同时鼓起水包，随地球自转形成多数海岸一天两次的[[高潮|high tide]]。太阳引力约贡献一半量级，日月成一直线时叠加成[[大潮|spring tide]]，成直角时相互抵消成[[小潮|neap tide]]。",
+    "实际[[潮差|tidal range]] 还被[[海盆形状|basin geometry]]、[[大陆架|continental shelf]] 与[[共振|resonance]] 放大或削弱，[[芬迪湾|Bay of Fundy]] 因此可达十几米。[[潮间带|intertidal zone]] 的生物必须应对周期性[[干燥|desiccation]] 与[[盐度波动|salinity fluctuation]]，形成明显的[[垂直分带|vertical zonation]]。",
+    "[[潮汐摩擦|tidal friction]] 把地球自转能量转为热，使日长缓慢增加、月球逐年远离；[[潮汐能|tidal energy]] 则被视为可预测的[[可再生能源|renewable energy]]。托福听力常以「为何背月面也有高潮」考查对[[惯性|inertia]] 与[[差动力|differential force]] 的理解。"
+  ]},
+  {t:"珊瑚礁与白化", en:"Coral Reefs and Bleaching", tag:"真题高频", p:[
+    "[[造礁珊瑚|reef-building coral]] 是与[[虫黄藻|zooxanthellae]] 共生的[[刺胞动物|cnidarian]]：藻类通过[[光合作用|photosynthesis]] 提供大部分能量，珊瑚则分泌[[碳酸钙|calcium carbonate]] 骨骼，日积月累形成[[岸礁|fringing reef]]、[[堡礁|barrier reef]] 与[[环礁|atoll]]。后者常随[[火山岛沉降|volcanic island subsidence]] 演化，是达尔文最早提出的经典序列。",
+    "[[珊瑚白化|coral bleaching]] 指[[热应激|thermal stress]] 下珊瑚排出共生藻、露出白色骨骼；若高温持续，[[共生关系|symbiosis]] 无法恢复便会死亡。叠加[[海洋酸化|ocean acidification]] 降低[[碳酸根离子|carbonate ion]] 浓度、[[沉积物流入|sediment runoff]] 与[[过度捕捞|overfishing]]，礁体的[[钙化速率|calcification rate]] 与[[恢复力|resilience]] 都被削弱。",
+    "珊瑚礁只占海底极小面积，却庇护约四分之一海洋物种，并提供[[防浪|coastal protection]] 与[[渔业|fishery]] 资源。托福阅读常围绕「[[互利共生|mutualism]] 在环境压力下崩溃」展开，也会比较[[保护区|marine protected area]] 与[[珊瑚移植|coral transplantation]] 的成效。"
+  ]},
+  {t:"深海热液喷口", en:"Hydrothermal Vents", tag:"TPO 常见", p:[
+    "在[[洋中脊|mid-ocean ridge]] 附近，海水沿[[裂隙|fissure]] 下渗被岩浆加热，溶出金属离子后喷出，遇冷海水迅速沉淀形成[[黑烟囱|black smoker]]。这里没有阳光，生态系统却异常繁盛，能量入口不是[[光合作用|photosynthesis]]，而是[[化能合成|chemosynthesis]]：细菌氧化[[硫化氢|hydrogen sulfide]] 获取能量并固定碳。",
+    "[[管虫|tubeworm]]、[[贻贝|mussel]] 与[[盲虾|vent shrimp]] 体内或体表携带[[共生细菌|symbiotic bacteria]]，由宿主提供[[血红蛋白|hemoglobin]] 运输硫化物与氧，形成高效的[[内共生|endosymbiosis]]。它们要同时应对[[高温梯度|thermal gradient]]、[[重金属|heavy metal]] 与[[高压|high pressure]]，[[嗜热菌|thermophile]] 的[[酶|enzyme]] 因此成为[[生物技术|biotechnology]] 的研究对象。",
+    "喷口寿命往往只有数十年，物种却靠[[幼体扩散|larval dispersal]] 在离散的[[斑块生境|patchy habitat]] 间[[定殖|colonization]]，这一[[集合种群|metapopulation]] 动态正是常考点。讲座还常把它与[[冷泉|cold seep]]、[[海底火山|submarine volcano]] 并列，用以讨论[[生命极限|limits of life]] 与[[地外生命|extraterrestrial life]] 的可能性。"
+  ]},
+  ],
+  "生物学与动物行为":[
+  {t:"鸟鸣与发声学习", en:"Birdsong and Vocal Learning", tag:"TPO 常见", p:[
+    "[[鸣禽|songbird]] 的鸣声由[[鸣管|syrinx]] 产生，功能主要有二：[[领域防御|territory defense]] 与[[求偶|mate attraction]]。许多物种并非天生会唱完整曲目，而需在[[关键期|critical period]] 听成年雄鸟的[[模板|template]]，再经[[听觉反馈|auditory feedback]] 反复校正自己的发声，这一过程被称为[[发声学习|vocal learning]]。",
+    "隔离饲养的个体只会唱出简化的[[隔离歌|isolate song]]，若播放录音则能学会正常曲目；[[白冠带鹀|white-crowned sparrow]] 等还表现出[[方言|dialect]]，相邻种群的曲目存在可测量的地域差异。[[斑马雀|zebra finch]] 实验显示，[[幼鸟|fledgling]] 对同种的[[声学特征|acoustic feature]] 有先天偏好，说明学习仍受[[遗传倾向|genetic predisposition]] 约束。",
+    "[[鸣唱控制核团|song control nuclei]] 在繁殖季随[[激素|hormone]] 变化而增大，是[[神经可塑性|neural plasticity]] 的经典案例；[[城市噪声|urban noise]] 会迫使鸟类提高[[最低频率|minimum frequency]]，让信号不被低频交通声[[掩蔽|masking]]。托福听力常以「先天还是习得」设问，答案几乎总是[[交互作用|interaction]]。"
+  ]},
+  {t:"社会性昆虫与分工", en:"Social Insects and Division of Labor", tag:"真题高频", p:[
+    "[[真社会性|eusociality]] 需满足三个条件：[[世代重叠|overlapping generations]]、[[合作育幼|cooperative brood care]] 与[[生殖分工|reproductive division of labor]]。蜜蜂、蚂蚁与[[白蚁|termite]] 群体中，少数[[蚁后|queen]] 负责繁殖，多数[[工蚁|worker]] 终生不育，靠[[亲缘选择|kin selection]] 与[[单倍二倍体|haplodiploidy]] 解释其[[利他行为|altruism]] 的演化。",
+    "协调依靠[[信息素|pheromone]]：[[追踪信息素|trail pheromone]] 标记通往食物的路径，[[告警信息素|alarm pheromone]] 触发群体防御；蜜蜂的[[摆尾舞|waggle dance]] 则以舞蹈角度与时长编码[[食物方位|food direction]] 与距离，被认为是[[符号交流|symbolic communication]] 的少见例证。[[分工|division of labor]] 常随年龄变化，年轻个体育幼、年长个体[[觅食|foraging]]，称为[[年龄多态|age polyethism]]。",
+    "群体被形容为[[超个体|superorganism]]，其[[温度调节|thermoregulation]] 与[[资源分配|resource allocation]] 类似单个生理体。托福阅读常考「个体层面的牺牲如何被群体层面的收益解释」，并提醒[[单倍二倍体|haplodiploidy]] 并非所有真社会性物种的必要条件。"
+  ]},
+  {t:"冬眠、蛰伏与代谢抑制", en:"Hibernation, Torpor and Metabolic Suppression", tag:"常考主题", p:[
+    "食物匮乏与低温下，动物可主动降低[[代谢率|metabolic rate]]、[[体温|body temperature]] 与心率，进入[[蛰伏|torpor]]；若持续整个冬季则称[[冬眠|hibernation]]，夏季高温干旱时的对应状态为[[夏眠|aestivation]]。这与[[恒温动物|endotherm]] 平时的[[体温调节|thermoregulation]] 并不矛盾，而是把[[调定点|set point]] 主动下调。",
+    "入眠前需积累[[脂肪储备|fat reserve]]，[[褐色脂肪组织|brown adipose tissue]] 则在周期性[[觉醒|arousal]] 时快速产热；苏醒代价高昂，往往消耗冬眠总能量预算的大半，因此[[休眠深度|torpor depth]] 与[[觉醒频率|arousal frequency]] 之间存在权衡。部分物种还会[[储存食物|food caching]]，并靠[[昼夜节律|circadian rhythm]] 与[[光周期|photoperiod]] 校准时机。",
+    "[[熊|bear]] 的冬眠体温下降有限，却能在数月不进食的情况下避免[[肌肉萎缩|muscle atrophy]] 与[[骨质流失|bone loss]]，成为[[医学|medicine]] 研究模型。托福讲座常让学生区分「冬眠不是简单睡着」，并追问[[代谢抑制|metabolic suppression]] 与[[能量守恒|energy conservation]] 的关系。"
+  ]},
+  {t:"求偶展示与性选择", en:"Courtship Display and Sexual Selection", tag:"常考主题", p:[
+    "[[性选择|sexual selection]] 分两条路径：同性之间的[[竞争|intrasexual competition]]（如[[鹿角|antler]] 与[[领域|territory]] 争夺），以及异性[[配偶选择|mate choice]]。[[性二型|sexual dimorphism]] 由此产生：雄鸟艳羽、复杂鸣唱或夸张[[求偶场|lek]] 展示，往往以[[捕食风险|predation risk]] 与能量消耗为代价。",
+    "解释这些「累赘」的理论包括[[累赘原理|handicap principle]]——昂贵的信号难以伪造，因而诚实反映个体[[遗传质量|genetic quality]]；[[性感儿子假说|sexy son hypothesis]] 强调偏好与性状的[[协同演化|coevolution]]；[[感官偏好|sensory bias]] 则认为雌性偏好可能先于雄性性状出现，源于既有[[感知系统|sensory system]] 的偏向。",
+    "[[求偶馈赠|nuptial gift]]、[[配对关系|pair bond]] 与[[亲代投资|parental investment]] 决定了哪一方更挑剔：投入更多的一方通常成为选择者。托福阅读常考「自然选择与性选择方向相反时如何取舍」，并借[[孔雀|peacock]] 尾羽说明[[繁殖成功率|reproductive success]] 与[[生存率|survival rate]] 的权衡。"
+  ]},
+  {t:"动物工具使用与认知", en:"Animal Tool Use and Cognition", tag:"常考主题", p:[
+    "[[工具使用|tool use]] 曾被视为人类独有，如今在[[黑猩猩|chimpanzee]] 用草茎[[钓白蚁|termite fishing]]、[[新喀里多尼亚鸦|New Caledonian crow]] 弯折枝条取虫、[[海獭|sea otter]] 用石块砸贝等案例中被反复记录。关键在于[[因果理解|causal understanding]] 的程度：是[[试错学习|trial-and-error learning]]，还是能预判工具属性？",
+    "实验常用[[陷阱管任务|trap-tube task]] 与[[元工具|meta-tool]] 情境：动物需先取短棍换取长棍，再够到食物，以此检验[[计划能力|planning]] 与[[抑制控制|inhibitory control]]；[[镜像自我识别|mirror self-recognition]] 则被用于讨论[[自我意识|self-awareness]]，但结果在物种间差异极大，解释也存争议。",
+    "[[社会学习|social learning]] 与[[文化传递|cultural transmission]] 让不同群体形成各自的技术传统，例如某些猴群惯用特定[[洗薯行为|potato washing]]；但[[生态因素|ecological factor]] 往往能提供更简约的替代解释。托福听力常围绕「拟人化解读要谨慎」展开，强调[[替代假说|alternative hypothesis]]。"
+  ]},
+  ],
+  "植物学":[
+  {t:"树木年轮与树轮年代学", en:"Dendrochronology", tag:"TPO 常见", p:[
+    "温带树木每年形成一圈[[年轮|tree ring]]：春季水分充足、细胞大而壁薄，形成色浅的[[早材|earlywood]]；夏末生长放缓，形成致密的[[晚材|latewood]]。[[轮宽|ring width]] 因此记录当年[[降水|precipitation]] 与温度，[[形成层|cambium]] 的活动则受[[光周期|photoperiod]] 与[[休眠|dormancy]] 控制。",
+    "真正让树轮成为年代工具的是[[交叉定年|cross-dating]]：同一区域树木共享宽窄相间的[[特征轮|signature year]] 模式，把活树、老木与[[考古木材|archaeological wood]] 的序列逐段搭接，就能建立跨越千年的[[主年表|master chronology]]，并校正[[放射性碳定年|radiocarbon dating]] 的[[校准曲线|calibration curve]]。",
+    "除宽度外，[[木材密度|wood density]] 与[[稳定同位素|stable isotope]] 还能反映[[干旱胁迫|drought stress]]、[[火灾|fire]] 疤痕与[[火山事件|volcanic event]]。局限也很明确：热带树种常不形成清晰年轮，且需剔除树龄带来的[[生长趋势|growth trend]]。托福阅读常以「如何用一棵树给古屋断代」考查[[模式匹配|pattern matching]] 的逻辑。"
+  ]},
+  {t:"种子传播与萌发", en:"Seed Dispersal and Germination", tag:"常考主题", p:[
+    "种子离开母株可降低[[亲缘竞争|kin competition]]、逃离母株附近的[[专性天敌|specialized predator]]，并寻找新的[[定殖位点|colonization site]]。传播方式成套对应形态：[[风力传播|anemochory]] 具[[冠毛|pappus]] 或翅，[[水力传播|hydrochory]] 具浮力气腔，[[动物传播|zoochory]] 则以[[肉质果|fleshy fruit]] 作报酬，或借[[钩刺|hook]] 附着皮毛。",
+    "[[种子休眠|seed dormancy]] 防止在不合时宜的季节萌发，常需[[层积处理|stratification]]（持续低温）、[[破除种皮|scarification]] 或[[光照信号|light cue]] 才能解除；[[萌发|germination]] 启动后，[[赤霉素|gibberellin]] 与[[脱落酸|abscisic acid]] 的[[激素拮抗|hormonal antagonism]] 决定胚是否继续生长，[[胚乳|endosperm]] 提供初期养分。",
+    "[[土壤种子库|soil seed bank]] 让群落在[[干扰|disturbance]] 后迅速恢复，也是[[次生演替|secondary succession]] 的物质基础；而[[传播体压力|propagule pressure]] 常决定[[外来物种|non-native species]] 能否建群。托福讲座常用「为什么有些种子必须经过动物消化道」引出[[双重休眠|double dormancy]] 与[[互利共生|mutualism]]。"
+  ]},
+  {t:"根系与菌根网络", en:"Roots and Mycorrhizal Networks", tag:"常考主题", p:[
+    "根系靠[[根毛|root hair]] 大幅扩展[[吸收面积|absorptive surface]]，通过[[主动运输|active transport]] 吸收[[硝酸盐|nitrate]] 与[[磷酸盐|phosphate]]，并由[[蒸腾拉力|transpirational pull]] 与[[根压|root pressure]] 驱动水分上行。深根还可进行[[水力提升|hydraulic lift]]，把深层水释放到干燥表土，惠及邻近浅根植物。",
+    "绝大多数陆生植物与真菌形成[[菌根|mycorrhiza]]：[[丛枝菌根|arbuscular mycorrhiza]] 穿入根细胞内形成交换界面，[[外生菌根|ectomycorrhiza]] 则包裹根尖。真菌以[[菌丝|hypha]] 换取植物[[光合产物|photosynthate]]，显著提升[[磷吸收|phosphorus uptake]] 与[[抗旱性|drought tolerance]]；同一菌丝网络可能连接多株植物，形成所谓的[[共同菌根网络|common mycorrhizal network]]。",
+    "关于网络是否真的在植物间[[传递碳|carbon transfer]] 或[[预警信号|warning signal]]，学界仍有激烈争论，[[实验设计|experimental design]] 与[[同位素示踪|isotopic tracing]] 的解读常常分歧。托福阅读偏爱这类「诱人假说 vs 证据不足」的段落，也常把菌根与[[固氮菌|nitrogen-fixing bacteria]] 并列为[[养分获取|nutrient acquisition]] 策略。"
+  ]},
+  {t:"植物对逆境的适应", en:"Plant Adaptations to Environmental Stress", tag:"常考主题", p:[
+    "[[旱生植物|xerophyte]] 以[[肉质茎|succulent stem]] 储水、[[蜡质角质层|waxy cuticle]] 减少蒸发、下陷[[气孔|stoma]] 与[[CAM 代谢|CAM metabolism]] 夜间固碳来应对缺水；[[盐生植物|halophyte]] 则通过[[盐腺|salt gland]] 排盐或在[[液泡|vacuole]] 中[[区隔化|sequestration]] 离子，维持[[渗透平衡|osmotic balance]]。",
+    "水淹环境中，[[通气组织|aerenchyma]] 形成气体通道为根部供氧，[[不定根|adventitious root]] 与[[茎伸长|stem elongation]] 帮助叶片重新露出水面；寒冷地区植物靠[[抗冻蛋白|antifreeze protein]] 与[[细胞脱水|cellular dehydration]] 避免[[冰晶|ice crystal]] 刺穿膜；[[火频发环境|fire-prone habitat]] 则演化出[[厚树皮|thick bark]] 与[[需火萌发|fire-stimulated germination]]。",
+    "这些性状多是[[资源分配权衡|allocation trade-off]] 的结果：投入[[防御|defense]] 与[[耐受|tolerance]] 的能量，无法同时用于[[快速生长|rapid growth]]，所以[[胁迫适应|stress adaptation]] 物种往往竞争不过肥沃环境中的速生种。托福阅读常借「为何仙人掌在雨林里活不好」考查[[适应代价|cost of adaptation]]。"
+  ]},
+  {t:"向性与植物激素", en:"Tropisms and Plant Hormones", tag:"常考主题", p:[
+    "植物不能移动，便以[[向性|tropism]] 调整生长方向：[[向光性|phototropism]] 由[[蓝光受体|phototropin]] 感知，[[生长素|auxin]] 在背光侧积累促进细胞伸长，茎因而弯向光源；[[向重力性|gravitropism]] 依赖根冠[[平衡石|statolith]] 沉降，使根向下、茎向上；[[向触性|thigmotropism]] 让[[卷须|tendril]] 缠绕支撑物。",
+    "激素构成一套[[信号网络|signaling network]]：[[生长素|auxin]] 维持[[顶端优势|apical dominance]]，[[赤霉素|gibberellin]] 促进[[节间伸长|internode elongation]] 与萌发，[[细胞分裂素|cytokinin]] 促进[[侧芽|lateral bud]] 生长，[[脱落酸|abscisic acid]] 介导[[气孔关闭|stomatal closure]] 与休眠，[[乙烯|ethylene]] 则调控[[果实成熟|fruit ripening]] 与[[衰老|senescence]]。",
+    "经典实验从[[胚芽鞘|coleoptile]] 遮光、[[琼脂块|agar block]] 传递到[[激素定量|hormone quantification]]，逐步确立「可扩散[[化学信号|chemical signal]]」的存在。托福听力常以「植物没有神经为何仍能协调全身」设问，答案落在[[激素运输|hormone transport]] 与[[浓度梯度|concentration gradient]]，而非[[神经系统|nervous system]]。"
+  ]},
+  ],
+  "生态学与环境科学":[
+  {t:"岛屿生物地理学", en:"Island Biogeography", tag:"TPO 常见", p:[
+    "麦克阿瑟与威尔逊的[[岛屿生物地理学理论|theory of island biogeography]] 指出，岛上[[物种数|species richness]] 由[[迁入率|immigration rate]] 与[[灭绝率|extinction rate]] 的动态平衡决定：面积越小[[灭绝率|extinction rate]] 越高，距离[[大陆种源|mainland source]] 越远[[迁入率|immigration rate]] 越低，因此小而远的岛物种最少。",
+    "[[物种—面积关系|species-area relationship]] 呈可预测的[[幂律|power law]]，[[生境异质性|habitat heterogeneity]] 与[[隔离度|isolation]] 进一步调节曲线；[[演替|succession]] 与[[适应辐射|adaptive radiation]] 则解释为何远洋岛屿常有高比例[[特有种|endemic species]]，如[[达尔文雀|Darwin's finch]] 的[[喙形分化|beak divergence]]。",
+    "理论被直接用于[[保护区设计|reserve design]]：大块连续[[栖息地|habitat]] 优于同等面积的碎块，[[生态廊道|wildlife corridor]] 可降低[[隔离|isolation]]，即所谓 SLOSS 之争。但[[集合种群|metapopulation]]、[[边缘效应|edge effect]] 与[[外来种|invasive species]] 使现实更复杂。托福阅读常考「从岛屿推到陆地保护区」这一[[模型迁移|model extrapolation]] 及其局限。"
+  ]},
+  {t:"碳循环与碳汇", en:"The Carbon Cycle and Carbon Sinks", tag:"常考主题", p:[
+    "碳在[[大气|atmosphere]]、[[生物量|biomass]]、[[土壤有机质|soil organic matter]]、[[海洋|ocean]] 与[[岩石圈|lithosphere]] 之间流转：[[光合作用|photosynthesis]] 固定[[二氧化碳|carbon dioxide]]，[[呼吸作用|respiration]] 与[[分解|decomposition]] 将其归还，[[海气交换|air-sea gas exchange]] 与[[生物泵|biological pump]] 把碳送入深海，[[风化|weathering]] 与[[沉积|deposition]] 则构成百万年尺度的慢循环。",
+    "[[碳汇|carbon sink]] 指吸收大于释放的库，[[森林|forest]]、[[泥炭地|peatland]] 与[[海洋|ocean]] 都是重要汇；[[碳源|carbon source]] 则相反。[[燃烧化石燃料|fossil fuel combustion]]、[[毁林|deforestation]] 与[[水泥生产|cement production]] 把地质封存的碳快速注入大气，[[同位素特征|isotopic signature]] 与[[氧浓度下降|declining oxygen concentration]] 共同指向人为来源。",
+    "[[碳收支|carbon budget]] 仍有[[残差汇|residual sink]] 难以精确归因，[[升温|warming]] 还可能通过[[冻土融化|permafrost thaw]] 释放[[甲烷|methane]] 形成[[正反馈|positive feedback]]。托福讲座常以「汇是否会变成源」设问，强调[[通量|flux]] 与[[储量|reservoir]] 的区分。"
+  ]},
+  {t:"氮循环与富营养化", en:"The Nitrogen Cycle and Eutrophication", tag:"常考主题", p:[
+    "大气中的[[氮气|nitrogen gas]] 不能被多数生物直接利用，需经[[固氮|nitrogen fixation]] 转为[[铵|ammonium]]，再由[[硝化作用|nitrification]] 变成[[硝酸盐|nitrate]] 供植物吸收；[[反硝化|denitrification]] 把氮送回大气，[[分解者|decomposer]] 则完成[[氨化|ammonification]]。[[闪电|lightning]] 与[[工业固氮|industrial fixation]] 也贡献[[活性氮|reactive nitrogen]]。",
+    "[[化肥|fertilizer]] 与[[污水|sewage]] 带来的[[营养盐输入|nutrient loading]] 会引发[[富营养化|eutrophication]]：[[藻华|algal bloom]] 大量繁殖，死亡后[[微生物分解|microbial decomposition]] 消耗[[溶解氧|dissolved oxygen]]，形成[[缺氧区|hypoxic zone]] 乃至[[死亡区|dead zone]]，[[鱼类死亡|fish kill]] 与[[食物网重组|food-web restructuring]] 随之出现。",
+    "治理需[[源头削减|source reduction]]、[[缓冲带|riparian buffer]] 与[[湿地恢复|wetland restoration]] 并举，因为[[内源负荷|internal loading]] 会让沉积物持续释磷。托福阅读常考「营养盐本是好东西，为何过量成灾」，并用[[季节性分层|seasonal stratification]] 解释缺氧为何在夏季最严重。"
+  ]},
+  {t:"生态位与竞争排斥", en:"Ecological Niches and Competitive Exclusion", tag:"常考主题", p:[
+    "[[生态位|niche]] 不只是栖息地，还包括物种利用的[[资源|resource]]、[[活动时间|activity time]] 与[[耐受范围|tolerance range]]：无竞争时可占据的称[[基础生态位|fundamental niche]]，实际被压缩后的称[[实际生态位|realized niche]]。[[竞争排斥原理|competitive exclusion principle]] 指出，两个物种若[[生态位重叠|niche overlap]] 完全且资源有限，便无法长期共存。",
+    "共存靠[[资源分割|resource partitioning]] 实现：[[性状置换|character displacement]] 让近缘种的喙或体型分化，[[空间分层|spatial stratification]] 让不同[[藤壶|barnacle]] 占据潮间带不同高度；[[捕食|predation]] 与[[干扰|disturbance]] 也可抑制优势种，维持[[物种共存|species coexistence]]，即[[关键种|keystone species]] 效应。",
+    "[[高斯实验|Gause's experiment]] 用[[草履虫|Paramecium]] 验证排斥，野外观察却常发现大量相似种共存，这一张力引出[[中性理论|neutral theory]] 与[[尺度效应|scale effect]] 的讨论。托福听力常以「课本定律为何在自然界不总能复现」考查[[模型假设|model assumption]]。"
+  ]},
+  {t:"栖息地破碎化与保护", en:"Habitat Fragmentation and Conservation", tag:"真题高频", p:[
+    "道路、农田与城市把连续[[栖息地|habitat]] 切成孤立[[斑块|patch]]，后果不仅是面积减少：[[边缘效应|edge effect]] 改变[[微气候|microclimate]] 并增加[[捕食|predation]] 与[[巢寄生|brood parasitism]]，[[隔离|isolation]] 阻碍[[基因流|gene flow]]，小种群更易受[[近交衰退|inbreeding depression]] 与[[随机灭绝|stochastic extinction]] 影响。",
+    "[[集合种群|metapopulation]] 理论把斑块视为「局部灭绝—[[再定殖|recolonization]]」的动态网络，[[生态廊道|wildlife corridor]] 与[[踏脚石|stepping stone]] 生境可提升[[连通性|connectivity]]；[[最小可存活种群|minimum viable population]] 与[[种群存续力分析|population viability analysis]] 则为保护区面积提供依据。",
+    "实践中还有[[伞护种|umbrella species]]、[[旗舰种|flagship species]] 与[[再引入|reintroduction]] 等策略，但[[廊道|corridor]] 也可能传播[[疾病|disease]] 或[[入侵种|invasive species]]，因此效果需[[长期监测|long-term monitoring]]。托福阅读常围绕「看似直觉正确的方案需要实证检验」展开。"
+  ]},
+  ],
+  "古生物学与进化":[
+  {t:"化石形成与埋藏学", en:"Fossilization and Taphonomy", tag:"TPO 常见", p:[
+    "成为[[化石|fossil]] 的概率极低：生物需被[[快速埋藏|rapid burial]] 以避开[[食腐者|scavenger]] 与氧化，硬体部分经[[矿化|permineralization]] 被[[方解石|calcite]] 或[[二氧化硅|silica]] 置换，或仅留下[[模铸化石|mold and cast]]。软体组织只有在[[缺氧环境|anoxic environment]] 中才可能保留，如[[伯吉斯页岩|Burgess Shale]] 与[[琥珀|amber]] 中的昆虫。",
+    "[[埋藏学|taphonomy]] 专门研究从死亡到被发掘之间的各种[[偏差|bias]]：[[搬运|transport]] 会把骨骼按粒径分选，[[压实|compaction]] 使立体标本变扁，[[再沉积|reworking]] 甚至让老化石混入年轻地层。因此[[化石记录|fossil record]] 偏向[[硬体生物|hard-bodied organism]]、[[浅海环境|shallow marine setting]] 与[[沉积盆地|sedimentary basin]]，并非过去生命的无偏样本。",
+    "[[遗迹化石|trace fossil]]（足迹、[[潜穴|burrow]]、[[粪化石|coprolite]]）能补充行为信息，且在[[实体化石|body fossil]] 缺失的地层中依然保存。托福阅读常以「为何化石记录里某个时期物种突然增多」设问，答案往往是[[保存潜力|preservation potential]] 或[[采样强度|sampling intensity]] 变化，而非真实的[[生物辐射|biological radiation]]。"
+  ]},
+  {t:"从鱼到四足动物", en:"The Fish-to-Tetrapod Transition", tag:"常考主题", p:[
+    "泥盆纪晚期，[[肉鳍鱼|lobe-finned fish]] 中的一支演化出最早的[[四足动物|tetrapod]]。过渡化石[[提塔利克鱼|Tiktaalik]] 兼具鱼类特征（[[鳞片|scale]]、[[鳍条|fin ray]]）与四足类特征（可活动的[[颈部|neck]]、扁平头骨、具[[腕骨|wrist bone]] 样结构的胸鳍），其地层年代与[[预测层位|predicted horizon]] 吻合，被称为「[[有预测力的发现|predicted discovery]]」。",
+    "驱动假说集中在[[浅水环境|shallow-water habitat]]：季节性[[缺氧|hypoxia]]、[[植被繁茂|vegetated marsh]] 与[[捕食压力|predation pressure]] 可能让支撑身体、抬头呼吸空气变得有利；[[肺|lung]] 与[[内鼻孔|choana]] 在部分鱼类中已存在，属[[预适应|exaptation]]——原为别的功能演化，后来被征用于陆地生活。",
+    "更晚的[[鱼石螈|Ichthyostega]] 与[[棘螈|Acanthostega]] 仍具[[鳃|gill]] 与多趾[[肢|limb]]，说明[[完全陆生|full terrestriality]] 并非一步到位。托福听力常借此题说明[[过渡形态|transitional form]] 不是「半成品」，而是适应当时环境的完整个体，也强调[[演化树|evolutionary tree]] 是分支而非[[阶梯|linear ladder]]。"
+  ]},
+  {t:"鸟类起源与羽毛演化", en:"The Origin of Birds and Feathers", tag:"真题高频", p:[
+    "[[始祖鸟|Archaeopteryx]] 兼具[[羽毛|feather]] 印痕与[[兽脚类|theropod]] 骨骼特征（[[叉骨|furcula]]、[[中空骨|hollow bone]]、带爪前肢），成为鸟类起源于[[恐龙|dinosaur]] 的关键证据；此后[[中国辽西|Liaoning]] 出土的[[带羽毛恐龙|feathered dinosaur]] 更把[[羽毛|feather]] 的出现推到飞行之前。",
+    "羽毛最初很可能用于[[保温|insulation]]、[[展示|display]] 或[[孵卵|brooding]]，[[不对称飞羽|asymmetric flight feather]] 与[[龙骨突|keeled sternum]] 才是[[动力飞行|powered flight]] 的配套结构，因此是典型的[[功能转变|functional shift]]。关于飞行起源，[[地栖奔跑|cursorial hypothesis]] 与[[树栖滑翔|arboreal hypothesis]] 长期对立，[[翼辅助斜坡奔跑|WAIR]] 等行为观察则提供了第三条路径。",
+    "[[骨骼气腔化|skeletal pneumaticity]]、[[高代谢|high metabolism]] 与[[孵育行为|brooding behavior]] 在兽脚类中已陆续出现，说明「鸟类特征」是[[镶嵌演化|mosaic evolution]] 的结果。托福阅读常考「一个特征不能单独界定一个类群」，并提醒[[趋同进化|convergent evolution]] 让[[翼膜|wing membrane]] 在[[翼龙|pterosaur]] 与[[蝙蝠|bat]] 中独立出现。"
+  ]},
+  {t:"五次大灭绝与生物复苏", en:"Mass Extinctions and Biotic Recovery", tag:"常考主题", p:[
+    "显生宙有五次[[大灭绝|mass extinction]]，其中二叠纪末的一次消灭约九成海洋物种，常与[[西伯利亚暗色岩|Siberian Traps]] 的[[大规模火山作用|large igneous province volcanism]]、[[海洋缺氧|ocean anoxia]] 与[[快速升温|rapid warming]] 关联；白垩纪末的一次则与[[撞击事件|impact event]] 关系最明确。共同点是[[环境变化速率|rate of environmental change]] 超出了[[适应|adaptation]] 速度。",
+    "灭绝并非随机筛选：[[广布种|widely distributed species]]、[[广食性|generalist]] 与[[小型体型|small body size]] 往往更易幸存，[[特化种|specialist]] 与[[钙化生物|calcifying organism]] 损失最重。紧随其后常出现[[灾难物种群|disaster biota]] 与[[机会主义种|opportunist]] 的短暂繁盛，随后才是[[生态重建|ecosystem restructuring]]。",
+    "[[复苏|recovery]] 往往经历数百万年，因为[[食物网|food web]] 复杂性与[[生态位|niche]] 分化需要重新建立，[[适应辐射|adaptive radiation]] 才在空出的空间中展开。托福听力常追问「物种数恢复是否等于生态系统恢复」，并借[[功能多样性|functional diversity]] 说明二者不同步。"
+  ]},
+  {t:"板块运动与生物地理", en:"Plate Tectonics and Biogeography", tag:"常考主题", p:[
+    "同一类化石出现在如今远隔重洋的大陆上，曾长期令人困惑；[[板块构造|plate tectonics]] 提供了答案：[[冈瓦纳|Gondwana]] 裂解前，[[舌羊齿|Glossopteris]]、[[水龙兽|Lystrosaurus]] 等可连续分布，随后被[[隔离分化|vicariance]] 切开，各支系在分离的大陆上独立演化。",
+    "[[有袋类|marsupial]] 在澳洲的多样化、[[马达加斯加|Madagascar]] 的[[狐猴|lemur]] 与[[岛屿特有种|island endemic]] 都是长期[[地理隔离|geographic isolation]] 的产物；相反，[[陆桥|land bridge]] 出现会引发[[大美洲生物交换|Great American Biotic Interchange]] 式的[[扩散|dispersal]] 与[[竞争替代|competitive replacement]]。",
+    "要区分[[隔离分化|vicariance]] 与[[跨洋扩散|transoceanic dispersal]]，研究者把[[系统发育树|phylogeny]] 的分歧时间与地质事件[[定年|dating]] 对照，[[分子钟|molecular clock]] 在此成为关键工具。托福阅读常考「两类解释如何用时间证据裁决」，也提醒[[化石记录缺失|incomplete fossil record]] 会偏袒扩散假说。"
+  ]},
+  ],
+  "考古学与人类学":[
+  {t:"尼安德特人与古 DNA", en:"Neanderthals and Ancient DNA", tag:"真题高频", p:[
+    "[[尼安德特人|Neanderthal]] 生活于更新世欧亚西部，[[粗壮骨骼|robust skeleton]]、[[眉脊|brow ridge]] 与[[莫斯特工具|Mousterian tool]] 构成其经典形象；[[孢粉|pollen]]、[[动物群|fauna]] 与[[同位素|isotope]] 证据显示他们既[[狩猎|hunting]] 大型动物也利用植物资源，并可能已有[[象征行为|symbolic behavior]] 与[[墓葬|burial]]。",
+    "[[古 DNA|ancient DNA]] 的提取改变了叙事：[[降解|degradation]] 与[[污染|contamination]] 曾是最大障碍，[[高通量测序|high-throughput sequencing]] 之后，研究者确认非非洲人群携带少量尼安德特人[[基因渗入|introgression]]，涉及[[免疫|immunity]] 与[[皮肤适应|skin adaptation]] 相关基因，说明[[杂交|interbreeding]] 确曾发生。",
+    "消失原因仍在争论：[[气候波动|climatic fluctuation]]、[[人口规模小|small population size]]、与[[智人|Homo sapiens]] 的[[竞争|competition]] 或[[同化|assimilation]] 都可能起作用，而非单一[[替代|replacement]] 模型。托福阅读常以「新测序技术如何改写旧结论」为线索，强调[[样本量|sample size]] 与[[交叉验证|cross-validation]]。"
+  ]},
+  {t:"巨石阵与史前天文学", en:"Stonehenge and Prehistoric Astronomy", tag:"TPO 常见", p:[
+    "英格兰[[巨石阵|Stonehenge]] 由[[砂岩巨石|sarsen]] 与较远的[[青石|bluestone]] 构成，后者经[[岩石地球化学|petrogeochemistry]] 溯源到威尔士[[普雷塞利山|Preseli Hills]]，说明存在长距离[[运输|transport]] 与组织能力。主轴朝向[[夏至日出|summer solstice sunrise]] 与相对的[[冬至日落|winter solstice sunset]]，被视为[[天文对齐|astronomical alignment]] 的证据。",
+    "解释从[[天文历法|calendar]]、[[仪式景观|ritual landscape]] 到[[祖先崇拜|ancestor veneration]] 与[[疗愈圣地|healing center]] 不一而足；周边[[墓葬|burial]] 的[[同位素|isotope]] 分析显示部分人来自远方，支持[[朝圣|pilgrimage]] 假说。[[壕沟|ditch]] 与[[土方工程|earthwork]] 的[[放射性碳定年|radiocarbon dating]] 则把建造分为多个阶段，跨越上千年。",
+    "托福听力常提醒：[[对齐|alignment]] 容易在任意一组石柱中找到，必须有[[统计检验|statistical test]] 与[[同期遗址|contemporaneous site]] 佐证才算强证据；[[民族志类比|ethnographic analogy]] 也不能直接当作史前人群的意图。"
+  ]},
+  {t:"文字的起源", en:"The Origins of Writing", tag:"常考主题", p:[
+    "最早的文字并非为了写诗，而是为了[[记账|bookkeeping]]：美索不达米亚的[[泥板|clay tablet]] 上先出现[[陶筹|token]] 与[[数字标记|numeral]]，随后演变为[[楔形文字|cuneiform]]；[[埃及象形文字|Egyptian hieroglyph]]、[[甲骨文|oracle bone script]] 与[[玛雅文字|Maya glyph]] 则被多数学者视为[[独立发明|independent invention]]，说明文字并不依赖单次传播。",
+    "关键转变是从[[表意|ideogram]] 到[[表音|phonogram]]：[[画谜原则|rebus principle]] 用同音图像表示抽象词，使语法与专名得以记录；[[音节文字|syllabary]] 与[[字母|alphabet]] 进一步降低[[符号数量|sign inventory]]，让[[识字|literacy]] 不再限于[[书吏|scribe]] 阶层。",
+    "文字带来[[行政|administration]]、[[法典|legal code]] 与[[长期契约|long-term contract]]，也固化了[[社会分层|social stratification]]；但[[口述传统|oral tradition]] 长期与书写并存，且多数[[易腐载体|perishable medium]] 未留存，造成[[保存偏差|preservation bias]]。托福阅读常考「从经济需求到符号系统的因果链」。"
+  ]},
+  {t:"冶金术与青铜时代", en:"Metallurgy and the Bronze Age", tag:"常考主题", p:[
+    "金属使用始于[[自然铜|native copper]] 的[[冷锻|cold hammering]]，随后[[退火|annealing]] 与[[熔炼|smelting]] 让人能从[[孔雀石|malachite]] 等[[矿石|ore]] 中还原金属；纯铜偏软，加入[[锡|tin]] 生成[[青铜|bronze]] 后[[硬度|hardness]] 与[[铸造性能|castability]] 显著提升，故称[[合金|alloy]] 技术的第一次飞跃。",
+    "[[炉温|furnace temperature]]、[[鼓风|bellows]] 与[[陶范|ceramic mold]] 决定器物质量，[[失蜡法|lost-wax casting]] 则可制作复杂[[空心铸件|hollow casting]]。[[矿渣|slag]] 与[[坩埚|crucible]] 的[[残留物|residue]] 是考古学家判断[[作坊|workshop]] 位置与[[生产规模|production scale]] 的主要证据。",
+    "锡与铜产地常相距甚远，因而青铜时代必然伴随[[长距离贸易|long-distance trade]]、[[专业化工匠|specialized craftsperson]] 与[[精英控制|elite control]]；[[铁器|iron]] 的普及则与[[冶炼温度|smelting temperature]] 提升及[[锡供应中断|tin supply disruption]] 相关。托福讲座常借「一种材料如何重塑社会结构」展开。"
+  ]},
+  {t:"玛雅文明与天文历法", en:"Maya Civilization and Calendars", tag:"TPO 常见", p:[
+    "[[玛雅|Maya]] 低地并无大河，农业依靠[[季节性降水|seasonal rainfall]]、[[梯田|terrace]] 与[[水库|reservoir]]，人口集中于[[城邦|city-state]] 而非统一帝国。[[象形文字|hieroglyph]] 破译后，石碑上的[[长纪历|Long Count]]、[[卓尔金历|Tzolk'in]] 与[[哈布历|Haab']] 显示出高度发达的[[天文观测|astronomical observation]]，尤其对[[金星周期|Venus cycle]] 与[[日食|eclipse]] 的记录。",
+    "[[历法|calendar]] 不仅计时，还用于[[农时|agricultural timing]]、[[登基纪年|accession dating]] 与[[战争择日|warfare timing]]，把[[王权|kingship]] 与[[宇宙秩序|cosmic order]] 绑定；[[阶梯金字塔|step pyramid]] 与[[观象台|observatory]] 的朝向常与[[至日|solstice]] 或[[天顶过日|zenith passage]] 对应。",
+    "关于[[古典期崩溃|Classic collapse]]，[[干旱|drought]] 的[[湖泊沉积|lake sediment]] 与[[石笋|stalagmite]] 证据、[[人口压力|population pressure]]、[[战争|warfare]] 与[[贸易路线转移|trade route shift]] 常被并列讨论，而非单一[[环境决定论|environmental determinism]]。托福阅读爱考「多因素叠加」与「史料解读的局限」。"
+  ]},
+  ],
+  "艺术史与人文":[
+  {t:"古希腊雕塑与古典理想", en:"Greek Sculpture and the Classical Ideal", tag:"TPO 常见", p:[
+    "[[古风时期|Archaic period]] 的[[青年立像|kouros]] 受埃及影响，姿态僵硬、正面直立；到[[古典时期|Classical period]]，[[对立式平衡|contrapposto]] 让重心落于一腿、肩髋反向倾斜，配合[[比例|proportion]] 与[[解剖|anatomy]] 研究，形成「[[理想化|idealization]]」而非如实肖像的[[自然主义|naturalism]]。",
+    "材料也影响风格：[[青铜|bronze]] 可做出伸展的肢体并靠[[失蜡法|lost-wax casting]] 中空铸造，[[大理石|marble]] 则需[[支撑|strut]] 与[[复制品|Roman copy]] 才得以流传；原作多已熔毁，今天对希腊雕塑的认识很大程度依赖[[罗马复制品|Roman replica]] 与[[文献记载|literary description]]，这是[[证据偏差|evidence bias]] 的经典案例。",
+    "雕塑原多施[[彩绘|polychromy]]、镶嵌[[眼|inlaid eye]]，并非今日所见的纯白；[[帕特农神庙|Parthenon]] 的[[山形墙|pediment]] 与[[檐壁|frieze]] 更是[[建筑|architecture]] 与叙事的整体。托福听力常以「我们以为的古典其实是被后世过滤过的古典」设问。"
+  ]},
+  {t:"哥特式大教堂", en:"Gothic Cathedrals", tag:"常考主题", p:[
+    "从[[罗曼式|Romanesque]] 到[[哥特式|Gothic]] 的关键，是[[尖拱|pointed arch]]、[[肋拱顶|ribbed vault]] 与[[飞扶壁|flying buttress]] 组成的[[骨架结构|skeletal structure]]：推力被集中导至外部扶壁，墙体得以变薄并开出大面积[[彩色玻璃|stained glass]]，室内因而更高、更亮。",
+    "[[光线|light]] 在中世纪神学中被视为[[神圣|divine]] 的象征，玻璃上的[[圣经叙事|biblical narrative]] 兼作不识字信众的[[图像教义|visual instruction]]；[[玫瑰花窗|rose window]]、[[唱诗席|choir]] 与[[西立面|west façade]] 的[[圣像|iconography]] 都有固定[[图像程序|iconographic program]]。",
+    "建造往往跨越数十年甚至上百年，依赖[[行会|guild]]、[[石匠|mason]]、[[主教|bishop]] 与[[城市捐助|civic patronage]] 的协作，[[脚手架|scaffolding]] 与[[起重机|hoist]] 技术同步进步；也有[[结构失稳|structural failure]] 导致坍塌的记录。托福阅读常考「技术、宗教与城市经济如何共同塑造一种风格」。"
+  ]},
+  {t:"摄影术的诞生与绘画转向", en:"The Invention of Photography and Painting's Response", tag:"真题高频", p:[
+    "[[暗箱|camera obscura]] 早已用于取景，十九世纪[[达盖尔银版法|daguerreotype]] 与[[卡罗式负正法|calotype]] 才把影像[[固定|fixing]] 下来：[[卤化银|silver halide]] 见光分解，经[[显影|developing]] 与[[定影|fixing]] 得到可保存的[[正像|positive image]]；[[负片|negative]] 的出现使[[复制|reproduction]] 成为可能。",
+    "[[曝光时间|exposure time]] 从数分钟缩短到几秒后，[[肖像|portrait]] 走出贵族沙龙，[[写实再现|realistic representation]] 这一绘画的传统职能被大幅削弱；画家转而强调[[笔触|brushstroke]]、[[主观色彩|subjective color]] 与[[瞬间感|momentary impression]]，[[印象派|Impressionism]] 的兴起常被置于这一技术背景中讨论。",
+    "摄影也带来[[构图裁切|cropping]]、[[透视压缩|perspective compression]] 与[[日本版画|Japanese print]] 一道影响新的视觉习惯，同时引发「摄影算不算[[艺术|art]]」的长期争论。托福听力常以「学生认为摄影取代了绘画，教授指出是分工改变」呈现转折。"
+  ]},
+  {t:"版画与图像传播", en:"Printmaking and the Circulation of Images", tag:"常考主题", p:[
+    "[[木刻|woodcut]] 属[[凸版|relief printing]]，留在版面凸起处的是图像；[[铜版雕刻|engraving]] 与[[蚀刻|etching]] 属[[凹版|intaglio]]，墨藏于刻痕，需高压转印；[[石版印刷|lithography]] 则利用[[油水相斥|oil-water repulsion]]，属[[平版|planographic]]。同一[[版面|plate]] 可印出大量[[复制品|multiple impressions]]，[[版次|edition]] 概念由此产生。",
+    "因为可被[[批量复制|mass reproduction]]，[[版画|print]] 让[[地图|map]]、[[解剖图|anatomical illustration]]、[[宗教图像|devotional image]] 与[[时事画|news image]] 跨越地域流通，[[艺术家|artist]] 的名声也随之扩散；[[丢勒|Dürer]] 等人甚至靠[[出版|publishing]] 而非[[委托|commission]] 获得收入。",
+    "但[[磨损|plate wear]]、[[手工上色|hand coloring]] 与[[修复|retouching]] 使不同印张并不完全相同，[[真伪鉴定|connoisseurship]] 因此依赖[[纸张水印|watermark]] 与[[线条状态|line state]]。托福阅读常考「复制技术如何改变艺术市场与知识传播」，并提醒[[机械复制|mechanical reproduction]] 并不等于信息无损。"
+  ]},
+  {t:"巴洛克音乐与通奏低音", en:"Baroque Music and Basso Continuo", tag:"常考主题", p:[
+    "巴洛克时期的织体核心是[[通奏低音|basso continuo]]：[[羽管键琴|harpsichord]] 或[[管风琴|organ]] 与[[低音弦乐器|bass instrument]] 依[[数字低音|figured bass]] 即兴填充和声，上方声部则展开[[对位|counterpoint]] 与[[旋律装饰|ornamentation]]。[[蒙特威尔第|Monteverdi]] 到[[巴赫|Bach]] 之间，[[调性|tonality]] 逐步取代[[教会调式|church mode]]。",
+    "体裁上，[[赋格|fugue]] 以[[主题|subject]] 的[[模仿进入|imitative entry]] 组织，[[协奏曲|concerto]] 以[[独奏与全奏|solo-tutti contrast]] 制造张力，[[歌剧|opera]] 则把[[宣叙调|recitative]] 与[[咏叹调|aria]] 分工，服务于[[戏剧|drama]]；[[十二平均律|equal temperament]] 让[[转调|modulation]] 更自由。",
+    "[[即兴|improvisation]] 在当时是必备技能，[[乐谱|score]] 只提供骨架，因此现代[[本真演奏|historically informed performance]] 需依据[[论文|treatise]]、[[乐器复原|period instrument]] 与[[装饰音惯例|ornament convention]] 重建。托福听力常以「同一首曲子为何录音差别巨大」引出[[演奏实践|performance practice]] 的考据问题。"
+  ]},
+  ],
+  "历史与社会科学":[
+  {t:"大航海与哥伦布大交换", en:"Age of Exploration and the Columbian Exchange", tag:"TPO 常见", p:[
+    "十五世纪起，[[卡拉维尔帆船|caravel]] 的[[三角帆|lateen sail]]、[[罗盘|compass]] 与[[星盘|astrolabe]] 让远洋[[导航|navigation]] 更可靠，欧洲船队绕过[[好望角|Cape of Good Hope]] 并横渡大西洋，把原本相对独立的[[贸易圈|trade sphere]] 连成[[全球网络|global network]]；[[香料贸易|spice trade]] 与[[贵金属|bullion]] 是核心动力。",
+    "随之发生的[[哥伦布大交换|Columbian Exchange]] 指旧大陆与新大陆之间[[作物|crop]]、[[家畜|livestock]]、[[病原体|pathogen]] 与人口的大规模双向流动：[[马铃薯|potato]]、[[玉米|maize]] 提高旧大陆[[粮食供给|food supply]]，[[天花|smallpox]] 却使美洲原住民人口锐减；[[马|horse]] 与[[小麦|wheat]] 则重塑了美洲的[[交通|transport]] 与[[农业|agriculture]]。",
+    "后果包括[[价格革命|price revolution]]、[[殖民经济|colonial economy]] 与[[奴隶贸易|slave trade]] 的扩张，也促成[[饮食结构|diet]] 与[[土地利用|land use]] 的长期改变。托福阅读常考「双向而非单向的传播」以及[[生态影响|ecological impact]]，并提醒[[史料来源|documentary source]] 往往只记录一方视角。"
+  ]},
+  {t:"丝绸之路与跨文化交流", en:"The Silk Road and Cultural Exchange", tag:"常考主题", p:[
+    "[[丝绸之路|Silk Road]] 并非一条路，而是由[[绿洲城市|oasis town]]、[[草原路线|steppe route]] 与[[海路|maritime route]] 构成的[[网络|network]]，货物多经[[分段转运|relay trade]] 层层转手，[[粟特商人|Sogdian merchant]] 等中间群体承担[[长途贸易|long-distance trade]] 与[[汇兑|credit transfer]]。",
+    "流动的远不止[[丝绸|silk]]：[[造纸术|papermaking]]、[[玻璃制造|glassmaking]]、[[灌溉技术|irrigation technique]]、[[宗教|religion]] 与[[音乐|music]] 沿路扩散，[[粟特语|Sogdian]]、[[梵文|Sanskrit]] 文献与[[壁画|mural]] 显示[[多元社群|multiethnic community]] 长期共处；[[驿站|caravanserai]] 提供[[补给|supply]] 与[[安全|security]]，是网络运转的制度基础。",
+    "[[瘟疫|plague]] 也借同一通道传播，说明[[连通性|connectivity]] 同时带来收益与[[脆弱性|vulnerability]]；[[贸易量|trade volume]] 则随[[政权稳定|political stability]] 与[[气候|climate]] 波动。托福听力常以「丝路不是一条直达商道」纠正学生的简化想象，强调[[中介|intermediary]] 的作用。"
+  ]},
+  {t:"农业革命与人口增长", en:"Agricultural Revolution and Population Growth", tag:"常考主题", p:[
+    "十七至十八世纪欧洲的[[农业革命|Agricultural Revolution]] 并非单一发明，而是[[诺福克四圃轮作|Norfolk four-course rotation]]、[[条播机|seed drill]]、[[深耕犁|heavy plow]]、[[排水|drainage]] 与[[选择性育种|selective breeding]] 的组合：[[豆科作物|legume]] 恢复[[土壤肥力|soil fertility]]，[[休耕地|fallow]] 减少，单位面积[[产量|yield]] 与[[劳动生产率|labor productivity]] 同步上升。",
+    "[[圈地|enclosure]] 把零散[[条田|strip field]] 合并为可自主经营的[[地块|plot]]，提高[[规模效率|economies of scale]]，却也把小农推离土地，为后来的[[工厂制度|factory system]] 提供[[劳动力|labor force]]。粮食供给改善与[[公共卫生|public health]] 进步降低[[死亡率|mortality]]，[[人口|population]] 迅速膨胀。",
+    "[[马尔萨斯|Malthus]] 据此提出[[人口按几何级数增长|geometric population growth]] 将超过[[算术级数的食物供给|arithmetic food supply]]，预言[[马尔萨斯陷阱|Malthusian trap]]；但[[技术进步|technological progress]] 与[[生育率下降|fertility decline]] 使预言未在工业化国家兑现。托福阅读常考「理论为何在特定条件下失效」，并以[[工业革命|Industrial Revolution]] 作为背景变量。"
+  ]},
+  {t:"货币、复式记账与银行", en:"Money, Double-Entry Bookkeeping and Banking", tag:"常考主题", p:[
+    "从[[以物易物|barter]] 到[[商品货币|commodity money]]，再到[[铸币|coinage]]，关键变化是[[价值尺度|unit of account]] 与[[便携性|portability]] 的分离；[[含金量|metallic content]] 与[[面值|face value]] 的差异让[[贬值|debasement]] 成为可能，也催生了对[[信任|trust]] 与[[权威背书|state authority]] 的依赖。",
+    "中世纪[[汇票|bill of exchange]] 让商人无需携带[[金银|specie]] 即可[[跨境结算|settle accounts across borders]]；[[复式记账|double-entry bookkeeping]] 以[[借方|debit]] 与[[贷方|credit]] 恒等为核心，使[[资产负债|assets and liabilities]] 可被系统核对，被视为[[资本主义会计|capitalist accounting]] 的技术前提。",
+    "[[银行|bank]] 由[[保管|safekeeping]] 发展出[[部分准备金|fractional reserve]] 与[[信贷创造|credit creation]]，同时带来[[挤兑|bank run]] 与[[通货膨胀|inflation]] 风险；[[纸币|paper money]] 与[[中央银行|central bank]] 则进一步把货币从[[内在价值|intrinsic value]] 中解放出来。托福听力常借「为什么一张纸能买东西」考查[[制度信任|institutional trust]]。"
+  ]},
+  {t:"铁路与时空压缩", en:"Railroads and the Compression of Time and Space", tag:"常考主题", p:[
+    "[[铁路|railroad]] 把[[运输成本|transportation cost]] 与[[运输时间|travel time]] 同时压低一个数量级，使[[易腐货物|perishable goods]]、[[煤炭|coal]] 与[[谷物|grain]] 得以大规模[[长途运输|long-distance transport]]；[[标准轨距|standard gauge]] 与[[时刻表|timetable]] 的出现，又倒逼[[标准时间|standard time]] 取代各地[[地方时|local solar time]]。",
+    "经济上，[[全国统一市场|national market]]、[[批量生产|mass production]] 与[[邮购目录|mail-order catalog]] 依托铁路成形，[[期货|futures contract]] 与[[仓储|warehousing]] 制度随之完善；[[站台|station]] 附近形成新的[[商业中心|commercial center]]，[[地价|land value]] 与[[城市扩张|urban expansion]] 被重新组织。",
+    "代价同样明显：[[原住民土地|indigenous land]] 被侵占、[[森林砍伐|deforestation]] 供应[[枕木|sleeper]]、[[劳工|labor]] 条件恶劣，[[垄断|monopoly]] 与[[价格歧视|price discrimination]] 引发[[监管|regulation]] 诉求。托福阅读常以「一项基础设施如何同时创造赢家与输家」组织段落。"
+  ]},
+  ],
+  "心理学与认知科学":[
+  {t:"睡眠与昼夜节律", en:"Sleep and Circadian Rhythms", tag:"TPO 常见", p:[
+    "[[昼夜节律|circadian rhythm]] 由下丘脑[[视交叉上核|suprachiasmatic nucleus]] 驱动，[[光照|light]] 经视网膜[[黑视蛋白|melanopsin]] 通路校准[[生物钟|biological clock]]，并调控[[褪黑素|melatonin]] 分泌；因此[[时差|jet lag]] 与[[轮班工作|shift work]] 的本质是[[内源节律|endogenous rhythm]] 与外部环境[[失同步|desynchrony]]。",
+    "整夜睡眠在[[非快速眼动睡眠|NREM sleep]] 与[[快速眼动睡眠|REM sleep]] 间循环约九十分钟一次，[[慢波睡眠|slow-wave sleep]] 集中在上半夜并与[[生长激素|growth hormone]]、[[记忆巩固|memory consolidation]] 相关，后半夜 REM 比例升高、[[做梦|dreaming]] 更频繁。[[睡眠剥夺|sleep deprivation]] 会损害[[注意|attention]] 与[[程序性学习|procedural learning]]。",
+    "[[睡眠稳态|sleep homeostasis]] 用[[腺苷|adenosine]] 累积解释「越久不睡越困」，[[咖啡因|caffeine]] 正是阻断其受体；[[双过程模型|two-process model]] 把稳态压力与昼夜节律叠加，能预测多数[[警觉度|alertness]] 波动。托福听力常以「学生靠通宵复习，教授解释为何适得其反」展开。"
+  ]},
+  {t:"知觉、格式塔与错觉", en:"Perception, Gestalt Principles and Illusions", tag:"常考主题", p:[
+    "知觉不是被动复制世界。[[格式塔心理学|Gestalt psychology]] 提出[[接近律|proximity]]、[[相似律|similarity]]、[[闭合律|closure]] 与[[图形—背景|figure-ground]] 等[[组织原则|grouping principle]]，说明大脑会把零散[[感觉输入|sensory input]] 主动整理成[[整体|whole]]，且整体先于部分被知觉。",
+    "[[自上而下加工|top-down processing]] 依赖[[先验知识|prior knowledge]] 与[[情境|context]]，因此[[歧义图形|ambiguous figure]] 会在[[两种解读|two interpretations]] 之间来回切换；[[知觉恒常性|perceptual constancy]] 让我们在光照与距离变化时仍把物体识别为同一大小与颜色，[[视错觉|visual illusion]] 恰恰暴露了这些[[启发式|heuristic]] 的适用边界。",
+    "[[跨文化研究|cross-cultural study]] 显示某些错觉的强弱随[[视觉环境|visual environment]]（如是否长期生活在「[[木匠化世界|carpentered world]]」）而变，说明[[经验|experience]] 会塑造[[知觉|perception]]。托福阅读常考「眼睛接收与大脑解释不是一回事」，并提醒[[生态效度|ecological validity]] 问题。"
+  ]},
+  {t:"注意与选择性加工", en:"Attention and Selective Processing", tag:"常考主题", p:[
+    "[[选择性注意|selective attention]] 的经典现象是[[鸡尾酒会效应|cocktail party effect]]：在嘈杂中能跟随一条对话，却仍会捕捉到自己名字等[[高显著刺激|salient stimulus]]。[[过滤器模型|filter model]] 主张早期按[[物理特征|physical feature]] 筛除信息，[[衰减模型|attenuation model]] 则认为未被注意的信息只是被削弱而非完全阻断。",
+    "[[无意视盲|inattentional blindness]] 与[[变化盲|change blindness]] 表明，未被注意的显著事件可能完全没进入意识；[[双任务范式|dual-task paradigm]] 与[[心理不应期|psychological refractory period]] 则揭示[[容量限制|capacity limitation]] 出现在[[反应选择|response selection]] 阶段。[[注意|attention]] 因此更像[[资源分配|resource allocation]]，而非单一开关。",
+    "[[自上而下控制|top-down control]] 与[[自下而上捕获|bottom-up capture]] 的交互解释了为何[[目标|goal]] 能抑制干扰，却也会错过意外目标；[[正念训练|mindfulness training]]、[[界面设计|interface design]] 与[[驾驶分心|distracted driving]] 都是应用话题。托福听力常以「眼见一定等于注意到吗」设问。"
+  ]},
+  {t:"情绪与面部表情", en:"Emotion and Facial Expression", tag:"常考主题", p:[
+    "[[基本情绪理论|basic emotion theory]] 主张存在若干跨文化通用的[[情绪|emotion]]，各自对应特定[[面部表情|facial expression]] 与[[生理反应|physiological response]]；[[埃克曼|Ekman]] 的[[跨文化识别|cross-cultural recognition]] 研究常被引用为证据，[[面部反馈假说|facial feedback hypothesis]] 进一步认为做出表情本身会影响[[主观体验|subjective experience]]。",
+    "反对意见强调[[文化显示规则|cultural display rules]] 决定何时、对谁、以多大强度表达，且同一[[表情配置|facial configuration]] 在不同[[情境|context]] 中的解读并不固定；[[维度模型|dimensional model]] 用[[效价|valence]] 与[[唤醒度|arousal]] 两个维度取代离散类别，[[建构主义|constructionist]] 观点更把情绪视为[[概念|concept]] 与[[内感受|interoception]] 的组合。",
+    "[[杏仁核|amygdala]] 与[[自主神经系统|autonomic nervous system]] 提供生理线索，但[[测谎|lie detection]] 式地从表情反推内心缺乏[[效度|validity]]。托福阅读常考「普遍性证据与情境主义解释之争」，并提醒[[样本|sample]] 与[[实验任务|experimental task]] 如何影响结论。"
+  ]},
+  {t:"儿童认知发展", en:"Cognitive Development in Children", tag:"真题高频", p:[
+    "[[皮亚杰|Piaget]] 提出[[认知发展|cognitive development]] 的阶段序列：[[感觉运动期|sensorimotor stage]] 获得[[客体永久性|object permanence]]，[[前运算期|preoperational stage]] 出现[[自我中心|egocentrism]] 与[[守恒|conservation]] 缺失，之后才逐步掌握[[可逆性|reversibility]] 与[[抽象推理|abstract reasoning]]；[[图式|schema]] 通过[[同化|assimilation]] 与[[顺应|accommodation]] 更新。",
+    "后续研究用[[习惯化|habituation]] 与[[违背预期范式|violation-of-expectation paradigm]] 的注视时长显示，婴儿具备的能力常早于皮亚杰估计；[[维果茨基|Vygotsky]] 则强调[[社会互动|social interaction]] 与[[最近发展区|zone of proximal development]]，[[脚手架|scaffolding]] 让儿童在协助下完成独自做不到的事。",
+    "[[心理理论|theory of mind]]、[[执行功能|executive function]] 与[[语言|language]] 共同支撑[[观点采择|perspective taking]]，而[[跨文化|cross-cultural]] 差异提示阶段顺序并非完全[[普遍|universal]]。托福听力常以「经典理论被更灵敏的实验方法修正」为结构，考查[[方法学|methodology]] 如何改变结论。"
+  ]},
+  ],
+  "物理·化学与技术":[
+  {t:"水的异常性质", en:"The Anomalous Properties of Water", tag:"TPO 常见", p:[
+    "水分子因[[极性|polarity]] 形成[[氢键|hydrogen bond]]，由此产生一整套[[反常|anomaly]]：[[沸点|boiling point]] 与[[比热容|specific heat]] 远高于同族氢化物，[[表面张力|surface tension]] 强，且固态[[冰|ice]] 的[[密度|density]] 小于液态水，因此冰浮于水面，[[湖泊|lake]] 自表面结冰而底部保持液态。",
+    "这一密度反常对[[水生生物|aquatic organism]] 至关重要：[[冬季分层|winter stratification]] 让水下生态得以越冬；高比热使[[海洋|ocean]] 成为巨大的[[热缓冲|thermal buffer]]，调节[[沿海气候|coastal climate]]；[[毛细作用|capillary action]] 与[[附着力|adhesion]] 则支撑植物[[蒸腾|transpiration]] 中的[[水柱|water column]]。",
+    "水还是优良[[溶剂|solvent]]，靠[[水合|hydration]] 解离[[离子化合物|ionic compound]]，从而支撑[[细胞|cell]] 内的[[生化反应|biochemical reaction]]。托福讲座常把「若冰比水重会怎样」作为[[反事实推理|counterfactual reasoning]] 的设问，串联[[氢键|hydrogen bond]] 与[[生命宜居|habitability]]。"
+  ]},
+  {t:"声波、多普勒与回声定位", en:"Sound Waves, the Doppler Effect and Echolocation", tag:"常考主题", p:[
+    "声波是[[纵波|longitudinal wave]]，靠介质[[压缩|compression]] 与[[稀疏|rarefaction]] 传播，[[频率|frequency]] 决定[[音高|pitch]]、[[振幅|amplitude]] 决定[[响度|loudness]]，[[波速|wave speed]] 则取决于介质[[密度|density]] 与[[弹性|elasticity]]，因此水中传声比空气中快，[[真空|vacuum]] 中完全不能传播。",
+    "[[多普勒效应|Doppler effect]] 指声源与观察者相对运动时[[接收频率|observed frequency]] 改变，救护车驶近音调升高、远离降低；[[蝙蝠|bat]] 与[[齿鲸|toothed whale]] 的[[回声定位|echolocation]] 则利用[[回声延迟|echo delay]] 测距、用频移判断[[猎物速度|prey velocity]]，并靠[[调频信号|frequency-modulated call]] 提高[[距离分辨率|range resolution]]。",
+    "[[声呐|sonar]] 与[[超声成像|ultrasound imaging]] 是同一原理的工程应用，但需要处理[[衰减|attenuation]]、[[混响|reverberation]] 与[[噪声|noise]]；[[飞蛾|moth]] 演化出[[干扰性超声|jamming signal]] 则体现[[协同进化|coevolution]]。托福听力常以「为什么蝙蝠不用眼睛也能捕虫」引出[[信号—回波|signal-echo]] 的信息逻辑。"
+  ]},
+  {t:"光的折射、色散与全反射", en:"Refraction, Dispersion and Total Internal Reflection", tag:"常考主题", p:[
+    "光从一种介质进入另一种时[[相速度|phase velocity]] 改变，方向按[[斯涅尔定律|Snell's law]] 偏折，偏折程度由[[折射率|refractive index]] 决定。因为折射率随[[波长|wavelength]] 略有不同，[[白光|white light]] 经[[棱镜|prism]] 会[[色散|dispersion]] 成[[光谱|spectrum]]；[[彩虹|rainbow]] 则是[[水滴|water droplet]] 内[[折射|refraction]]、[[内反射|internal reflection]] 与再次折射的共同结果。",
+    "当光从高折射率介质射向低折射率介质且[[入射角|incidence angle]] 超过[[临界角|critical angle]]，便发生[[全反射|total internal reflection]]，[[光纤|optical fiber]] 借此把信号约束在[[纤芯|core]] 中长距离传输，损耗远低于[[铜缆|copper cable]]。",
+    "[[海市蜃楼|mirage]] 与[[水中物体看似变浅|apparent depth]] 都是折射造成的[[视觉偏差|visual distortion]]；[[透镜|lens]] 与[[显微镜|microscope]] 则把折射转化为可控[[成像|imaging]]。托福阅读常把「同一条定律解释多种现象」作为段落组织方式。"
+  ]},
+  {t:"催化剂与反应速率", en:"Catalysts and Reaction Rates", tag:"常考主题", p:[
+    "反应能否进行由[[热力学|thermodynamics]] 决定，快慢则由[[动力学|kinetics]] 决定。[[活化能|activation energy]] 是反应物越过[[过渡态|transition state]] 所需的能垒，升温可提高[[有效碰撞|effective collision]] 比例，[[浓度|concentration]] 与[[表面积|surface area]] 也影响[[速率|reaction rate]]。",
+    "[[催化剂|catalyst]] 提供另一条低能垒[[反应路径|reaction pathway]]，本身在循环结束后[[再生|regenerate]]，因此既不改变[[平衡常数|equilibrium constant]] 也不改变[[反应热|enthalpy change]]，只是让体系更快到达平衡；[[酶|enzyme]] 是具[[专一性|specificity]] 的生物催化剂，靠[[活性位点|active site]] 与[[底物|substrate]] 契合降低[[熵代价|entropic cost]]。",
+    "[[多相催化|heterogeneous catalysis]] 依赖[[吸附|adsorption]] 与[[活性位点|active site]]，[[催化转化器|catalytic converter]]、[[哈伯法|Haber process]] 与[[加氢反应|hydrogenation]] 都是常考例子；[[中毒|catalyst poisoning]] 则解释为何杂质会让催化剂失效。托福听力常用「酶会不会被消耗掉」检验对[[循环机制|catalytic cycle]] 的理解。"
+  ]},
+  {t:"电池与电化学", en:"Batteries and Electrochemistry", tag:"常考主题", p:[
+    "电池把[[氧化还原反应|redox reaction]] 拆到两处：[[阳极|anode]] 发生[[氧化|oxidation]] 释放电子，[[阴极|cathode]] 发生[[还原|reduction]] 接收电子，电子经[[外电路|external circuit]] 做功，[[电解质|electrolyte]] 中的[[离子迁移|ion migration]] 与[[盐桥|salt bridge]] 维持[[电荷平衡|charge neutrality]]。",
+    "[[伏打电堆|voltaic pile]] 以[[锌|zinc]] 与[[铜|copper]] 叠层开创[[连续电流|continuous current]]；现代[[锂离子电池|lithium-ion battery]] 靠[[嵌入|intercalation]] 在[[电极|electrode]] 间往返，性能受[[能量密度|energy density]]、[[循环寿命|cycle life]] 与[[枝晶|dendrite]] 生长限制；[[标准电极电势|standard electrode potential]] 决定[[电压|voltage]] 上限。",
+    "[[电解|electrolysis]] 是反向过程，用外电源驱动非自发反应，用于[[电镀|electroplating]] 与[[制氢|hydrogen production]]；[[腐蚀|corrosion]] 则是自发的电化学损耗，可用[[牺牲阳极|sacrificial anode]] 防护。托福阅读常考「化学能到电能的转换条件」，并以[[串联|series connection]] 说明电压叠加。"
+  ]},
+  ],
+};
+Object.keys(EXTRA).forEach(function(c){
+  const g = GROUPS.find(function(x){ return x.c===c; });
+  if(g) g.items = g.items.concat(EXTRA[c]);
+});
+
+/* ---------- 渲染 ---------- */
+const TERM_RE = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
+function renderParas(s){
+  return s.replace(TERM_RE, function(m,cn,en){
+    return '<strong class="t"><span class="cn">'+cn+'</span></strong><span class="paren">（<span class="en">'+en+'</span>）</span>';
+  });
+}
+function plain(s){ return s.replace(TERM_RE,'$1').replace(/<[^>]+>/g,''); }
+function countTerms(item){ return (item.p.join('').match(TERM_RE)||[]).length; }
+function minutes(item){ return Math.max(3, Math.round(plain(item.p.join('')).length/80)); }
+
+const store = {
+  get:function(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ return []; } },
+  set:function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+let readSet = new Set(store.get('toefl_bg_read'));
+let favSet  = new Set(store.get('toefl_bg_fav'));
+let activeCat = 'all', query = '';
+
+const G = GROUPS;
+let totalCards = 0, totalTerms = 0;
+G.forEach(function(g,gi){
+  g.items.forEach(function(it,i){ it.id = 'g'+gi+'i'+i; totalCards++; totalTerms += countTerms(it); });
+});
+
+/* 统计条 */
+const uniqEn = new Set();
+G.forEach(g=>g.items.forEach(it=>{ let m; const r=new RegExp('\\[\\[[^\\]|]+\\|([^\\]]+)\\]\\]','g');
+  while((m=r.exec(it.p.join('')))!==null) uniqEn.add(m[1]); }));
+document.getElementById('statRow').innerHTML =
+  '<div class="stat"><b>'+G.length+'</b><span>大学科分类</span></div>'+
+  '<div class="stat"><b>'+totalCards+'</b><span>篇背景精读</span></div>'+
+  '<div class="stat"><b>'+uniqEn.size+'</b><span>个核心学术词</span></div>'+
+  '<div class="stat"><b>3</b><span>段式因果精读</span></div>';
+
+/* 侧边目录：名称 / 篇数两列对齐，含收藏篇章 */
+let sideHtml =
+  '<button class="nav-item on" data-cat="all"><span>全部学科</span><span class="n">'+totalCards+'</span></button>'+
+  '<button class="nav-item" data-cat="fav"><span>★ 收藏篇章</span><span class="n" id="favCount">'+favSet.size+'</span></button>'+
+  '<div class="nav-sep"></div>';
+G.forEach(function(g,gi){
+  sideHtml += '<button class="nav-item" data-cat="'+gi+'"><span>'+g.c+'</span><span class="n">'+g.items.length+'</span></button>';
+});
+document.getElementById('navList').innerHTML = sideHtml;
+
+/* 文章卡片 */
+let mainHtml = '';
+G.forEach(function(g,gi){
+  mainHtml += '<section class="cat" data-gi="'+gi+'" id="cat-'+gi+'">'+
+    '<div class="cat-head"><h2>'+g.c+'</h2><span class="e">'+g.e+'</span><span class="bar"></span><span class="cnt">'+g.items.length+' 篇</span></div>';
+  g.items.forEach(function(it){
+    const nt = countTerms(it), mm = minutes(it);
+    mainHtml += '<article class="card" id="'+it.id+'" data-gi="'+gi+'" data-search="'+plain(it.p.join('')+' '+it.t+' '+it.en+' '+g.c+' '+g.e).toLowerCase()+'">'+
+      '<div class="cat-line"><span class="tag">'+g.c+'</span><span class="tag gray">'+it.tag+'</span></div>'+
+      '<h3>'+it.t+'</h3><div class="sub">'+it.en+'</div><div class="rule"></div>'+
+      '<div class="actions">'+
+        '<button class="abtn read'+(readSet.has(it.id)?' on':'')+'" data-act="read" data-id="'+it.id+'"><span class="ic">✓</span><span>已读</span></button>'+
+        '<button class="abtn fav'+(favSet.has(it.id)?' on':'')+'" data-act="fav" data-id="'+it.id+'"><span class="ic">☆</span><span>收藏</span></button>'+
+        '<button class="abtn quiz" data-act="quiz" data-id="'+it.id+'"><span class="ic">◉</span><span>隐藏中文（自测）</span></button>'+
+        '<button class="abtn foldbtn" data-act="fold"><span class="ic">▤</span><span>折叠文章</span></button>'+
+        '<button class="abtn print" data-act="print"><span class="ic">⎙</span><span>导出 PDF / 打印</span></button>'+
+        '<span class="meta">'+nt+' 个核心词 · 约 '+mm+' 分钟</span>'+
+      '</div>'+
+      '<div class="card-body"><span class="quiz-tip">自测模式：术语中文已遮盖，看英文回忆含义；把鼠标移到遮盖块上可临时查看答案。</span>'+
+      it.p.map(function(p){ return '<p>'+renderParas(p)+'</p>'; }).join('')+'</div></article>';
+  });
+  mainHtml += '</section>';
+});
+document.getElementById('main').innerHTML = mainHtml;
+
+/* 术语速查表 */
+let termHtml = '', termTotal = 0;
+G.forEach(function(g){
+  const seen = new Set(); let list = [];
+  g.items.forEach(function(it){
+    let m; const r = new RegExp('\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]','g');
+    while((m=r.exec(it.p.join('')))!==null){
+      if(!seen.has(m[2])){ seen.add(m[2]); list.push([m[1],m[2]]); }
+    }
+  });
+  termTotal += list.length;
+  termHtml += '<div class="tg" data-g="'+g.c+'"><h4>'+g.c+' · '+list.length+' 词</h4><div class="list">'+
+    list.map(function(w){ return '<span class="w" data-w="'+w[0]+' '+w[1]+'">'+w[0]+'<i>'+w[1]+'</i></span>'; }).join('')+'</div></div>';
+});
+document.getElementById('termGroups').innerHTML = termHtml;
+document.getElementById('termCount').textContent = termTotal;
+
+/* 话题总目录 */
+let topicHtml = '';
+G.forEach(function(g,gi){
+  topicHtml += '<div class="tg"><h4>'+g.c+' · '+g.items.length+' 篇</h4><div class="list">'+
+    g.items.map(function(it,i){ return '<a class="w" href="#'+it.id+'">'+it.t+'<i>'+it.en+'</i></a>'; }).join('')+'</div></div>';
+});
+document.getElementById('topicGroups').innerHTML = topicHtml;
+document.querySelector('#topicDetails summary').textContent = '展开全部话题目录（共 '+totalCards+' 篇）';
+
+/* ---------- 交互 ---------- */
+function applyFilter(){
+  const q = query.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.card').forEach(function(card){
+    const okCat = activeCat==='all' ? true : activeCat==='fav' ? favSet.has(card.id) : card.dataset.gi===String(activeCat);
+    const okQ = !q || card.dataset.search.indexOf(q)>-1;
+    const show = okCat && okQ;
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  document.querySelectorAll('section.cat').forEach(function(sec){
+    const any = Array.from(sec.querySelectorAll('.card')).some(c=>c.style.display!=='none');
+    sec.style.display = any ? '' : 'none';
+  });
+  document.getElementById('empty').style.display = visible ? 'none' : 'block';
+  document.getElementById('hint').textContent = q || activeCat!=='all'
+    ? '当前显示 '+visible+' 篇 · 点击「全部学科」或清空搜索可恢复'
+    : '提示：术语后的括号内为托福听力/阅读中对应的英文表达，注意发音与重音。';
+}
+function setHighlight(key){
+  document.querySelectorAll('.nav-item').forEach(function(n){
+    n.classList.toggle('on', n.dataset.cat===String(key));
+  });
+}
+document.getElementById('navList').addEventListener('click',function(e){
+  const b = e.target.closest('.nav-item'); if(!b) return;
+  activeCat = b.dataset.cat;
+  setHighlight(activeCat);
+  applyFilter();
+  if(activeCat==='all'){ window.scrollTo({top:0,behavior:'smooth'}); }
+  else if(activeCat==='fav'){ document.getElementById('main').scrollIntoView({behavior:'smooth',block:'start'}); }
+  else { const sec = document.getElementById('cat-'+activeCat); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'}); }
+});
+document.getElementById('q').addEventListener('input',function(e){ query = e.target.value; applyFilter(); });
+document.getElementById('main').addEventListener('click',function(e){
+  const b = e.target.closest('.abtn'); if(!b) return;
+  const card = b.closest('.card'), id = b.dataset.id, act = b.dataset.act;
+  if(act==='read'){
+    if(readSet.has(id)){ readSet.delete(id); b.classList.remove('on'); }
+    else { readSet.add(id); b.classList.add('on'); }
+    store.set('toefl_bg_read',Array.from(readSet));
+  } else if(act==='fav'){
+    if(favSet.has(id)){ favSet.delete(id); b.classList.remove('on'); }
+    else { favSet.add(id); b.classList.add('on'); }
+    store.set('toefl_bg_fav',Array.from(favSet));
+    const fc = document.getElementById('favCount'); if(fc) fc.textContent = favSet.size;
+    if(activeCat==='fav') applyFilter();
+  } else if(act==='quiz'){
+    card.classList.toggle('quiz'); b.classList.toggle('on');
+    b.querySelector('span:last-child').textContent = card.classList.contains('quiz') ? '显示中文' : '隐藏中文（自测）';
+  } else if(act==='fold'){
+    const on = card.classList.toggle('fold');
+    b.classList.toggle('on',on);
+    b.querySelector('span:last-child').textContent = on ? '展开文章' : '折叠文章';
+  } else if(act==='print'){
+    printOne(card);
+  }
+});
+function clearPrintOne(){
+  document.body.classList.remove('print-one');
+  document.querySelectorAll('.print-keep').forEach(function(el){ el.classList.remove('print-keep'); });
+}
+function printOne(card){
+  clearPrintOne();
+  card.classList.add('print-keep');
+  const sec = card.closest('section.cat'); if(sec) sec.classList.add('print-keep');
+  document.body.classList.add('print-one');
+  window.print();
+}
+window.addEventListener('afterprint',clearPrintOne);
+let scrollTick = false;
+window.addEventListener('scroll',function(){
+  if(scrollTick) return; scrollTick = true;
+  requestAnimationFrame(function(){
+    scrollTick = false;
+    if(activeCat!=='all') return;
+    if(window.scrollY < 90){ setHighlight('all'); return; }
+    const secs = Array.from(document.querySelectorAll('section.cat')).filter(function(s){ return s.style.display!=='none'; });
+    if(!secs.length) return;
+    let cur = secs[0];
+    secs.forEach(function(s){ if(s.getBoundingClientRect().top <= 120) cur = s; });
+    setHighlight(cur.dataset.gi);
+  });
+});
+window.addEventListener('beforeprint',function(){ document.getElementById('termDetails').open = true; document.getElementById('topicDetails').open = true; });
+if(location.search.indexOf('pdf')>-1){ document.getElementById('termDetails').open = true; document.getElementById('topicDetails').open = true; }
+document.getElementById('tq').addEventListener('input',function(e){
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('.tg').forEach(function(g){
+    let n = 0;
+    g.querySelectorAll('.w').forEach(function(w){
+      const ok = !q || w.dataset.w.toLowerCase().indexOf(q)>-1;
+      w.style.display = ok ? '' : 'none'; if(ok) n++;
+    });
+    g.style.display = n ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>
