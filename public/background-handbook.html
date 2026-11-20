@@ -263,6 +263,22 @@ footer{text-align:center;color:#a3abbc;font-size:12px;margin-top:34px;line-heigh
   <footer>依据托福听力讲座与阅读学术文章的常见学科分布整理 · 术语释义以考试语境为准<br>建议配合真题精听 / 精读使用，重点记忆「机制 + 因果 + 举例」三类表达</footer>
 </div>
 
+<!-- 密码弹窗 -->
+<div class="mask" id="pwdMask">
+  <div class="dlg" style="width:min(360px,100%)" role="dialog" aria-modal="true" aria-labelledby="pwdTitle">
+    <h3 id="pwdTitle">输入密码</h3>
+    <p class="tip">输入正确密码后才能添加文章或学科。</p>
+    <div class="field">
+      <input id="pwdInput" type="password" placeholder="请输入密码" autocomplete="off">
+      <p id="pwdErr" style="display:none;margin:8px 0 0;font-size:12px;color:#d14343">密码错误，请重试</p>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn" id="pwdCancel" type="button">取消</button>
+      <button class="btn pri" id="pwdOk" type="button">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- 添加文章弹窗 -->
 <div class="mask" id="addMask">
   <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="addDlgTitle">
@@ -1088,12 +1104,47 @@ document.getElementById('tq').addEventListener('input',function(e){
   }
   function closeDlg(){ mask.classList.remove('on'); }
 
-  btn.addEventListener('click',openDlg);
+  btn.addEventListener('click',function(){ if(authed) openDlg(); else openPwd(); });
   document.getElementById('addCancel').addEventListener('click',closeDlg);
   mask.addEventListener('click',function(e){ if(e.target===mask) closeDlg(); });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape' && mask.classList.contains('on')) closeDlg();
+    if(e.key==='Escape'){
+      if(mask.classList.contains('on')) closeDlg();
+      if(pwdMask.classList.contains('on')) closePwd();
+    }
   });
+
+  /* ----- 密码校验：通过后才可打开添加文章弹窗 ----- */
+  const pwdMask = document.getElementById('pwdMask');
+  const pwdInput = document.getElementById('pwdInput');
+  const pwdErr = document.getElementById('pwdErr');
+  const PWD = '11111111111';
+  let authed = false;
+  function openPwd(){
+    pwdInput.value = '';
+    pwdErr.style.display = 'none';
+    pwdMask.classList.add('on');
+    setTimeout(function(){ pwdInput.focus(); }, 30);
+  }
+  function closePwd(){
+    pwdMask.classList.remove('on');
+    pwdInput.value = '';
+    pwdErr.style.display = 'none';
+  }
+  function checkPwd(){
+    if(pwdInput.value === PWD){
+      authed = true;
+      closePwd();
+      openDlg();
+    } else {
+      pwdErr.style.display = '';
+      pwdInput.select();
+    }
+  }
+  document.getElementById('pwdOk').addEventListener('click',checkPwd);
+  document.getElementById('pwdCancel').addEventListener('click',closePwd);
+  pwdInput.addEventListener('keydown',function(e){ if(e.key==='Enter') checkPwd(); });
+  pwdMask.addEventListener('click',function(e){ if(e.target===pwdMask) closePwd(); });
   catSel.addEventListener('change',function(){
     newBox.style.display = catSel.value==='__new__' ? '' : 'none';
   });
