@@ -21,7 +21,36 @@ body{margin:0;background:var(--bg);color:var(--body);
 .hero{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:40px 44px 34px;margin-bottom:22px;box-shadow:0 1px 3px rgba(28,38,58,.03)}
 .kicker{font-size:12px;letter-spacing:.16em;color:var(--accent);font-weight:700;margin-bottom:14px}
-.hero h1{font-size:36px;line-height:1.3;margin:0 0 10px;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.hero h1{font-size:36px;line-height:1.3;margin:0 0 10px;color:var(--ink);font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+/* ---------- 添加文章：标题旁 + 按钮 ---------- */
+.add-art{flex:0 0 auto;width:34px;height:34px;padding:0;border-radius:50%;border:1px solid #d9d9f0;
+  background:var(--accent-bg);color:var(--accent);font-size:22px;line-height:1;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.add-art:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-1px)}
+/* ---------- 添加文章弹窗 ---------- */
+.mask{position:fixed;inset:0;background:rgba(20,26,40,.55);backdrop-filter:blur(3px);display:none;
+  align-items:center;justify-content:center;padding:20px;z-index:999}
+.mask.on{display:flex}
+.dlg{width:min(580px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;
+  box-shadow:0 24px 60px rgba(20,26,40,.3);padding:24px 26px}
+.dlg h3{margin:0 0 6px;font-size:18px;color:var(--ink)}
+.dlg .tip{margin:0 0 16px;font-size:12px;line-height:1.7;color:var(--muted)}
+.field{margin-bottom:14px}
+.field label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:#3d4a63}
+.field input,.field select,.field textarea{width:100%;box-sizing:border-box;border:1px solid #dfe3ec;
+  border-radius:9px;padding:9px 11px;font-size:14px;color:var(--body);background:#fff;font-family:inherit;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#8b8be6;box-shadow:0 0 0 3px rgba(91,91,214,.12)}
+.field textarea{min-height:170px;resize:vertical;line-height:1.7}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dlg-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+.btn{border:1px solid #dfe3ec;background:#fff;color:#4a5568;font-size:14px;font-weight:600;
+  padding:9px 18px;border-radius:9px;cursor:pointer}
+.btn:hover{border-color:#c3c8d6}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{filter:brightness(1.06)}
+.card.flash{animation:cardflash 2.4s ease}
+@keyframes cardflash{0%,100%{box-shadow:0 1px 2px rgba(28,38,58,.04)}35%{box-shadow:0 0 0 3px rgba(91,91,214,.35)}}
+@media(max-width:640px){.row2{grid-template-columns:1fr}.add-art{width:30px;height:30px;font-size:20px}}
 .hero .en-title{font-size:19px;color:#9aa4b7;font-weight:400;margin:0 0 20px}
 .hero .desc{font-size:15px;line-height:1.9;color:#5b6880;margin:0 0 24px;
   text-align:justify;text-justify:inter-ideograph;text-align-last:left}
@@ -193,7 +222,7 @@ footer{text-align:center;color:#a3abbc;font-size:12px;margin-top:34px;line-heigh
 
   <header class="hero">
     <div class="kicker">TOEFL LISTENING &amp; READING · BACKGROUND KNOWLEDGE</div>
-    <h1>托福听力 · 阅读背景知识全景手册</h1>
+    <h1>托福听力 · 阅读背景知识全景手册<button class="add-art" id="addArticleBtn" type="button" title="添加文章" aria-label="添加文章">+</button></h1>
     <div class="en-title">A Companion to Academic Background Knowledge for the TOEFL iBT</div>
     <p class="desc">系统覆盖 2010 年至今托福 iBT（TPO 与公开真题回忆）听力讲座、阅读学术文章中反复出现的学科背景话题，按「学科 → 话题」归档——同一话题常跨年份重复出现，故不按考试日期编排。每篇沿用「中文精读 + 学术术语英汉对照」的三段式结构，正文两端对齐，便于打印精读；读完一篇，等于提前熟悉一类题目的知识底盘。</p>
     <div class="stat-row" id="statRow"></div>
@@ -232,6 +261,46 @@ footer{text-align:center;color:#a3abbc;font-size:12px;margin-top:34px;line-heigh
   </section>
 
   <footer>依据托福听力讲座与阅读学术文章的常见学科分布整理 · 术语释义以考试语境为准<br>建议配合真题精听 / 精读使用，重点记忆「机制 + 因果 + 举例」三类表达</footer>
+</div>
+
+<!-- 添加文章弹窗 -->
+<div class="mask" id="addMask">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="addDlgTitle">
+    <h3 id="addDlgTitle">添加文章</h3>
+    <p class="tip">正文中的「中文（English）」会自动转为核心词标注；手册里已有的学术术语也会自动标注。</p>
+    <div class="field">
+      <label for="addCat">学科分类</label>
+      <select id="addCat"></select>
+    </div>
+    <div class="field" id="newCatBox" style="display:none">
+      <div class="row2">
+        <div>
+          <label for="addCatName">新学科名称</label>
+          <input id="addCatName" placeholder="如：艺术史">
+        </div>
+        <div>
+          <label for="addCatEn">英文名称（选填）</label>
+          <input id="addCatEn" placeholder="Art History">
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="addTitle">标题</label>
+      <input id="addTitle" placeholder="中文标题">
+    </div>
+    <div class="field">
+      <label for="addTitleEn">英文标题（选填）</label>
+      <input id="addTitleEn" placeholder="English Title">
+    </div>
+    <div class="field">
+      <label for="addBody">主要内容</label>
+      <textarea id="addBody" placeholder="粘贴或输入文章正文，可用换行分段…"></textarea>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn" id="addCancel" type="button">取消</button>
+      <button class="btn pri" id="addSave" type="button">添加</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -787,6 +856,18 @@ Object.keys(EXTRA).forEach(function(c){
   if(g) g.items = g.items.concat(EXTRA[c]);
 });
 
+/* ---------- 用户新增的学科/文章（保存在本机 localStorage） ---------- */
+const CUSTOM_KEY = 'toefl_bg_custom_v1';
+let CUSTOM = [];
+try { CUSTOM = JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]'); } catch(e) { CUSTOM = []; }
+if(!Array.isArray(CUSTOM)) CUSTOM = [];
+CUSTOM.forEach(function(cg){
+  if(!cg || !cg.c) return;
+  let g = GROUPS.find(function(x){ return x.c === cg.c; });
+  if(!g){ g = { c: cg.c, e: cg.e || '', items: [] }; GROUPS.push(g); }
+  (cg.items || []).forEach(function(it){ if(it && it.t) g.items.push(it); });
+});
+
 /* ---------- 渲染 ---------- */
 const TERM_RE = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
 function renderParas(s){
@@ -981,6 +1062,151 @@ document.getElementById('tq').addEventListener('input',function(e){
     g.style.display = n ? '' : 'none';
   });
 });
+
+/* ---------- 添加文章 ---------- */
+(function(){
+  const mask = document.getElementById('addMask');
+  const catSel = document.getElementById('addCat');
+  const newBox = document.getElementById('newCatBox');
+  const btn = document.getElementById('addArticleBtn');
+  if(!mask || !btn) return;
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function openDlg(){
+    catSel.innerHTML = GROUPS.map(function(g,i){
+      return '<option value="'+i+'">'+esc(g.c)+'</option>';
+    }).join('') + '<option value="__new__">＋ 添加为新学科</option>';
+    newBox.style.display = 'none';
+    ['addTitle','addTitleEn','addBody','addCatName','addCatEn'].forEach(function(id){
+      document.getElementById(id).value = '';
+    });
+    mask.classList.add('on');
+    document.getElementById('addTitle').focus();
+  }
+  function closeDlg(){ mask.classList.remove('on'); }
+
+  btn.addEventListener('click',openDlg);
+  document.getElementById('addCancel').addEventListener('click',closeDlg);
+  mask.addEventListener('click',function(e){ if(e.target===mask) closeDlg(); });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && mask.classList.contains('on')) closeDlg();
+  });
+  catSel.addEventListener('change',function(){
+    newBox.style.display = catSel.value==='__new__' ? '' : 'none';
+  });
+
+  /* 收集全文已有的术语，供自动标注使用 */
+  function buildGlossary(){
+    const map = {};
+    GROUPS.forEach(function(g){
+      (g.items||[]).forEach(function(it){
+        const txt = (it.p||[]).join(''); let m;
+        const r = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
+        while((m=r.exec(txt))!==null){ if(!map[m[2]]) map[m[2]] = m[1]; }
+      });
+    });
+    return map;
+  }
+
+  /* 自动标注：
+     1) 中文（English） / English（中文） → [[中文|English]]
+     2) 正文中出现手册已有术语（英文）时，按长词优先自动补标（每个词一次） */
+  function annotate(text, glossary){
+    const keep = [];
+    let s = text.replace(/\[\[[^\]]+\]\]/g,function(m){
+      keep.push(m); return '\u0001'+(keep.length-1)+'\u0001';
+    });
+    s = s.replace(/([\u4e00-\u9fa5][\u4e00-\u9fa5—·\-]*)\s*[（(]\s*([A-Za-z][A-Za-z0-9\-'. ]*?)\s*[）)]/g,
+      function(m,cn,en){ return '[['+cn+'|'+en.trim()+']]'; });
+    s = s.replace(/[（(]\s*([\u4e00-\u9fa5][\u4e00-\u9fa5—·\-]*)\s*[）)]\s*([A-Za-z][A-Za-z0-9\-'.]*)/g,
+      function(m,cn,en){ return '[['+cn+'|'+en+']]'; });
+
+    const marked = {};
+    keep.forEach(function(m){
+      const mm = m.match(/\[\[[^\]|]+\|([^\]]+)\]\]/);
+      if(mm) marked[mm[1].toLowerCase()] = 1;
+    });
+    s.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g,function(m,cn,en){
+      marked[en.toLowerCase()] = 1; return m;
+    });
+
+    const terms = Object.keys(glossary).sort(function(a,b){ return b.length-a.length; });
+    const parts = s.split(/(\[\[[^\]]+\]\])/);
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].indexOf('[[')===0) continue;
+      for(let k=0;k<terms.length;k++){
+        const en = terms[k];
+        if(en.length<3 || marked[en.toLowerCase()]) continue;
+        const safe = en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        const re = new RegExp('(^|[^A-Za-z])('+safe+')(?![A-Za-z])','i');
+        if(re.test(parts[i])){
+          parts[i] = parts[i].replace(re,function(m,pre){
+            return pre+'[['+glossary[en]+'|'+en+']]';
+          });
+          marked[en.toLowerCase()] = 1;
+        }
+      }
+    }
+    return parts.join('').replace(/\u0001(\d+)\u0001/g,function(m,i){ return keep[Number(i)]; });
+  }
+
+  document.getElementById('addSave').addEventListener('click',function(){
+    const title = document.getElementById('addTitle').value.trim();
+    const en = document.getElementById('addTitleEn').value.trim();
+    const body = document.getElementById('addBody').value.trim();
+    if(!title){ alert('请填写标题'); return; }
+    if(!body){ alert('请填写主要内容'); return; }
+
+    let catName = '', catEn = '', gi = -1;
+    if(catSel.value==='__new__'){
+      catName = document.getElementById('addCatName').value.trim();
+      catEn = document.getElementById('addCatEn').value.trim();
+      if(!catName){ alert('请填写新学科名称'); return; }
+      gi = GROUPS.findIndex(function(g){ return g.c===catName; });
+    } else {
+      gi = Number(catSel.value);
+      catName = GROUPS[gi].c;
+      catEn = GROUPS[gi].e || '';
+    }
+
+    const glossary = buildGlossary();
+    const paras = body.split(/\n+/)
+      .map(function(p){ return p.trim(); })
+      .filter(Boolean)
+      .map(function(p){ return annotate(esc(p), glossary); });
+    const item = { t: esc(title), en: esc(en), tag: '新增文章', p: paras };
+
+    let entry = null;
+    for(let i=0;i<CUSTOM.length;i++){ if(CUSTOM[i].c===catName){ entry = CUSTOM[i]; break; } }
+    if(!entry){ entry = { c: catName, e: catEn, items: [] }; CUSTOM.push(entry); }
+
+    // 新文章会追加在分类末尾，先记下它刷新后的 id 与所在位置
+    const newId = 'g' + (gi>=0 ? gi : GROUPS.length) + 'i' + (gi>=0 ? GROUPS[gi].items.length : 0);
+    entry.items.push(item);
+    try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(CUSTOM)); } catch(err) {}
+    try { sessionStorage.setItem('toefl_bg_jump', newId); } catch(err) {}
+    location.reload();
+  });
+})();
+
+/* 新增文章后刷新完成，定位到刚添加的卡片 */
+try{
+  const jump = sessionStorage.getItem('toefl_bg_jump');
+  if(jump){
+    sessionStorage.removeItem('toefl_bg_jump');
+    const el = document.getElementById(jump);
+    if(el){
+      setTimeout(function(){
+        el.scrollIntoView({block:'start'});
+        el.classList.add('flash');
+        setTimeout(function(){ el.classList.remove('flash'); }, 2600);
+      }, 80);
+    }
+  }
+}catch(e){}
 </script>
 </body>
 </html>
