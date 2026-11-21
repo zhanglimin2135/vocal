@@ -1458,27 +1458,30 @@ const LOOKUP_SCRIPT = String.raw`
       '.vd-track{height:6px;border-radius:999px;background:#f1f5f9;overflow:hidden;}',
       '.vd-fill{display:block;height:100%;background:linear-gradient(90deg,#a78bfa,#7c3aed);width:0%;',
       'transition:width .25s;}',
-      '.vd-play{display:inline-flex;align-items:center;gap:6px;border:1px solid #c7d2fe;background:#eef2ff;',
-      'color:#4338ca;font-size:14px;font-weight:600;padding:10px 20px;border-radius:11px;cursor:pointer;',
-      'font-family:inherit;}',
-      '.vd-play:hover{background:#e0e7ff;}',
-      '.vd-input{width:100%;min-height:120px;margin-top:12px;border:1px solid #dfe3ec;border-radius:12px;',
-      'padding:12px 14px;font-size:15px;line-height:1.7;resize:vertical;outline:none;font-family:inherit;color:#0f172a;}',
+      '.vd-play{display:inline-flex;align-items:center;gap:5px;border:1px solid #e2e8f0;background:#f8fafc;',
+      'color:#475569;font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:999px;cursor:pointer;',
+      'font-family:inherit;transition:background .15s,border-color .15s,color .15s;}',
+      '.vd-play:hover{background:#eef2ff;border-color:#c7d2fe;color:#4338ca;}',
+      '.vd-play svg{width:13px;height:13px;display:block;flex:0 0 auto;}',
+      '.vd-speeds{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px;}',
+      '.vd-speed-label{font-size:12px;color:#94a3b8;margin-right:2px;}',
+      '.vd-speed{border:1px solid #e5e9f2;background:#fff;color:#64748b;font-size:12px;font-weight:600;',
+      'padding:5px 11px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.15s;}',
+      '.vd-speed:hover{border-color:#c7d2fe;color:#4338ca;}',
+      '.vd-speed.on{border-color:#a5b4fc;background:#eef2ff;color:#4338ca;}',
+      '.vd-input{width:100%;min-height:96px;margin-top:12px;border:1px solid #dfe3ec;border-radius:12px;',
+      'padding:12px 14px;font-size:15px;line-height:1.7;resize:vertical;outline:none;font-family:inherit;',
+      'color:#0f172a;ime-mode:disabled;}',
       '.vd-input:focus{border-color:#8b8be6;box-shadow:0 0 0 3px rgba(91,91,214,.12);}',
       '.vd-summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:13.5px;color:#334155;',
       'padding:12px 14px;background:#f8fafc;border-radius:12px;margin-bottom:12px;}',
       '.vd-legend{font-size:12px;color:#64748b;}',
-      '.vd-bad{color:#dc2626;text-decoration:underline wavy #dc2626;text-underline-offset:3px;}',
+      '.vd-bad{color:#dc2626;}',
+      '.vd-fix{color:#059669;font-weight:600;}',
+      '.vd-del{color:#dc2626;text-decoration:line-through;}',
       '.vd-miss{background:#fef3c7;color:#92400e;border-radius:4px;padding:0 3px;}',
       '.vd-results{max-height:46vh;overflow:auto;padding-right:4px;}',
-      '.vd-sent{padding:12px 2px;border-bottom:1px solid #f4f6fa;}',
-      '.vd-sent:last-child{border-bottom:0;}',
-      '.vd-shead{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#64748b;margin-bottom:6px;}',
-      '.vd-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;}',
-      '.vd-ok{background:#ecfdf5;color:#047857;}',
-      '.vd-warn{background:#fef2f2;color:#b91c1c;}',
-      '.vd-label{display:block;font-size:11.5px;color:#94a3b8;margin:6px 0 2px;}',
-      '.vd-line{font-size:14px;line-height:1.85;color:#334155;word-break:break-word;}',
+      '.vd-full{font-size:15px;line-height:2;color:#334155;word-break:break-word;}',
       '.vd-none{color:#94a3b8;}'
     ].join('');
     var styleEl = document.createElement('style');
@@ -1558,13 +1561,26 @@ const LOOKUP_SCRIPT = String.raw`
           '<div id="vdWork" style="display:none">' +
             '<div class="vd-prog"><span class="vd-step" id="vdStep"></span>' +
               '<span class="vd-track"><i class="vd-fill" id="vdFill"></i></span></div>' +
-            '<button type="button" class="vd-play" id="vdPlay">🔊 播放本句</button>' +
-            '<textarea class="vd-input" id="vdInput" placeholder="写下你听到的句子…"></textarea>' +
+            '<button type="button" class="vd-play" id="vdPlay">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+              'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"></path>' +
+              '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>' +
+              '播放本句</button>' +
+            '<div class="vd-speeds" id="vdSpeeds"><span class="vd-speed-label">语速</span>' +
+              '<button type="button" class="vd-speed" data-rate="0.75">0.75×</button>' +
+              '<button type="button" class="vd-speed on" data-rate="1">1×</button>' +
+              '<button type="button" class="vd-speed" data-rate="1.2">1.2×</button>' +
+              '<button type="button" class="vd-speed" data-rate="1.5">1.5×</button>' +
+              '<button type="button" class="vd-speed" data-rate="2">2×</button>' +
+            '</div>' +
+            '<textarea class="vd-input" id="vdInput" placeholder="写下你听到的句子…" ' +
+              'inputmode="latin" lang="en" autocapitalize="off" autocomplete="off" ' +
+              'autocorrect="off" spellcheck="false"></textarea>' +
             '<div class="vd-actions">' +
               '<button type="button" class="vd-ghost" id="vdSkip">跳过本句</button>' +
               '<button type="button" class="vd-primary" id="vdNext">提交并下一句</button>' +
             '</div>' +
-            '<p class="vd-tip">写的过程中不批改，全部提交后统一显示批改结果。</p>' +
+            '<p class="vd-tip">按 Enter 提交并进入下一句；只支持英文输入，禁止粘贴/复制。写的过程中不批改，全部提交后统一批改。</p>' +
           '</div>' +
           '<div id="vdResult" style="display:none">' +
             '<div class="vd-summary" id="vdSummary"></div>' +
@@ -1592,9 +1608,27 @@ const LOOKUP_SCRIPT = String.raw`
     var inputEl = document.getElementById('vdInput');
     var summaryEl = document.getElementById('vdSummary');
     var resultsEl = document.getElementById('vdResults');
+    var speedsEl = document.getElementById('vdSpeeds');
 
     var state = { queue: [], answers: [], idx: 0, from: 1, to: 1 };
     var playTimer = null;
+    var rate = 1;
+    var origRate = 1;
+
+    /* ---------- 语速选择（默认 1 倍） ---------- */
+    function setRate(v) {
+      rate = Number(v) || 1;
+      try { audioEl.playbackRate = rate; } catch (err) { /* ignore */ }
+      var btns = speedsEl.getElementsByTagName('button');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].className = 'vd-speed' + (Number(btns[i].getAttribute('data-rate')) === rate ? ' on' : '');
+      }
+    }
+    speedsEl.addEventListener('click', function (e) {
+      var t = e.target || e.srcElement;
+      var v = t && t.getAttribute ? t.getAttribute('data-rate') : null;
+      if (v) setRate(v);
+    });
 
     /* ---------- 音频控制（复用播放页的 <audio>） ---------- */
     function stopAll() {
@@ -1609,10 +1643,13 @@ const LOOKUP_SCRIPT = String.raw`
     function playLine(line) {
       if (!line) return;
       stopAll();
-      try { audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
+      try {
+        audioEl.currentTime = Math.max(0, line.s || 0);
+        audioEl.playbackRate = rate;
+      } catch (e) { /* ignore */ }
       var p = audioEl.play();
       if (p && p.catch) p.catch(function () { /* 自动播放被拦截时忽略 */ });
-      var ms = Math.max(500, ((line.e || 0) - (line.s || 0)) * 1000 + 120);
+      var ms = Math.max(400, ((line.e || 0) - (line.s || 0)) * 1000 / rate + 120);
       playTimer = setTimeout(function () {
         try { audioEl.pause(); audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
       }, ms);
@@ -1621,6 +1658,8 @@ const LOOKUP_SCRIPT = String.raw`
     /* ---------- 打开 / 关闭 ---------- */
     function openMask() {
       stopAll();
+      origRate = audioEl.playbackRate || 1;
+      setRate(1);
       lines = readLines();
       total = lines.length;
       if (!total) { alert('这个播放页里没有可听写的句子'); return; }
@@ -1636,6 +1675,7 @@ const LOOKUP_SCRIPT = String.raw`
     }
     function closeMask() {
       stopAll();
+      try { audioEl.playbackRate = origRate; } catch (e) { /* ignore */ }
       mask.classList.remove('show');
     }
 
@@ -1697,18 +1737,61 @@ const LOOKUP_SCRIPT = String.raw`
     document.getElementById('vdPlay').addEventListener('click', function () {
       playLine(state.queue[state.idx]);
     });
+    /* 文本框只接受英文半角字符，禁止粘贴 / 复制 */
+    function sanitizeInput() {
+      var v = inputEl.value;
+      var clean = v.replace(/[^\x20-\x7E]/g, '');
+      if (clean === v) return;
+      var pos = inputEl.selectionStart || 0;
+      var head = v.slice(0, pos);
+      var removed = head.length - head.replace(/[^\x20-\x7E]/g, '').length;
+      inputEl.value = clean;
+      var p = Math.max(0, pos - removed);
+      try { inputEl.setSelectionRange(p, p); } catch (err) { /* ignore */ }
+    }
+    inputEl.addEventListener('beforeinput', function (e) {
+      if (e.data && /[^\x20-\x7E]/.test(e.data)) e.preventDefault();
+    });
+    inputEl.addEventListener('compositionend', sanitizeInput);
+    inputEl.addEventListener('input', sanitizeInput);
+    inputEl.addEventListener('paste', function (e) { e.preventDefault(); });
+    inputEl.addEventListener('copy', function (e) { e.preventDefault(); });
+    inputEl.addEventListener('cut', function (e) { e.preventDefault(); });
+    inputEl.addEventListener('drop', function (e) { e.preventDefault(); });
+    inputEl.addEventListener('contextmenu', function (e) { e.preventDefault(); });
     inputEl.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); submitCurrent(); }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (e.isComposing || e.keyCode === 229) return;
+        submitCurrent();
+      }
     });
 
-    /* ---------- 批改（词级 LCS） ---------- */
+    /* ---------- 批改（词级 LCS 对齐） ---------- */
     function wordsOf(s) {
       return String(s || '').trim().split(/\s+/).filter(Boolean);
     }
     function normKey(w) {
-      return String(w).toLowerCase().replace(/[^a-z0-9']/g, '');
+      return String(w).toLowerCase().replace(/[^a-z0-9]/g, '');
     }
-    function grade(std, ans) {
+    function isPerfect(std, ans) {
+      var A = wordsOf(ans).map(function (w) { return { raw: w, k: normKey(w) }; });
+      var B = wordsOf(std).map(function (w) { return { raw: w, k: normKey(w) }; });
+      if (!B.length) return true;
+      if (A.length !== B.length) return false;
+      for (var i = 0; i < A.length; i++) {
+        if (!A[i].k || A[i].k !== B[i].k) return false;
+      }
+      return true;
+    }
+    function sameWord(a, b) {
+      if (a.k && b.k) return a.k === b.k;
+      return !a.k && !b.k && a.raw === b.raw;
+    }
+    /**
+     * 逐词对齐，产出：eq 相同 / sub 写错（附正确形式） / ins 漏下 / del 多写
+     */
+    function diffOps(std, ans) {
       var A = wordsOf(ans).map(function (w) { return { raw: w, k: normKey(w) }; });
       var B = wordsOf(std).map(function (w) { return { raw: w, k: normKey(w) }; });
       var n = A.length, m = B.length, i, j;
@@ -1716,63 +1799,74 @@ const LOOKUP_SCRIPT = String.raw`
       for (i = 0; i <= n; i++) { dp.push([]); for (j = 0; j <= m; j++) dp[i].push(0); }
       for (i = n - 1; i >= 0; i--) {
         for (j = m - 1; j >= 0; j--) {
-          dp[i][j] = (A[i].k && A[i].k === B[j].k)
+          dp[i][j] = sameWord(A[i], B[j])
             ? dp[i + 1][j + 1] + 1
             : Math.max(dp[i + 1][j], dp[i][j + 1]);
         }
       }
-      var ua = [], sb = [];
-      for (i = 0; i < n; i++) ua.push(!A[i].k);
-      for (j = 0; j < m; j++) sb.push(!B[j].k);
+      var ops = [], del = [], ins = [];
+      function flush() {
+        var k = 0;
+        while (k < del.length && k < ins.length) {
+          ops.push({ type: 'sub', a: del[k], b: ins[k] });
+          k++;
+        }
+        for (; k < del.length; k++) ops.push({ type: 'del', w: del[k] });
+        for (; k < ins.length; k++) ops.push({ type: 'ins', w: ins[k] });
+        del = []; ins = [];
+      }
       i = 0; j = 0;
       while (i < n && j < m) {
-        if (A[i].k && A[i].k === B[j].k) { ua[i] = true; sb[j] = true; i++; j++; }
-        else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
-        else j++;
+        if (sameWord(A[i], B[j])) {
+          flush();
+          ops.push({ type: 'eq', w: A[i].raw });
+          i++; j++;
+        } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+          del.push(A[i].raw); i++;
+        } else {
+          ins.push(B[j].raw); j++;
+        }
       }
-      var perfect = n > 0 && n === m;
-      if (perfect) {
-        for (i = 0; i < n; i++) { if (!ua[i]) { perfect = false; break; } }
-      }
-      return { A: A, B: B, ua: ua, sb: sb, perfect: perfect };
+      while (i < n) { del.push(A[i].raw); i++; }
+      while (j < m) { ins.push(B[j].raw); j++; }
+      flush();
+      return ops;
     }
     function escHtml(s) {
       return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-    function resultRow(idx, std, ans) {
-      var g = grade(std, ans);
-      var uHtml = g.A.length ? g.A.map(function (w, i) {
-        return g.ua[i] ? escHtml(w.raw) : '<span class="vd-bad">' + escHtml(w.raw) + '</span>';
-      }).join(' ') : '<span class="vd-none">（未作答）</span>';
-      var sHtml = g.B.map(function (w, i) {
-        return g.sb[i] ? escHtml(w.raw) : '<span class="vd-miss">' + escHtml(w.raw) + '</span>';
-      }).join(' ');
-      var badge = g.perfect
-        ? '<span class="vd-badge vd-ok">全对</span>'
-        : '<span class="vd-badge vd-warn">有错</span>';
-      return '<div class="vd-sent">' +
-        '<div class="vd-shead"><span>第 ' + (idx + 1) + ' 句</span>' + badge + '</div>' +
-        '<span class="vd-label">你的答案</span><div class="vd-line">' + uHtml + '</div>' +
-        '<span class="vd-label">标准答案</span><div class="vd-line">' + sHtml + '</div>' +
-      '</div>';
     }
 
     function finish() {
       stopAll();
       workEl.style.display = 'none';
       resEl.style.display = '';
-      var ok = 0, html = '';
+      var ok = 0, ops = [];
       for (var i = 0; i < state.queue.length; i++) {
-        var std = state.queue[i].t;
-        var ans = state.answers[i] || '';
-        var g = grade(std, ans);
-        if (g.perfect) ok++;
-        html += resultRow(i, std, ans);
+        var std = String(state.queue[i].t || '').trim();
+        var ans = String(state.answers[i] || '').trim();
+        if (isPerfect(std, ans)) ok++;
+        if (std) ops = ops.concat(diffOps(std, ans));
       }
       summaryEl.innerHTML = '共 <b>' + state.queue.length + '</b> 句 · 全对 <b style="color:#047857">' + ok +
         '</b> 句 · 有错 <b style="color:#b91c1c">' + (state.queue.length - ok) + '</b> 句' +
-        '<span class="vd-legend"><span class="vd-bad">红色</span>=听错　<span class="vd-miss">黄色</span>=漏下</span>';
-      resultsEl.innerHTML = html;
+        '<span class="vd-legend"><span class="vd-bad">红色</span>=写错或多写（删除线）　' +
+        '<span class="vd-fix">绿色</span>=正确形式　<span class="vd-miss">黄色</span>=漏下</span>';
+      var html = '';
+      for (var k = 0; k < ops.length; k++) {
+        var op = ops[k];
+        if (k) html += ' ';
+        if (op.type === 'eq') html += escHtml(op.w);
+        else if (op.type === 'sub') {
+          html += '<span class="vd-bad">' + escHtml(op.a) + '</span> ' +
+            '<span class="vd-fix">' + escHtml(op.b) + '</span>';
+        } else if (op.type === 'del') {
+          html += '<span class="vd-del">' + escHtml(op.w) + '</span>';
+        } else {
+          html += '<span class="vd-miss">' + escHtml(op.w) + '</span>';
+        }
+      }
+      resultsEl.innerHTML = '<div class="vd-full">' +
+        (html || '<span class="vd-none">（未作答）</span>') + '</div>';
       resultsEl.scrollTop = 0;
     }
 
