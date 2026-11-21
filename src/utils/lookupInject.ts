@@ -1686,10 +1686,6 @@ const LOOKUP_SCRIPT = String.raw`
 
     document.getElementById('vdClose').addEventListener('click', closeMask);
     document.getElementById('vdDone').addEventListener('click', closeMask);
-    mask.addEventListener('click', function (e) { if (e.target === mask) closeMask(); });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && mask.classList.contains('show')) closeMask();
-    });
 
     /* ---------- 区间选择 ---------- */
     document.getElementById('vdAll').addEventListener('click', function () {
