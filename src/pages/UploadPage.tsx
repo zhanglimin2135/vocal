@@ -37,8 +37,7 @@ import {
 } from 'lucide-react';
 // 导入全局状态管理 Hook（Zustand）
 import { useAppStore } from '@/store/appStore';
-// 导入 Excel 文件解析工具函数
-import { parseExcelFile } from '@/utils/xlsxUtils';
+// Excel 解析工具改为按需动态加载（见 handleFile），避免 xlsx 打进首屏包
 // 导入词表数据类型定义
 import type { VocabularyBook } from '@/types';
 // 导入 Tailwind 类名合并工具
@@ -103,6 +102,8 @@ export default function UploadPage() {
   const vocabularyBooks = useAppStore((s) => s.vocabularyBooks);
   // 平台内置词表（四级词汇、高中词汇、初中词汇、托福词汇，随应用下发）
   const builtInBooks = useAppStore((s) => s.builtInBooks);
+  // 内置词表的懒加载方法：首屏渲染完再分批拉取，避免拖慢页面
+  const loadBuiltInBooks = useAppStore((s) => s.loadBuiltInBooks);
   // 高中词汇内置词表条目（用于卡片统计展示）
   const seniorBook = builtInBooks.find((b) => b.id === 'built-in-senior');
   // 初中词汇内置词表条目（用于卡片统计展示）
@@ -115,6 +116,29 @@ export default function UploadPage() {
   const removeVocabularyBook = useAppStore((s) => s.removeVocabularyBook);
   // useAppStore：从全局状态读取【设置当前选中词表】方法，进入学习前先选定词表
   const setCurrentBook = useAppStore((s) => s.setCurrentBook);
+
+  // 首屏渲染完成后，在浏览器空闲时开始分批加载内置词表（四级 → 高中/初中 → 托福）
+  useEffect(() => {
+    const ric = (window as any).requestIdleCallback as
+      | ((cb: () => void, opts?: { timeout: number }) => number)
+      | undefined;
+    if (ric) {
+      const id = ric(() => { void loadBuiltInBooks(); }, { timeout: 2500 });
+      return () => (window as any).cancelIdleCallback?.(id);
+    }
+    const timer = window.setTimeout(() => { void loadBuiltInBooks(); }, 300);
+    return () => window.clearTimeout(timer);
+  }, [loadBuiltInBooks]);
+
+  // 进入内置词表：若数据还没加载完，先等它准备好再跳转，避免选择页空白
+  const openBuiltInBook = useCallback(
+    async (id: string) => {
+      await loadBuiltInBooks();
+      setCurrentBook(id);
+      navigate('/select');
+    },
+    [loadBuiltInBooks, setCurrentBook, navigate],
+  );
 
   // ============================================
   // handleFile：处理上传文件的核心逻辑
@@ -144,7 +168,8 @@ export default function UploadPage() {
         setProgressName(file.name);
         // 清空上次可能残留的错误信息
         setErrorMsg('');
-        // 调用工具函数解析 Excel，返回词表对象
+        // 调用工具函数解析 Excel，返回词表对象（xlsx 体积较大，用户选文件时才动态加载）
+        const { parseExcelFile } = await import('@/utils/xlsxUtils');
         const book: VocabularyBook = await parseExcelFile(file);
         // 将解析后的词表添加到全局状态存储
         addVocabularyBook(book);
@@ -371,10 +396,7 @@ export default function UploadPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {/* 初中词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => {
-                setCurrentBook('built-in-junior');
-                navigate('/select');
-              }}
+              onClick={() => { void openBuiltInBook('built-in-junior'); }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -385,7 +407,7 @@ export default function UploadPage() {
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-sm font-semibold text-slate-800">初中词汇</h4>
                   <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
-                    {juniorBook?.sheets.length ?? 0}单元{juniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                    {juniorBook ? `${juniorBook.sheets.length}单元${juniorBook.sheets.reduce((s, sh) => s + sh.wordCount, 0)}词` : '加载中…'}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
@@ -394,10 +416,7 @@ export default function UploadPage() {
 
             {/* 高中词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => {
-                setCurrentBook('built-in-senior');
-                navigate('/select');
-              }}
+              onClick={() => { void openBuiltInBook('built-in-senior'); }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -408,7 +427,7 @@ export default function UploadPage() {
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-sm font-semibold text-slate-800">高中词汇</h4>
                   <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
-                    {seniorBook?.sheets.length ?? 0}单元{seniorBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                    {seniorBook ? `${seniorBook.sheets.length}单元${seniorBook.sheets.reduce((s, sh) => s + sh.wordCount, 0)}词` : '加载中…'}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
@@ -417,10 +436,7 @@ export default function UploadPage() {
 
             {/* 四级词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => {
-                setCurrentBook('built-in-cet4');
-                navigate('/select');
-              }}
+              onClick={() => { void openBuiltInBook('built-in-cet4'); }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -431,7 +447,7 @@ export default function UploadPage() {
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-sm font-semibold text-slate-800">四级词汇</h4>
                   <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
-                    {builtInBooks[0]?.sheets.length ?? 32}单元{builtInBooks[0]?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 638}词
+                    {builtInBooks[0] ? `${builtInBooks[0].sheets.length}单元${builtInBooks[0].sheets.reduce((s, sh) => s + sh.wordCount, 0)}词` : '加载中…'}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />
@@ -440,10 +456,7 @@ export default function UploadPage() {
 
             {/* 托福词汇 —— 平台内置，设置当前词表后跳转选择页 */}
             <div
-              onClick={() => {
-                setCurrentBook('built-in-toefl');
-                navigate('/select');
-              }}
+              onClick={() => { void openBuiltInBook('built-in-toefl'); }}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 to-indigo-50 p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-indigo-500" />
@@ -454,7 +467,7 @@ export default function UploadPage() {
                 <div className="min-w-0 flex-1">
                   <h4 className="truncate text-sm font-semibold text-slate-800">托福词汇</h4>
                   <p className="mt-0.5 whitespace-nowrap text-[11px] text-slate-400">
-                    {toeflBook?.sheets.length ?? 0}单元{toeflBook?.sheets.reduce((s, sh) => s + sh.wordCount, 0) ?? 0}词
+                    {toeflBook ? `${toeflBook.sheets.length}单元${toeflBook.sheets.reduce((s, sh) => s + sh.wordCount, 0)}词` : '加载中…'}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-sky-500 transition-transform group-hover:translate-x-1" />

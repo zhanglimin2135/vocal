@@ -12,11 +12,6 @@
 
 import { create } from 'zustand';
 import type { VocabularyBook, StudyConfig, StudyMode, ReadingPassage, ListeningLesson, ListeningEntry } from '@/types';
-// 内嵌固定词表：四级词汇、高中词汇、初中词汇（打包进应用，任意设备打开即可用）
-import { CET4_EMBEDDED_BOOK } from '@/data/cet4Embedded';
-import { SENIOR_EMBEDDED_BOOK } from '@/data/seniorEmbedded';
-import { JUNIOR_EMBEDDED_BOOK } from '@/data/juniorEmbedded';
-import { TOEFL_EMBEDDED_BOOK } from '@/data/toeflEmbedded';
 // 与 localStorage 读写的工具函数
 import {
   loadVocabularyBooks,
@@ -126,12 +121,20 @@ interface AppState {
   clearAll: () => void;
   /** 应用刚打开时调用：从 localStorage 读取之前保存过的词表 + 阅读文章，填回 store */
   hydrate: () => void;
+  /**
+   * 懒加载内置词表（四级/高中/初中/托福）。
+   * 首页优先渲染，首屏之后再按批次动态 import，避免把约 7MB 的词表数据塞进首屏包。
+   */
+  loadBuiltInBooks: () => Promise<void>;
 }
+
+/** 内置词表懒加载的共享 Promise：重复调用只触发一次 */
+let builtInLoading: Promise<void> | null = null;
 
 export const useAppStore = create<AppState>((set, get) => ({
   // ===== 初始默认值 =====
   vocabularyBooks: [],
-  builtInBooks: [CET4_EMBEDDED_BOOK, SENIOR_EMBEDDED_BOOK, JUNIOR_EMBEDDED_BOOK, TOEFL_EMBEDDED_BOOK],
+  builtInBooks: [],
   currentBookId: null,
   studyConfig: null,
   listeningLessons: [],
@@ -402,5 +405,39 @@ export const useAppStore = create<AppState>((set, get) => ({
       listeningEntries: loadedEntries,
       starredWords: [],
     });
+  },
+
+  /**
+   * 分批懒加载内置词表：
+   *   第 1 批：四级词汇（首页默认展示）
+   *   第 2 批：高中词汇 + 初中词汇
+   *   第 3 批：托福词汇
+   * 每加载完一批就写入 store，首页统计数字会随之更新。
+   */
+  loadBuiltInBooks: () => {
+    if (get().builtInBooks.length > 0) return Promise.resolve();
+    if (builtInLoading) return builtInLoading;
+    const task = (async () => {
+      const append = (book: VocabularyBook) => {
+        set((state) =>
+          state.builtInBooks.some((b) => b.id === book.id)
+            ? state
+            : { builtInBooks: [...state.builtInBooks, book] },
+        );
+      };
+      const cet4 = await import('@/data/cet4Embedded');
+      append(cet4.CET4_EMBEDDED_BOOK);
+      const senior = await import('@/data/seniorEmbedded');
+      append(senior.SENIOR_EMBEDDED_BOOK);
+      const junior = await import('@/data/juniorEmbedded');
+      append(junior.JUNIOR_EMBEDDED_BOOK);
+      const toefl = await import('@/data/toeflEmbedded');
+      append(toefl.TOEFL_EMBEDDED_BOOK);
+    })().catch(() => {
+      // 网络抖动等失败场景允许下次重试
+      builtInLoading = null;
+    });
+    builtInLoading = task;
+    return task;
   },
 }));

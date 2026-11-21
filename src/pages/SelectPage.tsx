@@ -46,6 +46,12 @@ export default function SelectPage() {
   const findBookById = useAppStore((s) => s.findBookById);                  // 按 ID 查找词表（含内置）
   const toggleSelectedSheetId = useAppStore((s) => s.toggleSelectedSheetId);// 切换单个 Sheet 选中状态的 Action
   const setStudyConfig = useAppStore((s) => s.setStudyConfig);              // 设置学习配置的 Action
+  const loadBuiltInBooks = useAppStore((s) => s.loadBuiltInBooks);          // 内置词表懒加载（直接访问本页时兜底）
+
+  // 直接打开 /select（非首页点击进入）时，确保内置词表已加载
+  useEffect(() => {
+    void loadBuiltInBooks();
+  }, [loadBuiltInBooks]);
 
   // 「单词拼写」子模式弹窗的开关状态：true=显示弹窗
   const [spellingModalOpen, setSpellingModalOpen] = useState(false);
