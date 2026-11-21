@@ -1463,7 +1463,8 @@ const LOOKUP_SCRIPT = String.raw`
       'font-family:inherit;transition:background .15s,border-color .15s,color .15s;}',
       '.vd-play:hover{background:#eef2ff;border-color:#c7d2fe;color:#4338ca;}',
       '.vd-play svg{width:13px;height:13px;display:block;flex:0 0 auto;}',
-      '.vd-speeds{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px;}',
+      '.vd-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}',
+      '.vd-speeds{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}',
       '.vd-speed-label{font-size:12px;color:#94a3b8;margin-right:2px;}',
       '.vd-speed{border:1px solid #e5e9f2;background:#fff;color:#64748b;font-size:12px;font-weight:600;',
       'padding:5px 11px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.15s;}',
@@ -1561,17 +1562,19 @@ const LOOKUP_SCRIPT = String.raw`
           '<div id="vdWork" style="display:none">' +
             '<div class="vd-prog"><span class="vd-step" id="vdStep"></span>' +
               '<span class="vd-track"><i class="vd-fill" id="vdFill"></i></span></div>' +
-            '<button type="button" class="vd-play" id="vdPlay">' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-              'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"></path>' +
-              '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>' +
-              '播放本句</button>' +
-            '<div class="vd-speeds" id="vdSpeeds"><span class="vd-speed-label">语速</span>' +
-              '<button type="button" class="vd-speed" data-rate="0.75">0.75×</button>' +
-              '<button type="button" class="vd-speed on" data-rate="1">1×</button>' +
-              '<button type="button" class="vd-speed" data-rate="1.2">1.2×</button>' +
-              '<button type="button" class="vd-speed" data-rate="1.5">1.5×</button>' +
-              '<button type="button" class="vd-speed" data-rate="2">2×</button>' +
+            '<div class="vd-toolbar">' +
+              '<button type="button" class="vd-play" id="vdPlay">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+                'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"></path>' +
+                '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>' +
+                '播放本句</button>' +
+              '<div class="vd-speeds" id="vdSpeeds"><span class="vd-speed-label">语速</span>' +
+                '<button type="button" class="vd-speed" data-rate="0.75">0.75×</button>' +
+                '<button type="button" class="vd-speed on" data-rate="1">1×</button>' +
+                '<button type="button" class="vd-speed" data-rate="1.2">1.2×</button>' +
+                '<button type="button" class="vd-speed" data-rate="1.5">1.5×</button>' +
+                '<button type="button" class="vd-speed" data-rate="2">2×</button>' +
+              '</div>' +
             '</div>' +
             '<textarea class="vd-input" id="vdInput" placeholder="写下你听到的句子…" ' +
               'inputmode="latin" lang="en" autocapitalize="off" autocomplete="off" ' +
