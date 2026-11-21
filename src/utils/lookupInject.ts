@@ -1408,6 +1408,378 @@ const LOOKUP_SCRIPT = String.raw`
 
   // 首次渲染生词本（当前页面已有单词时显示在页面最下面）
   renderBook();
+
+  /* ================= 逐句听写 =================
+     入口：底部「播放完整音频 / 停止」后面的「逐句听写」按钮
+     流程：选区间 → 逐句只听音频 + 输入 → 全部提交后统一批改
+     批改：听错的词红色，漏下的词黄色（词级 LCS 对齐）
+  */
+  (function initDictation() {
+    var fbStop = document.getElementById('fbStop');
+    var audioEl = document.getElementById('au');
+    if (!fbStop || !fbStop.parentNode || !audioEl) return;
+    if (document.getElementById('vdMask')) return;
+
+    /* ---------- 样式（挂在 document.head，vd- 前缀避免和播放页冲突） ---------- */
+    var css = [
+      '#vdMask{position:fixed;inset:0;background:rgba(15,23,42,.58);backdrop-filter:blur(4px);',
+      'display:none;align-items:center;justify-content:center;padding:20px;z-index:2147483646;',
+      'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#1f2937;}',
+      '#vdMask.show{display:flex;}',
+      '#vdMask *{box-sizing:border-box;}',
+      '.vd-card{width:min(760px,100%);max-height:90vh;display:flex;flex-direction:column;background:#fff;',
+      'border-radius:20px;box-shadow:0 24px 64px rgba(15,23,42,.32);overflow:hidden;}',
+      '.vd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 22px 14px;',
+      'border-bottom:1px solid #f1f5f9;}',
+      '.vd-title{font-size:18px;font-weight:800;color:#0f172a;}',
+      '.vd-sub{margin-top:4px;font-size:12.5px;color:#64748b;}',
+      '.vd-x{border:0;background:transparent;color:#94a3b8;font-size:24px;line-height:1;cursor:pointer;padding:0 4px;}',
+      '.vd-x:hover{color:#475569;}',
+      '.vd-body{padding:18px 22px 20px;overflow:auto;}',
+      '.vd-tip{margin:0 0 12px;font-size:12.5px;line-height:1.7;color:#64748b;}',
+      '.vd-range{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px;color:#334155;}',
+      '.vd-num{width:76px;border:1px solid #dfe3ec;border-radius:9px;padding:8px 10px;font-size:14px;',
+      'font-family:inherit;color:#0f172a;outline:none;background:#fff;}',
+      '.vd-num:focus{border-color:#8b8be6;box-shadow:0 0 0 3px rgba(91,91,214,.12);}',
+      '.vd-chip{border:1px solid #ddd6fe;background:#f5f3ff;color:#5b21b6;font-size:12.5px;font-weight:600;',
+      'padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit;}',
+      '.vd-chip:hover{background:#ede9fe;}',
+      '.vd-err{font-size:12px;color:#dc2626;}',
+      '.vd-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;}',
+      '.vd-primary{border:0;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;font-size:14px;',
+      'font-weight:700;padding:10px 22px;border-radius:11px;cursor:pointer;font-family:inherit;',
+      'box-shadow:0 8px 18px rgba(124,58,237,.28);}',
+      '.vd-primary:hover{filter:brightness(1.06);}',
+      '.vd-ghost{border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:14px;font-weight:600;',
+      'padding:10px 18px;border-radius:11px;cursor:pointer;font-family:inherit;}',
+      '.vd-ghost:hover{border-color:#c4b5fd;color:#7c3aed;}',
+      '.vd-prog{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}',
+      '.vd-step{font-size:13px;font-weight:700;color:#5b21b6;}',
+      '.vd-track{height:6px;border-radius:999px;background:#f1f5f9;overflow:hidden;}',
+      '.vd-fill{display:block;height:100%;background:linear-gradient(90deg,#a78bfa,#7c3aed);width:0%;',
+      'transition:width .25s;}',
+      '.vd-play{display:inline-flex;align-items:center;gap:6px;border:1px solid #c7d2fe;background:#eef2ff;',
+      'color:#4338ca;font-size:14px;font-weight:600;padding:10px 20px;border-radius:11px;cursor:pointer;',
+      'font-family:inherit;}',
+      '.vd-play:hover{background:#e0e7ff;}',
+      '.vd-input{width:100%;min-height:120px;margin-top:12px;border:1px solid #dfe3ec;border-radius:12px;',
+      'padding:12px 14px;font-size:15px;line-height:1.7;resize:vertical;outline:none;font-family:inherit;color:#0f172a;}',
+      '.vd-input:focus{border-color:#8b8be6;box-shadow:0 0 0 3px rgba(91,91,214,.12);}',
+      '.vd-summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:13.5px;color:#334155;',
+      'padding:12px 14px;background:#f8fafc;border-radius:12px;margin-bottom:12px;}',
+      '.vd-legend{font-size:12px;color:#64748b;}',
+      '.vd-bad{color:#dc2626;text-decoration:underline wavy #dc2626;text-underline-offset:3px;}',
+      '.vd-miss{background:#fef3c7;color:#92400e;border-radius:4px;padding:0 3px;}',
+      '.vd-results{max-height:46vh;overflow:auto;padding-right:4px;}',
+      '.vd-sent{padding:12px 2px;border-bottom:1px solid #f4f6fa;}',
+      '.vd-sent:last-child{border-bottom:0;}',
+      '.vd-shead{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#64748b;margin-bottom:6px;}',
+      '.vd-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;}',
+      '.vd-ok{background:#ecfdf5;color:#047857;}',
+      '.vd-warn{background:#fef2f2;color:#b91c1c;}',
+      '.vd-label{display:block;font-size:11.5px;color:#94a3b8;margin:6px 0 2px;}',
+      '.vd-line{font-size:14px;line-height:1.85;color:#334155;word-break:break-word;}',
+      '.vd-none{color:#94a3b8;}'
+    ].join('');
+    var styleEl = document.createElement('style');
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
+
+    /* ---------- 入口按钮 ---------- */
+    var entry = document.createElement('button');
+    entry.type = 'button';
+    entry.textContent = '✎ 逐句听写';
+    entry.style.cssText = 'border:1px solid #ddd6fe;background:#f5f3ff;color:#5b21b6;font-size:13px;' +
+      'font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer;font-family:inherit;';
+    entry.addEventListener('click', openMask);
+    fbStop.parentNode.insertBefore(entry, fbStop.nextSibling);
+
+    /* ---------- 读取句子（优先精确时间戳，兜底读 DOM） ---------- */
+    function readLines() {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var txt = scripts[i].textContent || '';
+        if (txt.indexOf('var D =') < 0) continue;
+        var m = txt.match(/var\s+D\s*=\s*(\{[\s\S]*?\})\s*;\s*var\s+au/);
+        if (!m) continue;
+        try {
+          var d = JSON.parse(m[1]);
+          if (d && d.lines && d.lines.length) {
+            var arr = [];
+            for (var k = 0; k < d.lines.length; k++) {
+              var L = d.lines[k];
+              var t = String(L.t || '').trim();
+              if (!t) continue;
+              arr.push({ i: k, t: t, s: Number(L.s) || 0, e: Number(L.e) || 0 });
+            }
+            if (arr.length) return arr;
+          }
+        } catch (e) { /* 落到 DOM 兜底 */ }
+      }
+      var rows = document.querySelectorAll('#list .row');
+      var out = [];
+      for (var r = 0; r < rows.length; r++) {
+        var tEl = rows[r].querySelector('.txt');
+        var tmEl = rows[r].querySelector('.m2 span');
+        var t2 = tEl ? String(tEl.textContent || '').trim() : '';
+        if (!t2) continue;
+        var g = tmEl ? String(tmEl.textContent || '').match(/(\d+):(\d+(?:\.\d+)?)\s*→\s*(\d+):(\d+(?:\.\d+)?)/) : null;
+        out.push({
+          i: r, t: t2,
+          s: g ? Number(g[1]) * 60 + Number(g[2]) : 0,
+          e: g ? Number(g[3]) * 60 + Number(g[4]) : 0
+        });
+      }
+      return out;
+    }
+
+    var lines = readLines();
+    var total = lines.length;
+
+    /* ---------- DOM ---------- */
+    var host = document.createElement('div');
+    host.id = '__vocal_dictation_root';
+    host.innerHTML = '<div id="vdMask">' +
+      '<div class="vd-card">' +
+        '<div class="vd-head">' +
+          '<div><div class="vd-title">逐句听写</div><div class="vd-sub" id="vdSub"></div></div>' +
+          '<button type="button" class="vd-x" id="vdClose" title="关闭">×</button>' +
+        '</div>' +
+        '<div class="vd-body">' +
+          '<div id="vdSetup">' +
+            '<p class="vd-tip">选择要听写的句子区间。听写时只播放音频、不显示英文，写完一句自动进入下一句。</p>' +
+            '<div class="vd-range">第 <input type="number" min="1" step="1" class="vd-num" id="vdFrom"> 到 ' +
+              '<input type="number" min="1" step="1" class="vd-num" id="vdTo"> 句 ' +
+              '<button type="button" class="vd-chip" id="vdAll">全选</button>' +
+              '<span class="vd-err" id="vdErr"></span>' +
+            '</div>' +
+            '<div class="vd-actions"><button type="button" class="vd-primary" id="vdStart">开始听写</button></div>' +
+          '</div>' +
+          '<div id="vdWork" style="display:none">' +
+            '<div class="vd-prog"><span class="vd-step" id="vdStep"></span>' +
+              '<span class="vd-track"><i class="vd-fill" id="vdFill"></i></span></div>' +
+            '<button type="button" class="vd-play" id="vdPlay">🔊 播放本句</button>' +
+            '<textarea class="vd-input" id="vdInput" placeholder="写下你听到的句子…"></textarea>' +
+            '<div class="vd-actions">' +
+              '<button type="button" class="vd-ghost" id="vdSkip">跳过本句</button>' +
+              '<button type="button" class="vd-primary" id="vdNext">提交并下一句</button>' +
+            '</div>' +
+            '<p class="vd-tip">写的过程中不批改，全部提交后统一显示批改结果。</p>' +
+          '</div>' +
+          '<div id="vdResult" style="display:none">' +
+            '<div class="vd-summary" id="vdSummary"></div>' +
+            '<div class="vd-results" id="vdResults"></div>' +
+            '<div class="vd-actions">' +
+              '<button type="button" class="vd-ghost" id="vdAgain">再来一轮</button>' +
+              '<button type="button" class="vd-primary" id="vdDone">完成</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+    document.body.appendChild(host);
+
+    var mask = document.getElementById('vdMask');
+    var subEl = document.getElementById('vdSub');
+    var fromEl = document.getElementById('vdFrom');
+    var toEl = document.getElementById('vdTo');
+    var errEl = document.getElementById('vdErr');
+    var setupEl = document.getElementById('vdSetup');
+    var workEl = document.getElementById('vdWork');
+    var resEl = document.getElementById('vdResult');
+    var stepEl = document.getElementById('vdStep');
+    var fillEl = document.getElementById('vdFill');
+    var inputEl = document.getElementById('vdInput');
+    var summaryEl = document.getElementById('vdSummary');
+    var resultsEl = document.getElementById('vdResults');
+
+    var state = { queue: [], answers: [], idx: 0, from: 1, to: 1 };
+    var playTimer = null;
+
+    /* ---------- 音频控制（复用播放页的 <audio>） ---------- */
+    function stopAll() {
+      var ids = ['stop', 'fbStop'];
+      for (var i = 0; i < ids.length; i++) {
+        var b = document.getElementById(ids[i]);
+        if (b && !b.disabled) { try { b.click(); } catch (e) { /* ignore */ } }
+      }
+      try { audioEl.pause(); } catch (e) { /* ignore */ }
+      if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+    }
+    function playLine(line) {
+      if (!line) return;
+      stopAll();
+      try { audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
+      var p = audioEl.play();
+      if (p && p.catch) p.catch(function () { /* 自动播放被拦截时忽略 */ });
+      var ms = Math.max(500, ((line.e || 0) - (line.s || 0)) * 1000 + 120);
+      playTimer = setTimeout(function () {
+        try { audioEl.pause(); audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
+      }, ms);
+    }
+
+    /* ---------- 打开 / 关闭 ---------- */
+    function openMask() {
+      stopAll();
+      lines = readLines();
+      total = lines.length;
+      if (!total) { alert('这个播放页里没有可听写的句子'); return; }
+      subEl.textContent = '共 ' + total + ' 句 · 只听音频 · 不显示英文';
+      fromEl.value = 1;
+      toEl.value = total;
+      errEl.textContent = '';
+      setupEl.style.display = '';
+      workEl.style.display = 'none';
+      resEl.style.display = 'none';
+      inputEl.value = '';
+      mask.classList.add('show');
+    }
+    function closeMask() {
+      stopAll();
+      mask.classList.remove('show');
+    }
+
+    document.getElementById('vdClose').addEventListener('click', closeMask);
+    document.getElementById('vdDone').addEventListener('click', closeMask);
+    mask.addEventListener('click', function (e) { if (e.target === mask) closeMask(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mask.classList.contains('show')) closeMask();
+    });
+
+    /* ---------- 区间选择 ---------- */
+    document.getElementById('vdAll').addEventListener('click', function () {
+      fromEl.value = 1;
+      toEl.value = total;
+    });
+    document.getElementById('vdStart').addEventListener('click', function () {
+      var a = parseInt(fromEl.value, 10);
+      var b = parseInt(toEl.value, 10);
+      if (isNaN(a) || isNaN(b)) { errEl.textContent = '请输入句子序号'; return; }
+      a = Math.max(1, Math.min(total, a));
+      b = Math.max(1, Math.min(total, b));
+      if (a > b) { var t = a; a = b; b = t; }
+      errEl.textContent = '';
+      state.from = a; state.to = b;
+      startRange(a, b);
+    });
+
+    function startRange(a, b) {
+      state.queue = lines.slice(a - 1, b);
+      state.answers = [];
+      state.idx = 0;
+      setupEl.style.display = 'none';
+      resEl.style.display = 'none';
+      workEl.style.display = '';
+      paintWork();
+    }
+
+    function paintWork() {
+      var cur = state.queue[state.idx];
+      stepEl.textContent = '第 ' + (state.idx + 1) + ' / ' + state.queue.length + ' 句';
+      fillEl.style.width = (state.idx / state.queue.length * 100) + '%';
+      inputEl.value = '';
+      inputEl.focus();
+      playLine(cur);
+    }
+
+    /* ---------- 逐句提交 ---------- */
+    function submitCurrent() {
+      state.answers[state.idx] = inputEl.value;
+      state.idx++;
+      if (state.idx < state.queue.length) paintWork();
+      else finish();
+    }
+    document.getElementById('vdNext').addEventListener('click', submitCurrent);
+    document.getElementById('vdSkip').addEventListener('click', function () {
+      inputEl.value = '';
+      submitCurrent();
+    });
+    document.getElementById('vdPlay').addEventListener('click', function () {
+      playLine(state.queue[state.idx]);
+    });
+    inputEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); submitCurrent(); }
+    });
+
+    /* ---------- 批改（词级 LCS） ---------- */
+    function wordsOf(s) {
+      return String(s || '').trim().split(/\s+/).filter(Boolean);
+    }
+    function normKey(w) {
+      return String(w).toLowerCase().replace(/[^a-z0-9']/g, '');
+    }
+    function grade(std, ans) {
+      var A = wordsOf(ans).map(function (w) { return { raw: w, k: normKey(w) }; });
+      var B = wordsOf(std).map(function (w) { return { raw: w, k: normKey(w) }; });
+      var n = A.length, m = B.length, i, j;
+      var dp = [];
+      for (i = 0; i <= n; i++) { dp.push([]); for (j = 0; j <= m; j++) dp[i].push(0); }
+      for (i = n - 1; i >= 0; i--) {
+        for (j = m - 1; j >= 0; j--) {
+          dp[i][j] = (A[i].k && A[i].k === B[j].k)
+            ? dp[i + 1][j + 1] + 1
+            : Math.max(dp[i + 1][j], dp[i][j + 1]);
+        }
+      }
+      var ua = [], sb = [];
+      for (i = 0; i < n; i++) ua.push(!A[i].k);
+      for (j = 0; j < m; j++) sb.push(!B[j].k);
+      i = 0; j = 0;
+      while (i < n && j < m) {
+        if (A[i].k && A[i].k === B[j].k) { ua[i] = true; sb[j] = true; i++; j++; }
+        else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+        else j++;
+      }
+      var perfect = n > 0 && n === m;
+      if (perfect) {
+        for (i = 0; i < n; i++) { if (!ua[i]) { perfect = false; break; } }
+      }
+      return { A: A, B: B, ua: ua, sb: sb, perfect: perfect };
+    }
+    function escHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function resultRow(idx, std, ans) {
+      var g = grade(std, ans);
+      var uHtml = g.A.length ? g.A.map(function (w, i) {
+        return g.ua[i] ? escHtml(w.raw) : '<span class="vd-bad">' + escHtml(w.raw) + '</span>';
+      }).join(' ') : '<span class="vd-none">（未作答）</span>';
+      var sHtml = g.B.map(function (w, i) {
+        return g.sb[i] ? escHtml(w.raw) : '<span class="vd-miss">' + escHtml(w.raw) + '</span>';
+      }).join(' ');
+      var badge = g.perfect
+        ? '<span class="vd-badge vd-ok">全对</span>'
+        : '<span class="vd-badge vd-warn">有错</span>';
+      return '<div class="vd-sent">' +
+        '<div class="vd-shead"><span>第 ' + (idx + 1) + ' 句</span>' + badge + '</div>' +
+        '<span class="vd-label">你的答案</span><div class="vd-line">' + uHtml + '</div>' +
+        '<span class="vd-label">标准答案</span><div class="vd-line">' + sHtml + '</div>' +
+      '</div>';
+    }
+
+    function finish() {
+      stopAll();
+      workEl.style.display = 'none';
+      resEl.style.display = '';
+      var ok = 0, html = '';
+      for (var i = 0; i < state.queue.length; i++) {
+        var std = state.queue[i].t;
+        var ans = state.answers[i] || '';
+        var g = grade(std, ans);
+        if (g.perfect) ok++;
+        html += resultRow(i, std, ans);
+      }
+      summaryEl.innerHTML = '共 <b>' + state.queue.length + '</b> 句 · 全对 <b style="color:#047857">' + ok +
+        '</b> 句 · 有错 <b style="color:#b91c1c">' + (state.queue.length - ok) + '</b> 句' +
+        '<span class="vd-legend"><span class="vd-bad">红色</span>=听错　<span class="vd-miss">黄色</span>=漏下</span>';
+      resultsEl.innerHTML = html;
+      resultsEl.scrollTop = 0;
+    }
+
+    document.getElementById('vdAgain').addEventListener('click', function () {
+      startRange(state.from, state.to);
+    });
+  })();
 })();
 `;
 
