@@ -1477,7 +1477,7 @@ const LOOKUP_SCRIPT = String.raw`
       '.vd-summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:13.5px;color:#334155;',
       'padding:12px 14px;background:#f8fafc;border-radius:12px;margin-bottom:12px;}',
       '.vd-legend{font-size:12px;color:#64748b;}',
-      '.vd-bad{color:#dc2626;}',
+      '.vd-bad{color:#dc2626;text-decoration:underline;text-underline-offset:3px;}',
       '.vd-fix{color:#059669;font-weight:600;}',
       '.vd-del{color:#dc2626;text-decoration:line-through;}',
       '.vd-miss{background:#fef3c7;color:#92400e;border-radius:4px;padding:0 3px;}',
@@ -1546,7 +1546,7 @@ const LOOKUP_SCRIPT = String.raw`
     host.innerHTML = '<div id="vdMask">' +
       '<div class="vd-card">' +
         '<div class="vd-head">' +
-          '<div><div class="vd-title">逐句听写</div><div class="vd-sub" id="vdSub"></div></div>' +
+          '<div><div class="vd-title" id="vdTitle">逐句听写</div><div class="vd-sub" id="vdSub"></div></div>' +
           '<button type="button" class="vd-x" id="vdClose" title="关闭">×</button>' +
         '</div>' +
         '<div class="vd-body">' +
@@ -1599,6 +1599,7 @@ const LOOKUP_SCRIPT = String.raw`
     document.body.appendChild(host);
 
     var mask = document.getElementById('vdMask');
+    var titleEl = document.getElementById('vdTitle');
     var subEl = document.getElementById('vdSub');
     var fromEl = document.getElementById('vdFrom');
     var toEl = document.getElementById('vdTo');
@@ -1667,6 +1668,7 @@ const LOOKUP_SCRIPT = String.raw`
       total = lines.length;
       if (!total) { alert('这个播放页里没有可听写的句子'); return; }
       subEl.textContent = '共 ' + total + ' 句 · 只听音频 · 不显示英文';
+      titleEl.textContent = '逐句听写';
       fromEl.value = 1;
       toEl.value = total;
       errEl.textContent = '';
@@ -1710,6 +1712,7 @@ const LOOKUP_SCRIPT = String.raw`
       state.queue = lines.slice(a - 1, b);
       state.answers = [];
       state.idx = 0;
+      titleEl.textContent = '逐句听写';
       setupEl.style.display = 'none';
       resEl.style.display = 'none';
       workEl.style.display = '';
@@ -1777,26 +1780,34 @@ const LOOKUP_SCRIPT = String.raw`
     function normKey(w) {
       return String(w).toLowerCase().replace(/[^a-z0-9]/g, '');
     }
+    /* 只保留有字母/数字的词：大小写、标点、空格都不参与核对 */
+    function normWords(s) {
+      var arr = wordsOf(s), out = [];
+      for (var i = 0; i < arr.length; i++) {
+        var k = normKey(arr[i]);
+        if (k) out.push({ raw: arr[i], k: k });
+      }
+      return out;
+    }
     function isPerfect(std, ans) {
-      var A = wordsOf(ans).map(function (w) { return { raw: w, k: normKey(w) }; });
-      var B = wordsOf(std).map(function (w) { return { raw: w, k: normKey(w) }; });
+      var A = normWords(ans);
+      var B = normWords(std);
       if (!B.length) return true;
       if (A.length !== B.length) return false;
       for (var i = 0; i < A.length; i++) {
-        if (!A[i].k || A[i].k !== B[i].k) return false;
+        if (A[i].k !== B[i].k) return false;
       }
       return true;
     }
     function sameWord(a, b) {
-      if (a.k && b.k) return a.k === b.k;
-      return !a.k && !b.k && a.raw === b.raw;
+      return a.k === b.k;
     }
     /**
      * 逐词对齐，产出：eq 相同 / sub 写错（附正确形式） / ins 漏下 / del 多写
      */
     function diffOps(std, ans) {
-      var A = wordsOf(ans).map(function (w) { return { raw: w, k: normKey(w) }; });
-      var B = wordsOf(std).map(function (w) { return { raw: w, k: normKey(w) }; });
+      var A = normWords(ans);
+      var B = normWords(std);
       var n = A.length, m = B.length, i, j;
       var dp = [];
       for (i = 0; i <= n; i++) { dp.push([]); for (j = 0; j <= m; j++) dp[i].push(0); }
@@ -1852,8 +1863,11 @@ const LOOKUP_SCRIPT = String.raw`
       }
       summaryEl.innerHTML = '共 <b>' + state.queue.length + '</b> 句 · 全对 <b style="color:#047857">' + ok +
         '</b> 句 · 有错 <b style="color:#b91c1c">' + (state.queue.length - ok) + '</b> 句' +
-        '<span class="vd-legend"><span class="vd-bad">红色</span>=写错或多写（删除线）　' +
-        '<span class="vd-fix">绿色</span>=正确形式　<span class="vd-miss">黄色</span>=漏下</span>';
+        '<span class="vd-legend"><span style="color:#dc2626">红色</span>=写错或多写（删除线）　' +
+        '<span style="color:#059669">绿色</span>=正确形式　<span style="color:#92400e">黄色</span>=漏下</span>';
+      var pageTitle = String(window.__vocalPageTitle || '').trim();
+      var rangeText = '第 ' + state.from + '–' + state.to + ' 句';
+      titleEl.textContent = (pageTitle ? pageTitle + ' · ' : '') + rangeText + ' · 听写结果';
       var html = '';
       for (var k = 0; k < ops.length; k++) {
         var op = ops[k];
