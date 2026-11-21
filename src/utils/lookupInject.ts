@@ -1861,7 +1861,7 @@ const LOOKUP_SCRIPT = String.raw`
         if (op.type === 'eq') html += escHtml(op.w);
         else if (op.type === 'sub') {
           html += '<span class="vd-bad">' + escHtml(op.a) + '</span> ' +
-            '<span class="vd-fix">' + escHtml(op.b) + '</span>';
+            '<span class="vd-fix">【' + escHtml(op.b) + '】</span>';
         } else if (op.type === 'del') {
           html += '<span class="vd-del">' + escHtml(op.w) + '</span>';
         } else {
