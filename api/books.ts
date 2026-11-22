@@ -19,7 +19,13 @@ interface Row {
   tags: unknown;
   paragraphs: unknown;
   created_at: number | null;
+  file_key: string | null;
+  file_name: string | null;
+  file_ext: string | null;
+  file_size: number | null;
 }
+
+const BUCKET = "reading";
 
 function supabaseUrl(): string {
   const raw =
@@ -65,6 +71,14 @@ function toClient(row: Row) {
     tags: arr(row.tags),
     paragraphs: arr(row.paragraphs),
     createdAt: row.created_at || 0,
+    file: row.file_key
+      ? {
+          key: row.file_key,
+          name: row.file_name || "",
+          ext: row.file_ext || "",
+          size: row.file_size || 0,
+        }
+      : null,
   };
 }
 
@@ -84,6 +98,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
   const table = base + "/rest/v1/reading_books";
   const method = (req.method || "GET").toUpperCase();
+  res.setHeader("Cache-Control", "no-store");
 
   try {
     if (method === "GET") {
@@ -92,7 +107,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       });
       if (!r.ok) throw new Error("upstream " + r.status);
       const rows = (await r.json()) as Row[];
-      send(res, 200, { ok: true, enabled: true, books: rows.map(toClient) });
+      send(res, 200, {
+        ok: true,
+        enabled: true,
+        books: rows.map(toClient),
+        /* 供页面直接把原书文件传到公开桶（publishable key 本就设计为公开可见） */
+        storage: { url: base, key, bucket: BUCKET },
+      });
       return;
     }
 
@@ -125,6 +146,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         tags,
         paragraphs,
         created_at: Number(data.createdAt) || Date.now(),
+        file_key: data.fileKey ? String(data.fileKey).slice(0, 300) : null,
+        file_name: data.fileName ? String(data.fileName).slice(0, 300) : null,
+        file_ext: data.fileExt ? String(data.fileExt).slice(0, 12) : null,
+        file_size: Number(data.fileSize) || null,
       };
       const r = await fetch(table, {
         method: "POST",
@@ -134,7 +159,25 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         }),
         body: JSON.stringify(row),
       });
-      if (!r.ok) throw new Error("upstream " + r.status);
+      if (r.ok) {
+        send(res, 200, { ok: true });
+        return;
+      }
+      /* 表还没加 file_* 列时，退回到只同步书目基本信息，避免整条同步失败 */
+      const core = { ...row } as Record<string, unknown>;
+      delete core.file_key;
+      delete core.file_name;
+      delete core.file_ext;
+      delete core.file_size;
+      const r2 = await fetch(table, {
+        method: "POST",
+        headers: headers({
+          "Content-Type": "application/json",
+          Prefer: "resolution=merge-duplicates,return=minimal",
+        }),
+        body: JSON.stringify(core),
+      });
+      if (!r2.ok) throw new Error("upstream " + r2.status);
       send(res, 200, { ok: true });
       return;
     }
@@ -145,11 +188,35 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         send(res, 400, { ok: false, error: "id required" });
         return;
       }
+      /* 先查出原书文件在桶里的位置，删库后一并删文件 */
+      let fileKey = "";
+      try {
+        const r0 = await fetch(
+          table + "?id=eq." + encodeURIComponent(id) + "&select=file_key",
+          { headers: headers() },
+        );
+        if (r0.ok) {
+          const rows = (await r0.json()) as Array<{ file_key: string | null }>;
+          fileKey = (rows[0] && rows[0].file_key) || "";
+        }
+      } catch {
+        /* 忽略，继续删记录 */
+      }
       const r = await fetch(table + "?id=eq." + encodeURIComponent(id), {
         method: "DELETE",
         headers: headers(),
       });
       if (!r.ok) throw new Error("upstream " + r.status);
+      if (fileKey) {
+        try {
+          await fetch(base + "/storage/v1/object/" + BUCKET + "/" + fileKey, {
+            method: "DELETE",
+            headers: headers(),
+          });
+        } catch {
+          /* 文件删除失败不影响书目删除 */
+        }
+      }
       send(res, 200, { ok: true });
       return;
     }

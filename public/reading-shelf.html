@@ -121,6 +121,13 @@
   }
   .link-btn:hover{color:var(--accent)}
   .sidebar-tip{margin-top:8px;font-size:10.8px;line-height:1.7;color:#b5bbc9}
+  .cloud-status{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#8d94a6}
+  .cloud-status .cs-dot{width:6px;height:6px;border-radius:50%;background:#c3c8d4;flex:none}
+  .cloud-status.ok{color:#4b9a6b}
+  .cloud-status.ok .cs-dot{background:#57b97d}
+  .cloud-status.err{color:#c07a6a}
+  .cloud-status.err .cs-dot{background:#d98a74}
+  .cloud-status .cs-refresh{margin-left:auto;color:#8a91a3;text-decoration:underline;text-underline-offset:2px;font-size:10.8px;cursor:pointer}
 
   /* ---------- 内容区 ---------- */
   .content-head{display:flex;align-items:flex-start;gap:16px;margin:2px 0 16px;min-height:44px}
@@ -708,7 +715,8 @@
       <nav class="nav" id="nav"></nav>
       <div class="sidebar-footer">
         <button class="link-btn" data-action="reset">恢复示例数据</button>
-        <div class="sidebar-tip">书目、上传文件与阅读进度仅保存在当前浏览器，不会上传。</div>
+        <div class="cloud-status" id="cloudStatus"><span class="cs-dot"></span><span class="cs-text">正在连接云端…</span></div>
+        <div class="sidebar-tip">书目与上传的原书会同步到云端，所有人可见；笔记、阅读进度只保存在本机。</div>
       </div>
     </aside>
     <main class="content">
@@ -963,6 +971,7 @@
     confirmCb: null,
     toastTimer: null,
     pendingFile: null,
+    cloud: { storage:null, pushed:false },
     readerBookId: null,
     readerUrl: null,
     readingPct: 0,
@@ -1098,67 +1107,163 @@
     return c;
   }
   function cloudPayload(b){
+    var f = b.file;
     return {
       id: b.id, title: b.title || "", subtitle: b.subtitle || "", intro: b.intro || "",
       group: groupName(b.group), cat: catName(b.cat), tags: b.tags || [],
-      paragraphs: b.text || [], createdAt: b.createdAt || Date.now()
+      paragraphs: b.text || [], createdAt: b.createdAt || Date.now(),
+      fileKey: f && f.key ? f.key : "",
+      fileName: f ? (f.name || "") : "",
+      fileExt: f ? (f.ext || "") : "",
+      fileSize: f ? (f.size || 0) : 0
     };
   }
-  /* 把一本本地书目同步到云端；没有正文（只有原书文件）时不同步 */
+  function hasContent(b){
+    return !!(b && ((b.text && b.text.length) || (b.file && (b.file.name || b.file.key))));
+  }
+  /* 把一本本地书目同步到云端 */
   function shareBookToCloud(b, quiet){
     if(!b) return;
-    if(!b.text || !b.text.length){
-      if(!quiet) toast("原书文件只保存在本机；要让所有人看到，请用「复制文本」导入");
-      return;
-    }
+    if(!hasContent(b)){ if(!quiet) toast("这本书还没有正文或原书文件"); return; }
     try{
       fetch("/api/books", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cloudPayload(b))
       }).then(function(r){ return r.ok ? r.json() : null; })
-        .then(function(d){ if(d && d.ok){ b.shared = true; save(); } })
-        .catch(function(){});
+        .then(function(d){
+          if(d && d.ok){ b.shared = true; save(); }
+          else if(!quiet){ toast("云端同步失败，请点左侧「刷新」重试"); }
+        })
+        .catch(function(){ if(!quiet) toast("云端同步失败，请点左侧「刷新」重试"); });
     }catch(e){}
   }
   function removeBookFromCloud(id){
     try{ fetch("/api/books?id=" + encodeURIComponent(id), { method:"DELETE" }).catch(function(){}); }catch(e){}
   }
+  function storagePublicUrl(cfg, key){
+    return cfg.url + "/storage/v1/object/public/" + cfg.bucket + "/" + key;
+  }
+  /* 取云端存储配置（Supabase 地址 / 公开 key / 桶名） */
+  function ensureCloudConfig(){
+    if(state.cloud.storage) return Promise.resolve(state.cloud.storage);
+    return fetch("/api/books", { cache:"no-store" }).then(function(r){ return r.json(); })
+      .then(function(d){
+        if(d && d.ok && d.storage){ state.cloud.storage = d.storage; return d.storage; }
+        return null;
+      }).catch(function(){ return null; });
+  }
+  /* 把原书文件传到公开桶，其他设备可直接下载阅读 */
+  function uploadBookFile(b, file){
+    return ensureCloudConfig().then(function(cfg){
+      if(!cfg || !file) return false;
+      var ext = fileExt(file.name || (b.file && b.file.name) || "bin");
+      var key = "books/" + b.id + "." + ext;
+      return fetch(cfg.url + "/storage/v1/object/" + cfg.bucket + "/" + key, {
+        method: "POST",
+        headers: {
+          "apikey": cfg.key,
+          "Authorization": "Bearer " + cfg.key,
+          "x-upsert": "true",
+          "Content-Type": file.type || "application/octet-stream"
+        },
+        body: file
+      }).then(function(r){
+        if(!r.ok) throw new Error("upload " + r.status);
+        b.file = b.file || {};
+        b.file.key = key;
+        save();
+        return true;
+      });
+    }).catch(function(){ return false; });
+  }
   function mergeCloudBooks(rows){
-    var added = 0;
+    var added = 0, updated = 0;
     (rows || []).forEach(function(r){
       if(!r || !r.id || !r.title) return;
       var exist = byId(r.id);
       if(exist){
+        var changed = false;
+        if(r.paragraphs && r.paragraphs.length && (!exist.text || exist.text.join("\n") !== r.paragraphs.join("\n"))){
+          exist.text = r.paragraphs; changed = true;
+        }
+        if(r.file && r.file.key && (!exist.file || exist.file.key !== r.file.key)){
+          exist.file = {
+            name: r.file.name || (exist.file && exist.file.name) || "",
+            size: r.file.size || 0,
+            ext: (r.file.ext || "").toUpperCase(),
+            key: r.file.key
+          };
+          exist.file.missing = false;
+          changed = true;
+        }
         exist.shared = true;
-        if((!exist.text || !exist.text.length) && r.paragraphs && r.paragraphs.length) exist.text = r.paragraphs;
+        if(changed) updated++;
         return;
       }
       var g = ensureGroupByName(r.group), c = ensureCatByName(g, r.cat);
       state.data.books.push({
         id:r.id, title:r.title, subtitle:r.subtitle || "", intro:r.intro || "",
-        group:g.id, cat:c.id, tags:r.tags || [], text:r.paragraphs || [],
-        read:false, fav:false, date:today(), file:null, reading:null,
+        group:g.id, cat:c.id, tags:r.tags || [], text:r.paragraphs && r.paragraphs.length ? r.paragraphs : null,
+        read:false, fav:false, date:today(), reading:null,
+        file: r.file && r.file.key ? {
+          name:r.file.name || "", size:r.file.size || 0,
+          ext:(r.file.ext || "").toUpperCase(), key:r.file.key
+        } : null,
         shared:true, createdAt:r.createdAt || Date.now()
       });
       added++;
     });
-    if(added) save();
+    if(added || updated) save();
     return added;
   }
-  function syncCloudBooks(){
-    try{
-      fetch("/api/books").then(function(r){ return r.json(); }).then(function(d){
-        if(!d || !d.ok || !Array.isArray(d.books)) return;
-        if(mergeCloudBooks(d.books)) render();
-      }).catch(function(){});
-    }catch(e){}
+  function setCloudStatus(kind, text){
+    var el = document.getElementById("cloudStatus");
+    if(!el) return;
+    el.className = "cloud-status " + (kind || "");
+    el.innerHTML = '<span class="cs-dot"></span><span class="cs-text">' + esc(text) + '</span>' +
+      '<span class="cs-refresh" data-action="cloud-refresh">刷新</span>';
   }
-  /* 把本机此前上传的书补传一次，避免旧书目只在一个浏览器可见 */
+  function syncCloudBooks(){
+    setCloudStatus("", "正在同步云端书目…");
+    try{
+      fetch("/api/books", { cache:"no-store" }).then(function(r){
+        if(!r.ok) throw new Error("http " + r.status);
+        return r.json();
+      }).then(function(d){
+        if(!d || !d.ok){
+          setCloudStatus("err", d && d.enabled === false ? "云端未配置，仅显示本机书目" : "云端连接失败，仅显示本机书目");
+          return;
+        }
+        if(d.storage) state.cloud.storage = d.storage;
+        var added = mergeCloudBooks(d.books);
+        var total = (d.books || []).length;
+        setCloudStatus("ok", total
+          ? "云端已同步 " + total + " 本" + (added ? "（新增 " + added + "）" : "")
+          : "云端已连接，暂无共享书目");
+        render();
+        if(!state.cloud.pushed){ state.cloud.pushed = true; shareExistingLocalBooks(); }
+      }).catch(function(){
+        setCloudStatus("err", "云端连接失败，仅显示本机书目");
+      });
+    }catch(e){ setCloudStatus("err", "云端连接失败，仅显示本机书目"); }
+  }
+  /* 把本机此前上传、还没上云的书补传一次（含原书文件） */
   function shareExistingLocalBooks(){
     state.data.books.filter(function(b){
-      return b && !b.shared && /^b_/.test(b.id) && b.text && b.text.length;
-    }).slice(0, 30).forEach(function(b){ shareBookToCloud(b, true); });
+      return b && !b.shared && /^b_/.test(b.id) && hasContent(b);
+    }).slice(0, 20).forEach(function(b){
+      if(b.file && !b.file.key && !b.file.missing){
+        getFile(b.id).then(function(f){
+          if(!f){ shareBookToCloud(b, true); return; }
+          uploadBookFile(b, f).then(function(ok){
+            if(ok) shareBookToCloud(b, true);
+          });
+        }).catch(function(){ shareBookToCloud(b, true); });
+      } else {
+        shareBookToCloud(b, true);
+      }
+    });
   }
 
   /* ---------- 原书文件：IndexedDB ---------- */
@@ -2718,19 +2823,30 @@
 
     if(b.file && !b.file.missing){
       var ext = (b.file.ext || "").toLowerCase();
+      /* 云端共享的原书直接从公开地址取，取不到再回退本机 */
+      var remote = (b.file.key && state.cloud.storage) ? storagePublicUrl(state.cloud.storage, b.file.key) : "";
+      function loadBlob(){
+        if(remote){
+          return fetch(remote, { cache:"force-cache" }).then(function(r){
+            if(!r.ok) throw new Error("remote " + r.status);
+            return r.blob();
+          }).catch(function(){ return getFile(b.id); });
+        }
+        return getFile(b.id);
+      }
       if(ext === "pdf"){
         state.readerIsPdf = true;
-        getFile(b.id).then(function(file){
-          if(!file){ paper.innerHTML = readerEmpty("本机未找到已保存的 PDF，请回到书目卡片重新上传。"); return; }
+        loadBlob().then(function(file){
+          if(!file){ paper.innerHTML = readerEmpty("未找到原书文件，请检查网络后重试。"); return; }
           if(state.readerUrl) URL.revokeObjectURL(state.readerUrl);
           state.readerUrl = URL.createObjectURL(file);
           paper.className = "reader-paper has-frame";
           paper.innerHTML = '<iframe src="' + state.readerUrl + '" title="' + esc(b.title) + '"></iframe>';
-        }).catch(function(){ paper.innerHTML = readerEmpty("读取本机文件失败，请回到书目卡片重新上传。"); });
+        }).catch(function(){ paper.innerHTML = readerEmpty("读取原书文件失败，请检查网络后重试。"); });
         return;
       }
       if(ext === "epub" || ext === "docx"){
-        getFile(b.id).then(function(file){
+        loadBlob().then(function(file){
           if(!file) throw new Error("missing");
           return extractParagraphs(file, ext);
         }).then(function(paras){
@@ -2738,7 +2854,7 @@
           renderReaderBody(paras, ext.toUpperCase() + " 正文");
           toast("已自动提取 " + paras.length + " 段正文并排版");
         }).catch(function(){
-          paper.innerHTML = readerEmpty("暂时无法自动提取此文件的正文，请回到书目卡片重新上传新版文件。");
+          paper.innerHTML = readerEmpty("暂时无法自动提取此文件的正文，请重新导入 EPUB 或 Word 版本。");
         });
         return;
       }
@@ -2749,7 +2865,7 @@
       return;
     }
     if(b.text && b.text.length){ renderReaderBody(b.text, "示例正文"); return; }
-    paper.innerHTML = readerEmpty("这本书还没有导入原文件。请回到书目卡片点击「上传文件」导入 PDF / EPUB / Word / MOBI。");
+    paper.innerHTML = readerEmpty("这本书还没有导入原文件。请在添加书目时上传 PDF / EPUB / Word，或改用「复制文本」导入正文。");
   }
   function openReader(bookId){
     var b = byId(bookId);
@@ -3658,7 +3774,12 @@
       nb.file = fileMeta(pending);
       putFile(newId, pending).catch(function(){
         nb.file.missing = true; save(); render();
-        toast("原书文件写入本机失败，可在卡片上重新上传");
+        toast("原书文件写入本机失败");
+      });
+      uploadBookFile(nb, pending).then(function(ok){
+        save();
+        if(ok) shareBookToCloud(nb, true);
+        else toast("《" + title + "》已存入本机，但原书上传云端失败，其他设备暂时看不到");
       });
     }
     save();
@@ -3668,7 +3789,7 @@
     state.prevView = state.view;
     document.getElementById("searchInput").value = "";
     render();
-    var extra = (srcMode === "text") ? "，正文已导入并同步到云端共享" : (pending ? "，原书已导入（仅本机可见）" : "");
+    var extra = (srcMode === "text") ? "，正文已导入并同步到云端共享" : (pending ? "，原书已导入" : "");
     toast("《" + title + "》已加入「" + catName(catId) + "」" + extra);
   }
 
@@ -3861,6 +3982,7 @@
       return;
     }
 
+    if(action === "cloud-refresh"){ syncCloudBooks(); return; }
     if(action === "view"){
       var type = el.getAttribute("data-type");
       state.view = type === "cat" ? { type:"cat", id:id } : { type:type };
@@ -4054,7 +4176,6 @@
   })();
   render();
   syncCloudBooks();
-  shareExistingLocalBooks();
 })();
 </script>
 </body>
