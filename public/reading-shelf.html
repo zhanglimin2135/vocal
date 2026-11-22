@@ -833,7 +833,6 @@
   </div>
 </div>
 
-<input type="file" id="cardFile" class="hidden" accept=".pdf,.epub,.doc,.docx,.mobi">
 
 <!-- 阅读器：设置 / 仿真翻页 / 划词 -->
 <div class="reader hidden" id="reader">
@@ -964,7 +963,6 @@
     confirmCb: null,
     toastTimer: null,
     pendingFile: null,
-    uploadTarget: null,
     readerBookId: null,
     readerUrl: null,
     readingPct: 0,
@@ -3351,6 +3349,7 @@
     if(v.type === "notes") return [];
     if(v.type === "reading"){ var lr = lastReadingBook(); return lr ? [lr] : []; }
     if(v.type === "fav") return books.filter(function(b){ return b.fav; });
+    if(v.type === "read") return books.filter(function(b){ return b.read; });
     if(v.type === "cat")  return books.filter(function(b){ return b.cat === v.id; });
     if(v.type === "search"){
       var q = v.q.toLowerCase().trim();
@@ -3367,6 +3366,7 @@
     var v = state.view;
     if(v.type === "notes") return { title:"我的笔记", en:"My Notes & Highlights", desc:"按书目汇总的心得与高亮好句；每条都能生成分享卡片并下载到本地。" };
     if(v.type === "reading") return { title:"正在阅读", en:"Continue Reading", desc:"上次阅读的那本书：进度、位置与时间都保存在本机，打开即可接着读。" };
+    if(v.type === "read")   return { title:"我已读完", en:"Finished Books", desc:"标记为「已读」的书目都汇总在这里；再点一次卡片上的「✓ 已读」即可恢复为未读。" };
     if(v.type === "fav")   return { title:"我的书架", en:"Saved Books", desc:"收藏的书目集中在这里，随时回到上次的阅读进度。" };
     if(v.type === "search")return { title:"搜索结果", en:"Search", desc:"关键词「" + v.q + "」· 匹配书名、作者、标签与提要。" };
     if(v.type === "cat"){
@@ -3392,13 +3392,14 @@
 
   function renderNav(){
     var v = state.view, d = state.data, html = "";
-    var isAll = v.type === "all", isFav = v.type === "fav", isReading = v.type === "reading", isNotes = v.type === "notes";
+    var isAll = v.type === "all", isFav = v.type === "fav", isReading = v.type === "reading", isRead = v.type === "read", isNotes = v.type === "notes";
     var lr = lastReadingBook();
     var lrPct = lr && lr.reading ? Math.round(lr.reading.progress || 0) : 0;
     html += '<div class="nav-item ' + (isAll ? "active" : "") + '" data-action="view" data-type="all"><span class="label">全部书目</span><span class="cnt">' + d.books.length + '</span></div>';
     html += '<div class="nav-item tall ' + (isReading ? "active" : "") + '" data-action="view" data-type="reading">' +
               '<div class="nav-top"><span class="label">◐ 正在阅读</span><span class="cnt">' + (lr ? lrPct + "%" : "—") + '</span></div>' +
               '<div class="nav-sub">' + esc(lr ? lr.title + " · 继续上次进度" : "暂无阅读记录") + '</div></div>';
+    html += '<div class="nav-item ' + (isRead ? "active" : "") + '" data-action="view" data-type="read"><span class="label">✓ 我已读完</span><span class="cnt">' + d.books.filter(function(b){ return b.read; }).length + '</span></div>';
     html += '<div class="nav-item ' + (isFav ? "active" : "") + '" data-action="view" data-type="fav"><span class="label">★ 我的书架</span><span class="cnt">' + d.books.filter(function(b){ return b.fav; }).length + '</span></div>';
     html += '<div class="nav-item ' + (isNotes ? "active" : "") + '" data-action="view" data-type="notes"><span class="label">✎ 我的笔记</span><span class="cnt">' + noteTotal() + '</span></div>';
 
@@ -3450,7 +3451,6 @@
         '<button class="act ' + (b.fav ? "on" : "") + '" data-action="toggle-fav" data-id="' + esc(b.id) + '">☆ 收藏</button>' +
         '<button class="act" data-action="toggle-intro" data-id="' + esc(b.id) + '">' + (collapsed ? "展开简介" : "折叠简介") + '</button>' +
         '<button class="act primary-act" data-action="open-reader" data-id="' + esc(b.id) + '">' + readLabel + '</button>' +
-        '<button class="act" data-action="card-upload" data-id="' + esc(b.id) + '">' + (b.file ? "替换文件" : "上传文件") + '</button>' +
         '<span class="meta">' + meta + '</span>' +
       '</div></article>';
   }
@@ -3462,12 +3462,14 @@
     if(list.length === 0){
       var isSearch = state.view.type === "search";
       var isFav = state.view.type === "fav";
+      var isRead = state.view.type === "read";
       var msg = isSearch ? "没有找到匹配的书目，换个关键词试试。" :
                 isFav ? "还没有收藏的书目，点击卡片上的「☆ 收藏」即可加入书架。" :
+                isRead ? "还没有标记为已读完的书目，点击卡片上的「✓ 已读」即可加入这里。" :
                 "这一类还没有书目，点击标题右侧的「+」添加一本，也可以顺手新建一个分类。";
       el.innerHTML = '<div class="empty"><div class="empty-icon">' +
         '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H11v17H6.5A2.5 2.5 0 004 22.5z"></path><path d="M20 5.5A2.5 2.5 0 0017.5 3H13v17h4.5a2.5 2.5 0 012.5 2.5z"></path></svg>' +
-        '</div><h3>' + (isSearch ? "没有匹配的书目" : isFav ? "书架还是空的" : "这里还没有书目") + '</h3>' +
+        '</div><h3>' + (isSearch ? "没有匹配的书目" : isFav ? "书架还是空的" : isRead ? "还没有读完的书" : "这里还没有书目") + '</h3>' +
         '<p>' + msg + '</p><button class="btn primary" data-action="open-add">添加书目</button></div>';
       return;
     }
@@ -3700,11 +3702,6 @@
       state.pendingFile = null;
       document.getElementById("modalFile").value = "";
       renderModalFilePill();
-      return;
-    }
-    if(action === "card-upload"){
-      state.uploadTarget = id;
-      document.getElementById("cardFile").click();
       return;
     }
     if(action === "open-reader" || action === "continue-reading"){ openReader(id); return; }
@@ -3942,12 +3939,6 @@
     state.pendingFile = f;
     renderModalFilePill();
     fillTitleFromFile(f);
-  });
-  var cardFile = document.getElementById("cardFile");
-  cardFile.addEventListener("change", function(){
-    var f = this.files[0], target = state.uploadTarget;
-    this.value = "";
-    if(f && target) attachFile(target, f);
   });
   var zone = document.getElementById("modalUpload");
   ["dragenter", "dragover"].forEach(function(ev){
