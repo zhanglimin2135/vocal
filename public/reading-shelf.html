@@ -714,7 +714,6 @@
       </div>
       <nav class="nav" id="nav"></nav>
       <div class="sidebar-footer">
-        <button class="link-btn" data-action="reset">恢复示例数据</button>
         <div class="cloud-status" id="cloudStatus"><span class="cs-dot"></span><span class="cs-text">正在连接云端…</span></div>
         <div class="sidebar-tip">书目与上传的原书会同步到云端，所有人可见；笔记、阅读进度只保存在本机。</div>
       </div>
@@ -1032,49 +1031,7 @@
           { id:"en-exam",  name:"考试类" }
         ]}
       ],
-      books: [
-        {
-          id:"b1", title:"活着", subtitle:"To Live · 余华", group:"zh", cat:"zh-novel",
-          tags:["当代小说","现实主义"],
-          intro:"以福贵一生为线，写尽苦难与忍耐。语言极简，却把「人为什么活着」这个问题留在了合上书之后。适合作为中文叙事节奏与白描手法的精读范本。",
-          read:true, fav:true, date:"2026.03.08",
-          reading:{ progress:62, scroll:0.62, label:"第三章 · 阅读进行中", lastAt:Date.now() - 2*3600*1000 },
-          text:[
-            "第一章 重读的缘由",
-            "把一本书重新放回到书架最顺手的位置，往往意味着它还值得再读一次。第一次翻开它的时候，注意力全在情节的起伏上，急着知道后来怎样；隔了几年再读，才会注意到叙述者始终站在田埂上，语气平平，像在讲一个与己无关的旧故事。这种克制，恰恰是全书最不容易被模仿的地方。",
-            "于是这一次不赶进度，只在每天睡前读上十几页。读到会心处停下来，把句子抄进笔记，顺便记下当天读到第几章。阅读进度因此不再是一个抽象的数字，而变成了某天傍晚、某盏灯下、某一段忽然慢下来的时间。",
-            "第二章 白描与留白",
-            "小说的句子大多很短，主语、动作、对象，交代完就收住，很少铺陈形容。写离别不写心碎，只写一个人站在门口，把包袱换到另一只手上；写等待不写漫长，只写日头从院墙这头挪到那头。情感被留在句子之外，交给读的人自己补上。",
-            "这种写法对精读特别友好：每一段都可以拆成「看到了什么」与「没说什么」两层。前一层是事实，后一层是分寸。把两层并列写在笔记里，比摘一串漂亮句子更能看清楚作者的控制力。也正因为留白够多，同一段落在不同的年纪读，会补出完全不同的东西。",
-            "章节之间几乎没有过渡段，时间一跳就是几年，人物来去也不作预告。初读时略显仓促，再读才明白，这种跳跃本身就在模拟记忆的方式：人回望一生，记住的从来不是流水账，而是几个怎么也抹不掉的片段。",
-            "第三章 叙述的距离",
-            "故事套着一层听来的外壳：先有人在下乡采风，遇见老人，再由老人自己讲。这一层薄薄的距离很关键，它让最沉的部分不必高声，也让读者始终保有一点点旁观的余地。若是换成贴着人物写内心，重量反而会压得人喘不过气。",
-            "读到中段，会发现叙述里几乎没有抱怨。命运一次次把东西拿走，人物只是把剩下的日子继续过下去：种地、吃饭、给牛添草、在田埂上歇一会儿。所谓坚韧，在这里不是一句评价，而是被写成了一连串具体的、重复的动作。",
-            "也正因为如此，这本书适合配合「进度」来读。每读完一章，回头看一眼自己停在什么位置，会发现节奏与生活的节奏奇妙地对齐了：不追问结局，不急于总结，只是一页一页地往下走。",
-            "第四章 合上之后",
-            "合上书，最先留下的不是某句台词，而是一种语调：平、慢、不替读者下判断。好的叙事大约都是这样，它不劝你感动，只是把事情摆在那里，让你自己在某个普通的傍晚忽然想起来。",
-            "所以这份书目里给它留了一个固定位置。读过、收藏、记下进度，都是为了让下一次回来时不必重新找起。进度停在百分之六十二也不是疏忽，倒像是给未来留的一小段路——知道还有下文，本身就是一件让人安心的事。",
-            "若换成自己导入的 PDF 或 EPUB，正文同样会自动整理成分段清晰、两端对齐的版式；滚动到哪里，进度就记到哪里。书可以换，读法不必换：慢慢来，读到哪里算哪里。"
-          ]
-        },
-        { id:"b2", title:"围城", subtitle:"Fortress Besieged · 钱锺书", group:"zh", cat:"zh-novel", tags:["现代文学","讽刺"], intro:"方鸿渐的留学、求职与婚姻，层层围城。钱锺书的比喻密度极高，几乎每页都可单独摘出做修辞分析，是中文精读里绕不开的一本。", read:false, fav:false, date:"2026.03.12" },
-        { id:"b3", title:"边城", subtitle:"The Border Town · 沈从文", group:"zh", cat:"zh-novel", tags:["乡土文学","中篇"], intro:"湘西渡口的一段未说破的情意。文字清朗克制，适合用来练习「以景写情」与短篇结构分析，篇幅短、可反复读。", read:false, fav:true, date:"2026.03.15" },
-        { id:"b4", title:"我与地坛", subtitle:"史铁生散文精选", group:"zh", cat:"zh-essay", tags:["散文","生命书写"], intro:"一座荒芜的园子，一段关于生死、母亲与写作的长思。段落层次分明，是中文篇章结构拆解与主题提炼的绝佳材料。", read:true, fav:true, date:"2026.03.19" },
-        { id:"b5", title:"汪曾祺散文选", subtitle:"人间草木 · 滋味与日常", group:"zh", cat:"zh-essay", tags:["散文","短章"], intro:"写食物、写草木、写旧人，句子短而有味。每篇都可独立精读，适合作为日常碎片时间的中文语感训练。", read:false, fav:false, date:"2026.03.22" },
-        { id:"b6", title:"鲁迅杂文精选", subtitle:"论辩与针砭", group:"zh", cat:"zh-essay", tags:["杂文","议论文"], intro:"短小锋利的论辩篇章，论证结构与反讽手法极为典型。适合做论点—论据—反驳的三段式拆解练习。", read:false, fav:false, date:"2026.03.25" },
-        { id:"b7", title:"托福听力 · 阅读背景知识全景手册", subtitle:"Academic Background Knowledge for the TOEFL iBT", group:"zh", cat:"zh-exam", tags:["托福","学科背景"], intro:"按「学科 → 话题」归档托福听力讲座与阅读文章反复出现的背景知识，中文精读加学术术语英汉对照，便于提前熟悉一类题目的知识底盘。", read:true, fav:true, date:"2026.04.02" },
-        { id:"b8", title:"考研英语长难句解密", subtitle:"句法结构与拆解训练", group:"zh", cat:"zh-exam", tags:["考研","句法"], intro:"把真题长句按主干、修饰、插入语三层拆解，配合中文讲解建立句法直觉。适合每天三句、滚动复习。", read:false, fav:false, date:"2026.04.06" },
-        { id:"b9", title:"雅思写作论证素材册", subtitle:"观点 · 例证 · 语料", group:"zh", cat:"zh-exam", tags:["雅思","写作"], intro:"按教育、科技、环境等常考话题整理论证链与中文思路提纲，先立框架再补英文表达，避免考场上无话可说。", read:false, fav:false, date:"2026.04.09" },
-        { id:"b10", title:"The Old Man and the Sea", subtitle:"Ernest Hemingway", group:"en", cat:"en-novel", tags:["English","Novella"], intro:"A short, clean narrative with deceptively simple syntax. Ideal for close reading of repetition, understatement and the way Hemingway builds tension through plain sentences.", read:true, fav:true, date:"2026.04.12" },
-        { id:"b11", title:"Animal Farm", subtitle:"George Orwell", group:"en", cat:"en-novel", tags:["English","Allegory"], intro:"A compact political allegory. Every chapter maps neatly onto a historical sequence, which makes it useful for practising inference and tracking an argument across a whole text.", read:false, fav:false, date:"2026.04.16" },
-        { id:"b12", title:"The Great Gatsby", subtitle:"F. Scott Fitzgerald", group:"en", cat:"en-novel", tags:["English","Classic"], intro:"Dense in imagery and unreliable narration. Read it once for the plot, then again for the colour symbolism and the narrator's shifting stance.", read:false, fav:true, date:"2026.04.18" },
-        { id:"b13", title:"Ancient Air in Glaciers", subtitle:"冰川中的古老空气 · Astronomy & Earth Science", group:"en", cat:"en-essay", tags:["Science","TPO"], intro:"Ice cores preserve tiny bubbles of ancient atmosphere, a frozen library of past climate. A standard TOEFL-style academic passage with clear cause-and-effect structure.", read:true, fav:true, date:"2026.04.21" },
-        { id:"b14", title:"Self-Reliance", subtitle:"Ralph Waldo Emerson", group:"en", cat:"en-essay", tags:["Essay","Rhetoric"], intro:"An essay built from aphorism and accumulation rather than linear proof. Useful for studying how a central claim is restated and reinforced across paragraphs.", read:false, fav:false, date:"2026.04.24" },
-        { id:"b15", title:"A Room of One's Own", subtitle:"Virginia Woolf", group:"en", cat:"en-essay", tags:["Essay","Criticism"], intro:"Woolf's extended argument about women, money and the conditions for writing. Excellent practice for following a meandering but tightly controlled thesis.", read:false, fav:false, date:"2026.04.27" },
-        { id:"b16", title:"The Official Guide to the TOEFL iBT", subtitle:"ETS · Reading & Listening Sections", group:"en", cat:"en-exam", tags:["TOEFL","Official"], intro:"Authentic passages and question types from the test maker. Use it to calibrate timing and to classify the rhetorical purpose questions that recur across disciplines.", read:true, fav:false, date:"2026.05.03" },
-        { id:"b17", title:"Barron's IELTS Practice Passages", subtitle:"Academic Reading Module", group:"en", cat:"en-exam", tags:["IELTS","Practice"], intro:"A graded set of academic passages with answer explanations. Best used after the background-knowledge handbook, when the topic vocabulary already feels familiar.", read:false, fav:false, date:"2026.05.08" },
-        { id:"b18", title:"GRE Reading Comprehension Workbook", subtitle:"Argument Structure & Inference", group:"en", cat:"en-exam", tags:["GRE","Logic"], intro:"Short, dense passages designed around logical structure. Focus on identifying the author's claim, the evidence, and any turn signalled by contrast words.", read:false, fav:false, date:"2026.05.11" }
-      ]
+      books: []
     };
   }
 
@@ -1083,7 +1040,15 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if(raw){
         var d = JSON.parse(raw);
-        if(d && Array.isArray(d.groups) && Array.isArray(d.books)) return d;
+        if(d && Array.isArray(d.groups) && Array.isArray(d.books)){
+          /* 清掉早前内置的示例书目（b1…b18），只保留用户上传的书 */
+          var kept = d.books.filter(function(b){ return !/^b\d+$/.test((b && b.id) || ""); });
+          if(kept.length !== d.books.length){
+            d.books = kept;
+            try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }catch(e2){}
+          }
+          return d;
+        }
       }
     }catch(e){}
     return seed();
@@ -4020,15 +3985,6 @@
       });
       return;
     }
-    if(action === "reset"){
-      openConfirm("恢复示例数据", "当前书架中的书目、分类与阅读状态会被示例数据覆盖，确定继续吗？", function(){
-        state.data = seed(); state.view = { type:"all" }; state.prevView = state.view;
-        state.collapsedGroups = {}; state.collapsedBooks = {};
-        document.getElementById("searchInput").value = "";
-        save(); closeConfirm(); render(); toast("已恢复示例数据");
-      }, "恢复");
-      return;
-    }
   });
 
   document.getElementById("confirmOk").addEventListener("click", function(){
@@ -4163,17 +4119,6 @@
   });
 
   state.data = load();
-  // 兼容旧书架数据：补上示例正文与一条「正在阅读」记录
-  (function migrate(){
-    var sample = seed().books[0];
-    var b1 = state.data.books.filter(function(x){ return x.id === "b1"; })[0];
-    if(!b1) return;
-    var changed = false;
-    if(!b1.text){ b1.text = sample.text; changed = true; }
-    var anyReading = state.data.books.some(function(x){ return x.reading && x.reading.lastAt; });
-    if(!anyReading && !b1.reading){ b1.reading = sample.reading; changed = true; }
-    if(changed) save();
-  })();
   render();
   syncCloudBooks();
 })();
