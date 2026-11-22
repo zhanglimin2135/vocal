@@ -28,6 +28,7 @@ import {
   Trash2,           // 垃圾桶删除图标
   Volume2,          // 音量图标（听力精听模块入口）
   Globe2,           // 地球图标（背景知识模块入口）
+  BookMarked,       // 书签图标（阅读推荐模块入口）
   GraduationCap,    // 学士帽图标（初中词汇）
   School,           // 学校图标（高中词汇）
   Award,            // 奖牌图标（四级词汇）
@@ -275,6 +276,17 @@ export default function UploadPage() {
             >
               <Globe2 className="h-4 w-4" />
               背景知识
+              <ChevronRight className="h-3.5 w-3.5 opacity-70" />
+            </a>
+            {/* 阅读推荐：打开私人知识书架（独立静态页面，与参考站一致） */}
+            <a
+              href="/reading-shelf.html"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow transition hover:from-indigo-500 hover:to-blue-500"
+            >
+              <BookMarked className="h-4 w-4" />
+              阅读推荐
               <ChevronRight className="h-3.5 w-3.5 opacity-70" />
             </a>
           </div>

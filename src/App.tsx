@@ -48,11 +48,13 @@ function AppShell() {
         .then(() => Promise.all([import('@/pages/SelectPage'), import('@/pages/StudyPage')]))
         .catch(() => { /* 预取失败不影响正常点击时的按需加载 */ });
 
-      // 背景知识是独立静态页面：低优先级预取，用户点开时秒开
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.href = '/background-handbook.html';
-      document.head.appendChild(link);
+      // 背景知识 / 阅读推荐是独立静态页面：低优先级预取，用户点开时秒开
+      ['/background-handbook.html', '/reading-shelf.html'].forEach((href) => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = href;
+        document.head.appendChild(link);
+      });
     };
 
     const ric = (window as any).requestIdleCallback as
