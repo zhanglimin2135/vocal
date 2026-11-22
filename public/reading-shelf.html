@@ -753,6 +753,29 @@
   </div>
 </div>
 
+<!-- 密码弹窗：添加书目前需先验证密码 -->
+<div class="overlay hidden" id="pwdOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pwdTitle" style="max-width:380px">
+    <div class="modal-head">
+      <div>
+        <h3 id="pwdTitle">输入密码</h3>
+        <p>输入正确密码后才能添加书目或新建分类。</p>
+      </div>
+      <button class="close" data-action="close-pwd" aria-label="关闭">&times;</button>
+    </div>
+    <div class="field">
+      <label for="pwdInput">密码</label>
+      <input id="pwdInput" type="password" placeholder="请输入密码" autocomplete="off">
+      <p id="pwdErr" style="display:none;margin:8px 0 0;font-size:12px;color:#d14343">密码错误，请重试</p>
+    </div>
+    <div class="modal-footer">
+      <span class="hint">密码仅用于本次页面会话</span>
+      <button type="button" class="btn ghost" data-action="close-pwd">取消</button>
+      <button type="button" class="btn primary" id="pwdOk">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- 确认弹窗 -->
 <div class="overlay hidden" id="confirmOverlay">
   <div class="confirm" role="alertdialog" aria-modal="true">
@@ -2827,7 +2850,41 @@
     html += '<option value="__new__">＋ 添加为新类…</option>';
     document.getElementById("fCat").innerHTML = html;
   }
+  /* ----- 密码校验：通过后才可打开添加书目弹窗 ----- */
+  var PWD = "11111111111";
+  var authed = false;
+  function openPwd(){
+    var m = document.getElementById("pwdOverlay");
+    var i = document.getElementById("pwdInput");
+    var err = document.getElementById("pwdErr");
+    i.value = ""; err.style.display = "none";
+    m.classList.remove("hidden");
+    setTimeout(function(){ i.focus(); }, 40);
+  }
+  function closePwd(){
+    document.getElementById("pwdOverlay").classList.add("hidden");
+    document.getElementById("pwdInput").value = "";
+    document.getElementById("pwdErr").style.display = "none";
+  }
+  function checkPwd(){
+    var i = document.getElementById("pwdInput");
+    var err = document.getElementById("pwdErr");
+    if(i.value === PWD){
+      authed = true;
+      closePwd();
+      openAdd();
+    } else {
+      err.style.display = "";
+      i.select();
+    }
+  }
+  document.getElementById("pwdOk").addEventListener("click", checkPwd);
+  document.getElementById("pwdInput").addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ e.preventDefault(); checkPwd(); }
+  });
+
   function openAdd(){
+    if(!authed){ openPwd(); return; }
     renderCatOptions();
     var form = document.getElementById("addForm");
     form.reset();
@@ -2935,6 +2992,7 @@
 
     if(action === "open-add"){ openAdd(); return; }
     if(action === "close-modal"){ closeAdd(); return; }
+    if(action === "close-pwd"){ closePwd(); return; }
     if(action === "cancel-confirm"){ closeConfirm(); return; }
     if(action === "print"){ window.print(); return; }
 
@@ -3149,6 +3207,9 @@
   document.getElementById("shareModal").addEventListener("click", function(e){
     if(e.target === this) closeShare();
   });
+  document.getElementById("pwdOverlay").addEventListener("click", function(e){
+    if(e.target === this) closePwd();
+  });
   document.getElementById("fCat").addEventListener("change", syncNewPanel);
   document.getElementById("fWhere").addEventListener("change", syncNewPanel);
   document.getElementById("addForm").addEventListener("submit", submitAdd);
@@ -3235,6 +3296,7 @@
   document.addEventListener("keydown", function(e){
     var readerOpen = !document.getElementById("reader").classList.contains("hidden");
     if(e.key === "Escape"){
+      if(!document.getElementById("pwdOverlay").classList.contains("hidden")){ closePwd(); return; }
       if(!document.getElementById("noteEditor").classList.contains("hidden")){ closeNoteEditor(); return; }
       if(!document.getElementById("shareModal").classList.contains("hidden")){ closeShare(); return; }
       closeAdd(); closeConfirm();
