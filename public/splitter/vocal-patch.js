@@ -7,33 +7,51 @@
 (function () {
   var embedded = window.parent !== window;
 
-  /* ===== 全屏联动：勾选「滚动时吸附顶部」（音轨浮起）→ 全屏；取消 → 退出全屏 ===== */
+  /* ===== 全屏联动：勾选「滚动时吸附顶部」（音轨浮起）→ 整页全屏；取消 → 退出全屏 =====
+     内嵌时由外层页面把整个「音频拆分·逐句听练」边框全屏，单独打开时退化为本页全屏 */
   function bindFullscreen() {
     var chk = document.getElementById('pinWave');
     if (!chk) return;
+
     chk.addEventListener('change', function () {
+      if (embedded) {
+        parent.postMessage({ type: 'vocal-split-fs', on: chk.checked }, location.origin);
+        if (chk.checked) {
+          setTimeout(function () {
+            var card = chk.closest('.card');
+            if (card) card.scrollIntoView({ block: 'start' });
+          }, 120);
+        }
+        return;
+      }
       if (chk.checked) {
         if (!document.fullscreenElement) {
-          var el = document.documentElement;
-          if (el.requestFullscreen) {
-            var p = el.requestFullscreen({ navigationUI: 'hide' });
-            if (p && p.catch) p.catch(function () {});
-          }
+          var p = document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+          if (p && p.catch) p.catch(function () {});
         }
       } else if (document.fullscreenElement) {
         var q = document.exitFullscreen();
         if (q && q.catch) q.catch(function () {});
       }
     });
-    /* 进入全屏时把音轨滚到最上方；用户按 Esc 退出时同步取消勾选 */
+
+    if (embedded) {
+      /* 外层按 Esc 退出全屏后，同步取消勾选 */
+      window.addEventListener('message', function (e) {
+        if (e.origin !== location.origin) return;
+        if (e.data && e.data.type === 'vocal-split-fs-exit' && chk.checked) {
+          chk.checked = false;
+          chk.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+      return;
+    }
+
+    /* 单独打开：进入全屏时把音轨滚到顶部；Esc 退出时取消勾选 */
     document.addEventListener('fullscreenchange', function () {
       if (document.fullscreenElement) {
         var card = chk.closest('.card');
-        if (card) {
-          setTimeout(function () {
-            card.scrollIntoView({ block: 'start' });
-          }, 60);
-        }
+        if (card) setTimeout(function () { card.scrollIntoView({ block: 'start' }); }, 60);
       } else if (chk.checked) {
         chk.checked = false;
         chk.dispatchEvent(new Event('change', { bubbles: true }));

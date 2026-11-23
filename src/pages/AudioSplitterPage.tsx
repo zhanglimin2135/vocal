@@ -1,18 +1,20 @@
 /**
  * AudioSplitterPage —— 添加音频
- *   全屏内嵌官方「音频拆分 · 逐句听练」工具：
+ *   全屏内嵌「音频拆分 · 逐句听练」工具：
  *   工具本身的功能与交互完全保持原样，这里只把外层容器做成与本站一致的风格
- *   （渐变背景、白色吸顶栏、圆角卡片 + 阴影、加载态）。
+ *   （渐变背景、白色吸顶栏、圆角卡片 + 加载态）。
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Plus, Volume2 } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Volume2 } from 'lucide-react';
 import { AUDIO_SPLITTER_URL } from './ListeningPage';
 
 export default function AudioSplitterPage() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const prev = document.title;
@@ -22,24 +24,58 @@ export default function AudioSplitterPage() {
     };
   }, []);
 
-  /* 拆分工具里点「上传到目录」后，会把打包好的播放页 HTML 发过来 */
+  /* 拆分工具发来的消息：上传到目录 / 音轨浮起时整页全屏 */
   useEffect(() => {
     const onMessage = (ev: MessageEvent) => {
       if (ev.origin !== window.location.origin) return;
-      const data = ev.data as { type?: string; html?: string; name?: string };
-      if (!data || data.type !== 'vocal-split-html' || typeof data.html !== 'string') return;
-      navigate('/listening', {
-        state: { splitHtml: data.html, splitName: data.name || '' },
-      });
+      const data = ev.data as { type?: string; html?: string; name?: string; on?: boolean };
+      if (!data) return;
+
+      if (data.type === 'vocal-split-fs') {
+        if (data.on) {
+          const el = shellRef.current;
+          if (el && !document.fullscreenElement && el.requestFullscreen) {
+            const p = el.requestFullscreen({ navigationUI: 'hide' });
+            if (p && p.catch) p.catch(() => {});
+          }
+        } else if (document.fullscreenElement) {
+          const p = document.exitFullscreen();
+          if (p && p.catch) p.catch(() => {});
+        }
+        return;
+      }
+
+      if (data.type === 'vocal-split-html' && typeof data.html === 'string') {
+        navigate('/listening', {
+          state: { splitHtml: data.html, splitName: data.name || '' },
+        });
+      }
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
   }, [navigate]);
 
+  /* 用户按 Esc 退出全屏时，通知工具取消「滚动时吸附顶部」 */
+  useEffect(() => {
+    const onFsChange = () => {
+      if (!document.fullscreenElement) {
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: 'vocal-split-fs-exit' },
+          window.location.origin,
+        );
+      }
+    };
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50">
+    <div
+      ref={shellRef}
+      className="flex h-screen flex-col overflow-hidden bg-gradient-to-br from-sky-50 via-white to-indigo-50"
+    >
       {/* 顶部栏：风格与听力精听目录页一致 */}
-      <div className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/80 backdrop-blur">
+      <div className="z-20 flex-none border-b border-slate-200/80 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-3">
           <button
             onClick={() => navigate('/listening')}
@@ -65,8 +101,8 @@ export default function AudioSplitterPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1440px] px-4 pb-6 pt-5">
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_10px_40px_-14px_rgba(79,70,229,.18)]">
+      <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 flex-col px-4 pb-0 pt-5">
+        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_10px_40px_-14px_rgba(79,70,229,.18)]">
           {!loaded && (
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white">
               <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500 border-t-transparent" />
@@ -74,18 +110,15 @@ export default function AudioSplitterPage() {
             </div>
           )}
           <iframe
+            ref={iframeRef}
             src={AUDIO_SPLITTER_URL}
             title="添加音频 · 逐句听练"
             onLoad={() => setLoaded(true)}
-            className="block h-[calc(100vh-9.75rem)] w-full border-0"
+            className="block min-h-0 w-full flex-1 border-0"
             allow="autoplay; clipboard-read; clipboard-write; fullscreen; microphone"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
-        <p className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
-          <Plus className="h-3 w-3" />
-          拆分完成后点右上角「⬆️ 上传到目录」，直接命名保存到精听目录
-        </p>
       </div>
     </div>
   );
