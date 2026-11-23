@@ -1567,7 +1567,7 @@ const LOOKUP_SCRIPT = String.raw`
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
                 'stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"></path>' +
                 '<path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>' +
-                '播放本句</button>' +
+                '<span id="vdPlayLabel">播放本句</span></button>' +
               '<div class="vd-speeds" id="vdSpeeds"><span class="vd-speed-label">语速</span>' +
                 '<button type="button" class="vd-speed" data-rate="0.75">0.75×</button>' +
                 '<button type="button" class="vd-speed on" data-rate="1">1×</button>' +
@@ -1583,7 +1583,8 @@ const LOOKUP_SCRIPT = String.raw`
               '<button type="button" class="vd-ghost" id="vdSkip">跳过本句</button>' +
               '<button type="button" class="vd-primary" id="vdNext">提交并下一句</button>' +
             '</div>' +
-            '<p class="vd-tip">按 Enter 提交并进入下一句；只支持英文输入，禁止粘贴/复制。写的过程中不批改，全部提交后统一批改。</p>' +
+            '<p class="vd-tip">按 Enter 提交并进入下一句；空格键暂停 / 继续播放（输入框已有内容时空格用于分词）；' +
+              '只支持英文输入，禁止粘贴/复制。写的过程中不批改，全部提交后统一批改。</p>' +
           '</div>' +
           '<div id="vdResult" style="display:none">' +
             '<div class="vd-summary" id="vdSummary"></div>' +
@@ -1614,10 +1615,17 @@ const LOOKUP_SCRIPT = String.raw`
     var resultsEl = document.getElementById('vdResults');
     var speedsEl = document.getElementById('vdSpeeds');
 
-    var state = { queue: [], answers: [], idx: 0, from: 1, to: 1 };
+    var state = { queue: [], answers: [], idx: 0, from: 1, to: 1, curLine: null };
     var playTimer = null;
+    var pausedAt = null;
     var rate = 1;
     var origRate = 1;
+
+    /* 播放按钮文案：播放本句 / 暂停 / 继续播放 */
+    function setPlayLabel(kind) {
+      var el = document.getElementById('vdPlayLabel');
+      if (el) el.textContent = kind === 'pause' ? '暂停' : (kind === 'resume' ? '继续播放' : '播放本句');
+    }
 
     /* ---------- 语速选择（默认 1 倍） ---------- */
     function setRate(v) {
@@ -1643,20 +1651,61 @@ const LOOKUP_SCRIPT = String.raw`
       }
       try { audioEl.pause(); } catch (e) { /* ignore */ }
       if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+      pausedAt = null;
+      setPlayLabel('play');
     }
     function playLine(line) {
       if (!line) return;
       stopAll();
+      state.curLine = line;
       try {
         audioEl.currentTime = Math.max(0, line.s || 0);
         audioEl.playbackRate = rate;
       } catch (e) { /* ignore */ }
       var p = audioEl.play();
       if (p && p.catch) p.catch(function () { /* 自动播放被拦截时忽略 */ });
+      setPlayLabel('pause');
       var ms = Math.max(400, ((line.e || 0) - (line.s || 0)) * 1000 / rate + 120);
       playTimer = setTimeout(function () {
         try { audioEl.pause(); audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
+        pausedAt = null;
+        setPlayLabel('play');
       }, ms);
+    }
+    /* 暂停当前句，记住停在哪里 */
+    function pauseLine() {
+      if (!audioEl || audioEl.paused) return;
+      pausedAt = audioEl.currentTime;
+      try { audioEl.pause(); } catch (e) { /* ignore */ }
+      if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+      setPlayLabel('resume');
+    }
+    /* 从暂停处继续，播完本句自动停 */
+    function resumeLine() {
+      var line = state.curLine;
+      if (!line) return;
+      var from = pausedAt == null ? Math.max(0, line.s || 0) : pausedAt;
+      try {
+        audioEl.currentTime = from;
+        audioEl.playbackRate = rate;
+      } catch (e) { /* ignore */ }
+      var p = audioEl.play();
+      if (p && p.catch) p.catch(function () { /* ignore */ });
+      setPlayLabel('pause');
+      var ms = Math.max(300, ((line.e || 0) - from) * 1000 / rate + 120);
+      if (playTimer) clearTimeout(playTimer);
+      playTimer = setTimeout(function () {
+        try { audioEl.pause(); audioEl.currentTime = Math.max(0, line.s || 0); } catch (e) { /* ignore */ }
+        pausedAt = null;
+        setPlayLabel('play');
+      }, ms);
+    }
+    /* 空格 / 按钮：播放 ↔ 暂停 ↔ 继续 */
+    function togglePause() {
+      if (!audioEl) return;
+      if (!audioEl.paused && pausedAt == null) pauseLine();
+      else if (audioEl.paused && pausedAt != null) resumeLine();
+      else playLine(state.curLine || state.queue[state.idx]);
     }
 
     /* ---------- 打开 / 关闭 ---------- */
@@ -1737,7 +1786,7 @@ const LOOKUP_SCRIPT = String.raw`
       submitCurrent();
     });
     document.getElementById('vdPlay').addEventListener('click', function () {
-      playLine(state.queue[state.idx]);
+      togglePause();
     });
     /* 文本框只接受英文半角字符，禁止粘贴 / 复制 */
     function sanitizeInput() {
@@ -1768,6 +1817,26 @@ const LOOKUP_SCRIPT = String.raw`
         submitCurrent();
       }
     });
+    /* 输入框里按空格照常输入空格，但不让播放页的空格快捷键跟着触发 */
+    inputEl.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Spacebar' || e.keyCode === 32) e.stopPropagation();
+    });
+
+    /* ---------- 空格键：听写中暂停 / 继续 ---------- */
+    window.addEventListener('keydown', function (e) {
+      if (!mask.classList.contains('show')) return;
+      if (workEl.style.display === 'none') return;
+      if (e.key !== ' ' && e.key !== 'Spacebar' && e.keyCode !== 32) return;
+      var t = e.target || {};
+      var tag = (t.tagName || '').toLowerCase();
+      /* 已经在输入答案时，空格用于分词，不抢 */
+      if ((tag === 'textarea' || tag === 'input') && String(t.value || '').trim()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      if (e.repeat) return;
+      togglePause();
+    }, true);
 
     /* ---------- 批改（词级 LCS 对齐） ---------- */
     function wordsOf(s) {
