@@ -1463,6 +1463,8 @@ const LOOKUP_SCRIPT = String.raw`
       'font-family:inherit;transition:background .15s,border-color .15s,color .15s;}',
       '.vd-play:hover{background:#eef2ff;border-color:#c7d2fe;color:#4338ca;}',
       '.vd-play svg{width:13px;height:13px;display:block;flex:0 0 auto;}',
+      /* 文案在「播放本句 / 暂停 / 继续播放」之间切换时保持按钮宽度不变 */
+      '.vd-play #vdPlayLabel{display:inline-block;min-width:4em;text-align:center;}',
       '.vd-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}',
       '.vd-speeds{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}',
       '.vd-speed-label{font-size:12px;color:#94a3b8;margin-right:2px;}',
