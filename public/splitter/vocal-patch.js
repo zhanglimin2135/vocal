@@ -5,7 +5,45 @@
  *   单独打开本页时（不在 iframe 里）保持原样，不生效。
  */
 (function () {
-  if (window.parent === window) return;
+  var embedded = window.parent !== window;
+
+  /* ===== 全屏联动：勾选「滚动时吸附顶部」（音轨浮起）→ 全屏；取消 → 退出全屏 ===== */
+  function bindFullscreen() {
+    var chk = document.getElementById('pinWave');
+    if (!chk) return;
+    chk.addEventListener('change', function () {
+      if (chk.checked) {
+        if (!document.fullscreenElement) {
+          var el = document.documentElement;
+          if (el.requestFullscreen) {
+            var p = el.requestFullscreen({ navigationUI: 'hide' });
+            if (p && p.catch) p.catch(function () {});
+          }
+        }
+      } else if (document.fullscreenElement) {
+        var q = document.exitFullscreen();
+        if (q && q.catch) q.catch(function () {});
+      }
+    });
+    /* 进入全屏时把音轨滚到最上方；用户按 Esc 退出时同步取消勾选 */
+    document.addEventListener('fullscreenchange', function () {
+      if (document.fullscreenElement) {
+        var card = chk.closest('.card');
+        if (card) {
+          setTimeout(function () {
+            card.scrollIntoView({ block: 'start' });
+          }, 60);
+        }
+      } else if (chk.checked) {
+        chk.checked = false;
+        chk.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  }
+
+  bindFullscreen();
+
+  if (!embedded) return;
 
   function ready(fn) {
     if (document.readyState === 'loading') {
