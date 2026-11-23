@@ -1,15 +1,25 @@
-/* 播放页顶栏主题：明亮、简洁、全圆角、框内文字居中（只作用于 .playTop，不影响编辑区） */
+/* 播放页顶栏主题：明亮、简洁、固定吸顶（不做浮动卡片），宽度与下方句子对齐 */
 .playTop{
-  margin:8px auto 12px;
-  max-width:1180px;
-  padding:12px 16px;
-  border:1px solid #e6ecf8;
-  border-radius:18px;
-  background:linear-gradient(180deg,#ffffff 0%,#fbfcff 100%);
-  box-shadow:0 8px 24px rgba(45,86,196,.07);
+  margin:0;
+  max-width:none;
+  width:auto;
+  padding:10px 20px 11px;
+  border:0;
+  border-bottom:1px solid #e9eef8;
+  border-radius:0;
+  background:rgba(255,255,255,.97);
+  box-shadow:none;
   -webkit-backdrop-filter:saturate(160%) blur(8px);
   backdrop-filter:saturate(160%) blur(8px);
-  gap:10px;
+  gap:9px;
+}
+/* 「全部获取释义」按钮：普通态与进度态宽度一致（以进度态为准） */
+#btnTransAll{
+  min-width:208px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
 }
 .ptRow{gap:10px 14px}
 .ptRow.ptCtrl{

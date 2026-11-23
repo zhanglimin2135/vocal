@@ -41,6 +41,12 @@ const LOOKUP_SCRIPT = String.raw`
       /* 句子之间拉开距离：每句一张卡片 */
       '#list .row{position:relative !important;background:#fff !important;border:1px solid #eef1f6 !important;',
       'border-radius:14px !important;box-shadow:0 2px 12px rgba(32,40,76,.05) !important;margin:0 0 12px !important;}',
+      /* 正在播放的那一句：明显高亮 */
+      '#list .row.playing{background:#fff6f7 !important;border-color:#f9a8b8 !important;',
+      'box-shadow:0 0 0 3px rgba(244,63,94,.12),0 4px 16px rgba(244,63,94,.10) !important;}',
+      '#list .row.waiting{background:#fffdf3 !important;border-color:#fbd88a !important;}',
+      /* 右下角有「有道翻译」来源标签时，进度条右侧留出位置，避免压住标签 */
+      '#list .row.vocal-has-src .m2{padding-right:92px !important;}',
       /* 句子字号略增 */
       '#list .txt{font-size:17px !important;line-height:1.7 !important;color:#252b3d !important;}',
       /* 播放 / 复制按钮：圆角胶囊 */
@@ -106,6 +112,7 @@ const LOOKUP_SCRIPT = String.raw`
         }
       }
       if (!el) return;
+      row.classList.add('vocal-has-src');
       el.style.position = 'absolute';
       el.style.right = '16px';
       el.style.bottom = '12px';
