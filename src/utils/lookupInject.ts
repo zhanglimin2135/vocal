@@ -27,6 +27,193 @@ const LOOKUP_SCRIPT = String.raw`
   var root = host.attachShadow ? host.attachShadow({ mode: 'open' }) : host;
   (document.body || document.documentElement).appendChild(host);
 
+  /* ============================================================
+   * 播放页整体风格向本站看齐 + 每句「复制」按钮
+   *   只动页面背景、字体和句子卡片，不改变播放页原有功能
+   * ============================================================ */
+  (function () {
+    var pageCss = document.createElement('style');
+    pageCss.id = '__vocal_page_style';
+    pageCss.textContent = [
+      'body{background:linear-gradient(160deg,#f0f7ff 0%,#ffffff 45%,#f4f2ff 100%) !important;',
+      'color:#252b3d !important;',
+      'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",Roboto,sans-serif !important;}',
+      /* 句子之间拉开距离：每句一张卡片 */
+      '#list .row{position:relative !important;background:#fff !important;border:1px solid #eef1f6 !important;',
+      'border-radius:14px !important;box-shadow:0 2px 12px rgba(32,40,76,.05) !important;margin:0 0 12px !important;}',
+      /* 句子字号略增 */
+      '#list .txt{font-size:17px !important;line-height:1.7 !important;color:#252b3d !important;}',
+      /* 播放 / 复制按钮：圆角胶囊 */
+      '#list .row button{border-radius:999px !important;}',
+      '.vocal-copy{cursor:pointer;transition:color .15s,border-color .15s,background .15s;}',
+      '.vocal-copy:hover{border-color:#c7bdf7 !important;color:#6556d9 !important;}',
+      '.vocal-copy.done{background:#ecfdf5 !important;border-color:#a7f3d0 !important;color:#047857 !important;}',
+      '.vocal-copy svg{width:13px;height:13px;display:block;}'
+    ].join('');
+    (document.head || document.documentElement).appendChild(pageCss);
+
+    /* 复制到剪贴板（Clipboard API 不可用时退回 execCommand） */
+    function copyText(text) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+          return;
+        }
+      } catch (e) { /* ignore */ }
+      legacyCopy(text);
+    }
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+
+    /* 取这一句的释义：先按常见类名找，找不到就把句子/时间以外的文字当释义 */
+    function rowTranslation(row, sentEl) {
+      var sels = ['.zh', '.cn', '.tr', '.trans', '.translation', '.m1', '.m3', '.mean', '.def', '.cnText'];
+      for (var i = 0; i < sels.length; i++) {
+        var el = row.querySelector(sels[i]);
+        if (el) {
+          var t = String(el.textContent || '').trim();
+          if (t) return t;
+        }
+      }
+      var cand = '';
+      var nodes = row.querySelectorAll('div,span,p');
+      for (var j = 0; j < nodes.length; j++) {
+        var n = nodes[j];
+        if (sentEl && (n === sentEl || n.contains(sentEl) || sentEl.contains(n))) continue;
+        if (n.classList && (n.classList.contains('m2') || n.classList.contains('idx'))) continue;
+        if (n.querySelector && n.querySelector('.txt')) continue;
+        var t2 = String(n.textContent || '').trim();
+        if (t2 && t2.length <= 400 && t2.length > cand.length) cand = t2;
+      }
+      return cand;
+    }
+
+    /* 「有道翻译」这类来源标签：固定到卡片右下角，正好在复制按钮下面靠右 */
+    function placeSource(row) {
+      var el = row.querySelector('.src, .from, .source, .srcTag');
+      if (!el) {
+        var cands = row.querySelectorAll('span,small,em,i');
+        for (var i = 0; i < cands.length; i++) {
+          var t = String(cands[i].textContent || '').trim();
+          if (t && t.length <= 8 && /(有道|百度|谷歌|腾讯|机器)翻译$/.test(t)) { el = cands[i]; break; }
+        }
+      }
+      if (!el) return;
+      el.style.position = 'absolute';
+      el.style.right = '16px';
+      el.style.bottom = '12px';
+      el.style.float = 'none';
+      el.style.margin = '0';
+    }
+
+    function addCopyButtons() {
+      var rows = document.querySelectorAll('#list .row');
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        placeSource(row);
+        if (row.querySelector('.vocal-copy')) continue;
+        /* 先找到本句的播放按钮：复制按钮克隆它的样式，保证大小、外形一致 */
+        var playBtn = null;
+        var btns = row.querySelectorAll('button');
+        for (var b = 0; b < btns.length; b++) {
+          if (!btns[b].classList.contains('vocal-copy')) { playBtn = btns[b]; break; }
+        }
+        var btn = playBtn
+          ? playBtn.cloneNode(true)
+          : document.createElement('button');
+        btn.classList.add('vocal-copy');
+        btn.classList.remove('playing', 'on', 'active');
+        btn.removeAttribute('id');
+        btn.removeAttribute('disabled');
+        btn.removeAttribute('aria-label');
+        var innerIds = btn.querySelectorAll('[id]');
+        for (var k = 0; k < innerIds.length; k++) innerIds[k].removeAttribute('id');
+        btn.type = 'button';
+        btn.title = '复制句子与释义';
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+          'stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"></rect>' +
+          '<path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span style="margin-left:4px">复制</span>';
+        btn.style.display = 'inline-flex';
+        btn.style.alignItems = 'center';
+        btn.style.justifyContent = 'center';
+        btn.style.marginLeft = '8px';
+        if (playBtn && playBtn.offsetWidth > 0) {
+          /* 与播放按钮完全同宽同高 */
+          var pw = playBtn.offsetWidth;
+          btn.style.boxSizing = 'border-box';
+          btn.style.width = pw + 'px';
+          btn.style.minWidth = pw + 'px';
+          btn.style.paddingLeft = '0';
+          btn.style.paddingRight = '0';
+          btn.style.overflow = 'hidden';
+        } else {
+          btn.style.padding = '4px 10px';
+          btn.style.border = '1px solid #e2e8f0';
+          btn.style.borderRadius = '8px';
+          btn.style.background = '#fff';
+          btn.style.color = '#475569';
+          btn.style.fontSize = '13px';
+        }
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var self = this;
+          var owner = self.parentNode;
+          while (owner && !(owner.classList && owner.classList.contains('row'))) owner = owner.parentNode;
+          if (!owner) return;
+          var sEl = owner.querySelector('.txt');
+          var sent = sEl ? String(sEl.textContent || '').trim() : '';
+          var tr = rowTranslation(owner, sEl);
+          copyText(sent + (tr ? '\n' + tr : ''));
+          /* 立即给出「已复制」反馈 */
+          var label = self.querySelector('span');
+          var old = label ? label.textContent : '';
+          self.classList.add('done');
+          if (label) label.textContent = '已复制';
+          setTimeout(function () {
+            self.classList.remove('done');
+            if (label) label.textContent = old || '复制';
+          }, 1200);
+        });
+        /* 紧跟在播放按钮后面：播放按钮因此往前让出位置，两个按钮左右并排 */
+        var anchor = playBtn || row.querySelector('.txt') || row.lastChild;
+        if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(btn, anchor.nextSibling);
+        else row.appendChild(btn);
+        /* 父容器可能自带 flex gap，这里按实测间距把两按钮压到 4px */
+        if (playBtn) {
+          var gapNow = btn.getBoundingClientRect().left - playBtn.getBoundingClientRect().right;
+          if (Math.abs(gapNow - 4) > 1) {
+            var curMl = parseFloat(btn.style.marginLeft) || 0;
+            btn.style.marginLeft = (curMl - (gapNow - 4)) + 'px';
+          }
+        }
+      }
+    }
+
+    addCopyButtons();
+    var timer = null;
+    var mo = new MutationObserver(function () {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(addCopyButtons, 120);
+    });
+    (function observe() {
+      var list = document.getElementById('list');
+      if (list) {
+        mo.observe(list, { childList: true, subtree: true });
+        addCopyButtons();
+      } else {
+        setTimeout(observe, 400);
+      }
+    })();
+  })();
+
   var style = document.createElement('style');
   style.textContent = [
     '.card{position:absolute;box-sizing:border-box;background:#fff;border-radius:16px;',

@@ -94,6 +94,7 @@ interface AppState {
   addListeningEntry: (entry: ListeningEntry) => void;
   /** 按 ID 删除一条听力目录条目 */
   removeListeningEntry: (id: string) => void;
+  renameListeningEntry: (id: string, title: string) => void;
   /** 拖拽排序：把 from 位置的条目移动到 to 位置，并重排 order */
   moveListeningEntry: (from: number, to: number) => void;
   /** 按给定 id 顺序重排整个目录（用于分类内部调整顺序） */
@@ -271,6 +272,20 @@ export const useAppStore = create<AppState>((set, get) => ({
       if (target) void cloudDeleteEntry(target);
       // 删除后顺序变化，同步新的排序
       void cloudReorder(next);
+      return { listeningEntries: next };
+    }),
+
+  renameListeningEntry: (id, title) =>
+    set((state) => {
+      let updated: ListeningEntry | undefined;
+      const next = state.listeningEntries.map((e) => {
+        if (e.id !== id) return e;
+        updated = { ...e, title };
+        return updated;
+      });
+      saveListeningEntries(next);
+      // 云端同步新名称（未配置云端时为空操作）
+      if (updated) void cloudUpsertEntry(updated);
       return { listeningEntries: next };
     }),
 

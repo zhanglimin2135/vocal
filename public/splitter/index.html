@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>音频拆分 · 逐句听练</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="vocal-theme.css">
+</head>
+<body>
+
+<!-- 播放页顶栏：只在播放页出现 -->
+<div class="playTop" id="playTop" hidden>
+  <div class="ptRow">
+    <div class="ptTitle">
+      <span class="ptBadge">播放页</span>
+      <b id="ptName">—</b>
+      <span class="ptMeta" id="ptMeta"></span>
+    </div>
+    <div class="ptTools">
+      <label class="chk big"><input type="checkbox" id="showText" checked> 显示句子</label>
+      <label class="chk big"><input type="checkbox" id="showTrans" checked> 显示全部释义</label>
+      <button class="btn" id="btnShare" title="把音频 + 文本 + 分句 + 释义打包成一个独立网页文件">🔗 分享</button>
+      <button class="btn" id="editBack">✏️ 返回编辑</button>
+    </div>
+  </div>
+  <div class="ptRow ptCtrl" id="ptCtrl"></div>
+</div>
+
+<header class="top">
+  <div class="brand">音频拆分 <span class="dot">·</span> 逐句听练</div>
+  <div class="fileInfo" id="fileInfo">未载入音频</div>
+  <button class="dictChip" id="dictChip" title="点击重新检测">词典 检测中…</button>
+</header>
+
+<main>
+  <!-- 1 · 导入 -->
+  <section class="card">
+    <div class="rowhead">
+      <h2>1 · 导入</h2>
+      <div class="hintline">音频与文本都在本机处理，不会上传</div>
+    </div>
+    <div class="importGrid">
+      <label class="drop" id="dropAudio">
+        <input type="file" id="audioFile" accept="audio/*" hidden>
+        <div class="dropIcon">♪</div>
+        <div class="dropMain">拖入音频文件</div>
+        <div class="dropSub">或点击选择 · mp3 / wav / m4a / ogg</div>
+      </label>
+      <label class="drop soft" id="dropText">
+        <input type="file" id="textFile" accept=".txt,.md,.csv,text/plain" hidden>
+        <div class="dropIcon">T</div>
+        <div class="dropMain">拖入文本 .txt</div>
+        <div class="dropSub">也可直接在下方文本框粘贴</div>
+      </label>
+    </div>
+  </section>
+
+  <!-- 2 · 文本 -->
+  <section class="card">
+    <div class="rowhead">
+      <h2>2 · 文本</h2>
+      <div class="hintline">一行 = 一句（空行自动忽略，只按有文字的行算）· 敲回车立即新增一句，切点按每行字数自动划分 · 选中单词自动弹出释义</div>
+      <div class="headTools">
+        <label class="chk"><input type="checkbox" id="autoPunct" checked> 导入时自动分句</label>
+        <label class="tool">分句口径
+          <select id="punctMode">
+            <option value="period" selected>按句号</option>
+            <option value="clause">按句号 + 逗号</option>
+          </select>
+        </label>
+        <label class="chk"><input type="checkbox" id="autoSync" checked> 文本变化后自动重切</label>
+      </div>
+    </div>
+    <textarea id="linesText" class="linesText" placeholder="一行一句（空行自动忽略）&#10;敲回车就多一句&#10;句子播放里 ✂ 拆分 = 音轨同步加切点线"></textarea>
+    <div class="editorFoot">
+      <span class="stat inline" id="countStat">尚未输入文本</span>
+      <span class="spacer"></span>
+      <button class="btn tiny" id="btnSplitPunct" title="按 。！？… . ! ? 把长文本拆成一句一行">按句号分句</button>
+    </div>
+  </section>
+
+  <!-- 3 · 气口与波形 -->
+  <section class="card waveCard pinOff" id="waveCard">
+    <div class="rowhead">
+      <h2>3 · 气口与波形</h2>
+      <div class="hintline">按住分割线左右拖动 = 移动切点（句子分界跟着走，拖近别的气口会自动吸附，Alt + 拖动 = 完全不吸附）· 双击 = 在任意位置加切点（该句拆成两句，序号实时更新；Shift + 双击 = 吸附到最近气口）· Alt + 双击 = 加暂停点 · 右键单击 = 删除最近的标记（删除分界处的切点会把前后两句合并）· 快捷键 C = 加切点 · P = 加暂停点 · X = 删除最近标记（播放头处）</div>
+      <div class="headTools">
+        <label class="chk"><input type="checkbox" id="snapDrag" checked> 拖动分割线吸附气口</label>
+        <label class="chk"><input type="checkbox" id="followPlay" checked> 波形跟随播放头</label>
+        <label class="chk"><input type="checkbox" id="pinWave" checked> 滚动时吸附顶部</label>
+      </div>
+    </div>
+    <div class="tools detectTools">
+      <label class="tool">灵敏度
+        <input type="range" id="sens" min="0.05" max="0.7" step="0.01" value="0.28">
+      </label>
+      <label class="tool">最短气口
+        <input type="number" id="minSil" min="60" max="2000" step="10" value="250" title="毫秒">
+        <span class="unit">ms</span>
+      </label>
+      <label class="tool">尾部保留
+        <input type="number" id="tail" min="0" max="600" step="10" value="120" title="毫秒">
+        <span class="unit">ms</span>
+      </label>
+      <label class="tool">最短句长
+        <input type="number" id="minSeg" min="0.1" max="10" step="0.05" value="0.35">
+        <span class="unit">s</span>
+      </label>
+      <label class="chk"><input type="checkbox" id="smooth" checked> 平滑</label>
+      <span class="hintline">切点按文本每行字数自动分配；气口只用来微调位置（参考）</span>
+    </div>
+    <div class="toolrow">
+      <button class="btn" id="btnDetect">重新检测气口</button>
+      <button class="btn" id="btnAlign">按文本自动切点</button>
+      <button class="btn ghost" id="btnAddCut">播放头处加切点</button>
+      <button class="btn ghost" id="btnAddStop">播放头处加暂停点</button>
+      <button class="btn ghost" id="btnPauseToStop">气口 → 暂停点</button>
+      <button class="btn ghost" id="btnDelCut">删除最近标记</button>
+      <button class="btn ghost" id="btnClearStop">清空暂停点</button>
+      <button class="btn ghost" id="btnSnapAll" title="把所有切点移到最近的句子间停顿（气口）上">切点吸附气口</button>
+      <button class="btn ghost" id="btnClearCut">清空全部标记</button>
+      <span class="stat" id="waveStat">—</span>
+    </div>
+    <div class="tools viewTools">
+      <span class="tool">缩放
+        <input type="range" id="zoomR" min="0" max="100" step="0.5" value="0">
+      </span>
+      <span class="zoomBox">
+        <button class="btn tiny" id="zoomOut" title="缩小">−</button>
+        <b id="zoomLabel">1.0x</b>
+        <button class="btn tiny" id="zoomIn" title="放大">＋</button>
+        <button class="btn tiny" id="zoomFit" title="显示全部">适应</button>
+      </span>
+      <span class="timeNow" id="timeNowTop">00:00.000 / 00:00.000</span>
+      <span class="spacer"></span>
+      <span class="hintline">滚轮 / 拖动 = 左右移动波形 · ⌘ 或 Ctrl + 滚轮 = 以光标为中心缩放</span>
+    </div>
+    <div class="waveWrap" id="waveWrap">
+      <canvas id="wave"></canvas>
+      <canvas id="ovl"></canvas>
+      <div class="waveEmpty" id="waveEmpty">载入音频后显示波形</div>
+    </div>
+    <div class="pinEditor" id="pinEditor" hidden>
+      <span class="peTag" id="peTag">第 1 句</span>
+      <textarea id="pinText" rows="1" spellcheck="false" placeholder="下滑时随时断句：把光标放到要断开的位置，点「拆分」（⌘/Ctrl + Enter）"></textarea>
+      <button class="btn tiny" id="peSplit" title="音频切点 = 播放线位置，文本断点 = 光标位置，两者都不移动；⌘/Ctrl + Enter 只按光标拆分">✂ 拆分</button>
+    </div>
+    <div class="miniWrap"><canvas id="mini" title="整段音频总览：点击或拖动快速移动视窗"></canvas></div>
+    <div class="legend">
+      <span class="lg"><i class="sw silence"></i>气口（静音段）</span>
+      <span class="lg"><i class="sw cut"></i>切点（所在句子拆成两句，序号实时更新）</span>
+      <span class="lg"><i class="sw stop"></i>暂停点（播放到此停下，不拆句）</span>
+      <span class="lg">切点线与句子分界一一对应：分句必有分割线，没有分割线就是一句</span>
+      <span class="lg">删除切点后，前后两句自动合并、该位置不留任何标记</span>
+      <span class="lg">单击 = 播放头跳到该位置 · 按住分割线拖动 = 移动该切点（句子分界跟着走）</span>
+      <span class="lg">滚轮 · 拖动 = 左右移动波形 · ⌘ / Ctrl + 滚轮 = 缩放</span>
+      <span class="lg">双击 = 任意位置加切点（拆句 + 序号更新）· Shift + 双击 = 吸附到最近气口 · Alt + 双击 = 加暂停点 · 右键 = 删除最近的标记（分界处的切点删除后前后两句合并）</span>
+      <span class="lg kbd"><kbd>C</kbd> 播放头加切点 · <kbd>P</kbd> 加暂停点 · <kbd>X</kbd> 删除最近标记</span>
+      <span class="lg">滚动页面时本卡片吸附在顶部，只留波形方便加切点</span>
+      <span class="lg kbd"><kbd>空格</kbd> 播放 / 暂停 / 在暂停点继续</span>
+    </div>
+  </section>
+
+  <!-- 4 · 句子播放 -->
+  <section class="card block">
+    <div class="rowhead">
+      <h2>4 · 句子播放</h2>
+      <div class="hintline">整句完整显示，自动换行 · 点句即播 ▶（再点 ⏸ 暂停）· 光标放进句子里点 ✂ 拆分 = 拆成两句，音轨上同步加一条切点线（分句必有分割线）</div>
+      <span class="timeNow" id="timeNow">00:00.000 / 00:00.000</span>
+    </div>
+    <div class="playbar">
+      <label class="tool">重复
+        <input type="number" id="repeat" min="1" max="30" step="1" value="1">
+        <span class="unit">遍</span>
+      </label>
+      <label class="tool">间隔
+        <input type="number" id="gap" min="0" max="10" step="0.1" value="0.6">
+        <span class="unit">s</span>
+      </label>
+      <label class="tool">速度
+        <select id="rate">
+          <option value="0.6">0.6x</option>
+          <option value="0.75">0.75x</option>
+          <option value="0.9">0.9x</option>
+          <option value="1" selected>1.0x</option>
+          <option value="1.15">1.15x</option>
+          <option value="1.3">1.3x</option>
+        </select>
+      </label>
+      <label class="tool">切点处
+        <select id="pauseMode">
+          <option value="hold" selected>停住等手动继续</option>
+          <option value="auto">停留数秒自动继续</option>
+          <option value="off">不暂停（连续播）</option>
+        </select>
+      </label>
+      <label class="tool">停留
+        <input type="number" id="pauseSec" min="0" max="30" step="0.5" value="1">
+        <span class="unit">s</span>
+      </label>
+      <span class="spacer"></span>
+      <button class="btn" id="btnTransAll">🌐 全部获取释义</button>
+      <button class="btn primary" id="btnPlayAll">▶ 播放全文</button>
+      <button class="btn" id="btnPlayFrom">▶ 从本句往后</button>
+      <button class="btn danger" id="btnStop">⏹ 停止</button>
+    </div>
+    <div class="rows" id="rows">
+      <div class="rowsEmpty">加载音频并输入文本后，这里会列出每一句</div>
+    </div>
+    <!-- 播放页最下面：完整版文本（不分句）· 整段连播 -->
+    <section class="fullBlock" id="fullBlock">
+      <div class="fbHead">
+        <h3>完整版文本 <span class="fbTag">不分句 · 整段连播</span></h3>
+        <div class="fbTools">
+          <span class="fbTime" id="fbTime">00:00.0 / 00:00.0</span>
+          <button class="btn" id="fbPlay">▶ 播放完整音频</button>
+          <button class="btn ghost" id="fbStop">⏹ 停止</button>
+        </div>
+      </div>
+      <div class="fbBar" id="fbBar" title="点击可跳到对应位置"><i id="fbFill"></i></div>
+      <div id="fullTextArea" class="fullTextArea" aria-readonly="true"></div>
+      <div class="fbHint">整段连续播放，不在切点或暂停点停 · 选中单词即可查释义（与首页文本框里的选词一致）</div>
+    </section>
+    <div class="exportrow">
+      <button class="btn" id="btnExportZip">导出全部句子（WAV · ZIP）</button>
+      <button class="btn ghost" id="btnExportTxt">导出对照文本</button>
+      <button class="btn ghost" id="btnExportSrt">导出 SRT</button>
+      <label class="chk"><input type="checkbox" id="expTrans" checked> 导出含释义</label>
+    </div>
+    <div class="finishRow" id="finishRow">
+      <button class="btn primary" id="btnFinish">✅ 完成分句 · 进入播放页</button>
+      <span class="hintline">分句都弄好后点这里：只保留句子播放框，其余全部隐藏；「返回编辑」随时回来</span>
+    </div>
+  </section>
+</main>
+
+<!-- 分享播放页 -->
+<div class="sharePop" id="sharePop" hidden>
+  <div class="spCard">
+    <div class="spHead">
+      <b>🔗 分享播放页</b>
+      <button class="wpClose" id="shareClose" title="关闭">×</button>
+    </div>
+    <div class="spBody">
+      <p class="spLead">把「音频 + 文本 + 分句 + 释义」打包成<strong>一个独立的 .html 网页</strong>。发给别人后，用任何一台电脑的浏览器双击打开就能逐句听练——不用联网、不用安装、不用本机服务，音频也不会上传到任何服务器。</p>
+      <ul class="spFacts" id="shareFacts">
+        <li class="nameRow">文件名：<input type="text" id="shareName" spellcheck="false" placeholder="我的播放页" disabled><span class="ext">.html</span></li>
+        <li>内容：<b id="shareLines">—</b></li>
+        <li>网页大小：<b id="shareSize">—</b>（音频已内嵌）</li>
+      </ul>
+      <div class="spBtns">
+        <button class="btn primary" id="shareSave" disabled>⬇️ 下载网页</button>
+        <button class="btn" id="shareOpen" disabled>🌐 先预览一下</button>
+      </div>
+      <p class="spNote" id="shareNote"></p>
+    </div>
+  </div>
+</div>
+
+<!-- 划词释义浮窗 -->
+<div class="wordPop" id="wordPop" hidden>
+  <div class="wpInner">
+    <div class="wpHead">
+      <b id="wpWord"></b>
+      <span class="wpSrc" id="wpSrc"></span>
+      <button class="wpClose" id="wpClose" title="关闭">×</button>
+    </div>
+    <div class="wpPhon" id="wpPhon"></div>
+    <div class="wpSenses" id="wpSenses"></div>
+    <div class="wpForms" id="wpForms"></div>
+    <div class="wpFoot">来源优先级：有道 → 百度 · Esc 关闭</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+<script src="vocal-patch.js"></script>
+</body>
+</html>

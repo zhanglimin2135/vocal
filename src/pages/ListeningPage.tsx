@@ -3,7 +3,7 @@
  *   进入听力精听后首先看到的页面：展示所有已收集的精听材料（上传的链接 / 导入的网页）。
  *
  *   顶部入口：
- *     - 「上传音频」：跳转外部拆分工具（audio-splitter），在那里拆分并生成播放页
+ *     - 「上传音频」：在应用内全屏打开音频拆分工具（audio-splitter），在那里拆分并生成播放页
  *   两种收集方式：
  *     - 粘贴分享链接 → 生成外链卡片（点击在新标签页打开）
  *     - 导入「下载网页」得到的 .html 文件 → 解析句数/时长，网页本体存 IndexedDB
@@ -15,9 +15,9 @@
  */
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  ArrowLeft, Volume2, Plus, Link2, FileUp, GripVertical, Trash2, ExternalLink,
+  ArrowLeft, Volume2, Plus, Link2, FileUp, GripVertical, Trash2, ExternalLink, Pencil,
   Music2, Loader2, X, Check, ListMusic, Sparkles, Lock, Search,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
@@ -53,9 +53,8 @@ export function categoryLabel(id: ListeningCategory): string {
 // 工具函数（export 给 ListeningUpload / ListeningEditor 复用）
 // ============================================
 
-/** 外部音频拆分工具地址（上传音频入口） */
-export const AUDIO_SPLITTER_URL =
-  'https://audio-splitter-study.app.workbuddy.host/?sharecode=6A2QF3UZEN';
+/** 音频拆分工具地址（本地内置副本，便于把播放页的「分享」换成「上传到目录」） */
+export const AUDIO_SPLITTER_URL = '/splitter/index.html';
 
 /** 唯一 ID */
 export function generateId(): string {
@@ -259,9 +258,11 @@ function CategoryPicker({
 
 export default function ListeningPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const entries = useAppStore((s) => s.listeningEntries);
   const addListeningEntry = useAppStore((s) => s.addListeningEntry);
   const removeListeningEntry = useAppStore((s) => s.removeListeningEntry);
+  const renameListeningEntry = useAppStore((s) => s.renameListeningEntry);
   const reorderListeningEntries = useAppStore((s) => s.reorderListeningEntries);
   const loadListeningEntriesFromCloud = useAppStore((s) => s.loadListeningEntriesFromCloud);
 
@@ -332,6 +333,42 @@ export default function ListeningPage() {
     { html: string; title: string; lineCount?: number; duration?: number }[]
   >([]);
   const [pendingTitle, setPendingTitle] = useState('');
+
+  // ===== 重命名条目（受密码保护） =====
+  const [renameTarget, setRenameTarget] = useState<ListeningEntry | null>(null);
+  const [renameValue, setRenameValue] = useState('');
+
+  const handleRename = useCallback((entry: ListeningEntry, e: React.MouseEvent) => {
+    e.stopPropagation();
+    requireUnlock(() => {
+      setRenameTarget(entry);
+      setRenameValue(entry.title);
+    });
+  }, [requireUnlock]);
+
+  const submitRename = () => {
+    if (!renameTarget) return;
+    const title = renameValue.trim();
+    if (!title) return;
+    renameListeningEntry(renameTarget.id, title);
+    setRenameTarget(null);
+  };
+
+  // 从「添加音频」页直接上传拆分结果：跳到本页时带着刚打包好的播放页 HTML
+  useEffect(() => {
+    const st = location.state as { splitHtml?: string; splitName?: string } | null;
+    if (!st || !st.splitHtml) return;
+    const meta = parseShareHtml(st.splitHtml);
+    const title = (st.splitName || meta.title || '未命名精听').trim();
+    setPendingFiles([{
+      html: st.splitHtml,
+      title,
+      lineCount: meta.lineCount || undefined,
+      duration: meta.duration || undefined,
+    }]);
+    setPendingTitle(title);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.state, location.pathname, navigate]);
 
   // 打开某个目录条目（点击目录或分享直接跳转，无需密码）
   const openEntry = useCallback(async (entry: ListeningEntry) => {
@@ -610,7 +647,7 @@ export default function ListeningPage() {
             听力精听
           </span>
           <button
-            onClick={() => requireUnlock(() => window.open(AUDIO_SPLITTER_URL, '_blank', 'noopener,noreferrer'))}
+            onClick={() => requireUnlock(() => navigate('/listening/splitter'))}
             className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-200 transition hover:-translate-y-0.5 hover:shadow-lg"
           >
             <Plus className="h-4 w-4" />
@@ -794,7 +831,7 @@ export default function ListeningPage() {
             </p>
             <div className="mt-6 flex items-center justify-center gap-3">
               <button
-                onClick={() => requireUnlock(() => window.open(AUDIO_SPLITTER_URL, '_blank', 'noopener,noreferrer'))}
+                onClick={() => requireUnlock(() => navigate('/listening/splitter'))}
                 className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4" />
@@ -957,6 +994,13 @@ export default function ListeningPage() {
                         className="rounded-full p-2 text-slate-400 transition hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         <ExternalLink className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={(e) => handleRename(entry, e)}
+                        title="重命名"
+                        className="rounded-full p-2 text-slate-400 transition hover:bg-amber-50 hover:text-amber-600"
+                      >
+                        <Pencil className="h-4 w-4" />
                       </button>
                       <button
                         onClick={(e) => handleDelete(entry, e)}
@@ -1153,6 +1197,59 @@ export default function ListeningPage() {
               >
                 <Check className="h-4 w-4" />
                 确定
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== 重命名弹窗 ===== */}
+      {renameTarget && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm"
+          onClick={() => setRenameTarget(null)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <h3 className="flex items-center gap-2 text-base font-bold text-slate-800">
+                  <Pencil className="h-4 w-4 text-indigo-600" />
+                  重命名
+                </h3>
+                <p className="mt-1 text-xs text-slate-500">修改后会同步到所有设备</p>
+              </div>
+              <button
+                onClick={() => setRenameTarget(null)}
+                className="rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <input
+              autoFocus
+              value={renameValue}
+              onChange={(e) => setRenameValue(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') submitRename(); }}
+              placeholder="请输入新的名称"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                onClick={() => setRenameTarget(null)}
+                className="rounded-full px-4 py-2 text-sm text-slate-500 transition hover:bg-slate-100"
+              >
+                取消
+              </button>
+              <button
+                onClick={submitRename}
+                disabled={!renameValue.trim()}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Check className="h-4 w-4" />
+                保存
               </button>
             </div>
           </div>

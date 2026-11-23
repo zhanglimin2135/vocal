@@ -15,6 +15,7 @@ import UploadPage from '@/pages/UploadPage';
 const SelectPage = lazy(() => import('@/pages/SelectPage'));
 const StudyPage = lazy(() => import('@/pages/StudyPage'));
 const ListeningPage = lazy(() => import('@/pages/ListeningPage'));
+const AudioSplitterPage = lazy(() => import('@/pages/AudioSplitterPage'));
 const CET4Page = lazy(() => import('@/pages/CET4Page'));
 const CollectionPage = lazy(() => import('@/pages/CollectionPage'));
 // 全局 store
@@ -82,6 +83,7 @@ function AppShell() {
         <Route path="/select" element={<SelectPage />} />
         <Route path="/study" element={<StudyPage />} />
         <Route path="/listening" element={<ListeningPage />} />
+        <Route path="/listening/splitter" element={<AudioSplitterPage />} />
         <Route path="/cet4" element={<CET4Page />} />
         <Route path="/collection" element={<CollectionPage />} />
         {/* 旧路由重定向到新的听力精听页面，保证收藏链接不失效 */}
