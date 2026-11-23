@@ -668,51 +668,15 @@ export default function ListeningPage() {
               把拆分好的逐句听练页面收进这里，拖拽卡片即可调整顺序
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            {/* 搜索：按精听名称过滤目录 */}
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="搜索精听名称"
-                className="w-48 rounded-full border border-slate-200 bg-white py-2 pl-9 pr-8 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:w-60 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch('')}
-                  title="清空搜索"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
-            <button
-              onClick={() => requireUnlock(() => { setFormCategory(activeCategory); setDialog('link'); setImportError(''); })}
-              className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50"
-            >
-              <Link2 className="h-4 w-4" />
-              粘贴链接
-            </button>
-            <button
-              onClick={() => requireUnlock(() => { setFormCategory(activeCategory); htmlInputRef.current?.click(); })}
-              disabled={importing}
-              className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 disabled:opacity-60"
-            >
-              {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileUp className="h-4 w-4" />}
-              导入网页
-            </button>
-            <input
-              ref={htmlInputRef}
-              type="file"
-              accept=".html,.htm,text/html"
-              multiple
-              className="hidden"
-              onChange={(e) => handleHtmlFiles(e.target.files)}
-            />
-          </div>
         </div>
+        <input
+          ref={htmlInputRef}
+          type="file"
+          accept=".html,.htm,text/html"
+          multiple
+          className="hidden"
+          onChange={(e) => handleHtmlFiles(e.target.files)}
+        />
 
         {/* 大类切换：TOEFL 新版 / TOEFL 旧版 / TOEFL Junior / 雅思 */}
         <div className="mb-6 flex flex-wrap items-center gap-2">
@@ -747,6 +711,25 @@ export default function ListeningPage() {
               </button>
             );
           })}
+          {/* 搜索：与分类标签同行，靠右 */}
+          <div className="relative ml-auto">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="搜索精听名称"
+              className="w-44 rounded-full border border-slate-200 bg-white py-2 pl-9 pr-8 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:w-56 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 sm:w-48 sm:focus:w-60"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                title="清空搜索"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* 排序提示条 */}
