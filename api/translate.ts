@@ -92,7 +92,8 @@ async function youdaoTranslate(
         const vals = (hit.trans || [])
           .map((t) => ({ v: String(t.value || "").trim(), s: Number(t.support || 0) }))
           .filter((t) => t.v)
-          .sort((a, b) => b.s - a.s);
+          /* 先看译法是否覆盖了原文的关键词，再看支持度，避免选到张冠李戴的释义 */
+          .sort((a, b) => hintScore(q, b.v) - hintScore(q, a.v) || b.s - a.s);
         if (vals.length && hasCN(vals[0].v)) {
           return { text: vals[0].v, source: "有道释义" };
         }
@@ -107,32 +108,63 @@ async function youdaoTranslate(
 }
 
 /* ============================ 3：Google 翻译 ============================ */
-async function googleTranslate(q: string, toCN: boolean): Promise<string | null> {
-  const { signal, done } = withTimeout();
+/* 两个免费通道互为备份：gtx（单行 JSON）与 dict-chrome-ex（数组），任一成功即可 */
+function pickByScript(list: string[], toCN: boolean): string {
+  const ok = list.filter((s) => (toCN ? hasCN(s) : /[A-Za-z]/.test(s)) && s.trim());
+  return ok.length ? ok[ok.length - 1].trim() : list.filter((s) => s.trim()).join("").trim();
+}
+
+async function googleOnce(url: string, toCN: boolean): Promise<string | null> {
+  const { signal, done } = withTimeout(4000);
   try {
-    const url =
-      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" +
-      (toCN ? "zh-CN" : "en") +
-      "&dt=t&q=" +
-      encodeURIComponent(q);
     const r = await fetch(url, {
       headers: { "User-Agent": UA, Accept: "application/json" },
       signal,
     });
     if (!r.ok) return null;
     const data = (await r.json()) as unknown;
-    const segs = (data as any[])?.[0];
-    if (!Array.isArray(segs)) return null;
-    const text = segs
-      .map((s: any) => (Array.isArray(s) ? String(s[0] || "") : ""))
-      .join("")
-      .trim();
-    return text || null;
+    if (!Array.isArray(data)) return null;
+
+    /* 形态一：gtx → [[["译文","原文",…], …], …] */
+    const first = data[0];
+    if (Array.isArray(first) && Array.isArray(first[0])) {
+      const text = first
+        .map((s: any) => (Array.isArray(s) ? String(s[0] || "") : ""))
+        .join("")
+        .trim();
+      if (text) return text;
+    }
+
+    /* 形态二：dict-chrome-ex → [["原文","译文",…]] 或 ["译文"] */
+    const flat: string[] = [];
+    for (const item of data) {
+      if (typeof item === "string") flat.push(item);
+      else if (Array.isArray(item)) {
+        for (const x of item) if (typeof x === "string") flat.push(x);
+      }
+    }
+    const picked = pickByScript(flat, toCN);
+    return picked || null;
   } catch {
     return null;
   } finally {
     done();
   }
+}
+
+async function googleTranslate(q: string, toCN: boolean): Promise<string | null> {
+  const tl = toCN ? "zh-CN" : "en";
+  const enc = encodeURIComponent(q);
+  const urls = [
+    "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" + tl + "&dt=t&q=" + enc,
+    "https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl=" + tl + "&q=" + enc,
+    "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" + tl + "&dt=t&q=" + enc,
+  ];
+  for (const u of urls) {
+    const t = await googleOnce(u, toCN);
+    if (t) return t;
+  }
+  return null;
 }
 
 /* ============================ 4：MyMemory 兜底 ============================ */
