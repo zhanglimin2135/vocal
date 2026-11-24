@@ -113,12 +113,6 @@ export default function AudioSplitterPage() {
 
       <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 flex-col px-4 pb-0 pt-5">
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_10px_40px_-14px_rgba(79,70,229,.18)]">
-          {!loaded && (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white">
-              <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-indigo-500 border-t-transparent" />
-              <p className="text-sm text-slate-500">正在加载拆分工具…</p>
-            </div>
-          )}
           <iframe
             ref={iframeRef}
             src={AUDIO_SPLITTER_URL}
@@ -128,6 +122,12 @@ export default function AudioSplitterPage() {
             allow="autoplay; clipboard-read; clipboard-write; fullscreen; microphone"
             referrerPolicy="no-referrer-when-downgrade"
           />
+          {!loaded && !slow && (
+            <div className="pointer-events-none absolute right-4 top-3 z-10 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] text-slate-400 shadow-sm">
+              <span className="h-2.5 w-2.5 animate-spin rounded-full border-[1.5px] border-indigo-400 border-t-transparent" />
+              加载中…
+            </div>
+          )}
           {slow && (
             <div className="absolute inset-x-0 bottom-0 z-20 flex flex-wrap items-center justify-center gap-2 bg-amber-50/95 px-4 py-2 text-xs text-amber-700">
               拆分工具没能加载出来（可能是部署版本或网络问题）。
