@@ -107,7 +107,74 @@ async function youdaoTranslate(
   }
 }
 
-/* ============================ 3：Google 翻译 ============================ */
+/* ============================ 3：Bing 翻译（LLM，质量最好） ============================ */
+type BingToken = { host: string; ig: string; iid: string; token: string; key: number; exp: number };
+let bingCache: BingToken | null = null;
+
+async function bingToken(): Promise<BingToken | null> {
+  if (bingCache && Date.now() < bingCache.exp) return bingCache;
+  for (const host of ["https://cn.bing.com", "https://www.bing.com"]) {
+    const { signal, done } = withTimeout(6000);
+    try {
+      const r = await fetch(host + "/translator", {
+        headers: { "User-Agent": UA, "Accept-Language": "zh-CN,zh;q=0.9" },
+        signal,
+      });
+      if (!r.ok) continue;
+      const html = await r.text();
+      const ig = /IG:"([^"]+)"/.exec(html)?.[1];
+      const iid = /data-iid="(translator\.\d+)"/.exec(html)?.[1];
+      const p = /params_AbusePreventionHelper\s*=\s*\[(\d+),"([^"]+)",(\d+)\]/.exec(html);
+      if (ig && iid && p) {
+        /* 令牌约 1 小时有效，这里保守按 50 分钟缓存，暖实例内可复用，批量获取释义会快很多 */
+        bingCache = { host, ig, iid, token: p[2], key: Number(p[1]), exp: Date.now() + 50 * 60 * 1000 };
+        return bingCache;
+      }
+    } catch {
+      /* 换下一个域名 */
+    } finally {
+      done();
+    }
+  }
+  return null;
+}
+
+async function bingTranslate(q: string, toCN: boolean): Promise<string | null> {
+  const tk = await bingToken();
+  if (!tk) return null;
+  const body = new URLSearchParams({
+    fromLang: toCN ? "en" : "zh-Hans",
+    to: toCN ? "zh-Hans" : "en",
+    text: q,
+    token: tk.token,
+    key: String(tk.key),
+  });
+  const { signal, done } = withTimeout(6000);
+  try {
+    const r = await fetch(
+      tk.host + "/ttranslatev3?isVertical=1&IG=" + tk.ig + "&IID=" + tk.iid + ".1",
+      {
+        method: "POST",
+        headers: { "User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+        signal,
+      },
+    );
+    if (!r.ok) {
+      if (r.status === 400) bingCache = null; /* 令牌失效，下次重新取 */
+      return null;
+    }
+    const j = (await r.json()) as any;
+    const t = j?.[0]?.translations?.[0]?.text;
+    return typeof t === "string" && t.trim() ? t.trim() : null;
+  } catch {
+    return null;
+  } finally {
+    done();
+  }
+}
+
+/* ============================ 4：Google 翻译 ============================ */
 /* 两个免费通道互为备份：gtx（单行 JSON）与 dict-chrome-ex（数组），任一成功即可 */
 function pickByScript(list: string[], toCN: boolean): string {
   const ok = list.filter((s) => (toCN ? hasCN(s) : /[A-Za-z]/.test(s)) && s.trim());
@@ -285,15 +352,19 @@ async function translateText(q: string) {
     }
   }
 
-  /* 2) Google 机器翻译：短语与整句都覆盖，语境更自然 */
+  /* 2) Bing 翻译（LLM 引擎，语境与口语表达最自然） */
+  const b = await bingTranslate(q, toCN);
+  if (b) return { ok: true, text: polish(q, b), source: "Bing 翻译" };
+
+  /* 3) Google 机器翻译 */
   const g = await googleTranslate(q, toCN);
   if (g) return { ok: true, text: polish(q, g), source: "Google 翻译" };
 
-  /* 3) 有道网络释义（短语） */
+  /* 4) 有道网络释义（短语） */
   const yd2 = await youdaoTranslate(q, true);
   if (yd2) return { ok: true, text: polish(q, yd2.text), source: yd2.source };
 
-  /* 4) MyMemory 兜底 */
+  /* 5) MyMemory 兜底 */
   const mm = await myMemoryTranslate(q, toCN);
   if (mm) return { ok: true, text: polish(q, mm.text), source: mm.source };
 
