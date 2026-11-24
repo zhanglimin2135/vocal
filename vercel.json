@@ -6,7 +6,7 @@
   "installCommand": "pnpm install",
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|splitter/).*)",
       "destination": "/index.html"
     }
   ]
