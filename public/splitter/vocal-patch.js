@@ -150,11 +150,13 @@
     if (!chip) return;
     var sync = function () {
       var ok = /已连接/.test(chip.textContent || '');
-      chip.title = ok
+      var next = ok
         ? '释义来源：有道词典（本站在线服务），整句翻译由在线翻译接口提供'
         : '在线词典暂不可用，点击重试';
+      /* 必须比对后再写：直接赋值会触发 attribute 变更，观察器再次回调 → 无限循环卡死页面 */
+      if (chip.title !== next) chip.title = next;
     };
-    new MutationObserver(sync).observe(chip, { attributes: true, childList: true, characterData: true, subtree: true });
+    new MutationObserver(sync).observe(chip, { childList: true, characterData: true, subtree: true });
     sync();
   }
 

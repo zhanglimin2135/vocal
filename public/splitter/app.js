@@ -2084,13 +2084,13 @@
     el.classList.toggle('off', !dict.ok);
     el.textContent = dict.ok ? '词典 已连接' : '词典 未连接 · 点此重连';
     el.title = dict.ok
-      ? '释义来源：有道优先 → 百度兜底（由本站的 server.js 代理转发）'
-      : '未连到词典服务。本地使用时请在 audio-splitter 目录执行 node server.js（或双击 start.command）';
+      ? '释义来源：有道词典（本站在线服务），整句翻译由在线翻译接口提供'
+      : '在线词典暂不可用，点击重试';
   }
 
   function ping(base, cb) {
     var done = false;
-    var timer = setTimeout(function () { if (!done) { done = true; cb(false); } }, 1500);
+    var timer = setTimeout(function () { if (!done) { done = true; cb(false); } }, 5000);
     fetch(base + '/ping', { cache: 'no-store' }).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (j) {
@@ -2103,8 +2103,8 @@
   function detectDict(cb) {
     if (dict.probing) { if (cb) cb(dict.ok); return; }
     dict.probing = true;
-    var tries = ['http://127.0.0.1:8765/api'];
-    if (location.protocol !== 'file:') tries.unshift('/api');
+    /* 线上只走同源 /api；本地用 file:// 直接打开时才退回本地 server.js */
+    var tries = location.protocol === 'file:' ? ['http://127.0.0.1:8765/api'] : ['/api'];
     var i = 0;
     (function next() {
       if (i >= tries.length) { finish(''); return; }
@@ -2119,7 +2119,21 @@
   }
 
   function apiGet(path) {
-    return fetch(dict.base + path, { cache: 'no-store' }).then(function (r) { return r.json(); });
+    /* 加超时：在线接口异常时不至于让「查询中…」永远转圈 */
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 12000) : null;
+    var opt = { cache: 'no-store' };
+    if (ctrl) opt.signal = ctrl.signal;
+    return fetch(dict.base + path, opt).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      if (timer) clearTimeout(timer);
+      return j;
+    }, function (e) {
+      if (timer) clearTimeout(timer);
+      throw e;
+    });
   }
 
   function normKey(s) { return String(s == null ? '' : s).trim(); }
@@ -2139,7 +2153,7 @@
 
   function needDict() {
     if (dict.ok) return true;
-    toast('词典服务未连接：请在 audio-splitter 目录执行 node server.js');
+    toast('在线词典暂不可用，正在重试…');
     detectDict();
     return false;
   }
@@ -2291,7 +2305,7 @@
     if (wordCache[w] !== undefined) { renderWord(wordCache[w]); return; }
     if (!dict.ok) {
       $('#wpSrc').textContent = '';
-      $('#wpSenses').innerHTML = '<div class="wpRow muted">词典服务未连接：在本目录执行 <b>node server.js</b> 或双击 <b>start.command</b></div>';
+      $('#wpSenses').innerHTML = '<div class="wpRow muted">在线词典暂未连接，请点右上角「词典」重试</div>';
       placelast();
       return;
     }
@@ -4107,7 +4121,7 @@ body.noTr .tr{display:none}
     });
     $('#btnTransAll').addEventListener('click', fetchAllTrans);
     $('#dictChip').addEventListener('click', function () {
-      detectDict(function (ok) { toast(ok ? '词典服务已连接（有道 → 百度）' : '仍未连上：请运行 node server.js 或双击 start.command'); });
+      detectDict(function (ok) { toast(ok ? '在线词典已连接' : '在线词典仍未连上，请稍后重试'); });
     });
     $('#expTrans').addEventListener('change', saveState);
 
