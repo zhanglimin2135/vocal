@@ -233,7 +233,7 @@ async function myMemoryTranslate(
 
 /* 译文尾部标点跟随原文（"Really?" → "真的吗？"），避免丢标点后语气变味 */
 function polish(src: string, out: string) {
-  const t = out.trim();
+  const t = out.replace(/[\u200b\u200c\u200d\ufeff]/g, "").trim(); /* 清掉 Google 输出里的零宽字符 */
   if (!t) return t;
   const last = src.trim().slice(-1);
   if (/[?？]/.test(last) && !/[?？!！。.]$/.test(t)) return t + "？";
