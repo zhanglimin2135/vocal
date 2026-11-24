@@ -144,7 +144,22 @@
     btn.addEventListener('click', uploadCurrent);
   }
 
+  /* 词典已改为本站的在线接口，修正提示文案（原先是「需运行 server.js」） */
+  function fixDictHint() {
+    var chip = document.getElementById('dictChip');
+    if (!chip) return;
+    var sync = function () {
+      var ok = /已连接/.test(chip.textContent || '');
+      chip.title = ok
+        ? '释义来源：有道词典（本站在线服务），整句翻译由在线翻译接口提供'
+        : '在线词典暂不可用，点击重试';
+    };
+    new MutationObserver(sync).observe(chip, { attributes: true, childList: true, characterData: true, subtree: true });
+    sync();
+  }
+
   ready(function () {
+    fixDictHint();
     var tries = 0;
     var timer = setInterval(function () {
       var btn = document.getElementById('btnShare');

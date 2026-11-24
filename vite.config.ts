@@ -4,6 +4,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 import hanyuHandler from "./api/hanyu";
 import booksHandler from "./api/books";
+import pingHandler from "./api/ping";
+import lookupHandler from "./api/lookup";
+import translateHandler from "./api/translate";
+import voiceHandler from "./api/voice";
 
 /** 本地开发时把 /api/* 交给和 Vercel 相同的处理函数 */
 function localApiPlugin(): Plugin {
@@ -19,6 +23,18 @@ function localApiPlugin(): Plugin {
       });
       server.middlewares.use("/api/books", (req, res) => {
         void booksHandler(req as never, res as never);
+      });
+      server.middlewares.use("/api/ping", (req, res) => {
+        void pingHandler(req as never, res as never);
+      });
+      server.middlewares.use("/api/lookup", (req, res) => {
+        void lookupHandler(req as never, res as never);
+      });
+      server.middlewares.use("/api/translate", (req, res) => {
+        void translateHandler(req as never, res as never);
+      });
+      server.middlewares.use("/api/voice", (req, res) => {
+        void voiceHandler(req as never, res as never);
       });
     },
   };
