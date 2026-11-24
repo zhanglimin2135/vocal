@@ -51,7 +51,10 @@ function hasCN(s: string) {
 }
 
 /* ============================ 1 & 2：有道词典 ============================ */
-async function youdaoTranslate(q: string): Promise<{ text: string; source: string } | null> {
+async function youdaoTranslate(
+  q: string,
+  allowPhrase: boolean,
+): Promise<{ text: string; source: string } | null> {
   const { signal, done } = withTimeout();
   try {
     const r = await fetch("https://dict.youdao.com/jsonapi?q=" + encodeURIComponent(q), {
@@ -78,7 +81,7 @@ async function youdaoTranslate(q: string): Promise<{ text: string; source: strin
     }
 
     /* 2) 四词以内的短语，取网络释义里支持度最高的一条 */
-    if (!isSentence(q)) {
+    if (allowPhrase && !isSentence(q)) {
       const list = (j?.web_trans?.["web-translation"] || []) as Array<{
         key?: string;
         trans?: Array<{ value?: string; support?: number }>;
@@ -228,20 +231,40 @@ async function myMemoryTranslate(
   }
 }
 
+/* 译文尾部标点跟随原文（"Really?" → "真的吗？"），避免丢标点后语气变味 */
+function polish(src: string, out: string) {
+  const t = out.trim();
+  if (!t) return t;
+  const last = src.trim().slice(-1);
+  if (/[?？]/.test(last) && !/[?？!！。.]$/.test(t)) return t + "？";
+  if (/[!！]/.test(last) && !/[?？!！。.]$/.test(t)) return t + "！";
+  return t;
+}
+
 async function translateText(q: string) {
   const toCN = !hasCN(q);
+  const sentence = isSentence(q);
 
-  /* 有道先行：命中人工译文时质量最好 */
-  const yd = await youdaoTranslate(q);
-  if (yd && (toCN ? hasCN(yd.text) : /[A-Za-z]/.test(yd.text))) return { ok: true, ...yd };
+  /* 1) 整句先看有道「双语例句」里有没有完全一致的人工译文 */
+  if (sentence) {
+    const yd = await youdaoTranslate(q, false);
+    if (yd && (toCN ? hasCN(yd.text) : /[A-Za-z]/.test(yd.text))) {
+      return { ok: true, text: polish(q, yd.text), source: yd.source };
+    }
+  }
 
+  /* 2) Google 机器翻译：短语与整句都覆盖，语境更自然 */
   const g = await googleTranslate(q, toCN);
-  if (g) return { ok: true, text: g, source: "Google 翻译" };
+  if (g) return { ok: true, text: polish(q, g), source: "Google 翻译" };
 
+  /* 3) 有道网络释义（短语） */
+  const yd2 = await youdaoTranslate(q, true);
+  if (yd2) return { ok: true, text: polish(q, yd2.text), source: yd2.source };
+
+  /* 4) MyMemory 兜底 */
   const mm = await myMemoryTranslate(q, toCN);
-  if (mm) return { ok: true, ...mm };
+  if (mm) return { ok: true, text: polish(q, mm.text), source: mm.source };
 
-  if (yd) return { ok: true, ...yd };
   throw new Error("no translation");
 }
 
