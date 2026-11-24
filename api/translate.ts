@@ -340,6 +340,10 @@ function polish(src: string, out: string) {
   return t;
 }
 
+/* 通道熔断：某个通道整体不可用时，60 秒内不再尝试，避免批量获取释义被拖慢 */
+let bingDownUntil = 0;
+let googleDownUntil = 0;
+
 async function translateText(q: string) {
   const toCN = !hasCN(q);
   const sentence = isSentence(q);
@@ -353,12 +357,18 @@ async function translateText(q: string) {
   }
 
   /* 2) Bing 翻译（LLM 引擎，语境与口语表达最自然） */
-  const b = await bingTranslate(q, toCN);
-  if (b) return { ok: true, text: polish(q, b), source: "Bing 翻译" };
+  if (Date.now() > bingDownUntil) {
+    const b = await bingTranslate(q, toCN);
+    if (b) return { ok: true, text: polish(q, b), source: "Bing 翻译" };
+    bingDownUntil = Date.now() + 60 * 1000;
+  }
 
   /* 3) Google 机器翻译 */
-  const g = await googleTranslate(q, toCN);
-  if (g) return { ok: true, text: polish(q, g), source: "Google 翻译" };
+  if (Date.now() > googleDownUntil) {
+    const g = await googleTranslate(q, toCN);
+    if (g) return { ok: true, text: polish(q, g), source: "Google 翻译" };
+    googleDownUntil = Date.now() + 60 * 1000;
+  }
 
   /* 4) 有道网络释义（短语） */
   const yd2 = await youdaoTranslate(q, true);
