@@ -13,8 +13,18 @@ import { AUDIO_SPLITTER_URL } from './ListeningPage';
 export default function AudioSplitterPage() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
+  const [slow, setSlow] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  /* 加载兜底：8 秒仍未触发 load（被拦截/被重写等）就不再遮挡，给出备用入口 */
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (!loaded) setSlow(true);
+      setLoaded(true);
+    }, 8000);
+    return () => clearTimeout(t);
+  }, [loaded]);
 
   useEffect(() => {
     const prev = document.title;
@@ -118,6 +128,18 @@ export default function AudioSplitterPage() {
             allow="autoplay; clipboard-read; clipboard-write; fullscreen; microphone"
             referrerPolicy="no-referrer-when-downgrade"
           />
+          {slow && (
+            <div className="absolute inset-x-0 bottom-0 z-20 flex flex-wrap items-center justify-center gap-2 bg-amber-50/95 px-4 py-2 text-xs text-amber-700">
+              拆分工具没能加载出来（可能是部署版本或网络问题）。
+              <button
+                onClick={() => window.open(AUDIO_SPLITTER_URL, '_blank', 'noopener,noreferrer')}
+                className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-white px-2.5 py-1 font-medium text-amber-800 transition hover:bg-amber-100"
+              >
+                <ExternalLink className="h-3 w-3" />
+                在新标签打开
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
