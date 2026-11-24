@@ -1,6 +1,8 @@
 /** 单词发音：GET /api/voice?w=word&type=1|2（1 英式 / 2 美式，走有道 dictvoice） */
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { UA } from "./_dict";
+
+const UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36";
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   const url = new URL(req.url || "/", "http://localhost");
