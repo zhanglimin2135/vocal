@@ -163,3 +163,7 @@
   padding-bottom: 2px !important;
   box-shadow: 0 6px 18px rgba(15,23,42,.10);
 }
+/* pinned 时 canvas 高度只有 128，清掉 176 的 min-height，消除时间刻度下方的空白 */
+.waveCard.pinned .waveWrap{
+  min-height: 0 !important;
+}
