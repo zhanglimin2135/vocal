@@ -159,20 +159,9 @@
   margin-bottom: 10px;
   border-top-width: 1px;
 }
-/* 音轨卡片底部边界与下方内容之间的分隔更明显 */
-.waveCard.pinned + .card,
-.waveCard.pinned ~ .linesCard{
-  margin-top: 2px;
-}
 
-/* pinEditor（吸附顶时的随行断句编辑器）更清晰 */
-.waveCard.pinned .pinEditor{
-  border-top:1px dashed #e2e8f4;
-  padding-top:8px;
-  margin-top:4px;
-}
-.waveCard.pinned .pinEditor .peTag{
-  background:linear-gradient(135deg,#eef4ff,#eaf1ff);
-  color:#3f6bf3;
-  border-color:#dbe6ff;
+/* pinEditor（吸附顶时的随行断句编辑器）：不显示，只保留下方句子播放里的拆分按钮 */
+.waveCard.pinned .pinEditor,
+.pinEditor{
+  display: none !important;
 }
