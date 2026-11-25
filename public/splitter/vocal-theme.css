@@ -153,13 +153,6 @@
 }
 
 /* ---------- 拆分工具（音轨弹窗）样式 ---------- */
-/* 音轨卡片吸附顶部时：上下留出呼吸空间，不贴着时间显示区 */
-.waveCard.pinned{
-  top: calc(var(--topH, 62px) + 4px) !important;
-  margin-bottom: 10px;
-  border-top-width: 1px;
-}
-
 /* pinEditor（吸附顶时的随行断句编辑器）：不显示，只保留下方句子播放里的拆分按钮 */
 .waveCard.pinned .pinEditor,
 .pinEditor{
