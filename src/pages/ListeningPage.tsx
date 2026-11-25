@@ -775,13 +775,6 @@ export default function ListeningPage() {
                   </button>
                 </>
               )}
-              <button
-                onClick={exitSorting}
-                className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
-              >
-                <Check className="h-4 w-4" />
-                完成排序
-              </button>
             </div>
           </div>
         )}
@@ -998,6 +991,19 @@ export default function ListeningPage() {
               </div>
               );
             })}
+          </div>
+        )}
+
+        {/* 排序完成按钮：放在列表最下面，与「调整目录顺序」入口同位置 */}
+        {sorting && categoryEntries.length > 0 && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={exitSorting}
+              className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-500"
+            >
+              <Check className="h-4 w-4" />
+              完成排序
+            </button>
           </div>
         )}
 
