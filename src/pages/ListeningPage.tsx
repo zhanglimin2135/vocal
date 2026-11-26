@@ -732,16 +732,16 @@ export default function ListeningPage() {
           </div>
         </div>
 
-        {/* 排序提示条 */}
+        {/* 排序提示条（吸顶，滚动时始终可见） */}
         {sorting && categoryEntries.length > 0 && (
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/80 px-4 py-3">
+          <div className="sticky top-[64px] z-30 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/95 px-4 py-3 shadow-sm backdrop-blur">
             <p className="flex items-center gap-2 text-sm text-indigo-800">
               <Sparkles className="h-4 w-4" />
               {selectedIds.length > 0
                 ? `已选 ${selectedIds.length} 项：输入目标序号后点「整体移动」，这组条目会按原顺序一起移动`
                 : `点卡片可多选整体移动；也可按单张卡片输入目标序号（1 ~ ${categoryEntries.length}）`}
             </p>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
               {selectedIds.length > 0 && (
                 <>
                   <span className="text-[11px] font-medium text-indigo-600">移动到序号</span>
@@ -775,6 +775,13 @@ export default function ListeningPage() {
                   </button>
                 </>
               )}
+              <button
+                onClick={exitSorting}
+                className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-500"
+              >
+                <Check className="h-4 w-4" />
+                完成排序
+              </button>
             </div>
           </div>
         )}
@@ -991,19 +998,6 @@ export default function ListeningPage() {
               </div>
               );
             })}
-          </div>
-        )}
-
-        {/* 排序完成按钮：放在列表最下面，与「调整目录顺序」入口同位置 */}
-        {sorting && categoryEntries.length > 0 && (
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={exitSorting}
-              className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-500"
-            >
-              <Check className="h-4 w-4" />
-              完成排序
-            </button>
           </div>
         )}
 
