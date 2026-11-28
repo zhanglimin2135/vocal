@@ -198,7 +198,12 @@ body.pinLines #linesCard .rows{
 body.pinLines #linesCard .rowhead,
 body.pinLines #linesCard .playbar,
 body.pinLines #linesCard .fullBlock,
-body.pinLines #linesCard .exportrow,
-body.pinLines #linesCard .finishRow{
+body.pinLines #linesCard .exportrow{
   display: none;
+}
+/* 「完成分句 · 进入播放页」保留在弹窗最底部，随时可以进入下一步 */
+body.pinLines #linesCard .finishRow{
+  flex: 0 0 auto;
+  margin-top: 8px;
+  padding-top: 8px;
 }
