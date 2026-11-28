@@ -115,7 +115,38 @@
       drawStatic();
       paintMini();
     }
+    syncLinesPanel(pinned);
     updatePinEditor();
+  }
+
+  /* ---------- 音轨弹窗时：句子区跟着变成弹窗，铺满音轨下方整屏 ---------- */
+  var linesSpacer = null;
+  function syncLinesPanel(pinned) {
+    var sec = document.getElementById('linesCard');
+    var card = document.getElementById('waveCard');
+    if (!sec || !card) return;
+    var on = !!pinned && !document.body.classList.contains('finish');
+    if (!on) {
+      if (document.body.classList.contains('pinLines')) document.body.classList.remove('pinLines');
+      if (linesSpacer && linesSpacer.parentNode) {
+        linesSpacer.parentNode.removeChild(linesSpacer);
+        linesSpacer = null;
+      }
+      return;
+    }
+    // 首次固定：先在原位塞一个等高占位，保证文档高度不变、页面不跳
+    if (!linesSpacer || !linesSpacer.parentNode) {
+      var flowH = sec.offsetHeight || 0;
+      linesSpacer = document.createElement('div');
+      linesSpacer.id = 'linesSpacer';
+      linesSpacer.style.cssText = 'flex:0 0 auto;height:' + flowH + 'px;';
+      sec.parentNode.insertBefore(linesSpacer, sec);
+    }
+    var r = card.getBoundingClientRect();
+    sec.style.setProperty('--linesLeft', Math.round(r.left) + 'px');
+    sec.style.setProperty('--linesWidth', Math.round(r.width) + 'px');
+    sec.style.setProperty('--linesTop', Math.round(r.bottom + 6) + 'px');
+    if (!document.body.classList.contains('pinLines')) document.body.classList.add('pinLines');
   }
 
   function bindWavePin() {
@@ -1408,28 +1439,23 @@
     refreshRowButtons();
   }
 
-  /* 音轨弹窗（pinned）时：当前句滚动到可视区中间偏上，上方只显示已经拆好的上一句；
-     第 1、2 句不动（上方没有已拆句，强行滚动会把波形卡片顶出吸附状态），沿用就近显示 */
+  /* 音轨弹窗（pinned）时：句子区也是弹窗，直接在句子区内部滚动，
+     让「上一句已拆好的句子」贴在音轨下方，当前句紧随其后（依次往下滚）；
+     第 1、2 句不动，沿用就近显示 */
   function focusRowIfPinned(i) {
     var card = document.getElementById('waveCard');
     if (!card || !card.classList.contains('pinned') || i < 2) return false;
     var run = function () {
+      var box = document.getElementById('rows');
       var row = document.querySelector('.row[data-i="' + i + '"]');
-      if (!row) return;
-      var cb = card.getBoundingClientRect().bottom;
-      var r = row.getBoundingClientRect();
+      if (!box || !row) return;
       var prev = document.querySelector('.row[data-i="' + (i - 1) + '"]');
-      var delta;
-      if (prev) {
-        // 让「上一句」刚好露在音轨弹窗下沿，这样上面只有一句已拆好的句子
-        delta = prev.getBoundingClientRect().top - (cb + 10);
-      } else {
-        var top = Math.max(0, Math.min(cb, window.innerHeight * 0.6));
-        delta = (r.top + r.height / 2) - (top + (window.innerHeight - top) / 2);
-      }
-      if (Math.abs(delta) < 6) return;
-      try { window.scrollBy({ top: delta, behavior: 'smooth' }); }
-      catch (e) { window.scrollBy(0, delta); }
+      var br = box.getBoundingClientRect();
+      var anchor = (prev || row).getBoundingClientRect();
+      var delta = anchor.top - br.top;          // 上一句顶到句子区顶部（音轨正下方）
+      if (Math.abs(delta) < 4) return;
+      try { box.scrollBy({ top: delta, behavior: 'smooth' }); }
+      catch (e) { box.scrollTop += delta; }
     };
     if (window.requestAnimationFrame) requestAnimationFrame(run); else run();
     return true;

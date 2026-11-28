@@ -167,3 +167,36 @@
 .waveCard.pinned .waveWrap{
   min-height: 0 !important;
 }
+
+/* 音轨弹窗时：4·句子播放 一起变成弹窗，贴在音轨正下方铺满剩余整屏 */
+body.pinLines #linesCard{
+  position: fixed;
+  left: var(--linesLeft, 0px);
+  width: var(--linesWidth, 100%);
+  top: var(--linesTop, 0px);
+  bottom: 0;
+  z-index: 17;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 10px;
+  border: 1px solid #e4ebfb;
+  border-radius: 16px 16px 0 0;
+  background: #fff;
+  box-shadow: 0 -8px 26px rgba(15,23,42,.10);
+  overflow: hidden;
+}
+/* 句子区自己滚动，当前句逐句贴到音轨下方 */
+body.pinLines #linesCard .rows{
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* 弹窗里不显示完整版文本与导出区，保证句子区占满 */
+body.pinLines #linesCard .fullBlock,
+body.pinLines #linesCard .exportrow,
+body.pinLines #linesCard .finishRow{
+  display: none;
+}
