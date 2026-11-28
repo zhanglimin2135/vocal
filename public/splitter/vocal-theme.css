@@ -194,7 +194,9 @@ body.pinLines #linesCard .rows{
   overflow-y: auto;
   padding-right: 4px;
 }
-/* 弹窗里不显示完整版文本与导出区，保证句子区占满 */
+/* 弹窗里不显示标题行、播放控制条、完整版文本与导出区，只显示句子 */
+body.pinLines #linesCard .rowhead,
+body.pinLines #linesCard .playbar,
 body.pinLines #linesCard .fullBlock,
 body.pinLines #linesCard .exportrow,
 body.pinLines #linesCard .finishRow{
