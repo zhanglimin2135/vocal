@@ -1408,9 +1408,8 @@
     refreshRowButtons();
   }
 
-  /* 音轨弹窗（pinned）时：把第 i 句滚到可视区正中，上方自然留出已拆好的句子；
-     非弹窗状态保持原来的「就近显示」行为；
-     第 1、2 句不居中（上方没有已拆句，强行居中会把波形卡片顶出吸附状态），沿用就近显示 */
+  /* 音轨弹窗（pinned）时：当前句滚动到可视区中间偏上，上方只显示已经拆好的上一句；
+     第 1、2 句不动（上方没有已拆句，强行滚动会把波形卡片顶出吸附状态），沿用就近显示 */
   function focusRowIfPinned(i) {
     var card = document.getElementById('waveCard');
     if (!card || !card.classList.contains('pinned') || i < 2) return false;
@@ -1418,10 +1417,16 @@
       var row = document.querySelector('.row[data-i="' + i + '"]');
       if (!row) return;
       var cb = card.getBoundingClientRect().bottom;
-      var top = Math.max(0, Math.min(cb, window.innerHeight * 0.6));
       var r = row.getBoundingClientRect();
-      var targetY = top + (window.innerHeight - top) / 2;
-      var delta = (r.top + r.height / 2) - targetY;
+      var prev = document.querySelector('.row[data-i="' + (i - 1) + '"]');
+      var delta;
+      if (prev) {
+        // 让「上一句」刚好露在音轨弹窗下沿，这样上面只有一句已拆好的句子
+        delta = prev.getBoundingClientRect().top - (cb + 10);
+      } else {
+        var top = Math.max(0, Math.min(cb, window.innerHeight * 0.6));
+        delta = (r.top + r.height / 2) - (top + (window.innerHeight - top) / 2);
+      }
       if (Math.abs(delta) < 6) return;
       try { window.scrollBy({ top: delta, behavior: 'smooth' }); }
       catch (e) { window.scrollBy(0, delta); }
