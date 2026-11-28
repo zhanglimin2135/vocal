@@ -879,8 +879,12 @@
     afterAlign(i);                        // 第 i 句之前保持原样，不闪不重取
     select(i + 1, false);
     toast('已拆成两句 · 切点在 ' + fmt(t) + (atTime !== undefined ? '（文本按光标处断开）' : '') + '，序号已更新');
-    var next = document.querySelector('.row[data-i="' + (i + 1) + '"] .rowText');
-    if (next) { try { next.focus(); next.setSelectionRange(0, 0); } catch (e) { } }
+    // 拆出的新句子保持普通展示态（不抢焦点、按钮也不留焦点），
+    // 点击才编辑；空格键不会触发按钮或输入空格，而是直接播放
+    var ae = document.activeElement;
+    if (ae && ae !== document.body && ae.blur) {
+      try { ae.blur(); } catch (e) { }
+    }
     return true;
   }
 
