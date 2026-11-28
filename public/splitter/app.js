@@ -1408,6 +1408,27 @@
     refreshRowButtons();
   }
 
+  /* 音轨弹窗（pinned）时：把第 i 句滚到可视区正中，上方自然留出已拆好的句子；
+     非弹窗状态保持原来的「就近显示」行为 */
+  function focusRowIfPinned(i) {
+    var card = document.getElementById('waveCard');
+    if (!card || !card.classList.contains('pinned') || i < 0) return false;
+    var run = function () {
+      var row = document.querySelector('.row[data-i="' + i + '"]');
+      if (!row) return;
+      var cb = card.getBoundingClientRect().bottom;
+      var top = Math.max(0, Math.min(cb, window.innerHeight * 0.6));
+      var r = row.getBoundingClientRect();
+      var targetY = top + (window.innerHeight - top) / 2;
+      var delta = (r.top + r.height / 2) - targetY;
+      if (Math.abs(delta) < 6) return;
+      try { window.scrollBy({ top: delta, behavior: 'smooth' }); }
+      catch (e) { window.scrollBy(0, delta); }
+    };
+    if (window.requestAnimationFrame) requestAnimationFrame(run); else run();
+    return true;
+  }
+
   function setPlayingRow(i) {
     if (curRow === i) return;
     var rows = document.querySelectorAll('.row');
@@ -1415,7 +1436,9 @@
     curRow = i;
     if (i >= 0 && rows[i]) {
       rows[i].classList.add('playing');
-      try { rows[i].scrollIntoView({ block: 'nearest' }); } catch (e) { }
+      if (!focusRowIfPinned(i)) {
+        try { rows[i].scrollIntoView({ block: 'nearest' }); } catch (e) { }
+      }
     }
     fullMark(i);                    // 完整版文本里同步高亮同一句
     refreshRowButtons();
@@ -1878,6 +1901,7 @@
     var rows = document.querySelectorAll('.row');
     for (var k = 0; k < rows.length; k++) rows[k].classList.toggle('sel', k === i);
     updatePinEditor();
+    focusRowIfPinned(i);    // 音轨弹窗时：当前操作/拆分的句子保持在页面中间
     if (doPlay) playRow(i);
   }
 
@@ -3269,7 +3293,9 @@ body.noTr .tr{display:none}
     cur = i;
     if (i >= 0 && rows[i]) {
       rows[i].classList.add('playing');
-      try { rows[i].scrollIntoView({ block: 'nearest' }); } catch (e) { }
+      if (!focusRowIfPinned(i)) {
+        try { rows[i].scrollIntoView({ block: 'nearest' }); } catch (e) { }
+      }
     }
     markFull(i);            // 逐句播放时，底部完整版文本同步高亮同一句
     updateBtns();
